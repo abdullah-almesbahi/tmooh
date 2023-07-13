@@ -1,0 +1,101 @@
+<div class="row payment-page" id="create-view">
+    <h4><strong>Edit Payment Gateway</strong></h4>
+    <ma-back-button class="pull-right well-sm"></ma-back-button>
+    <div class="clearfix well-sm with-scroll  panel animated zoomIn">
+        <!--Course revenue report table -->
+        <div class="col-lg-12">
+            <div class="panel-body">
+                <div class="row">
+                    <!--<form>-->
+                        <div class="navbar-btn">   
+                             <div id="row-pages-slug" class="form-group has-feedback"> <label for="pageSlug" class="col-sm-2 control-label">ID</label>
+                                <div class="ng-admin-type-text col-sm-10 col-md-8 col-lg-7">
+                                    <input type="text" ng-model="entry.id" class="form-control" name="campaign_name" ng-required="true" disabled>
+                                </div>
+                            </div><br><br>
+                            <div id="row-pages-slug" class="form-group has-feedback"> <label for="pageSlug" class="col-sm-2 control-label">Name</label>
+                                <div class="ng-admin-type-text col-sm-10 col-md-8 col-lg-7">
+                                    <input type="text" ng-model="entry.name" class="form-control" name="campaign_name" ng-required="true" disabled>
+                                </div>
+                            </div>
+                        
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                        <div>
+                            <div id="row-pages-slug" class="form-group has-feedback clearfix"> <label for="pageSlug" class="col-sm-2 control-label">Decription</label>
+                                <div class="ng-admin-type-text col-sm-10 col-md-8 col-lg-7">
+                                    <input type="checkbox" ng-model="liveMode">&nbsp;&nbsp;Live Mode?
+                                    <br>
+                                    <table>
+                                        <tr>
+                                            <th></th>
+                                            <th>Live Mode Credential</th>
+                                            <th>&nbsp;</th>
+                                            <th>Test Mode Credential</th>
+                                        </tr>
+                                        <span ng-show="paypal_rest == true">
+                                            <tr>
+                                                <td>Client ID &nbsp;&nbsp;</td>
+                                                <td><input type="text" ng-model="live_mode_value.CLIENT_ID" class="form-control" style="margin-bottom:10px;"></td>
+                                                <td>&nbsp;</td>
+                                                <td><input type="text" class="form-control" ng-model="test_mode_value.CLIENT_ID" style="margin-bottom:10px;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Client Secret &nbsp;&nbsp;</td>
+                                                <td><input type="text" ng-model="live_mode_value.CLIENT_SECRET" class="form-control" style="margin-bottom:10px;"></td>
+                                                <td>&nbsp;</td>
+                                                <td><input type="text" class="form-control" ng-model="test_mode_value.CLIENT_SECRET" style="margin-bottom:10px;"></td>
+                                            </tr>
+                                        </span>
+                                        <tr ng-if="paypal_rest !== true">
+                                            <td>Merchant ID &nbsp;&nbsp;</td>
+                                            <td><input type="text" ng-model="live_mode_value.zazpay_merchant_id" class="form-control"
+                                                    style="margin-bottom:10px;"></td>
+                                            <td>&nbsp;</td>
+                                            <td><input type="text" class="form-control" ng-model="test_mode_value.zazpay_merchant_id"
+                                                    style="margin-bottom:10px;"></td>
+                                        </tr>
+                                        <tr ng-if="paypal_rest !== true">
+                                            <td>Website ID</td>
+                                            <td><input type="text" class="form-control" ng-model="live_mode_value.zazpay_website_id"
+                                                    style="margin-bottom:10px;"></td>
+                                            <td>&nbsp;</td>
+                                            <td><input type="text" class="form-control" ng-model="test_mode_value.zazpay_website_id"
+                                                    style="margin-bottom:10px;"></td>
+                                        </tr>
+                                        <tr ng-if="paypal_rest !== true">
+                                            <td>Secret Key</td>
+                                            <td><input type="text" ng-model="live_mode_value.zazpay_secret_string" class="form-control"
+                                                    style="margin-bottom:10px;"></td>
+                                            <td>&nbsp;</td>
+                                            <td><input type="text" ng-model="test_mode_value.zazpay_secret_string" class="form-control"
+                                                    style="margin-bottom:10px;"></td>
+                                        </tr>
+                                        <tr ng-if="paypal_rest !== true">
+                                            <td>API Key</td>
+                                            <td><input type="text" ng-model="live_mode_value.zazpay_api_key" class="form-control"
+                                                    style="margin-bottom:10px;"></td>
+                                            <td>&nbsp;</td>
+                                            <td><input type="text" ng-model="test_mode_value.zazpay_api_key" class="form-control"
+                                                    style="margin-bottom:10px;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td><button type="button" ng-click="save()" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span>&nbsp;<span class="hidden-xs">Save changes</span></button></td>
+                                            <td>&nbsp;</td>
+                                            <td><button type="button" ng-hide="paypal_rest == true" ng-click="zazpay_synchronize()"
+                                                    class="btn btn-primary"><span class="glyphicon glyphicon-refresh"></span>&nbsp;<span class="hidden-xs">Sync with ZazPay</span></button></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    <!--</form>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

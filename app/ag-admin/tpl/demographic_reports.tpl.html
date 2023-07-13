@@ -1,0 +1,35 @@
+<!--<div class="row">
+	<div class="col-lg-12">
+		<div class="page-header">
+			<h1><span>Demographic Report</span></h1>
+		</div>
+	</div>
+</div>-->
+<div class="row">
+	<div class="col-lg-12">
+		<content-top>
+			<div class="content-top clearfix">
+				<h3 class="al-title text-uppercase ng-binding">Demographic Report</h3>
+				<ul class="breadcrumb al-breadcrumb">
+					<li><a href="#/dashboard">Dashboard</a></li>
+					<li class="ng-binding">Demographic Reports</li>
+				</ul>
+			</div>
+		</content-top>
+	</div>
+</div>
+<div class="row demographic-svg" id="create-view">	
+	<div class="col-lg-6">
+		<custom-high-chart type="column" ng-if="!demographic_loading" categories="{{demographic_reports_categories}}" title="Instructor Highest Registration"
+			yaxis-title="{{demographic_reports_yAxis_title}}" series-data={{demographic_reports_series_data}}>Placeholder for pie chart</custom-high-chart>
+	</div>
+	<div class="col-lg-6">
+		<custom-high-chart title="Total Earnings" ng-if="!demographic_age_range_loading" type="pie" series-data={{demographic_age_range_reports}}>Placeholder for pie chart</custom-high-chart>
+	</div>
+</div>
+		<!--Course  Instructor Highest Registration column chart -->
+		<!--<custom-high-chart type="column" ng-if="!demographic_loading" categories="{{demographic_reports_categories}}" title="Instructor Highest Registration"
+			yaxis-title="{{demographic_reports_yAxis_title}}" series-data={{demographic_reports_series_data}}>Placeholder for pie chart</custom-high-chart>
+
+		<custom-high-chart title="Total Earnings" ng-if="!demographic_age_range_loading" type="pie" series-data={{demographic_age_range_reports}}>Placeholder for pie chart</custom-high-chart>-->
+	

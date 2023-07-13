@@ -1,0 +1,56 @@
+<div class="admin-login">
+	<div class="container" ng-controller="UsersLoginCtrl">
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+				<div class="panel">
+					<div class="admin-logo text-center">
+						<a href="/" title="Tambareni">
+							<img src="images/home-logo.png" alt="[Image: Tambareni]" title="Tambareni" class="img-responsive center-block">
+						</a>
+					</div>
+					<form class="form-login" id="login-form" name="userLogin" ng-submit="loginUser(userLogin.$valid)" novalidate>
+						<h2 class="form-login-heading">Sign in to your account</h2>
+						<div class="form-group email">
+							<input type="email" class="form-control" ng-model="user.email" id="admin_email" name="admin_email" placeholder="Email" ng-required="true">
+							<div ng-show="(userLogin.$submitted || userLogin.admin_email.$touched) && (userLogin.admin_email.$pristine || userLogin.admin_email.$invalid)">
+								<span class="error text-danger" ng-show="(userLogin.admin_email.$error.required)">{{'Required' | translate }}</span>
+								<span class="error text-danger" ng-show="(userLogin.admin_email.$error.email || userLogin.admin_email.$error.pattern)">{{'Enter valid email' | translate }}</span>
+							</div>
+						</div>
+						<div class="form-group password">
+							<input type="password"  ng-model="user.password" class="form-control"
+								id="admin_password" name="admin_password" placeholder="Password" ng-required="true">
+							<div ng-show="(userLogin.$submitted || userLogin.admin_password.$touched) && (userLogin.admin_password.$pristine || userLogin.admin_password.$invalid)">
+								<span class="error text-danger" ng-show="(userLogin.admin_password.$error.required)">{{'Required' | translate }}</span>
+								<span class="error text-danger" ng-show="(userLogin.admin_password.$error.email || userLogin.admin_password.$error.pattern)">{{'Password must minimum 8 characters including one digit' | translate }}</span>
+							</div>
+						</div>
+						<div class="form-group text-center">
+							<div class="checkbox">
+								<div class="clearfix">
+									<div class="pull-left">
+										<label for="remember">
+											<input type="checkbox" tabindex="3" class="" name="remember" id="remember">
+											<span></span>
+											Remember Me
+										</label>
+									</div>
+									<div class="pull-right">
+										<a href="/users/forgot_password" class="forgot-pass"><i class="fa fa-lock fa-fw fa-lg" aria-hidden="true"></i> Forgot password?</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-xs-12">
+									<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

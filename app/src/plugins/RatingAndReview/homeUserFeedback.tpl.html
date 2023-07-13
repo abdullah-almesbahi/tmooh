@@ -1,0 +1,73 @@
+<section class="Custmr-blk" ng-if="model.usercourseFeedback.length > 0">
+	<div class="container">
+		<h3 class="text-center">
+			{{'Trusted Reviews' | translate}}
+		</h3>
+		<!--Home user feedback listing -->
+		<data-owl-carousel-reviews class="owl-carousel owl-theme">
+			<div owl-carousel-item="" class=" item ng-scope" ng-repeat="homeUserFeedback in  model.usercourseFeedback">
+				<div class="panel">
+					<div class="media">
+						<a href="#" class="media-left media-top">
+							<profile-image image-type='imagecircle' user-image-hash='homeUserFeedback.image_hash' user-display-name='{{homeUserFeedback.displayname}}'
+								user-profile-id='homeUserFeedback.user_id' user-profile-thumb='medium_thumb' ng-if='homeUserFeedback.image_hash' class="float-left"></profile-image>
+						</a>
+						<div class="media-body">
+							<h4 class="h5 text-uppercase media-head">
+								<strong>{{homeUserFeedback.displayname}}</strong>
+							</h4>
+							<p>
+								{{homeUserFeedback.course_title}},
+							</p>
+							<rating-stars average-rating='{{homeUserFeedback.rating}}' ng-if="homeUserFeedback && $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1"></rating-stars>
+						</div>
+					</div>
+					<p class="ex-text">
+						{{homeUserFeedback.feedback | truncate:50}}
+						<a href="" ng-click="model.OpenHomeReviewModel($index)" title="Read more" class="">Read more</a>
+					</p>
+				</div>
+			</div>
+		</data-owl-carousel-reviews>
+		<!--<a href="#" title="Read All" class="read-txt">read all</a>-->
+	</div>
+</section>
+
+
+
+<script type="text/ng-template" id="src/plugins/RatingAndReview/homeReviewModel.tpl.html">
+<div class="modal-login" ng-class="{'container': currentPageType === 'page'}">
+	<div class="center-form" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+			<div class="panel-heading clearfix">
+				<h3 class="text-center">{{'Trusted Reviews'|translate}}
+					<a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose float-right">X</a></h3>
+			</div>
+			<div class="card-body">
+			<div class="row">
+				<div class="col-xs-12" ng-if='!contentInIframe'>
+					<div class="panel">
+					<div class="media">
+						<a href="#" class="media-left media-top">
+							<profile-image image-type='imagecircle' user-image-hash='course_review.image_hash' user-display-name='{{course_review.displayname}}'
+								user-profile-id='course_review.user_id' user-profile-thumb='normal_thumb' ng-if='course_review.image_hash' class="float-left"></profile-image>
+						</a>
+						<div class="media-body">
+							<h4 class="h5 text-uppercase media-head">
+								<strong>{{course_review.displayname}}</strong>
+							</h4>
+							<p>
+								{{course_review.course_title}},
+							</p>
+							<rating-stars average-rating='{{course_review.rating}}' ng-if="course_review && $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1"></rating-stars>
+						</div>
+					</div>
+					<p class="ex-text">
+						{{course_review.feedback}}
+					</p>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>

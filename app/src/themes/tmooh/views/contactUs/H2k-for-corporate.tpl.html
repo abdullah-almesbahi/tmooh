@@ -1,0 +1,87 @@
+<!-- Contact Form-->
+<div class="container">
+    <div class="navbar-left">
+        <div class="breadcumb-blk">
+            <ul class="breadcrumb top-mspace">
+                <li>
+                    <a href="/">{{'Home'| translate}}</a>
+                </li>
+                <li class="active">
+                    <a href="">{{'Corporate / Business'| translate}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div banner position="topBanner" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1"></div>
+    <div class="frm-block">
+        <h3>{{'Corporate / Business'|translate}}</h3>
+        <div class="container">
+            <span> {{'If your business need training for group of employees or if you want to hire candidates from Tmooh.com please submit details of the job and we can find right candidates with Video Based Profiles, Pre-Technical Screenings and verified Background checks.'| translate}}</span>
+        </div>
+        <form role="form" class="form-horizontal clearfix" name="H2kcontactForm" ng-submit=" model.H2kcontactFormSubmit(H2kcontactForm.$valid,H2kcontactForm);" novalidate>
+            <div class="form-group">
+                <label class="col-md-2 col-sm-3 control-label required" for="company_name">{{'Company Name'|translate}}</label>
+                <div class="col-md-5 col-sm-9" ng-class="{ 'has-error' : ((H2kcontactForm.$submitted || H2kcontactForm.company_name.$touched) && (H2kcontactForm.company_name.$pristine || H2kcontactForm.company_name.$invalid))}">
+                    <input type="text" class="form-control" id="company_name" name="company_name" placeholder="{{'Company Name'|translate}}" ng-model='model.h2kcontactvalue.company_name' required ng-required="true">
+                    <div ng-show="((H2kcontactForm.$submitted || H2kcontactForm.company_name.$touched) && (H2kcontactForm.company_name.$pristine || H2kcontactForm.company_name.$invalid))">
+                        <div class="error text-danger" ng-show="(H2kcontactForm.company_name.$error.required || H2kcontactForm.company_name.$invalid)">{{'Required' | translate}} </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 col-sm-3 control-label required" for="company_contact_person">{{'Contact Person'|translate}}</label>
+                <div class="col-md-5 col-sm-9" ng-class="{ 'has-error' : ((H2kcontactForm.$submitted || H2kcontactForm.company_contact_person.$touched) && (H2kcontactForm.company_contact_person.$pristine || H2kcontactForm.company_contact_person.$invalid))}">
+                    <input type="text" class="form-control" name="company_contact_person" id="company_contact_person" placeholder="{{'Contact Person'|translate}}" ng-model='model.h2kcontactvalue.contact_person' required ng-required="true">
+                    <div ng-show="((H2kcontactForm.$submitted || H2kcontactForm.company_contact_person.$touched) && (H2kcontactForm.company_contact_person.$pristine || H2kcontactForm.company_contact_person.$invalid))">
+                        <div class="error text-danger" ng-show="(H2kcontactForm.company_contact_person.$error.required || H2kcontactForm.company_contact_person.$invalid)">{{'Required' | translate}} </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 col-sm-3 control-label required" for="company_contact_number">{{'Contact Number'|translate}}</label>
+                <div class="col-md-5 col-sm-9" ng-class="{ 'has-error' : ((H2kcontactForm.$submitted || H2kcontactForm.company_contact_number.$touched) && (H2kcontactForm.company_contact_number.$pristine || H2kcontactForm.company_contact_number.$invalid))}">
+                    <input type="text" class="form-control" name="company_contact_number" id="company_contact_number" placeholder="{{'Contact Number'|translate}}" ng-model='model.h2kcontactvalue.contact_number' ng-required="true">
+                    <div ng-show="((H2kcontactForm.$submitted || H2kcontactForm.company_contact_number.$touched) && (H2kcontactForm.company_contact_number.$pristine || H2kcontactForm.company_contact_number.$invalid))">
+                        <div class="error text-danger" ng-show="(H2kcontactForm.company_contact_number.$error.required || H2kcontactForm.company_contact_number.$invalid)">{{'Required' | translate}} </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 col-sm-3 control-label required" for="email">{{'Email'|translate}}</label>
+                <div class="col-md-5 col-sm-9" ng-class="{ 'has-error' : ((H2kcontactForm.$submitted || H2kcontactForm.email.$touched) && (H2kcontactForm.email.$pristine || H2kcontactForm.email.$invalid))}">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="{{'Email'|translate}}" ng-model='model.h2kcontactvalue.email' ng-required="true">
+                    <div ng-show="((H2kcontactForm.$submitted || H2kcontactForm.email.$touched) && (H2kcontactForm.email.$pristine || H2kcontactForm.email.$invalid))">
+                        <div class="error text-danger" ng-show="H2kcontactForm.email.$error.required">{{'Required' | translate}} </div>
+                        <div class="error text-danger" ng-show="H2kcontactForm.email.$error.email">{{'Enter the Valid Email address' | translate}} </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 col-sm-3 control-label required" for="subject">{{'Subject'|translate}}</label>
+                <div class="col-md-5 col-sm-9" ng-class="{ 'has-error' : ((H2kcontactForm.$submitted || H2kcontactForm.Subject.$touched) && (H2kcontactForm.Subject.$pristine || H2kcontactForm.Subject.$invalid))}">
+                    <textarea class="form-control" name="Subject" id="Subject" rows="6" ng-model='model.h2kcontactvalue.subject' placeholder="{{'Subject'|translate}}" required ng-required="true"></textarea>
+                    <div ng-show="((H2kcontactForm.$submitted || H2kcontactForm.Subject.$touched) && (H2kcontactForm.Subject.$pristine || H2kcontactForm.Subject.$invalid))">
+                        <div class="error text-danger" ng-show="(H2kcontactForm.Subject.$error.required || H2kcontactForm.Subject.$invalid)">{{'Required' | translate}} </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 col-sm-3 control-label required" for="subject">{{'Description'|translate}}</label>
+                <div class="col-md-5 col-sm-9" ng-class="{ 'has-error' : ((H2kcontactForm.$submitted || H2kcontactForm.description.$touched) && (H2kcontactForm.description.$pristine || H2kcontactForm.description.$invalid))}">
+                    <textarea class="form-control" name="description" id="description" rows="6" ng-model='model.h2kcontactvalue.message' placeholder="{{'Description'|translate}}" required ng-required="true"></textarea>
+                    <div ng-show="((H2kcontactForm.$submitted || H2kcontactForm.description.$touched) && (H2kcontactForm.description.$pristine || H2kcontactForm.description.$invalid))">
+                        <div class="error text-danger" ng-show="(H2kcontactForm.description.$error.required || H2kcontactForm.description.$invalid)">{{'Required' | translate}} </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-offset-3 col-sm-10 col-md-offset-2">
+                    <label class="sr-only" for="submit2">{{'Submit'|translate}}</label>
+                    <button type="submit" class="btn btn-primary" id="submit2">{{'Submit'|translate}} <span ng-show="disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+                </div>
+            </div>
+    </div>
+    </form>
+</div>
+<div banner position="bottomBanner" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1"></div>
+</div>

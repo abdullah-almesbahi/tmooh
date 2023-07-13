@@ -1,0 +1,67 @@
+<section class="container pb-3 pt-4 mb-5">
+	<div class="row">
+		<userprofile-navbar></userprofile-navbar>
+		<div class="col-sm-8 col-md-9">
+			<div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading"></div>
+			<div class="card" ng-if="!model.loading">
+				<div class="card-body">
+			      <h3 class="text-default">{{'Notifications'|translate}}</h3>
+			      <p>{{'Turn promotional email notifications from'|translate}}&nbsp;{{$root.settings['site.name']}}&nbsp;{{'on or off .'|translate}}</p>
+
+						<h5>{{'Notification Settings:' | translate}}</h5>
+						<form method="post" class="form-horizontal notifications-checkbox clearfix" name="messageSettingForm" ng-submit="editProfile(messageSettingForm.$valid);messageSettingForm.$setPristine()">
+							<div class="form-group has-feedback">
+								<div class="col-sm-8">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="model.user_profile.is_notify_special_promotion_by_h2k" ng-true-value="true" ng-false-value="false" ng-disabled="model.user_profile.is_do_not_send_emails === true" ng-click="checknotification()">
+											<span></span>
+											<div> {{'Special promotion by Tmooh training portal'|translate}}</div>
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="model.user_profile.is_notify_announcement_by_h2k" ng-true-value="true" ng-false-value="false" ng-disabled="model.user_profile.is_do_not_send_emails === true" ng-click="checknotification()">
+											<span></span>
+											<div>{{'Announcement by Tmooh training portal'|translate}}</div>
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="model.user_profile.is_notify_new_message_by_user" ng-true-value="true" ng-false-value="false" ng-disabled="model.user_profile.is_do_not_send_emails === true" ng-click="checknotification()">
+											<span></span>
+											<div>{{'Someone sends me a message'|translate}}</div>
+										</label>
+									</div>
+								<!--	<div class="checkbox">
+										<label>
+										<input type="checkbox" ng-model="model.user_profile.is_notify_progress_about_my_course" ng-true-value="true" ng-false-value="false">
+											<span></span>
+											{{'Progress about my course'|translate}}
+										</label>
+									</div>-->
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="model.user_profile.is_do_not_send_emails" ng-true-value="true" ng-false-value="false" ng-disabled="model.is_dont_send_disable === true">
+											<span></span>
+											{{'Don t send me any emails'|translate}}
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="float-right">
+								<label class="sr-only" for="user_profile_save">{{'Save'|translate}}</label>
+								<input type="submit" class="btn btn-primary" id="user_profile_save" value="{{'Save'|translate}}" ng-hide="disableSave">
+								<button type="submit" class="btn btn-primary" ng-disabled="true" id="user_profile_save" ng-hide="!disableSave">{{' Validating'|translate}} <span><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+							</div>
+						</form>
+
+
+						<div oc-lazy-load='loadSeo'>
+							<user-profile-seo></user-profile-seo>
+						</div>
+			    </div>
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,132 @@
+/*
+ * NeoSansArabic
+ */
+@font-face {
+  font-family: 'NeoSansArabic';
+  font-style: normal;
+  font-weight: 400;
+  font-display: auto;
+  src: url('../assets/fonts/NeoSansArabic.eot');
+  src: url('../assets/fonts/NeoSansArabic.eot?#iefix') format('embedded-opentype'),
+       url('../assets/fonts/NeoSansArabic.woff') format('woff'),
+       url('../assets/fonts/NeoSansArabic.ttf') format('truetype'),
+       url('../assets/fonts/NeoSansArabic.NeoSansArabic') format('svg');
+}
+.rtl {
+  font-family: "NeoSansArabic", tahoma;
+  .video-js button{
+    font-family: "NeoSansArabic", tahoma;
+  }
+  .homepage-video-wrapper input[type='submit'],.homepage-video-wrapper .btn_search {
+    left: -1px;
+    right: auto;
+    -webkit-border-radius: 3px 0 0 3px;
+    -moz-border-radius: 3px 0 0 3px;
+    -ms-border-radius: 3px 0 0 3px;
+    border-radius:  3px 0 0 3px;
+  }
+
+  .navbar-main-search .input-group-append {
+    margin-right: -51px;
+    margin-left: auto;
+  }
+  .dropdown-menu-category > li > a {
+    padding: 0 50px 0 15px !important;
+  }
+  .dropdown-menu-category-icon {
+    right: 10px;
+    left: auto;
+  }
+  .dropdown-menu-category-section {
+    left: auto;
+    right: 290px;
+    border-right: 1px solid #e6e6e6;
+    border-left: 0px solid #e6e6e6;
+  }
+  .dropdown-menu .mdi::before {
+    right: -8px;
+    left: auto;
+  }
+  .dropdown-menu-category > li > a:after {
+    content: "\F141";
+    right: auto;
+    left: 0;
+  }
+  &.course-taking {
+    .sidebar--nav {
+      left: auto;
+      right: 0;
+    }
+    .sidebar--nav, .sidebar--nav.nav-close {
+      -webkit-transform: translateX(100%);
+      -moz-transform: translateX(100%);
+      -ms-transform: translateX(100%);
+      -o-transform: translateX(100%);
+      transform: translateX(100%);
+    }
+    .timeline-item-taking.nav-open {
+      -webkit-transform: translateX(-480px);
+      -moz-transform: translateX(-480px);
+      -ms-transform: translateX(-480px);
+      -o-transform: translateX(-480px);
+      transform: translateX(-480px);
+    }
+    .sidebar--nav.nav-open {
+      -webkit-transform: translateX(0);
+      -moz-transform: translateX(0);
+      -ms-transform: translateX(0);
+      -o-transform: translateX(0);
+      transform: translateX(0);
+    }
+  }
+
+  .mm-menu_offcanvas {
+    left: auto;
+  }
+  .mm-panel {
+      // -webkit-transform: translate(100%, 0);
+      // -ms-transform: translate(100%, 0);
+      // transform: translate(100%, 0);
+      // -webkit-transform: translate3d(100%, 0, 0);
+      // transform: translate3d(100%, 0, 0);
+      // transition: -webkit-transform .4s ease;
+      // transition: transform .4s ease;
+      // transition: transform .4s ease,-webkit-transform .4s ease;
+      -webkit-transform-origin: top right;
+      -ms-transform-origin: top right;
+      transform-origin: top right;
+  }
+
+  .delete-icon {
+      right: auto;
+      left: 0;
+  }
+  .growl-item.icon > .growl-message {
+    margin: 0 40px 0 0px;
+  }
+  .growl-container > div.growl-item {
+    background-position: 345px center;
+  }
+
+}
+
+// Small devices (landscape phones, less than 768px)
+@include media-breakpoint-down(sm) {
+  .rtl {
+    #search_results {
+      .price{
+        float:left;
+      }
+    }
+    .dropdown-menu {
+        float: inherit;
+        margin-bottom: 20px;
+    }
+    .disable-float-xs {
+      float: inherit !important;
+    }
+  }
+
+
+
+}

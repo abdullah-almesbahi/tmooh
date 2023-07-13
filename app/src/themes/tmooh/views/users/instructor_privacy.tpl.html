@@ -1,0 +1,45 @@
+<section class="container pb-3 pt-4 mb-5">
+	<div class="row">
+		<userprofile-navbar></userprofile-navbar>
+		<div class="col-sm-8 col-md-9">
+			<div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading"></div>
+			<div class="card" ng-if="!model.loading">
+				<div class="card-body">
+			      <h3 class="text-default">{{'Privacy'|translate}}</h3>
+			      <p>{{'Modify your privacy settings here.'|translate}}</p>
+						<form method="post" class="form-horizontal clearfix" name="privacyForm" ng-submit="editProfile(privacyForm.$valid);privacyForm.$setPristine()">
+							<h5>{{'Profile Page Settings:' | translate}}</h5>
+							<div class="form-group has-feedback">
+								<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="model.user_profile.is_show_profile_on_search_engines" ng-true-value="true" ng-false-value="false">
+											<span></span>
+											{{'Show my profile on search engines'|translate}}
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="model.user_profile.is_show_learning_courses_in_profile_page" ng-true-value="true" ng-false-value="false">
+											<span></span>
+											{{'Show my courses on profile page'|translate}}
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="float-right">
+								<label class="sr-only" for="user_profile_save">{{'Save'|translate}}</label>
+								<input type="submit" class="btn btn-primary" id="user_profile_save" value="{{'Save'|translate}}" ng-hide="disableSave">
+								<button type="submit" class="btn btn-primary" ng-disabled="true" id="user_profile_save" ng-hide="!disableSave">{{' Validating'|translate}} <span><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+							</div>
+						</form>
+
+						<div oc-lazy-load='loadSeo'>
+							<user-profile-seo></user-profile-seo>
+						</div>
+
+			    </div>
+			</div>
+		</div>
+	</div>
+</section>

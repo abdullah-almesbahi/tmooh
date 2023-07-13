@@ -1,0 +1,27 @@
+<div class="course-tab instructor-dashboard">
+    <div class="card-body bg-white pb-0 clearfix">
+        <div class="container">
+            <h3>{{'Instructor Dashboard' | translate}}</h3>
+            <div class="float-left">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" ><a class="nav-link" ng-class="{active: dasboardActivetab == 'my_courses'}" href="/my-courses/teaching" title="{{'Learning'|translate}}" aria-controls="learning" role="tab">{{'Courses'|translate}}</a></li>
+                    <li class="nav-item" ng-if="$root.settings['site.enabled_plugins'].indexOf('QA') > -1" ><a class="nav-link" ng-class="{active: dasboardActivetab == 'forum'}" href="/teaching/qa" title="{{'QA'|translate}}" aria-controls="Forum" role="tab">{{'Q'|translate}}&{{'A'|translate}}</a></li>
+                    <li class="nav-item" ng-if="$root.settings['site.enabled_plugins'].indexOf('Assignment') > -1" ><a class="nav-link" ng-class="{active: dasboardActivetab == 'assignment_feedback'}" href="/teaching/assignment" title="{{'Assignment'|translate}}" aria-controls="Forum" role="tab">{{'Assignment'|translate}}</a></li>
+                    <li class="nav-item" ng-if="$root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1" ><a class="nav-link" ng-class="{active: dasboardActivetab == 'review'}" href="/my-courses/reviews" title="{{'review'|translate}}" aria-controls="review" role="tab">{{' Reviews'|translate}}</a></li>
+                   <!-- <li ng-class="{active: dasboardActivetab == 'Student_feedback'}"><a href="/my-courses/student-feedback" title="{{'Wishlist'|translate}}" aria-controls="wishlist" role="tab">{{'Feedback on student'|translate}}</a></li>-->
+                    <li class="nav-item" ng-if="$root.settings['site.enabled_plugins'].indexOf('RevenueReports') > -1" ><a class="nav-link" ng-class="{active: dasboardActivetab == 'Revenue_report'}" href="/Revenue-Report" title="{{'Revenue Report'|translate}}" aria-controls="wishlist" role="tab">{{'Revenue Report'|translate}}</a></li>
+                </ul>
+            </div>
+            <div class="dropdown navbar-right float-right">
+                <a data-toggle="dropdown" class="btn btn-outline-secondary">
+                    <span>{{'Create a New'|translate}}</span> &nbsp;
+                    <i class="mdi-18px mdi mdi-chevron-down text-muted"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="/courses/add" rel="nofollow" title="{{'Create Course'|translate}}">{{'Course'|translate}}</a>
+                    <a class="dropdown-item" href="/courses/announcement" title="{{'Create Announcement'|translate}}">{{'Announcement'|translate}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

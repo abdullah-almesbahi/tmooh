@@ -1,0 +1,93 @@
+<div class="container pb-5">
+	<form role="form" class="form-horizontal clearfix" name="moneyTransfer" ng-submit="model.moneyTransferFormSubmit(); moneyTransfer.$setPristine()" >
+		<div class="card shadow-sm mt-5">
+			<div class="card-body">
+				<div class="row clearfix">
+					<div class="col-md-6"><h1 class="card-title text-truncate">{{'Withdraw Fund Requests'|translate}}</h1></div>
+					<div class="col-md-6">
+						<div class="alert alert-success float-right">
+							{{'Available Balance:'|translate}}<strong><amount-display amount='{{user_available_balance}}' fraction='2' is-course-price='no' ng-if="user_available_balance !== null && user_available_balance !== undefined && user_available_balance > 0"></amount-display></strong>
+						</div>
+					</div>
+				</div>
+
+				<div class="alert alert-info clearfix">{{'The requested amount will be deducted from your available balance after approval. Once its approved, the requested amount will be manually pay to you.' | translate}}</div>
+
+				<div class="form-group" ng-class="{ 'has-error' : moneyTransfer.money_transfer_id.$invalid && moneyTransfer.money_transfer_id.$dirty }" ng-if='model.moneyTransferList.length'>
+					<label class=" control-label" for="money_transfer_id">{{'Choose your money transfer option'|translate}}</label>
+
+						<div class="form-check" ng-repeat="moneyTransfer in model.moneyTransferList" >
+						  <input type="radio" class="form-check-input" value="{{moneyTransfer.id}}" id="moneyTransfer_{{moneyTransfer.id}}" name="money_transfer_id" ng-model="model.moneyTransfer.money_transfer_account_id" ng-click="model.moneyTransfer.money_transfer_account_id = moneyTransfer.id;" ng-init='model.moneyTransfer.money_transfer_account_id = 1' required>
+						  <label class="form-check-label" for="moneyTransfer_{{moneyTransfer.id}}" ng-class="{ 'text-muted' : model.moneyTransfer.money_transfer_account_id !== moneyTransfer.id  }">
+						    <p ng-bind-html="moneyTransfer.account|nl2br"></p>
+						  </label>
+						</div>
+
+
+
+				</div>
+				<div class="form-group" ng-class="{ 'has-error' : moneyTransfer.money_transfer_amount.$invalid && moneyTransfer.money_transfer_amount.$dirty }" ng-if='model.moneyTransferList.length'>
+					<label class=" control-label" for="money_transfer_amount">{{'Amount'|translate}}</label>
+					<input type="number" step=0.01 min="{{withdrawals.minimum_withdraw_amount}}" max="{{withdrawals.maximum_withdraw_amount}}" class="form-control" name="money_transfer_amount" id="money_transfer_amount" placeholder="{{'Amount'|translate}}" ng-model='model.moneyTransfer.amount'
+					  required>
+					<div class="help-block text-danger" ng-if="moneyTransfer.money_transfer_amount.$dirty" ng-messages="moneyTransfer.money_transfer_amount.$error">
+						<div ng-message="required">{{'You must enter the amount'|translate}}.</div>
+						<div ng-message="number">{{'You did not enter a valid number'|translate}}</div>
+						<div ng-message="min">{{'Your field value is lesser minimum value'|translate}}</div>
+						<div ng-message="max">{{'Your field value is greater maximum value'|translate}}</div>
+					</div>
+					<span class="help-block text-muted">
+						<span>{{'Minimum withdraw amount'|translate}}:&nbsp;<span><amount-display amount='{{withdrawals.minimum_withdraw_amount}}' fraction='0' is-course-price='no'></amount-display></span></span> ,
+						<span>{{'Maximum withdraw amount'|translate}}:&nbsp;<span><amount-display amount='{{withdrawals.maximum_withdraw_amount}}' fraction='0' is-course-price='no'></amount-display></span></span>
+					</span>
+
+				</div>
+			</div>
+			<div class="card-footer">
+				<div ng-if='model.moneyTransferList.length' class="float-left">
+					<label class="sr-only" for="submit">{{'Submit'|translate}}</label>
+					<input type="submit" class="btn btn-primary btn-lg" id="submit" value="{{'Submit'|translate}}">
+				</div>
+				<a href="/user_cash_withdrawals/add" class="btn btn-outline-primary btn-lg float-right ">{{'Add/Manage money transfer account'|translate}}</a>
+			</div>
+		</div>
+	</form>
+
+	<div growl></div>
+
+	<div class="card shadow-sm mt-5">
+		<div class="card-body">
+			<h2 class="card-title text-truncate">{{'Cash Withdraw Requests'|translate}}</h2>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th class="text-center">{{'Date' |translate}}</th>
+						<th class="text-center">{{'Account'|translate}}
+							<th class="text-center">{{'Amount' |translate}}</th>
+							<th class="text-center">{{'Status' |translate}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="userCashWithdrawals in model.userCashWithdrawalsList">
+						<td class="text-center">{{userCashWithdrawals.created | timeago}}</td>
+						<td class="text-center">{{userCashWithdrawals.money_transfer_account_name}}</td>
+						<td class="text-center">
+							<amount-display amount='{{userCashWithdrawals.amount}}' fraction='2' is-course-price='no'>
+						</td>
+						<td class="text-center">{{userCashWithdrawals.withdrawal_status_name}}</td>
+					</tr>
+					<tr ng-show="_metadata.total_records === 0">
+						<td colspan="4" class="text-center">
+							<span class="hor-space">{{'No Record Found' |translate}}</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="paging clearfix text-center" ng-show="_metadata.total_records > 0">
+        <ul uib-pagination total-items="_metadata.total_records" ng-model="currentPage" ng-change="paginate()" max-size="_metadata.maxSize" boundary-links="true" num-pages="_metadata.noOfPages" items-per-page="_metadata.limit" first-text="{{'First'|translate}}"
+            last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+			</div>
+		</div>
+	</div>
+
+</div>

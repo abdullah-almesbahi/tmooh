@@ -1,0 +1,19 @@
+<section class="clearfix" ng-show="model.loading === false">
+	<div class="container pb-3">
+		<course-navbar></course-navbar>
+		<div class="">
+		<div class="tab-content col-12" ng-if="model.loading === false">
+			<div class="card shadow  bg-white" id="help">
+				<div class="card-body well-sm">
+					<div class="text-center">
+						<h3>{{model.courseHelp.title}}</h3>
+					</div>
+				</div>
+				<div class="navbar-btn panel well-sm clearfix">
+					<p ng-bind-html="model.courseHelp.content"></p>
+				</div>
+			</div>
+		</div>
+	  </div>
+	</div>
+</section>

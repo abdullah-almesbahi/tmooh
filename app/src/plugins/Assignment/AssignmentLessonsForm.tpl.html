@@ -1,0 +1,196 @@
+<div class="col" id="QuizExerciseCreate">
+    <div class="add-lesson-btn">
+        <a class="btn btn-outline-secondary btn-block btn-lg navbar-btn" href="" ng-if="action === 'add' && !$root.AssignmentForm.showForm"
+            ng-click="uploadConfigure(); model.AddOnlineQuiz=''"><i class="mdi-18px mdi mdi-plus-box"></i>&nbsp; {{'Add Assignment'|translate}}</a>
+    </div>
+</div>
+<!--Quiz Add form template-->
+<div class="col-xs-12 clearfix  navbar-btn" ng-if="$root.AssignmentForm.showForm && action === 'add'">
+    <div class="panel panel-default clearfix">
+        <div class="introduction-lecture">
+            <div class="col-xs-12">
+                <div class="chapter-add-form">
+                    <form role="form" name="assigmentAddFrom" class="form-horizontal  clearfix" ng-submit="model.CheckUnpublishedLessons(assigmentAddFrom.$valid)"
+                        novalidate>
+                        <div class="form-group">
+                            <div class="mb5" >{{'New Assignment:'|translate}}</div>
+                            <div class="chapter-add">
+                                <div class="" ng-class="{ 'has-error' : (assigmentAddFrom.$submitted || assigmentAddFrom.quiz_name.$touched) && (assigmentAddFrom.quiz_name.$pristine || assigmentAddFrom.quiz_name.$invalid)}">
+                                    <div class="">
+
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="quiz_name" id="quiz_name" ng-model="model.AddOnlineQuiz.name" required maxlength="80"
+                                                placeholder="Enter a Title">
+                                            <span class="input-group-addon">{{80 - model.AddOnlineQuiz.name.length}}</span>
+                                        </div>
+                                        <div class="text-danger" ng-if="(assigmentAddFrom.$submitted || assigmentAddFrom.quiz_name.$touched) && (assigmentAddFrom.quiz_name.$pristine || assigmentAddFrom.quiz_name.$invalid)"
+                                            ng-messages="assigmentAddFrom.quiz_name.$error">
+                                            <div ng-message="required">{{'Required'|translate}}.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="" ng-class="{ 'has-error' : (assigmentAddFrom.$submitted || assigmentAddFrom.quiz_description.$touched) && (assigmentAddFrom.quiz_description.$pristine || assigmentAddFrom.quiz_description.$invalid)}">
+                                    <div class="">
+                                        <label class="control-label" for="quiz_description">{{'Enter short description about this Assignment'|translate}}</label>
+                                        <textarea type="text" class="form-control" id="quiz_description" name="quiz_description" ng-model="model.AddOnlineQuiz.description"
+                                            required placeholder="Assignment Description"></textarea>
+                                        <div class="text-danger" ng-if="(assigmentAddFrom.$submitted || assigmentAddFrom.quiz_description.$touched) && (assigmentAddFrom.quiz_description.$pristine || assigmentAddFrom.quiz_description.$invalid)"
+                                            ng-messages="assigmentAddFrom.quiz_description.$error">
+                                            <div ng-message="required">{{'Required'|translate}}.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="control-label required" for="allowed_duration">{{'Duration (minutes)'|translate}}</label>
+                                    <div ng-class="{ 'has-error' : (assigmentAddFrom.$submitted || assigmentAddFrom.allowed_duration.$touched) && (assigmentAddFrom.allowed_duration.$pristine || assigmentAddFrom.allowed_duration.$invalid)}">
+                                        <input type="number" ng-model="model.AddOnlineQuiz.allowed_duration" name="allowed_duration" id="allowed_duration" class="form-control"
+                                            required>
+                                    </div>
+                                    <div class="text-danger" ng-if="(assigmentAddFrom.$submitted || assigmentAddFrom.allowed_duration.$touched) && (assigmentAddFrom.allowed_duration.$pristine || assigmentAddFrom.allowed_duration.$invalid)"
+                                        ng-messages="assigmentAddFrom.allowed_duration.$error">
+                                        <div ng-message="required">{{'Required'|translate}}.</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="control-label required" for="assignment_instructions">{{'Assignment Instructions'|translate}}</label>
+                                    <br> <br>
+                                    <div class="">
+                                        <div text-angular ng-model="model.AddOnlineQuiz.assignment_instructions" name='assignment_instructions' id="assignment_instructions"
+                                            ta-toolbar="[['bold', 'italics', 'underline', 'insertLink'],  ['pre','quote','ul', 'ol','justifyLeft', 'justifyCenter', 'justifyRight']]"
+                                            ta-toolbar-class="btn-toolbar" ta-toolbar-group-class="btn-group" ta-toolbar-button-class="btn btn-outline-secondary"
+                                            ta-toolbar-button-active-class="active" ta-focussed-class="focussed" ta-text-editor-class="editorHeight"
+                                            ta-html-editor-class="editorHeight" data-ng-required="true" required></div>
+                                        <div class="text-danger" ng-if="(assigmentAddFrom.$submitted || assigmentAddFrom.assignment_instructions.$touched) && (assigmentAddFrom.assignment_instructions.$invalid)"
+                                            ng-messages="assigmentAddFrom.assignment_instructions.$error">
+                                            <div ng-message="required">{{'Required'|translate}}.</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="course-tab vedio-dashboard" ng-if="$root.settings['site.enabled_plugins'].indexOf('BulkUploader') > -1">
+                                    <div class="panel clearfix">
+                                        <div class="float-left">
+                                            <ul class="nav nav-tabs" role="tablist">
+                                                <li ng-if="$root.Assignment_bulk_uploader_id === null" class="" ng-class="{active: tab_active == 'upload_video'}"><a href="" ng-click="model.tabActivate('upload_video')" title="{{'Upload Video'|translate}}"
+                                                        aria-controls="Upload Video">{{'Upload Video'|translate}}</a></li>
+                                                <li ng-if="add_library_tab === true" ng-class="{active: tab_active == 'add_library'}"><a ng-click="model.tabActivate('add_library')" href="" title="{{'Add from library'|translate}}"
+                                                        aria-controls="Add from library">{{'Add from library'|translate}}</a></li>
+                                                <li ng-class="{active: tab_active == 'add_download_file'}"><a ng-click="model.tabActivate('add_download_file')" href="" title="{{'Add from library'|translate}}"
+                                                        aria-controls="Add from library">{{'Downloadable File'|translate}}</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<h4 class="text-muted navbar-btn">{{'Add Video'|translate}}</h4>-->
+                                <div ng-if="tab_active == 'upload_video' ||  $root.settings['site.enabled_plugins'].indexOf('BulkUploader') === -1">
+                                    <div class="row">
+                                        <label for="attachment" class="col-sm-3 control-label text-muted">{{'Video'|translate}}</label>
+                                        <div class="ng-admin-type-text col-sm-9 col-md-8 col-lg-7">
+                                            <div class="alert alert-warning">
+                                                <p><i class="mdi-18px mdi mdi-information" aria-hidden="true"></i> {{'Should be
+                                                    720p minimum with clear lighting, composition, and a steady camera exported
+                                                    in 16:9 format.'|translate}}</p>
+                                                <p ng-if="$root.settings['video.max_size_to_allow_video_file'] !== '' && $root.settings['video.max_size_to_allow_video_file'] !== undefined && $root.settings['video.max_size_to_allow_video_file'] !== null"><i class="mdi-18px mdi mdi-information" aria-hidden="true"></i> {{'File size
+                                                    should be lesser than'|translate}} {{$root.settings['video.max_size_to_allow_video_file']
+                                                    | bytes}}</p>
+                                            </div>
+                                            <amazon-upload form-name='assigmentAddFrom' type='Upload' data-method="model.amazonS3Upload" ng-if="$root.settings['site.enabled_plugins'].indexOf('AmazonS3andRTMP') > -1">
+                                            </amazon-upload>
+                                            <span ng-if="$root.settings['site.enabled_plugins'].indexOf('AmazonS3andRTMP') === -1">
+                                            <input type="file" id="inputTaskAttachments" name="attachment" onchange="angular.element(this).scope().uploadVideo(this.files)"
+                                                required="" ng-model="model.onlineVideoLesson.filename" />
+                                            <div class="help-block">
+                                                <p ng-if="$root.settings['video.extensions']">{{'Allowed extensions:'|translate}} {{$root.settings['video.extensions']}}</p>
+                                            </div>
+                                            <span ng-show="assigmentAddFrom.attachment.$dirty" class="glyphicon form-control-feedback" ng-class="assigmentAddFrom.attachment.$valid ? 'mdi mdi-check' : 'mdi mdi-close'"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-if="tab_active == 'add_library'">
+                                    <bulk-uploader course='{{model.course}}' lesson-type-id='3' lesson-id='{{lessonID}}' action='list' video-action='AssignmentAdd'
+                                        updateparent="model.BulkUploader();" publishparent="model.unpublishedLessonDetails()"></bulk-uploader>
+                                </div>
+
+                                <!--<h4 class="text-muted navbar-btn">{{'Add Video'|translate}}</h4>-->
+                                <div ng-if="tab_active == 'add_download_file' ||  $root.settings['site.enabled_plugins'].indexOf('BulkUploader') === -1">
+                                    <div class="row">
+                                        <label for="filename" class="col-sm-3 control-label text-muted">{{'Downloadable File'|translate}}</label>
+                                        <div class="ng-admin-type-text col-sm-9 col-md-8 col-lg-7">
+                                            <div class="alert alert-warning">
+                                                <p ng-if="$root.settings['downloadable.max_size_to_allow_downloadable_file'] !== '' && $root.settings['downloadable.max_size_to_allow_downloadable_file'] !== null && $root.settings['downloadable.max_size_to_allow_downloadable_file'] !== undefined "><i class="mdi-18px mdi mdi-information" aria-hidden="true"></i> {{'File size
+                                                    should be lesser than'|translate}} {{$root.settings['downloadable.max_size_to_allow_downloadable_file']
+                                                    | bytes}}</p>
+                                            </div>
+                                            <input type="file" id="downloadTaskAttachments" name="filename" onchange="angular.element(this).scope().downloadVideoFile(this.files)"
+                                                ng-model=" model.onlineDownloadableLesson.filename" id="downloadbleFileVal" accept="{{$root.settings['downloadable.extensions']}}"
+                                            />
+                                            <span ng-show="add_downloable_file.filename.$dirty" class="glyphicon form-control-feedback" ng-class="add_downloable_file.filename.$valid ? 'mdi mdi-check' : 'mdi mdi-close'"></span>
+                                            <div class="help-block">
+                                                <p ng-if="$root.settings['downloadable.extensions']">{{'Allowed extensions:'|translate}} {{$root.settings['downloadable.extensions']}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="clearfix">
+                                    <div class="">
+                                        <div class="">
+                                            <button type="submit" ng-disabled="model.QuizSaveButton" class="btn btn-primary">
+									<span ng-hide="model.QuizSaveButton">{{'Submit'|translate}}</span>
+									<span ng-show="model.QuizSaveButton"> <i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i> {{'Submitting'|translate}}</span>
+									</button>
+                                            <a href="#" ng-click="hideForm($event)" class="btn btn-outline-secondary">{{'Cancel'|translate}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Quiz form edit template-->
+<div class="col-xs-12 clearfix  navbar-btn" ng-if="action === 'edit' && $root.AssignmentForm.editForm">
+    <div class="panel panel-default">
+        <div class="form-curiculam">
+            <form role="form" name="quizEditFrom" class="form-horizontal clearfix" ng-submit="editQuiz(quizEditFrom.$valid)" novalidate>
+                <div class="form-group" ng-class="{ 'has-error' : (quizEditFrom.$submitted || quizEditFrom.quiz_name.$touched) && (quizEditFrom.quiz_name.$invalid)}">
+                    <label class="control-label" for="chapter_name">{{'Title'|translate}}</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="quiz_name" id="chapter_name" ng-model="model.editOnlineQuiz.name" required
+                            maxlength="50">
+                        <span class="input-group-addon">{{model.editOnlineQuiz.name.length}}</span>
+                    </div>
+                    <div class="text-danger" ng-if="(quizEditFrom.$submitted || quizEditFrom.quiz_name.$touched) && (quizEditFrom.quiz_name.$invalid)"
+                        ng-messages="quizEditFrom.quiz_name.$error">
+                        <div ng-message="required">{{'Required'|translate}}.</div>
+                        <div ng-message="maxlength">{{'Sorry you are exceeding the limit'|translate}}.</div>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : (quizEditFrom.$submitted || quizEditFrom.quiz_description.$touched) && (quizEditFrom.quiz_description.$invalid)}">
+                    <label class="control-label" for="quiz_description">{{'Enter short description about this chapter'|translate}}</label>
+                    <textarea type="text" class="form-control" id="quiz_description" name="quiz_description" ng-model="model.editOnlineQuiz.description"
+                        required></textarea>
+                    <div class="text-danger" ng-if="(quizEditFrom.$submitted || quizEditFrom.quiz_description.$touched) && ( quizEditFrom.quiz_description.$invalid)"
+                        ng-messages="quizEditFrom.quiz_description.$error">
+                        <div ng-message="required">{{'Required'|translate}}.</div>
+                    </div>
+                </div>
+                <div class="clearfix">
+                    <div class="form-group">
+                        <button type="submit" ng-disabled="model.QuizEditButton" class="btn btn-primary">
+						<span ng-hide="model.QuizEditButton"><span class="glyphicon mdi mdi-check"></span> {{'Save'|translate}}</span>
+						<span ng-show="model.QuizEditButton"> <i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i> {{'Saving'|translate}}</span>
+						</button>
+                        <a href="#" ng-click="hideForm($event)" class="btn btn-primary"><i class="mdi-18px mdi mdi-close fa-fw" aria-hidden="true"></i>{{'Cancel'|translate}}</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

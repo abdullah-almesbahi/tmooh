@@ -1,0 +1,70 @@
+<div class="modal-login" ng-class="{'container': currentPageType === 'page'}"  ng-if="action ==='add'">
+	<div class="center-form card" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+			<div class="card-body">
+			<div class="row">
+				<div class="col" ng-if='!contentInIframe'>
+					<a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose float-right"><i class="mdi-18px mdi mdi-close close"></i></a>
+					<h3>{{'Create new Group'|translate}}</h3>
+					<form method="post" name="groupForm">
+						<div class="form-group has-feedback" ng-class="{ 'has-error' : groupForm.title.$invalid && groupForm.title.$dirty }">
+							<label>{{'Name' | translate}}</label>
+							<input class="form-control" type="text" name="title"  ng-model="group.name" placeholder="Name your Group e.g. HTML skills"
+								required>
+							<span class="ion-at form-control-feedback"></span>
+							<div class="text-danger" ng-if="groupForm.title.$dirty" ng-messages="groupForm.title.$error">
+								<div ng-message="required">{{'Please Enter title' | translate}}.</div>
+								<div ng-message="title">{{'Your title address is invalid'|translate}}.</div>
+							</div>
+						</div>
+						<div class="form-group has-feedback" ng-class="{ 'has-error' : groupForm.description.$invalid && groupForm.description.$dirty }">
+							<label>{{'Description' | translate}}</label>
+							<textarea name="description"  id ="description" class="form-control" placeholder="{{'Why are you creating this collection? e.g. To start a new business, To get a new job, To become a web developer' | translate}}" ng-model="group.description"
+								required></textarea>
+							<div class="text-danger" ng-if="groupForm.description.$dirty" ng-messages="groupForm.description.$error">
+								<div ng-message="required">{{'description cannot be empty'|translate}}.</div>
+							</div>
+						</div>
+						<button ng-click="model.AddGroup(groupForm.$valid);groupForm.$setPristine()" ng-disabled="groupForm.$invalid || disableButton"
+							class="btn btn-success float-right">{{'Create'|translate}}  <span ng-show="disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+						<br/>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-login" ng-class="{'container': currentPageType === 'page'}" ng-if="action ==='edit'">
+	<div class="center-form card" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+			<div class="card-body">
+			<div class="row">
+				<div class="col" ng-if='!contentInIframe'>
+					<a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose float-right"><i class="mdi-18px mdi mdi-close close"></i></a>
+					<h3>{{'Edit the Group'|translate}}</h3>
+					<form method="post" name="groupForm">
+						<div class="form-group has-feedback" ng-class="{ 'has-error' : groupForm.title.$invalid && groupForm.title.$dirty }">
+							<label>Name</label>
+							<input class="form-control" type="text" name="title"  ng-model=" model.edit_group.name" placeholder="Name your Group e.g. HTML skills"
+								required>
+							<span class="ion-at form-control-feedback"></span>
+							<div class="text-danger" ng-if="groupForm.title.$dirty" ng-messages="groupForm.title.$error">
+								<div ng-message="required">{{'Please Enter title' | translate}}.</div>
+								<div ng-message="title">{{'Your title address is invalid'|translate}}.</div>
+							</div>
+						</div>
+						<div class="form-group has-feedback" ng-class="{ 'has-error' : groupForm.description.$invalid && groupForm.description.$dirty }">
+							<label>Description</label>
+							<textarea name="description"  id ="description" class="form-control" placeholder="Why are you creating this collection? e.g. To start a new business, To get a new job, To become a web developer" ng-model=" model.edit_group.description"
+								required></textarea>
+							<div class="text-danger" ng-if="groupForm.description.$dirty" ng-messages="groupForm.description.$error">
+								<div ng-message="required">{{'description cannot be empty'|translate}}.</div>
+							</div>
+						</div>
+						<button ng-click="model.EditGroupUpate(groupForm.$valid);groupForm.$setPristine()" ng-disabled="groupForm.$invalid || disableButton"
+							class="btn btn-success float-right">{{'Update'|translate}}  <span ng-show="disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+						<br/>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

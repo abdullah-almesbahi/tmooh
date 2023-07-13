@@ -1,0 +1,79 @@
+<div class="container mt-4 mb-4">
+  <h3 class="text-center">{{'Create a Course'|translate}}</h3>
+  <div class="row">
+    <div class="card-body clearfix well-lg">
+
+      <div class="goal-card">
+        <form name="addCourse" class=" w-50 mx-auto form-horizontal" ng-submit="model.save(addCourse.$valid, addCourse)" novalidate>
+          <div class="form-group">
+            <label class="control-label required" for="name">
+                    {{'Course Name' | translate}}
+             </label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="course_title" name="course_title" placeholder="{{'e.g. Learn Photoshop CC from scratch'|translate}}" ng-model="model.course.title" ng-required="true" autocomplete="off" maxlength="100">
+              <div class="input-group-append">
+                <span class="input-group-text" id="course_titlex">{{100 - model.course.title.length}}</span>
+              </div>
+            </div>
+            <div ng-show="((addCourse.$submitted || addCourse.course_title.$touched) && (addCourse.course_title.$pristine || addCourse.course_title.$invalid))">
+              <span class="error text-danger" ng-show="((addCourse.$submitted || addCourse.course_title.$touched) && (addCourse.course_title.$pristine || addCourse.course_title.$invalid || addCourse.course_title.$error.required))">{{'Required.' | translate }}</span>              </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label required" for="course_sub_title">{{'Sub Title'|translate}}</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="course_sub_title" name="course_sub_title" placeholder="{{'Sub Title'|translate}}" maxlength="200" ng-model="model.course.subtitle" ng-required="true" autocomplete="off">
+              <div class="input-group-append">
+                <span class="input-group-text" id="course_sub_titlex">{{200 - model.course.subtitle.length}}</span>
+              </div>
+            </div>
+            <div ng-show="((addCourse.$submitted || addCourse.course_sub_title.$touched) && (addCourse.course_sub_title.$pristine || addCourse.course_sub_title.$invalid))">
+              <span class="error text-danger" ng-show="((addCourse.$submitted || addCourse.course_sub_title.$touched) && (addCourse.course_sub_title.$pristine || addCourse.course_sub_title.$invalid || addCourse.course_sub_title.$error.required))">{{'Required.' | translate }}</span>              </div>
+          </div>
+          <div class="form-group d-none">
+            <div class="row">
+              <div class="col-md-12">
+                <label class="control-label required" for="sub_category">{{'Course Options'|translate}}</label>
+                <div class="checkbox">
+                  <label>
+								<input type="checkbox"  id="course_option"  name="course_option" value="true" ng-model="model.coursetype['video']" ng-click="model.Showerror = ''"/>
+								<span></span>
+							{{'Video Based Training' | translate}}</label>
+                </div>
+                <div class="checkbox">
+                  <label>
+								            <input type="checkbox"  id="course_option"  name="course_option"  ng-model="model.coursetype['online']" value="true" ng-click="model.Showerror = ''"/>
+					                    <span></span>
+								 {{'Live Online Training' | translate}}
+               </label>
+                </div>
+                <div class="checkbox">
+                  <label>
+								<input type="checkbox"  id="course_option"  name="course_option"  ng-model="model.coursetype['onsite']" value="true"
+								 ng-click="model.Showerror = ''"/>
+								<span></span>
+								 {{'Live Onsite Training' | translate}}</label>
+                </div>
+                <span class="error text-danger" ng-if="addCourse.$submitted && model.Showerror">{{'Required.' | translate }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="text-center buttons-course">
+            <button class="btn btn-primary" type="submit">{{'Create' | translate}}</button>
+            <span ng-show="$root.auth.providertype !== 'admin'">
+                            <!--Instuctor Dashboard-->
+                        <a ui-sref="myCoursesTeaching" class="btn btn-outline-secondary" ng-if="$root.is_teacher === 1">{{'Cancel' | translate}}</a>
+                        <!--Learning Dashboard-->
+                        <a ui-sref="myCoursesLearning" class="btn btn-outline-secondary" ng-if="$root.is_teacher !== 1">{{'Cancel' | translate}}</a>
+                        </span>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- addCourse form end -->
+  <div class="clearfix well-lg"></div>
+  <div class="clearfix well-lg"></div>
+</div>
+<!-- addCourse container end -->

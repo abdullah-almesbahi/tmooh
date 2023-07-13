@@ -1,0 +1,70 @@
+<div class="row">
+	<div class="col-lg-12">
+		<div class="page-header">
+			<h1 class="al-title ng-binding">Discount Price Tier Matrix</h1>
+		</div>
+		<content-top>
+			<div class="content-top clearfix">				
+				<ul class="breadcrumb al-breadcrumb">
+					<li><a href="#/dashboard">Dashboard</a></li>
+					<li class="ng-binding">Discount Price Tier Matrix</li>
+				</ul>
+			</div>
+		</content-top>		
+	</div>
+</div>
+
+<div class="currency-tier" id="create-view">
+	<div class="with-scroll  panel animated zoomIn">
+		<!--Course revenue report table -->
+		<div class="clearfix">			
+			<div class="btn-group">
+				<a class="btn btn-success" href="" ng-click="tier.tier_AddForm = true;" ng-if="!tier.tier_AddForm"><i class="fa fa-plus fa-fw"></i>Add Tier</a>
+			</div>					
+			<div class="panel-heading clearfix" ng-if="tier.tier_AddForm">
+				<h3 class="panel-title">Add Tiers</h3>
+			</div>
+			<div>
+				<div class="row" ng-if="tier.tier_AddForm">
+					<form class="col-lg-12 form-horizontal" name="change_password" ng-submit="TierSubmit()">
+						<div>
+							<div id="row-pages-slug" class="form-group has-feedback"> <label for="pageSlug" class="col-sm-2 control-label">Amount</label>
+								<div class="ng-admin-type-text col-sm-10 col-md-8 col-lg-7">col-lg-12 
+									<input type="number" ng-model="tier.amount" class="form-control" required min="0" name="tier">
+									<span class="error text-danger" ng-show="change_password.tier.$error.min"> Should be positive </span>
+								</div>
+							</div>
+						</div>					
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-8"> <button class="btn btn-primary" type="submit">Submit</button>
+								<button class="btn btn-primary" type="button" ng-click="tier.tier_AddForm = false;">Cancel</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div ng-if="!tier.tier_AddForm">
+					<div class="horizontal-scroll">
+						<table class="table table-bordered">
+							<thead>
+								<tr class="black-muted-bg">
+									<th class="text-center">Price Tier</th>
+									<th class="text-center" ng-repeat="currency in currencies">{{currency.code}} </th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="no-top-border" ng-repeat="(k, v) in  currencies_tier track by $index">
+									<td>
+										Tier {{$index+1}}
+									</td>
+									<td ng-repeat="(key, tier) in v.currency">
+										<input type="text" class="form-control" ng-model="tier.amount" ng-model-onblur="UpdateCurrencyTiers(k, key, v.tier_id)"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>		
+		</div>
+	</div>
+
+</div>

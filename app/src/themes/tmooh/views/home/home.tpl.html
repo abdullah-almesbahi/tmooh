@@ -1,0 +1,104 @@
+<div ng-if="$root.isMobile" id="search_results">
+	<section class="homepage-video-wrapper bg-dark">
+		<div class="homepage-video w-100 ">
+			<div class="homepage-video-inner align-middle">
+				<h1 class="px-3">{{'What would you learn with Tmooh?'|translate}}</h1>
+				<p class="mb-3 px-3">{{'Start with a new skill and learn from the experts to create a better future'|translate}}</p>
+				<form class="form-inline" method="post">
+					<div id="custom-search-input" class="position-relative  w-100 mx-5">
+						<div class="input-group">
+							<input type="text" class="w-100 pl-3 search-query" placeholder="{{'Ex. Architecture, Specialization...'|translate}}" ng-model="csearchVal" ng-keyup="$event.keyCode == 13 ? CoursequerySearch(csearchVal) : null">
+							<button type="submit" class="btn btn-primary position-absolute px-3 btn_search" value="{{'Search'|translate}}" ng-click="CoursequerySearch(csearchVal)">
+								<i class="mdi mdi-magnify text-white"></i>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<img src="assets/img/video_fix.png" alt="" class="img-fluid homepage-video-media" data-video-src="assets/img/intro" data-teaser-source="assets/img/intro" data-provider="" data-video-width="1920" data-video-height="960">
+	</section>
+	<!-- /homepage_single -->
+
+
+	<!-- <home-course-mobile filter="most_popular" limit="6" title="{{'Popular courses in Tmooh'|translate}}"></home-course-mobile> -->
+	<!-- <home-course-mobile filter="learner_recommended" limit="6" title="{{'Highest rated courses in Tmooh'|translate}}"></home-course-mobile> -->
+	<home-course-mobile filter="featured" limit="25" title="{{'Featured courses in Tmooh'|translate}}"></home-course-mobile>
+	<!-- <home-course-mobile filter="new" limit="6" title="{{'New courses in Tmooh'|translate}}"></home-course-mobile> -->
+	<div class="text-center mb-5 mt-5">
+		<a href="/courses/search" class="btn btn-lg btn-outline-primary mx-auto">{{'View all courses in Tmooh'|translate}}</a>
+	</div>
+</div>
+
+<div ng-if="!$root.isMobile">
+	<section class="homepage-video-wrapper bg-dark">
+		<div class="homepage-video w-100 text-center ">
+			<div class="homepage-video-inner text-center align-middle">
+				<h1>{{'What would you learn with Tmooh?'|translate}}</h1>
+				<p>{{'Start with a new skill and learn from the experts to create a better future'|translate}}</p>
+				<form class="form-inline" method="post">
+					<div id="custom-search-input" class="position-relative w-25 mx-auto">
+						<div class="input-group">
+							<input type="text" class="w-100 pl-3 search-query" placeholder="{{'Ex. Architecture, Specialization...'|translate}}" ng-model="csearchVal" ng-keyup="$event.keyCode == 13 ? CoursequerySearch(csearchVal) : null">
+							<input type="submit" class="btn btn-primary position-absolute px-3 btn_search" value="{{'Search'|translate}}" ng-click="CoursequerySearch(csearchVal)">
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<img src="assets/img/video_fix.png" alt="" class="img-fluid homepage-video-media" data-video-src="assets/img/intro" data-teaser-source="assets/img/intro" data-provider="" data-video-width="1920" data-video-height="960">
+	</section>
+	<!-- /homepage_single -->
+	<div class="features clearfix bg-dark">
+		<div class="container">
+			<div class="row pt-5 pb-5">
+				<div class="col-sm text-center mb-3">
+					<i class="mdi-18px mdi mdi-folder-multiple-outline text-white mdi-48px"></i>
+					<div class="text-warning mt-2">+90 {{'courses'|translate}}</div>
+					<span class="text-white">{{'Explore a variety of fresh topics'|translate}}</span>
+				</div>
+				<div class="col-sm text-center mb-3">
+					<i class="mdi-18px mdi mdi-trophy-variant-outline text-white mdi-48px"></i>
+					<div class="text-warning mt-2">{{'Expert teachers'|translate}}</div>
+					<span class="text-white">{{'Find the right instructor for you'|translate}}</span>
+				</div>
+				<div class="col-sm text-center mb-3">
+					<i class="mdi-18px mdi mdi-bullseye-arrow text-white mdi-48px"></i>
+					<div class="text-warning mt-2">{{'Focus on target'|translate}}</div>
+					<span class="text-white">{{'Increase your personal expertise'|translate}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /features -->
+
+	<div class="container pt-3">
+		<home-course filter="most_popular" limit="20" title="{{'Popular courses in Tmooh'|translate}}"></home-course>
+		<home-course filter="learner_recommended" limit="20" title="{{'Highest rated courses in Tmooh'|translate}}"></home-course>
+		<home-course filter="featured" limit="20" title="{{'Featured courses in Tmooh'|translate}}"></home-course>
+		<home-course filter="new" limit="20" title="{{'New courses in Tmooh'|translate}}"></home-course>
+		<div class="text-center mb-5 mt-5">
+			<a href="/courses/search" class="btn btn-lg btn-outline-primary mx-auto">{{'View all courses in Tmooh'|translate}}</a>
+		</div>
+		<!-- /container -->
+	</div>
+	<home-user-feedback> </home-user-feedback>
+
+	<div class="call_section">
+		<div class="container clearfix">
+			<div class="col-lg-5 col-md-6 float-right ">
+				<div class="block-reveal">
+					<div class="block-vertical"></div>
+					<div class="bg-dark text-light p-5">
+						<h3>{{'Expert in a skill?'|translate}}</h3>
+						<p>{{'Share your experiences, Start your courses and Tmooh gives you the opportunity to reach thousands of students'|translate}}</p>
+						<a href="/users/login" class="btn btn-primary">{{'Read more'|translate}}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/call_section-->
+
+
+</div>

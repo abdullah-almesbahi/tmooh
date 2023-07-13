@@ -1,0 +1,43 @@
+<a href="#" title="notification" class="dropdown-toggle mx-2" data-toggle="dropdown">
+    <span class="mdi mdi-bell-outline" ng-class="{'text-dark':!$root.isHome || $root.isMobile,'text-white' : $root.isHome && !$root.isMobile}"></span>
+    <sup class="badge badge-primary rounded-circle" style="margin-right: -14px;" ng-if="model.unreadnotificationCount > 0 ">{{model.unreadnotificationCount}}</sup>
+</a>
+<ul class="dropdown-menu dropdown-menu-right py-0" style="min-width: 320px;">
+    <li class="notifications-head bg-primary p-2 text-center mb-2">
+        <div class="text-light">{{'Notifications' | translate}}</div>
+    </li>
+    <ul class="list-unstyled">
+        <li ng-repeat="notification  in model.notificationMessages" ng-if="model.notificationMessages.length">
+            <a ng-href="{{notification.state}}" ng-click="SingleMessageRead(notification.id)">
+                <div class="row">
+                    <div class="col-sm-3">
+
+                        <img style="width: 86px;height: 62px;" class="rounded-circle border  img-fluid center-block" ng-if="notification.other_user_image !== '' && notification.other_user_image !== null" ng-src="{{$root.site_url}}img/normal_thumb/User/{{notification.other_user_image}}" alt="[Image: {{notification.other_user}}]" title="{{notification.other_user}}"
+                            class="img-circle" />
+                        <img style="width: 86px;height: 62px;" class="rounded-circle border  img-fluid center-block" ng-if="notification.other_user_image === '' || notification.other_user_image === null" ng-src="{{$root.site_url}}img/normal_thumb/User/0.default.jpg" alt="[Image: {{notification.other_user}}]" title="{{notification.other_user}}" class="img-circle"
+                        />
+                    </div>
+                    <div class="col-sm-9">
+                        <h5 class="no-mar">{{notification.other_user}}</h5>
+                        <p class="htruncate-m1 no-mar" ng-if="!notification.child_reply">{{notification.subject| htmlToPlaintext}}</p>
+                        <p class="htruncate-m1 no-mar" ng-if="notification.child_reply === true">
+                            <strong>RE:</strong> &nbsp;{{notification.subject| htmlToPlaintext}}
+                        </p>
+                        <p class="time"> <span am-time-ago="notification.created"></span></p>
+                    </div>
+                </div>
+            </a>
+
+        </li>
+    </ul>
+
+    <li class="clearfix cart-empty p-2" ng-if="!model.notificationMessages.length">
+        <div class="text-center">
+            <span>{{'no notification.' | translate}}</span>
+        </div>
+    </li>
+    <li class="clearfix see-more-read" ng-if="model.notificationMessages.length">
+        <div class="float-left"><a href="/users/my-message" class="btn btn-link">{{'See More' | translate}}</a></div>
+        <div class="float-right"><a href="#" ng-click="model.MultipleProcess($event)" class="btn btn-link">{{'Mark all as read' | translate}}</a></div>
+    </li>
+</ul>

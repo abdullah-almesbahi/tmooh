@@ -1,0 +1,11 @@
+<div class="dropdown">
+  <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <i class="mdi mdi-earth"></i> {{currentLocaleDisplayName}}
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="javascript:void(0);" ng-repeat="localesDisplayName in localesDisplayNames" ng-click="changeLanguage(localesDisplayName)">
+    	{{localesDisplayName}}
+	</a>
+  </div>
+</div>
+</div>

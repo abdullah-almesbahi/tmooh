@@ -1,0 +1,84 @@
+<section class="container pb-3 pt-4 mb-5">
+	<div class="row">
+		<userprofile-navbar></userprofile-navbar>
+		<div class="col-sm-8 col-md-9">
+			<div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading"></div>
+			<div class="card" ng-if="!model.loading">
+				<div class="card-body">
+					<h3 class="text-default">{{'Refer & Earn'|translate}}</h3>
+					<form method="post" class="form-horizontal clearfix">
+						<div class="">
+							<h4 class="text-primary">{{'Share your unique referral link:'|translate}}</h4>
+							<div class="col-sm-12 col-pad">
+								<div class="alert alert-info">
+									{{'You can use this amount to purchase the courses. If you have earned greater than $100 then amount will automatically credit in your PayPal account'|translate}}
+									<a href="/users/instructor_payment">{{'here.'|translate}}</a>
+								</div>
+								<div ng-if="model.original_amount !== 0">
+									<div class="float-right">
+										<a href="" ng-click="transferReferral()" class="btn btn-primary">{{'Move'|translate}} <amount-display amount='{{model.original_amount}}' fraction='2' is-course-price='no' ng-if="model.referral_loader === false"></amount-display> {{'to wallet and withdraw'|translate}}</a></div>
+								</div>
+							</div>
+						</div>
+						<div class="clearfix">
+							<h5 class="float-left referral-linehgt">
+								{{'Your Referral Earned Amount:'|translate}} &nbsp;
+                  <amount-display amount='{{model.user_referral_amount}}' fraction='2' is-course-price='no' ng-if="model.referral_loader === false"></amount-display>
+              </h5>
+						</div>
+						<div class="col-sm-12 referral clearfix col-pad">
+							<div class="row">
+								<div class="col-sm-11 col-xs-10">
+									<input type="text" class="form-control" ng-model="model.unique_url" readonly/>
+								</div>
+								<div class="col-sm-1 col-xs-2">
+									<a href="javascript:void(0);" class="btn btn-link" title="click to copy" clipboard supported="supported" text="model.unique_url" on-copied="success()" on-error="fail(err)">
+                      <i class="mdi mdi-content-copy" aria-hidden="true"></i>
+                  </a>
+								</div>
+							</div>
+						</div>
+
+						<div class="mt-3">
+							<social-share share-title='{{model.course.title}}' share-link='{{model.unique_url}}' share-type='referral' ng-if="$root.settings['site.enabled_plugins'].indexOf('SocialShare') > -1" share-style="ListInline"></social-share>
+						</div>
+						<div class="form-group has-feedback">
+							<label class="col-sm-12 h4">
+					      {{'Referral FAQ?'|translate}}
+					    </label>
+							<div class="col-sm-12">
+								<ul>
+									<li>
+										<h5>{{'How do I refer my friends?'|translate}}</h5>
+										<div class="text-muted">{{'Create an account on tmooh.com and visit the refer and earn webpage. You can refer your friends by sending them your unique referral URL by email or you can also share it through social media.'|translate}}</div>
+									</li>
+									<li>
+										<h5>{{'How do I get rewarded every time a friend signs up?'|translate}}</h5>
+										<div class="text-muted">{{'The amount you collect through referral gets credited to your account. You will only get rewarded for referrals who are new students to tmooh.com and the money will get credited after your friends course cancellation period expires.'|translate}}</div>
+									</li>
+
+									<li>
+										<h5>{{'How can I use my rewards?'|translate}}</h5>
+										<div class="text-muted">{{'You can use the reward amount to purchase the courses from tmooh.com. If you have earned more than $100 then the reward amount will automatically be credited to your PayPal account.'|translate}}</div>
+									</li>
+
+									<li>
+										<h5>{{'Will I get a referral credit if my friend’s name already exists in the tmooh database?'|translate}}</h5>
+										<div class="text-muted">{{'No, you are eligible for credits only when your friend makes a first purchase on the tmooh.com site and whose name does not already exist in the tmooh database.'|translate}}</div>
+									</li>
+
+								</ul>
+							</div>
+						</div>
+
+					</form>
+
+					<div oc-lazy-load='loadSeo'>
+						<user-profile-seo></user-profile-seo>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

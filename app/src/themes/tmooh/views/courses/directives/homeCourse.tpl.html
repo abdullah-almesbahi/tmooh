@@ -1,0 +1,64 @@
+
+	<h2 class="mt-5 mb-2">{{title}}</h2>
+	<div class="title_2"><span><em></em></span></div>
+	<div ng-include src="'common/loader.tpl.html'" class="top-mspace" ng-show="model.loader"><br><br></div>
+	<div class="notloaded owl-carousel owl-theme">
+			<div class="item mx-2" ng-repeat="(key, homeCourse) in model.homeCourse.data" owl-carousel carousel-init="tCtrl.carouselInitializer">
+				<div class="card shadow-sm">
+					<a analytics-on 
+					analytics-event="ImageClick"
+					analytics-properties="{ id: {{homeCourse.id}}, name: '{{homeCourse.title}}', 'label': '{{homeCourse.title}}' , category: 'HomeCarousel {{filter}}' , author: '{{homeCourse.displayname}}' , position: {{key}} }" 
+					ng-href="/course/{{homeCourse.id}}/{{homeCourse.slug|escape}}" title="{{homeCourse.title}}">
+						<!-- <div class="preview"><span>{{'Preview course'|translate}}</span></div> -->
+
+						<!-- course image when is_from_mooc_affiliate false -->
+						<img ng-if="homeCourse.image_hash && homeCourse.is_from_mooc_affiliate !== 1" animate-visible="{{ImgLazyLoad.AnimateVisible}}" animate-speed="{{ImgLazyLoad.AnimateSpeed}}" lazy-src="{{$root.site_url}}img/carousel/Course/{{homeCourse.image_hash}}" alt="[Image: {{homeCourse.title}}]"
+						  title="{{homeCourse.title}}" class="card-img-top grid-height" />
+						<img ng-if="!homeCourse.image_hash && homeCourse.is_from_mooc_affiliate !== 1" animate-visible="{{ImgLazyLoad.AnimateVisible}}" animate-speed="{{ImgLazyLoad.AnimateSpeed}}" lazy-src="{{$root.site_url}}assets/img/261X200.jpg" alt="[Image: {{homeCourse.title}}]"
+						  title="{{homeCourse.title}}" class="card-img-top grid-height" />
+
+						<!-- course image when is_from_mooc_affiliate true -->
+						<img ng-if="homeCourse.course_image && homeCourse.is_from_mooc_affiliate === 1" animate-visible="{{ImgLazyLoad.AnimateVisible}}" animate-speed="{{ImgLazyLoad.AnimateSpeed}}" lazy-src="{{homeCourse.course_image}}" alt="[Image: {{homeCourse.title}}]" title="{{homeCourse.title}}"
+						  class="card-img-top grid-height" />
+						<img ng-if="!homeCourse.course_image && homeCourse.is_from_mooc_affiliate === 1" animate-visible="{{ImgLazyLoad.AnimateVisible}}" animate-speed="{{ImgLazyLoad.AnimateSpeed}}" lazy-src="{{$root.site_url}}assets/img/261X200.jpg" alt="[Image: {{homeCourse.title}}]"
+						  title="{{homeCourse.title}}" class="card-img-top grid-height" />
+					</a>
+					<div class="card-body">
+						<h5 class="card-title text-truncate two-line"><a analytics-on analytics-event="TitleClick" analytics-properties="{ id: {{homeCourse.id}}, name: '{{homeCourse.title}}', 'label': '{{homeCourse.title}}' , category: 'HomeCarousel {{filter}}' , author: '{{homeCourse.displayname}}' , position: {{key}} }"  ng-href="/course/{{homeCourse.id}}/{{homeCourse.slug|escape}}" class="text-dark">{{homeCourse.title}}</a></h5>
+						<!-- <p class="text-muted text-truncate mb-1">{{homeCourse.subtitle}}</p> -->
+						<!-- <small>
+							<a  ui-sref="CourseSearch({ category_id: homeCourse.parent_category_id })" title="{{homeCourse.parent_category_name}}">
+								{{homeCourse.parent_category_name}}
+							</a>
+							<span ng-if="homeCourse.category_name" class="text-primary">&nbsp;/&nbsp;</span>
+							<a  ui-sref="CourseSearch({ category_id: homeCourse.category_id })" title="{{homeCourse.category_name}}">{{homeCourse.category_name}} </a>
+						</small> -->
+						<small class="text-truncate" ng-if="$root.settings['site.enabled_plugins'].indexOf('Instructor') > -1 && homeCourse.user_id">
+							{{'By'|translate}}&nbsp;<span> </span>
+							<profile-name instructor="true" user-display-name='homeCourse.displayname' user-profile-id='homeCourse.user_id' ng-if='homeCourse'></profile-name>
+						</small>
+						<div class="rating">
+							<rating-stars average-rating='{{homeCourse.average_rating}}' ng-if="homeCourse && $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1"></rating-stars>
+						</div>
+						<div class="price">
+							<!--Fixed and Percentage Campaign applied-->
+							<span class="float-right  h5 list-group-item-heading list-group-item-text" ng-if="homeCourse.course_campaign === true">
+								<strong>
+									<span class="strike">
+										<amount-display amount='{{homeCourse.price}}' ng-if="homeCourse.price" fraction='2' is-course-price='yes' tier-id='{{homeCourse.tier_id}}'>
+									</span> &nbsp;
+									<amount-display amount='{{homeCourse.original_price}}' ng-if="homeCourse.original_price" fraction='2' is-course-price='yes'>
+								</strong>
+							</span>
+							<!--Fixed and Percentage Campaign not applied-->
+							<span class="float-right  h5 list-group-item-heading list-group-item-text" ng-if="homeCourse.course_campaign === false">
+								<strong>
+									<amount-display amount='{{homeCourse.price}}' fraction='2' is-course-price='yes'  tier-id='{{homeCourse.tier_id}}'></amount-display>
+								</strong>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+</div>

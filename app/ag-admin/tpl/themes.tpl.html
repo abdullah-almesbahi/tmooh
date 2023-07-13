@@ -1,0 +1,116 @@
+<div class="row">
+	<div class="col-lg-12">
+		<content-top>
+			<div class="content-top clearfix">
+				<h1 class="al-title ng-binding">THEMES</h1>
+				<ul class="breadcrumb al-breadcrumb">
+					<li><a href="#/dashboard">Home</a></li>
+					<li class="ng-binding">Themes</li>
+				</ul>
+			</div>
+		</content-top>
+	</div>
+</div>
+<div class="row " id="create-view">
+	<div class="clearfix well-sm panel animated zoomIn">
+
+		<div class="pull-right">To reflect theme changes, you need to <a class="text-primary" ng-click="fullRefresh();">refresh.</a></div>
+		<div ng-repeat="theme in all_themes | orderBy:'display_order'">
+			<div ng-if="$first">
+				<div class="col-lg-12">
+					<div class="col-lg-12">
+						<h3 class="navbar-btn"><i></i>Themes</h3>
+					</div>
+				</div>
+				<div class="col-lg-12">
+				    <div class="col-lg-12 btn-group">						
+                         <a class="pull-right btn btn-success fa fa-plus" href="#/themes/create" >Add</a>
+                    </div>
+				</div>
+
+				<div class="clearfix"></div>
+				<hr class="clearfix list-group-item-text navbar-btn">
+			</div>				
+			<div class="col-lg-12">					
+				<div class="col-lg-8 col-lg-offset-1">	
+					<h3 class="navbar-btn"><span ng-if="checkStatus(theme, enabled_themes)"><i class="fa fa-check fa-3"></i></span>
+					<span ng-if="!checkStatus(theme, enabled_themes)"><i class="fa fa-times" aria-hidden="true"></i></span> {{theme}}</h3>
+				</div>
+				<div class="col-lg-3 text-right">
+					<div class="navbar-btn"></div>
+					<div class="btn-group">						
+						<a class="btn btn-success" href="javascript:void(0)" ng-if="checkStatus(theme, enabled_themes)">Enabled</a>
+						<a class="btn btn-danger" href="javascript:void(0)" ng-if="!checkStatus(theme, enabled_themes)">Disabled</a>
+						<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" >								  
+								  <span class="fa fa-cog"></span>
+								  <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+						  <li ng-class="{'disabled': checkStatus(theme, enabled_themes)}"><a href="#" ng-click="updateThemeStatus($event, theme, 1)"><i class="fa fa-plus"></i> Enable</a></li>
+						</ul>
+					</div>
+				</div>					
+				<div class="clearfix"></div>
+				<hr class="clearfix list-group-item-text navbar-btn" ng-if="!$last">
+			</div>	
+		</div>
+	</div>	
+</div>
+
+
+<!--<div class="row">
+	<div class="col-lg-12">
+		<content-top>
+			<div class="content-top clearfix">
+				<h1 class="al-title ng-binding">THEMES</h1>
+				<ul class="breadcrumb al-breadcrumb">
+					<li><a href="#/dashboard">Home</a></li>
+					<li class="ng-binding">Themes</li>
+				</ul>
+			</div>
+		</content-top>
+	</div>
+</div>
+
+<div class="row" id="create-view">
+	<div class="clearfix well-sm">
+		<div class="col-xs-12" id="payment_list">
+			<div class="panel table-panel panel animated zoomIn">
+				<div class="panel-heading clearfix">
+					<h3 class="panel-title">Themes</h3>
+				</div>
+				<div class="panel-body">
+						<div class="horizontal-scroll">
+							<table class="table table-hover">
+								<tbody>
+									<tr class="no-top-border" ng-repeat="theme in all_themes | orderBy:'display_order'">
+										<td class="text-center">
+											<span ng-if="checkStatus(theme, enabled_themes)"><i class="fa fa-check fa-3"></i></span>
+											<span ng-if="!checkStatus(theme, enabled_themes)"><i class="fa fa-times" aria-hidden="true"></i></span> {{theme}}
+										</td>
+										<td class="text-center">
+											<div class="btn-group">
+
+												<a class="btn btn-success" href="javascript:void(0)" ng-if="checkStatus(theme, enabled_themes)">Enabled</a>
+												<a class="btn btn-danger" href="javascript:void(0)" ng-if="!checkStatus(theme, enabled_themes)">Disabled</a>
+												<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">
+													<span class="fa fa-cog"></span>
+													<span class="caret"></span>
+												</a>
+												<ul class="dropdown-menu">
+													<li ng-class="{'disabled': checkStatus(theme, enabled_themes)}"><a href="#" ng-click="updateThemeStatus($event, theme, 1)"><i class="fa fa-plus"></i> Enable</a></li>
+												</ul>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+
+						</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>-->

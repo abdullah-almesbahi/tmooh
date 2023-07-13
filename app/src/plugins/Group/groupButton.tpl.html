@@ -1,0 +1,13 @@
+<!--CREATING THE GROUPS -->
+<li ng-if="model.position ==='tab'">    
+    <a href="" ng-click="GroupAddModal()" title="{{'Create a group'|translate}}" class="text-muted htruncate-m1"><i class="mdi-18px mdi mdi-plus fa-fw"></i>{{'Create a Group'|translate}}</a></li>
+<!--LISTING THE GROUPS -->
+<li ng-if="model.position ==='listing'" ng-repeat="group in model.groups">
+   <span  ng-if="group.isadd" class="clearfix">
+    <a href="" ng-click="model.DeleteCourseGroup($index)" title="{{'Create a group'|translate}}" class="text-muted float-left htruncate-m1">{{group.name}}</a>
+    <span class="float-right"><i class="mdi-18px mdi mdi-check fa-fw"></i></span>
+    </span>
+     <span  ng-if="!group.isadd">
+    <a href="" ng-click="model.AddCourseGroup(group.id)" title="{{'Create a group'|translate}}" class="text-muted htruncate-m1">{{group.name}}</a>
+    </span>
+</li>

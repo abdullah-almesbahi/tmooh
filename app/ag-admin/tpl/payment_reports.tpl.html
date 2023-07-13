@@ -1,0 +1,70 @@
+<div class="row">
+    <div class="col-lg-12">
+        <content-top>
+            <div class="content-top clearfix">
+                <h1 class="al-title ng-binding">PAYMENT REPORTS</h1>
+                <ul class="breadcrumb al-breadcrumb">
+                    <li><a href="#/dashboard">Dashboard</a></li>
+                    <li class="ng-binding">Payment Reports</li>
+                </ul>
+            </div>
+        </content-top>
+    </div>
+</div>
+
+<div class="row" id="create-view">
+    <div class="clearfix scroll-table">
+        <!--Course revenue report table -->
+        <div class="col-xs-12" id="payment_list">
+            <button ng-click="exportCSV()" class="btn btn-default btn-sm pull-right">Export CSV</button>
+			<br><br><br>
+            <div class="panel table-panel panel animated zoomIn">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title">Instructors</h3>
+                </div>
+                <div class="panel-body">
+                    <div>
+                        <div class="horizontal-scroll">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr class="black-muted-bg">
+                                        <th class="text-center">Instructor ID</th>
+                                        <th class="text-center">Name</th>
+                                        <th class="text-center">Amount Paid by Student</th>
+                                        <th class="text-center">Amount Paid to Instructor</th>
+                                        <th class="text-center">Channel Commission Amount</th>
+                                        <th class="text-center">Site Commission</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="no-top-border" ng-repeat="payment_report in  payment_reports">
+                                        <td class="text-center">
+                                            <a href="/users/show/{{payment_report.teacher_user_id}}">{{payment_report.teacher_user_id}}</a>
+                                            </td>
+                                        <td class="text-center"><a href="#/users/show/{{payment_report.teacher_user_id}}">{{payment_report.teacher_name}}</a></td>
+                                        <td class="text-center">{{payment_report.price_total}}</td>
+                                        <td class="text-center">{{payment_report.amount_paid_to_instructor}}</td>
+                                        <td class="text-center">{{payment_report.channel_commission_amount}}</td>
+                                        <td class="text-center">{{payment_report.site_commission_amount}}</td>
+                                    </tr>
+                                    <tr ng-if="!payment_reports.length">
+                                        <td colspan="4" class="text-center">
+                                            <span class="hor-space">No Record Found</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                    <div class="paging clearfix text-center" ng-show="_metadata.total_records > 0">
+                        <uib-pagination total-items="_metadata.total_records" ng-model="currentPage" ng-change="paginate('#payment_list')" max-size="_metadata.maxSize" boundary-links="true" num-pages="_metadata.noOfPages" items-per-page="_metadata.limit" first-text="First" last-text="Last"
+                            next-text="Next" previous-text="Previous"></uib-pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,213 @@
+@import "variables";
+@import "private-variables";
+@import "utilities";
+
+@import "icons";
+
+@import "components/layout";
+@import "components/big-play";
+@import "components/button";
+@import "components/close-button";
+@import "components/modal-dialog";
+
+@import "components/menu/menu";
+@import "components/menu/menu-popup";
+@import "components/menu/menu-inline";
+
+@import "components/control-bar";
+@import "components/control";
+@import "components/control-spacer";
+
+@import "components/progress";
+@import "components/slider";
+
+@import "components/volume";
+
+@import "components/poster";
+@import "components/live";
+@import "components/time";
+@import "components/play-pause";
+@import "components/text-track";
+@import "components/fullscreen";
+@import "components/playback-rate";
+@import "components/error";
+@import "components/loading";
+@import "components/captions";
+@import "components/chapters";
+@import "components/descriptions";
+@import "components/subtitles";
+@import "components/subs-caps";
+@import "components/audio";
+@import "components/adaptive";
+@import "components/captions-settings";
+
+@import "print";
+
+.vjs-resize-manager {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  visibility: hidden;
+}
+
+.vjs-resolution-button {
+  color: #ccc;
+  font-family: VideoJS;
+}
+
+.vjs-resolution-button .vjs-resolution-button-staticlabel:before {
+  content: '\f110';
+  font-size: 1.8em;
+  line-height: 1.67;
+}
+
+.vjs-resolution-button .vjs-resolution-button-label {
+    font-size: 1em;
+    line-height: 3em;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    box-sizing: inherit;
+		font-family: Arial, Helvetica, sans-serif;
+}
+
+.vjs-resolution-button ul.vjs-menu-content {
+  width: 4em !important;
+}
+
+.vjs-resolution-button .vjs-menu {
+  left: 0;
+}
+
+.vjs-resolution-button .vjs-menu li {
+  text-transform: none;
+	font-size: 1em;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/*
+  Player Skin Designer for Video.js
+  http://videojs.com
+
+  To customize the player skin edit
+  the CSS below. Click "details"
+  below to add comments or questions.
+  This file uses some SCSS. Learn more
+  at http://sass-lang.com/guide)
+
+  This designer can be linked to at:
+  https://codepen.io/heff/pen/EarCt/left/?editors=010
+*/
+.video-js {
+  /* The base font size controls the size of everything, not just text.
+     All dimensions use em-based sizes so that the scale along with the font size.
+     Try increasing it to 15px and see what happens. */
+  font-size: 14px;
+  /* The main font color changes the ICON COLORS as well as the text */
+  // color: #fff;
+}
+
+/* The "Big Play Button" is the play button that shows before the video plays.
+   To center it set the align values to center and middle. The typical location
+   of the button is the center, but there is trend towards moving it to a corner
+   where it gets out of the way of valuable content in the poster image.*/
+.vjs-default-skin .vjs-big-play-button {
+  /* The font size is what makes the big play button...big.
+     All width/height values use ems, which are a multiple of the font size.
+     If the .video-js font-size is 10px, then 3em equals 30px.*/
+  font-size: 3em;
+  /* We're using SCSS vars here because the values are used in multiple places.
+     Now that font size is set, the following em values will be a multiple of the
+     new font size. If the font-size is 3em (30px), then setting any of
+     the following values to 3em would equal 30px. 3 * font-size. */
+  /* 1.5em = 45px default */
+  line-height: 1.5em;
+  height: 1.5em;
+  width: 1.5em;
+  /* 0.06666em = 2px default */
+  border: 0.06666em solid #fff;
+  /* 0.3em = 9px default */
+  border-radius: 0.8em;
+  /* Align center */
+  left: 50%;
+  top: 50%;
+  margin-left: -0.75em;
+  margin-top: -0.75em;
+}
+
+/* The default color of control backgrounds is mostly black but with a little
+   bit of blue so it can still be seen on all-black video frames, which are common. */
+.video-js .vjs-control-bar,
+.video-js .vjs-big-play-button,
+.video-js .vjs-menu-button .vjs-menu-content {
+  /* IE8 - has no alpha support */
+  background-color: transparent;
+  /* Opacity: 1.0 = 100%, 0.0 = 0% */
+  // background-color: rgba(0, 0, 0, 0.7);
+  background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%);
+  background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 );
+  // padding-bottom: 30px;
+}
+
+/* Slider - used for Volume bar and Progress bar */
+.video-js .vjs-slider {
+  background-color: rgba(84, 84, 84, 0);
+  background-color: rgba(84, 84, 84, 0.5);
+}
+
+/* The slider bar color is used for the progress bar and the volume bar
+   (the first two can be removed after a fix that's coming) */
+.video-js .vjs-volume-level,
+.video-js .vjs-play-progress,
+.video-js .vjs-slider-bar {
+  background: #fff;
+}
+
+/* The main progress bar also has a bar that shows how much has been loaded. */
+.video-js .vjs-load-progress {
+  /* For IE8 we'll lighten the color */
+  background: rgba(148, 148, 148, 0);
+  /* Otherwise we'll rely on stacked opacities */
+  background: rgba(84, 84, 84, 0.5);
+}
+
+/* The load progress bar also has internal divs that represent
+   smaller disconnected loaded time ranges */
+.video-js .vjs-load-progress div {
+  /* For IE8 we'll lighten the color */
+  background: rgba(212, 212, 212, 0);
+  /* Otherwise we'll rely on stacked opacities */
+  background: rgba(84, 84, 84, 0.75);
+}
+
+/** Full screen **/
+.learn-course-video {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.learn-course-video video {
+      width: 100%;
+      height: 100%;
+      bottom: 0;
+      right: 0;
+      top: auto;
+      background-color: #040404;
+      left: auto;
+      display: inline-block;
+      vertical-align: baseline;
+}

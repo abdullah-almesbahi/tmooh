@@ -1,0 +1,36 @@
+<div class="card-body" ng-class="{'container': pageType === 'page'}">
+	<div  ng-class="{'col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2' : pageType === 'page'}">
+		<form role="form" class="form-horizontal well-sm clearfix"  name="courseFlagForm" ng-submit="saveCourseFlag(courseFlagForm.$valid)">
+			<a data-dismiss="modal" ng-click="modalCancel($event)" class="modalClose" ng-if="pageType === 'modal'"><i class="fa fa-lg fa-times-circle close"></i></a>
+			<h4>{{'Report Abuse'|translate}}</h4>
+			<div class="well-sm"></div>
+			<span>{{'Flagged content is reviewed by our staff to determine whether it violates Terms of Service or Community Guidelines. If you have a question or technical issue, please contact our Support team here'|translate}}.</span>
+			<div class="well-sm"></div>
+			<div class="form-group" ng-class="{ 'has-error' : courseFlagForm.course_flag_category_id.$invalid && courseFlagForm.course_flag_category_id.$dirty}">
+				<div class="col-md-8">
+					<select class="form-control" name="course_flag_category_id" id="course_flag_category_id" ng-model="courseFlag.course_flag_category_id" ng-options="flagCategories.id as flagCategories.name for flagCategories in flagCategories" required>
+						<option value="" >{{'Please Select'|translate}}</option>
+					</select>
+					<div class="text-danger" ng-if="courseFlagForm.course_flag_category_id.$dirty" ng-messages="courseFlagForm.course_flag_category_id.$error">
+						<div ng-message="required">{{'Please Select category' | translate}}.</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group" ng-class="{ 'has-error' : courseFlagForm.courseflag_content.$invalid && courseFlagForm.courseflag_content.$dirty }">
+				<div class="col-xs-12">
+					<textarea rows="3" class="form-control" name="courseflag_content" id="courseflag_content"  ng-model="courseFlag.message" placeholder="{{'Please add more details (required).'|translate}}" required></textarea>
+					<div class="text-danger" ng-if="courseFlagForm.courseflag_content.$dirty" ng-messages="courseFlagForm.courseflag_content.$error">
+						<div ng-message="required">{{'Please Enter Description' | translate}}.</div>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
+			  <div class="float-right">
+				<label class="sr-only" for="submit">{{'Submit'|translate}}</label>
+				<button class="btn btn-primary btn-md" id="submit" type="submit" ng-disabled="disableButton" >{{'Submit'|translate}} <span ng-show="disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+				<span>&nbsp;</span><a class="" href="javascript:void(0);" ng-click="modalCancel($event)">{{'cancel'|translate}}</a>
+			  </div>
+			</div>
+		</form>
+	</div>
+</div>

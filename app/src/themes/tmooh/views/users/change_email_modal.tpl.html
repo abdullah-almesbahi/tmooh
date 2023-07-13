@@ -1,0 +1,38 @@
+<div class="modal-login" >
+	<div class="center-form" >
+		<div class="panel-heading clearfix">				
+				<h3 class="text-center">{{'Change Your Email'|translate}}
+					<a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose float-right">X</a>
+				</h3>
+			</div>
+			<div class="card-body">
+			<div class="row">
+				<div class="col-xs-12" ng-if='!contentInIframe'>
+                    <div class="alert alert-info">
+                            <div class="text-center">
+                                <strong> Note: </strong>{{ConstToolTipContent.EmailChangeAlert}}
+                            </div>
+                        </div>					
+					<form method="post" class="form-horizontal clearfix" name="changeEmailForm" ng-submit="change_email(changeEmailForm, email)" novalidate>
+                            <div class="form-group has-feedback">
+                                <label class="col-md-3  control-label required">{{'Change Email'|translate}}</label>
+                                <div class="col-md-9" ng-class="{ 'has-error' : (changeEmailForm.$submitted || changeEmailForm.old_email.$touched) && (changeEmailForm.old_email.$invalid || changeEmailForm.old_email.$error.email)}">
+                                    <input class="form-control input" type="email" name="old_email" ng-model="email.email" placeholder="{{'Enter Your Email '|translate}}" required ng-change="emailErr=' '" ng-pattern='/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/'>
+                                    <span class="ion-key form-control-feedback"></span>
+                                    <div class="" ng-show="(changeEmailForm.$submitted || changeEmailForm.old_email.$touched) && (changeEmailForm.old_email.$pristine || changeEmailForm.old_email.$invalid)">
+                                        <span class="error" ng-show="(changeEmailForm.old_email.$error.required)">{{'Required' | translate }}.</span>
+                                        <span class="error" ng-show="(changeEmailForm.old_email.$error.email || changeEmailForm.old_email.$error.pattern)">{{'Enter valid email' | translate}}.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="float-right">
+                                <label class="sr-only" for="submit">{{'Save'|translate}}</label>
+                                <button type="submit" class="btn btn-primary" ng-hide="email_disableButton" id="submit">{{'Save'|translate}}</button>
+                                <button type="submit" class="btn btn-primary" ng-disabled="true" id="user_profile_save" ng-hide="!email_disableButton">{{'Saving'|translate}} <span><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+                            </div>
+                        </form>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>

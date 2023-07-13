@@ -1,0 +1,42 @@
+<section class="container pb-3 pt-4 mb-5">
+	<div class="row">
+		<userprofile-navbar></userprofile-navbar>
+		<div class="col-sm-8 col-md-9">
+			<div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading"></div>
+			<div class="card" ng-if="!model.loading">
+				<div class="card-body">
+			      <h3 class="text-default">{{'Enable/Disable Account'|translate}}</h3>
+			      <p>{{'Enable or disable your account'|translate}}</p>
+						<div ng-if=" model.user_profile.is_disabled === false">
+							<span>{{'You can temporarily disable your account. If you disable your account your courses will not be available for
+											purchase. Existing students will continue to have access to the enrolled courses. Courses with already enrolled
+											students cannot be deleted. Unpublished courses can be deleted. Courses without enrolled students can also be
+											deleted.'|translate}}
+										</span><br><br>
+								<div class="float-right">
+									<label class="sr-only" for="user_profile_save">{{'Save'|translate}}</label>
+									<input type="button" class="btn btn-primary" id="user_profile_save" value="{{'Disable Account'|translate}}" ng-click="disableProfile('true')"
+									/>
+								</div>
+						</div>
+
+						<div ng-if=" model.user_profile.is_disabled === true">
+							<span>{{'You can temporarily enable your account. If you enable your account your courses will be available for purchase.
+											Existing students will continue to have access to the enrolled courses. Courses with already enrolled students
+											can be deleted. Unpublished courses cannot be deleted. Courses without enrolled students cannot also be deleted.'|translate}}
+										</span><br><br>
+								<div class="float-right">
+									<label class="sr-only" for="user_profile_save">{{'Save'|translate}}</label>
+									<input type="button" class="btn btn-primary" id="user_profile_save" value="{{'Enable Account'|translate}}" ng-click="disableProfile('false')"
+									/>
+								</div>
+						</div>
+			    </div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div oc-lazy-load='loadSeo'>
+	<user-profile-seo></user-profile-seo>
+</div>

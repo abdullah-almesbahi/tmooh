@@ -1,0 +1,26 @@
+<section class="container pb-3 mb-5">
+  <course-navbar></course-navbar>
+  <div class="card shadow bg-white">
+    <div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading"></div>
+    <div class="card-body" ng-if="!model.loading">
+      <h3 class="text-default">{{'Analytics'|translate}}</h3>
+
+			<div class="well-lg panel clearfix">
+				<div class="course-tab vieouploadtabs vedio-dashboard clearfix">
+					<div class="panel">
+						<ul class="nav nav-tabs justify-content-center" role="tablist">
+							<li class="nav-item" ng-class="{'active' : model.currentSlide === 'Engagement'}"><a href="" class="nav-link" ng-class="{'active' : model.currentSlide === 'Engagement'}" ng-click="model.slideChange('Engagement')" title="{{'Engagement'|translate}}" aria-controls="Purchases"
+									role="tab">{{'Engagement'|translate}}</a></li>
+							<li class="nav-item" ng-class="{'active' : model.currentSlide === 'Conversion'}"><a href="" class="nav-link" ng-class="{'active' : model.currentSlide === 'Conversion'}" ng-click="model.slideChange('Conversion')" title="{{'Conversion'|translate}}" aria-controls="Redemptions"
+									role="tab">{{'Conversion'|translate}}</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="pt-3">
+					<conversion-analytics  ng-if="model.currentSlide === 'Conversion'" type='Conversion' course-id="{{course_id}}"></conversion-analytics>
+					<engagement-analytics  ng-if="model.currentSlide === 'Engagement'" type='Engagement' course-id="{{course_id}}"></engagement-analytics>
+				</div>
+			</div>
+    </div>
+  </div>
+</section>

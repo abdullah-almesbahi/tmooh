@@ -1,0 +1,106 @@
+<section class="container pb-3 mb-5 mt-5">
+  <div class="card shadow bg-white">
+    <div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading"></div>
+    <div class="card-body" ng-if="!model.loading">
+      <h3 class="text-default">{{'Create an Announcement'|translate}}</h3>
+      <p>{{'Send the announcement to the students'|translate}}</p>
+
+      <div class="well-lg frm-block crannounceblk clearfix">
+        <form class="form-horizontal  form-addon" name="addAnnouncement" ng-submit="createAnnoucement()">
+          <div class="form-group has-feedback">
+            <label class=" mr20 mb10 control-label required" for="designation">{{'Type'|translate}}</label>
+            <div class="">
+              <!--    <select class="form-control" name="annoucement_type" ng-model="announcement.type" ng-required="true">
+              <option ng-selected="announcement.type == announcementype.id" ng-repeat="announcementype in announcementypes" ng-value="announcementype.id">{{announcementype.name}}</option></select>-->
+
+              <select class="form-control" ng-model="announcement.type" ng-options="annoucement_type.id as annoucement_type.name for annoucement_type in announcementypes"></select>
+            </div>
+          </div>
+          <div class="form-group has-feedback" for="headline">
+            <div><label class="control-label required" for="displayname">{{'Recipients'|translate}}</label></div>
+            <span>{{'Include students who are enrolled in one of these courses' | translate}} <i class="mdi-18px mdi mdi-help-circle" aria-hidden="true" tooltip-placement="left" tooltip-animation="false" uib-tooltip="{{tooltipContent.Announcement}}"></i>
+</span>
+            <div class="annoncementform mb15">
+              <tags-input ng-model="include_courses" placeholder="Search for eligible courses" add-from-autocomplete-only="true">
+                <auto-complete source="includeCourse($query)"></auto-complete>
+              </tags-input>
+            </div>
+            <div>{{'Exclude students who are enrolled in one of these courses.'|translate}}</div>
+            <div class="annoncementform">
+              <tags-input ng-model="exclude_courses" placeholder="Search for eligible courses" add-from-autocomplete-only="true">
+                <auto-complete source="excludeCourse($query)"></auto-complete>
+              </tags-input>
+              <span class="help-block">{{'Select the course from autocomplete ..'|translate}}</span>
+            </div>
+            <span class="error" ng-if="model.error == true">{{'Select either Exclude or Include courses.' | translate}}</span>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="control-label" for="website">{{'Include students who enrolled between'|translate}}</label>
+              </div>
+              <div class="form-group has-feedback">
+                <label class="control-label">{{'Start date'|translate}}</label>
+                <div class="input-group">
+                  <input type="text" id="start_date" name="start_date" class="form-control datepickerdisabled" uib-datepicker-popup="{{ConstDateFormat.mediumDate}}" ng-model="model.picker1.date" placeholder="Start date" is-open="popup2.opened" datepicker-options="model.picker1.datepickerOptions"
+                    close-text="Close" alt-input-formats="altInputFormats" />
+                  <div class="buton-addon">
+                    <button type="button" class="btn btn-outline-secondary" ng-click="popup2.opened = !popup1.opened"><i class="mdi mdi-calendar"></i></button>
+                  </div>
+                </div>
+                <span class="help-block"><i>{{'Select the start date from calendar.'|translate}}</i></span>
+              </div>
+              <div class="form-group has-feedback">
+                <label class="control-label">{{'End date'|translate}}</label>
+                <div class=" input-group">
+                  <input type="text" id="end_date" name="end_date" class="form-control datepickerdisabled" uib-datepicker-popup="{{ConstDateFormat.mediumDate}}" ng-model="model.picker2.date" placeholder="End date" is-open="popup1.opened" datepicker-options="model.picker2.datepickerOptions"
+                    close-text="Close" alt-input-formats="altInputFormats" />
+                  <div class="buton-addon">
+                    <button type="button" class="btn btn-outline-secondary" ng-click="popup1.opened = !popup1.opened"><i class="mdi mdi-calendar"></i></button>
+                  </div>
+                </div>
+                <span class="help-block"><i>{{'Select the end date from calendar.'|translate}}</i></span>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group has-feedback">
+                <label class="control-label required" for="website">{{'Include the student who have progressed'|translate}}</label>
+                <div>
+                  <ul class="list-unstyled">
+                    <li class="clearfix checkbox" ng-repeat="(key,value) in CourseUserStatus"> <label>
+                                          <input type="checkbox" id="checkbox{{$index}}" ng-click="sort()"  ng-model="course_use_status[value]">
+                                          <span></span>
+                                          {{key}}
+                                          </label> </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label required" for="facebook_profile_link">{{'Content'|translate}}</label>
+            <div class="">
+              <textarea name="subject" id="" placeholder="Type your subject..." class="form-control" ng-model="announcement.subject" required></textarea>
+              <br>
+              <textarea name="annoucement_message" placeholder="Type your content..." id="annoucement_message" class="form-control
+                  " ng-model="announcement.message" required></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="mt20">
+              <button type="submit" class="btn btn-primary" ng-disabled="addAnnouncement.$invalid || annoucement_disableButton
+                  " id="submit2">{{'Send'|translate}}
+                  <span ng-show="annoucement_disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span>
+                </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<div oc-lazy-load='loadSeo'>
+  <user-profile-seo></user-profile-seo>
+</div>

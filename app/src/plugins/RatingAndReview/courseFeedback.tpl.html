@@ -1,0 +1,29 @@
+<div class="ratings-block" ng-if="model.courseFeedback.length > 0">
+    <h2>{{'Reviews'|translate}}</h2>
+    <hr>
+
+    <ul class="list-unstyled">
+        <li class="media bg-white shadow-sm p-2" ng-repeat="feedbacks in model.courseFeedback" >
+
+            <div class="float-left mr-3">
+                <a href="#" title="avatar" class="avatar">
+                    <profile-image image-type='imagecircle' user-image-hash='feedbacks.image_hash' user-display-name='{{feedbacks.displayname}}' user-profile-id='feedbacks.user_id' user-profile-thumb='medium_thumb' ng-if='feedbacks'></profile-image>
+                </a>
+            </div>
+            <div class="media-body">
+                <profile-name instructor='false' user-display-name='feedbacks.displayname' user-profile-id='feedbacks.user_id' ng-if='feedbacks'></profile-name>
+                <p>
+                    <rating-stars average-rating='{{feedbacks.rating}}' ng-if="model.courseFeedback && $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1"></rating-stars>
+                    <span>{{feedbacks.created|timeago}}</span>
+                </p>
+
+                <p>{{feedbacks.feedback}}
+                </p>
+            </div>
+
+        </li>
+    </ul>
+    <div class="text-center" ng-hide="_metadata.noOfPages == currentPage || !model.courseFeedback.length">
+        <a href="" ng-click="paginate()" title="view more" class="btn btn-outline-secondary">+ View More</a>
+    </div>
+</div>

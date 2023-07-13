@@ -1,0 +1,66 @@
+<div class="modal-login" ng-class="{'container': currentPageType === 'page'}">
+    <div class="center-form" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+        <div class="panel-heading clearfix">
+            <h3 class="text-center">{{'Instructor-Led Live Onsite Training'|translate}}
+                <a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose float-right">X</a>
+            </h3>
+        </div>
+        <div class="session-list" ng-if="model.course.demo_session_date !== null">
+            <dl class="dl-horizontal clearfix">
+                <dt>{{'Start Date'|translate}}: </dt>
+                <dd> <span>{{::batch_details.start_date}}</span>
+                </dd>
+                <dt>{{'End Date'|translate}}: </dt>
+                <dd> <span>{{::batch_details.end_date}}</span>
+                </dd>
+                <dt>{{'Address'|translate}}: </dt>
+                <dd> <span>{{::batch_details.addresss}}</span>
+                </dd>
+                <dt ng-if="batch_details.city_name !== null && batch_details.city_name !== undefined">{{'City'|translate}}: </dt>
+                <dd ng-if="batch_details.city_name !== null && batch_details.city_name !== undefined">
+                    <span>{{::batch_details.city_name}}</span>
+                </dd>
+                <dt ng-if="batch_details.state_name !== null && batch_details.state_name !== undefined">{{'State'|translate}}: </dt>
+                <dd ng-if="batch_details.state_name !== null && batch_details.state_name !== undefined">
+                    <span>{{::batch_details.state_name}}</span>
+                </dd>
+                <dt ng-if="batch_details.country_name !== null && batch_details.country_name !== undefined">{{'Country'|translate}}: </dt>
+                <dd ng-if="batch_details.country_name !== null && batch_details.country_name !== undefined">
+                    <span>{{::batch_details.country_name}}</span>
+                </dd>
+            </dl>
+        </div>
+
+        <div class="card-body">
+            <h4>{{'Session Details' | translate}}</h4>
+            <div class="table-responsive" ng-if='!contentInIframe'>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-center">{{'No'|translate}}</th>
+                            <th class="text-center">{{'Session Date'|translate}}</th>
+                            <th class="text-center">{{'Start Time'|translate}}</th>
+                            <th class="text-center">{{'End Time'|translate}}</th>
+                            <th class="text-center">{{'Lesson Topic'|translate}}</th>
+                            <th class="text-center">{{'Lesson Description'|translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="course_offline_session in batch_details.course_offline_sessions">
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td class="text-center">{{::course_offline_session.format_session_date}} </td>
+                            <td class="text-center batch-popover">{{::course_offline_session.session_date | amDateFormat: ConstDateFormat.time_sec_12}} ({{::course_offline_session.utc_offset}})
+                                <span class=timezone-label>{{::course_offline_session.user_session_date | amDateFormat: ConstDateFormat.time_sec_12}} {{::course_offline_session.user_timezone}}</span>
+                            </td>
+                            <td class="text-center batch-popover">{{::course_offline_session.session_end_date | amDateFormat: ConstDateFormat.time_sec_12}} ({{::course_offline_session.utc_offset}})
+                                <span class=timezone-label>{{::course_offline_session.user_session_end_date | amDateFormat: ConstDateFormat.time_sec_12}} {{::course_offline_session.user_timezone}}</span>
+                            </td>
+                            <td class="text-center">{{::course_offline_session.lesson_topic}}</td>
+                            <td class="text-center">{{::course_offline_session.lesson_description}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

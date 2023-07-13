@@ -1,0 +1,120 @@
+<div ng-if="action === 'add'" class="col-xs-12">
+    <form class="form-horizontal pr mt20" name="AddQuestionFrom" ng-submit="AddQuizAnswerForm(AddQuestionFrom.$valid)" novalidate>
+        <div ng-repeat="quiz_question_answer in  model.quizAnswer">
+            <div class="cuquizcloseicon">
+            <a href="#" class="close-icon" ng-click="model.DeleteQuizAnswerfield($event,$index)"><span class=""><i class="mdi-18px mdi mdi-close"></i></span></a>
+            </div>
+            <div id="row-description" class="form-group has-feedback" ng-class="{ 'has-error' : ((AddQuestionFrom.$submitted || AddQuestionFrom.assignment_question{{$index}}.$touched) && (AddQuestionFrom.assignment_question{{$index}}.$pristine || AddQuestionFrom.assignment_question{{$index}}.$invalid)),'has-success':(AddQuestionFrom.assignment_question{{$index}}.$valid)}">
+                <label for="assignment_question{{$index}}" class=" control-label text-muted">{{'Assignment Questions'|translate}}&nbsp;*&nbsp;</label>
+                <div class="">
+                    <div text-angular ng-model="quiz_question_answer.question" name="assignment_question{{$index}}" ta-toolbar="[['bold', 'italics', 'underline', 'insertLink','insertImage','pre','quote','ul', 'ol','justifyLeft', 'justifyCenter', 'justifyRight']]" ta-toolbar-class="btn-toolbar"
+                        ta-toolbar-group-class="btn-group" ta-toolbar-button-class="btn btn-outline-secondary" ta-toolbar-button-active-class="active" ta-focussed-class="focussed" ta-text-editor-class="form-control" ta-html-editor-class="form-control" ta-required='true'
+                        data-ng-required="true" required></div>
+                    <span ng-show="AddQuestionFrom.assignment_question{{$index}}.$dirty" class="glyphicon form-control-feedback" ng-class="AddQuestionFrom.assignment_question{{$index}}.$valid ? 'mdi mdi-check' : 'mdi mdi-close'"></span>
+                </div>
+                <div class="text-danger" ng-show="(AddQuestionFrom.$submitted || AddQuestionFrom.assignment_question{{$index}}.$touched) && (AddQuestionFrom.assignment_question{{$index}}.$pristine || AddQuestionFrom.assignment_question{{$index}}.$invalid)" ng-messages="AddQuestionFrom['assignment_question'+$index].$error">
+                    <div ng-message="required">{{'Required'|translate}}.</div>
+                </div>
+            </div>
+            <div id="row-description" class="form-group has-feedback" ng-class="{ 'has-error' : ((AddQuestionFrom.$submitted || AddQuestionFrom.assignment_answer{{$index}}.$touched) && (AddQuestionFrom.assignment_answer{{$index}}.$pristine || AddQuestionFrom.assignment_answer{{$index}}.$invalid)),'has-success':(AddQuestionFrom.assignment_answer{{$index}}.$valid)}">
+                <label for="assignment_answer{{$index}}" class=" control-label text-muted">{{'Answer'|translate}}&nbsp;*&nbsp;</label>
+                <div class="">
+                    <div text-angular ng-model="quiz_question_answer.answer" name="assignment_answer{{$index}}" ta-toolbar="[['bold', 'italics', 'underline', 'insertLink','insertImage','pre','quote','ul', 'ol','justifyLeft', 'justifyCenter', 'justifyRight']]" ta-toolbar-class="btn-toolbar"
+                        ta-toolbar-group-class="btn-group" ta-toolbar-button-class="btn btn-outline-secondary" ta-toolbar-button-active-class="active" ta-focussed-class="focussed" ta-text-editor-class="form-control" ta-html-editor-class="form-control" ta-required='true'
+                        data-ng-required="true" required></div>
+                    <span ng-show="AddQuestionFrom.assignment_answer{{$index}}.$dirty" class="glyphicon form-control-feedback" ng-class="AddQuestionFrom.assignment_answer{{$index}}.$valid ? 'mdi mdi-check' : 'mdi mdi-close'"></span>
+                </div>
+                <div class="text-danger" ng-show="(AddQuestionFrom.$submitted || AddQuestionFrom.assignment_answer{{$index}}.$touched) && (AddQuestionFrom.assignment_answer{{$index}}.$pristine || AddQuestionFrom.assignment_answer{{$index}}.$invalid)" ng-messages="AddQuestionFrom['assignment_answer'+$index].$error">
+                    <div ng-message="required">{{'Required'|translate}}.</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-10 col-xs-offset-1">
+                <div class="navbar-left">
+                    <a href="" class="btn btn-primary" ng-click="model.AddQuizAnswerfield($event)" title="{{'Add more options'|translate}}">{{'Add more options'|translate}}</span>
+                    </a>
+                </div>
+                <div class="navbar-left hor-mspace">
+                    <button type="submit" ng-disabled="model.QuestionAddButton" class="btn btn-primary">
+                    <span ng-hide="model.QuestionAddButton"><span class="glyphicon mdi mdi-check"></span> {{'Submit'|translate}}</span>
+                    <span ng-show="model.QuestionAddButton"> <i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i> {{'Submitting'|translate}}</span>
+                        </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<!--Quiz form -->
+<div class="clearfix  navbar-btn" ng-if="action == 'list'">
+    <div class="help-topics">
+        <ul class="list-unstyled" id="help_topics">
+            <li class="" ng-repeat="quizQuestion in model.quizQuestionlist">
+                <div class="clearfix">
+                    <div class='text-muted float-left'>
+                        <strong>{{$index+1}}.</strong>&nbsp;
+                        <span class="quiz-list" ng-bind-html='quizQuestion.question' class="navbar-btn"></span>
+                    </div>
+                    <ul class="list-inline float-right">
+                        <li>
+                            <a href="#" class="text-info" ng-click="model.getQuizQuestionAnswer($event,quizQuestion.id,'edit')"><span class=""><i class="mdi-18px mdi mdi-pencil"></i></span></a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-info" ng-click="model.deleteQuizQuestionAnswer($event,quizQuestion.id,$index)"><span class=""><i class="mdi-18px mdi mdi-delete"></i></span></a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div ng-if="action === 'edit'" class="col-xs-12">
+    <div class="clearfix edit-question">
+        <div class="tab-bar">
+            {{'Edit Question'|translate}}
+            <a href="#" class="close-icon text-info float-right" ng-click="EditQuestionCancelForm($event);"> <i class="mdi-18px mdi mdi-close"></i>
+            </a>
+        </div>
+    </div>
+    <br>
+    <!--<h4 class="text-muted navbar-btn">{{'Edit Questions'|translate}}</h4>-->
+    <form class="form-horizontal" name="edit_quiz" ng-submit="editAssignmentAnswer(edit_quiz.$valid);edit_quiz.$setPristine()" novalidate>
+        <div id="row-description" class="form-group has-feedback" ng-class="{ 'has-error' : ((edit_quiz.$submitted || edit_quiz.quiz_question_edit.$touched) && (edit_quiz.quiz_question_edit.$invalid)),'has-success':(edit_quiz.quiz_question_edit.$valid)}">
+            <label for="quiz_question_edit" class=" control-label text-muted">{{'Questions'|translate}}&nbsp;*&nbsp;</label>
+            <div class="">
+                <div text-angular ng-model="quizQuestion_editValue.question" name="quiz_question_edit" ta-toolbar="[['bold', 'italics', 'underline', 'insertLink','insertImage','pre','quote','ul', 'ol','justifyLeft', 'justifyCenter', 'justifyRight']]" ta-toolbar-class="btn-toolbar"
+                    ta-toolbar-group-class="btn-group" ta-toolbar-button-class="btn btn-outline-secondary" ta-toolbar-button-active-class="active" ta-focussed-class="focussed" ta-text-editor-class="form-control" ta-html-editor-class="form-control" ta-required='true'
+                    data-ng-required="true" required></div>
+                <span ng-show="edit_quiz.quiz_question_edit.$dirty" class="glyphicon form-control-feedback" ng-class="edit_quiz.quiz_question_edit.$valid ? 'mdi mdi-check' : 'mdi mdi-close'"></span>
+            </div>
+            <div class="text-danger" ng-if="(edit_quiz.$submitted || edit_quiz.quiz_question_edit.$touched) && ( edit_quiz.quiz_question_edit.$invalid)" ng-messages="edit_quiz.quiz_question_edit.$error">
+                <div ng-message="required">{{'Required'|translate}}.</div>
+            </div>
+        </div>
+        <div id="row-description" class="form-group has-feedback" ng-class="{ 'has-error' : ((AddQuestionFrom.$submitted || AddQuestionFrom.assignment_answer{{$index}}.$touched) && (AddQuestionFrom.assignment_answer{{$index}}.$pristine || AddQuestionFrom.assignment_answer{{$index}}.$invalid)),'has-success':(AddQuestionFrom.assignment_answer{{$index}}.$valid)}">
+            <label for="assignment_answer{{$index}}" class=" control-label text-muted">{{'Answer'|translate}}&nbsp;*&nbsp;</label>
+            <div class="">
+                <div text-angular ng-model="quizQuestion_editValue.answer[0].answer" name="assignment_answer{{$index}}" ta-toolbar="[['bold', 'italics', 'underline', 'insertLink','insertImage','pre','quote','ul', 'ol','justifyLeft', 'justifyCenter', 'justifyRight']]" ta-toolbar-class="btn-toolbar"
+                    ta-toolbar-group-class="btn-group" ta-toolbar-button-class="btn btn-outline-secondary" ta-toolbar-button-active-class="active" ta-focussed-class="focussed" ta-text-editor-class="form-control" ta-html-editor-class="form-control" ta-required='true'
+                    data-ng-required="true" required></div>
+                <span ng-show="AddQuestionFrom.assignment_answer{{$index}}.$dirty" class="glyphicon form-control-feedback" ng-class="AddQuestionFrom.assignment_answer{{$index}}.$valid ? 'mdi mdi-check' : 'mdi mdi-close'"></span>
+            </div>
+            <div class="text-danger" ng-show="(AddQuestionFrom.$submitted || AddQuestionFrom.assignment_answer{{$index}}.$touched) && (AddQuestionFrom.assignment_answer{{$index}}.$pristine || AddQuestionFrom.assignment_answer{{$index}}.$invalid)" ng-messages="AddQuestionFrom['assignment_answer'+$index].$error">
+                <div ng-message="required">{{'Required'|translate}}.</div>
+            </div>
+        </div>
+            <div class="form-group">
+            <div class="col-sm-10 col-xs-offset-1">
+                <div class="navbar-left hor-mspace">
+                    <button type="submit" ng-disabled="model.QuestionAddButton" class="btn btn-primary">
+                    <span ng-hide="model.QuestionAddButton"><span class="glyphicon mdi mdi-check"></span> {{'Submit'|translate}}</span>
+                    <span ng-show="model.QuestionAddButton"> <i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i> {{'Submitting'|translate}}</span>
+                        </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

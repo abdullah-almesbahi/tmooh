@@ -1,0 +1,196 @@
+<section class="container pb-3 pt-4 mb-5">
+	<div class="row">
+		<userprofile-navbar></userprofile-navbar>
+		<div class="col-sm-8 col-md-9">
+			<div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading"></div>
+      <div class="card">
+			<div class="card-body" ng-if="!model.loading">
+		      <h3 class="text-default">{{'Profile'|translate}}</h3>
+		      <p>{{'Add information about yourself to share on your profile.'|translate}}</p>
+          <form class="form-horizontal form-addon" name="editprofile" ng-submit="editProfile(editprofile.$valid)" novalidate>
+            <div class="panel-profile">
+              <div class="form-group has-feedback">
+                <label class="col-md-3 col-sm-3 control-label required" for="firstname">{{'First Name'|translate}}</label>
+                <div class="col-md-8 col-sm-9" ng-class="{ 'has-error' : (editprofile.$submitted || editprofile.firstname.$touched) && (editprofile.firstname.$invalid)}">
+                  <input type="text" class="form-control" name="firstname" id="firstname" placeholder="{{'First Name'|translate}}" ng-model="model.user_profile.first_name" maxlength="64" ng-required="true" ng-pattern="/^([a-zA-Z\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF]+\s)*[a-zA-Z\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF]+$/" />
+                  <div class="" ng-show="(editprofile.$submitted || editprofile.firstname.$touched) && (editprofile.firstname.$invalid)">
+                    <span class="error" ng-show="(editprofile.firstname.$error.required)">{{'Required' | translate }}.</span>
+                    <span class="error" ng-show="(editprofile.firstname.$invalid &&!editprofile.firstname.$error.required && !editprofile.firstname.$error.maxlength)">{{'Enter valid First Name' | translate}}.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group has-feedback">
+                <label class="col-md-3 col-sm-3 control-label required" for="lastname">{{'Last Name'|translate}}</label>
+                <div class="col-md-8 col-sm-9" ng-class="{ 'has-error' : (editprofile.$submitted || editprofile.lastname.$touched) && (editprofile.lastname.$invalid)}">
+                  <input type="text" class="form-control" name="lastname" id="lastname" placeholder="{{'Last Name'|translate}}" ng-model="model.user_profile.last_name" maxlength="64" ng-required="true" ng-pattern="/^([a-zA-Z\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF]+\s)*[a-zA-Z\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF]+$/" />
+                  <div class="" ng-show="(editprofile.$submitted || editprofile.lastname.$touched) && (editprofile.lastname.$invalid)">
+                    <span class="error" ng-show="(editprofile.lastname.$error.required)">{{'Required' | translate }}.</span>
+                    <span class="error" ng-show="(editprofile.lastname.$invalid &&!editprofile.lastname.$error.required && !editprofile.lastname.$error.maxlength)">{{'Enter valid Last Name' | translate}}.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group has-feedback">
+                <label class="col-md-3 col-sm-3 control-label" for="location">{{'Location'|translate}}</label>
+                <div class="col-md-8 col-sm-9" ng-class="{ 'has-error' : (editprofile.$submitted || editprofile.location.$touched) && (editprofile.location.$invalid)}">
+                  <input class="form-control" type="text" name="location" ng-model="model.place" g-places-autocomplete placeholder="{{'Address'|translate}}" autocomplete="off">
+
+                  <div class="" ng-show="(editprofile.$submitted || editprofile.location.$touched) && (editprofile.location.$invalid)">
+                    <span class="error" ng-show="(editprofile.location.$error.required)">{{'Required' | translate }}.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="radio-blk form-group has-feedback">
+                <label class="col-md-3 col-sm-3 control-label required" for="location">{{'Gender'|translate}}</label>
+                <div class="col-md-8 col-sm-9" ng-class="{ 'has-error' : (editprofile.$submitted || editprofile.optionsRadios.$touched) && (editprofile.optionsRadios.$invalid)}">
+                  <div class="radio radio-inline no-mar">
+                    <label class="">
+                    <input type="radio" name="optionsRadios" id="optionsRadios" ng-model="model.user_profile.gender_id" value="1" ng-required="true">
+                    <span>{{'Male' | translate}}</span>
+                  </label>
+                  </div>
+                  <div class="radio radio-inline no-mar">
+                    <label class="">
+                                        <input type="radio" name="optionsRadios" id="optionsRadios" ng-model="model.user_profile.gender_id" value="2" ng-required="true">
+                                        <span>{{'Female' | translate}}</span>
+                                        </label>
+                  </div>
+                  <!-- <div class="radio radio-inline no-mar">
+                    <label class="">
+                                        <input type="radio" name="optionsRadios" id="optionsRadios" ng-model="model.user_profile.gender_id" value="3" ng-required="true">
+                                        <span>Others</span>
+                                        </label>
+                  </div>
+                  <div class="radio radio-inline no-mar">
+                    <label class="">
+                                        <input type="radio" name="optionsRadios" id="optionsRadios" ng-model="model.user_profile.gender_id" value="4" ng-required="true">
+                                        <span>Prefer not to say</span>
+                                        </label>
+                  </div> -->
+                  <div class="" ng-show="(editprofile.$submitted || editprofile.optionsRadios.$touched) && (editprofile.optionsRadios.$invalid)">
+                    <span class="error" ng-show="(editprofile.optionsRadios.$error.required)">{{'Required' | translate }}.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group has-feedback">
+                <label class="col-md-3 col-sm-3 control-label" for="birthday">{{'Birthday'|translate}}</label>
+                <div class="col-md-8 col-sm-9" ng-class="{ 'has-error' : (editprofile.$submitted || editprofile.birthday.$touched) && (editprofile.birthday.$invalid)}">
+                  <div class="input-group">
+                    <input type="text" id="birthday" name="birthday" class="form-control datepickerdisabled" uib-datepicker-popup="MMM dd yyyy" ng-model="model.picker1.date" is-open="popup2.opened" datepicker-options="model.picker1.datepickerOptions"  show-button-bar="false"
+                      close-text="Close" alt-input-formats="altInputFormats" />
+                    <div class="buton-addon">
+                      <button type="button" class="btn btn-outline-secondary" ng-click="popup2.opened = !popup1.opened"><i class="mdi mdi-calendar"></i></button>
+                    </div>
+                    <span class="help-block"><i>{{'Select the date from calendar.'|translate}}</i></span>
+                  </div>
+                  <div class="" ng-show="(editprofile.$submitted || editprofile.birthday.$touched) && (editprofile.birthday.$invalid)">
+                    <span class="error" ng-show="(editprofile.birthday.$error.required)">{{'Required' | translate }}.</span>
+                    <span class="error" ng-show="(editprofile.birthday.$invalid &&!editprofile.birthday.$error.required && !editprofile.birthday.$error.maxlength)">{{'Enter valid birthday' | translate}}.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group has-feedback">
+                <label class="col-md-3 col-sm-3 control-label required" for="headline">{{'Professional Title'|translate}}</label>
+                <div class="col-md-8 col-sm-9" ng-class="{ 'has-error' : (editprofile.$submitted || editprofile.headline.$touched) && (editprofile.headline.$invalid)}">
+                  <input type="text" class="form-control" id="headline" name="headline" placeholder="{{'Headline'|translate}}" ng-model="model.user_profile.headline" ng-required="true" ng-pattern="/^([a-zA-Z\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF]+\s)*[a-zA-Z\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF]+$/" />
+                  <div class="" ng-show="(editprofile.$submitted || editprofile.headline.$touched) && (editprofile.headline.$invalid)">
+                    <span class="error" ng-show="(editprofile.headline.$error.required)">{{'Required' | translate }}.</span>
+                    <span class="error" ng-show="(editprofile.headline.$invalid &&!editprofile.headline.$error.required)">{{'Enter valid Professional Title' | translate}}.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group has-feedback">
+                <label class="col-md-3 col-sm-3 control-label required" for="experience">{{'Experience'|translate}}</label>
+                <div class="col-md-8 col-sm-9" ng-class="{ 'has-error' : (editprofile.$submitted || editprofile.experience.$touched) && (editprofile.experience.$invalid)}">
+                  <input type="text" class="form-control" id="experience" name="experience" placeholder="{{'Experience'|translate}}" ng-model="model.user_profile.experience" ng-required="true" />
+                  <div class="" ng-show="(editprofile.$submitted || editprofile.experience.$touched) && (editprofile.experience.$invalid)">
+                    <span class="error" ng-show="(editprofile.experience.$error.required)">{{'You must enter your Experience' | translate }}.</span>
+                    <span class="error" ng-show="(editprofile.experience.$invalid &&!editprofile.experience.$error.required)">{{'Enter valid Experience' | translate}}.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group has-feedback">
+                <label class="col-md-3 col-sm-3 control-label required" for="biography">{{'About me'|translate}}</label>
+                <div class="col-md-8 col-sm-9" ng-class="{ 'has-error' : (editprofile.$submitted || editprofile.biography.$touched) && (editprofile.biography.$invalid)}">
+                  <input type="text" class="form-control" id="biography" name="biography" placeholder="{{'Biography'|translate}}" ng-model="model.user_profile.biography" ng-required="true">
+                  <span class="help-block"><i>{{'Add a professional headline like, Engineer at'|translate}} {{$root.settings['site.name']}} {{' or Architect'|translate}}. </i></span>
+                  <div class="" ng-show="(editprofile.$submitted || editprofile.biography.$touched) && (editprofile.biography.$invalid)">
+                    <span class="error" ng-show="(editprofile.biography.$error.required)">{{'Required' | translate }}.</span>
+                    <span class="error" ng-show="(editprofile.biography.$invalid &&!editprofile.biography.$error.required)">{{'Enter valid About me' | translate}}.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="social-profile clearfix">
+                <div class="social-media text-captialize">{{'social media:' | translate}}</div>
+                <div class="social-media-inner">
+                  <div class="form-group has-feedback">
+                    <label class="control-label hide" for="facebook_profile_link">{{'Facebook profile link'|translate}}</label>
+                    <div>
+                      <div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">http://www.facebook.com/</span>
+												</div>
+                        <input type="text" class="form-control" name="facebook_profile_link" id="facebook_profile_link" placeholder="{{'Facebook profile'|translate}}" ng-model="model.user_profile.facebook_profile_link" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group has-feedback">
+                    <label class="control-label hide" for="twitter_profile_link">{{'Twitter profile link'|translate}}</label>
+                    <div>
+                      <div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">http://twitter.com/</span>
+												</div>
+                        <input type="text" class="form-control" name="twitter_profile_link" id="twitter_profile_link" placeholder="{{'Twitter Profile'|translate}}" ng-model="model.user_profile.twitter_profile_link" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group has-feedback">
+                    <label class="control-label hide" for="google_plus_profile_link">{{'Google Plus profile link'|translate}}</label>
+                    <div>
+                      <div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">https://plus.google.com/</span>
+												</div>
+                        <input type="text" class="form-control" name="google_plus_profile_link" id="google_plus_profile_link" placeholder="{{'Google Plus profile'|translate}}" ng-model="model.user_profile.google_plus_profile_link" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group has-feedback">
+                    <label class="control-label hide" for="linkedin_profile_link">{{'LinkedIn profile link'|translate}}</label>
+                    <div>
+                      <div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">http://www.linkedin.com/</span>
+												</div>
+                        <input type="text" class="form-control" name="linkedin_profile_link" id="linkedin_profile_link" placeholder="{{'LinkedIn profile'|translate}}" ng-model="model.user_profile.linkedin_profile_link" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group has-feedback">
+                    <label class="control-label hide" for="youtube_profile_link">{{'Youtube profile link'|translate}}</label>
+                    <div>
+                      <div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">http://www.youtube.com/</span>
+												</div>
+                        <input type="text" class="form-control" name="youtube_profile_link" id="youtube_profile_link" placeholder="{{'Youtube profile'|translate}}" ng-model="model.user_profile.youtube_profile_link" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="float-right">
+                <label class="sr-only" for="user_profile_save">{{'Save'|translate}}</label>
+                <input type="submit" class="btn btn-primary" id="user_profile_save" value="{{'Save'|translate}}" ng-hide="disableSave">
+                <button type="submit" class="btn btn-primary" ng-disabled="true" id="user_profile_save" ng-hide="!disableSave">{{'Saving'|translate}} <span><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+              </div>
+          </form>
+
+          <div oc-lazy-load='loadSeo'>
+            <user-profile-seo></user-profile-seo>
+          </div>
+		    </div>
+      </div>
+		</div>
+	</div>
+</section>

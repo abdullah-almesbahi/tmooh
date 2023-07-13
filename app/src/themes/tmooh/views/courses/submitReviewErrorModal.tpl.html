@@ -1,0 +1,125 @@
+<div class="modal-login">
+    <div class=" card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                  <a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose float-right"><i class="mdi-18px mdi mdi-close close"></i></a>
+                  <h5 >{{'Why can'|translate}}{{'t I submit for review'|translate}}?</h5>
+                    <form method="post" name="groupForm">
+                        <div class="form-group has-feedback">
+                            {{'Your\'re almost ready to submit your course. Here are a few more items you need.' | translate}}
+                            <ul>
+                                <li ng-if="model.manageCourseOption.Basic ===  false">
+                                    On the <a href="/manage-course/edit-basics/{{model.manageCourseOption.id}}" target="_blank"
+                                        title="Basics">{{'Course Basics page' | translate}}</a>{{', you should' | translate}}
+                                    <ul>
+                                        <li>
+                                            {{'Have a course description' | translate}}
+                                        </li>
+                                        <li>
+                                            {{'Have a course subtitle' | translate}}
+                                        </li>
+                                        <li>
+                                            {{'Select the category of you course' | translate}}
+                                        </li>
+                                        <li>
+                                            {{'Select the sub-category of you course' | translate}}
+                                        </li>
+                                        <li>
+                                            {{'Specify project detail of you course' | translate}}
+                                        </li>
+                                        <li>
+                                            {{'Specify certificate detail of you course' | translate}}
+                                        </li>
+                                        <li>
+                                            {{'Specify frequently asked question of you course' | translate}}
+                                        </li>
+
+                                    </ul>
+                                </li>
+                                <li ng-if="model.manageCourseOption.Goals ===  false">
+                                    {{'On the' | translate}}
+                                    <a href="/manage-course/edit-goals-and-audience/{{model.manageCourseOption.id}}" target="_blank" title="Goals"> {{'Course Goals page' | translate}}</a>,
+                                    {{'you should' | translate}}
+                                    <ul>
+                                        <li>
+                                            {{'Select the level of you course' | translate}}
+                                        </li>
+                                        <li>
+                                            {{'Specify what students need to know or do before starting this course' | translate}}
+                                        </li>
+                                        <li>
+                                            {{'Specify what students will be able to do at the end of the course' | translate}}
+                                        </li>
+                                        <li>
+                                            {{'Specify who your target student is' | translate}}
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li ng-if="model.manageCourseOption.coursetype['video']  === true &&model.manageCourseOption.Image ===  false">
+                                    {{'On the' | translate}} <a href="/manage-course/edit-image/{{model.manageCourseOption.id}}" target="_blank"
+                                        title="Image"> {{'Image page' | translate}}</a>{{', you should' | translate}}
+                                    <ul>
+                                        <li>{{'Upload a course image' | translate}} </li>
+                                    </ul>
+                                </li>
+                                <li ng-if="model.manageCourseOption.coursetype['video']  === true && model.manageCourseOption.Promo_video ===  false">
+                                    {{'On the' | translate}} <a href="/manage-course/edit-promo-video/{{model.manageCourseOption.id}}" target="_blank"
+                                        title="Promo Video">{{'Promo Video page' | translate}}</a>{{', you should' | translate}}
+                                    <ul>
+                                        <li>{{'Upload a promo video' | translate}}</li>
+                                    </ul>
+                                </li>
+                                <li ng-if="model.manageCourseOption.coursetype['video']  === true && model.manageCourseOption.Curriculum ===  false">
+                                    {{'On the' | translate}} <a href="/manage-course/edit-curriculum/{{model.manageCourseOption.id}}" target="_blank"
+                                        title="Curriculum">{{'Curriculum page' | translate}}</a>{{', you should' | translate}}
+                                    <ul>
+                                        <li>{{'Have a atleast 1 lessons' | translate}} </li>
+                                        <li>{{'Have content for all you lessons' | translate}} </li>
+                                    </ul>
+                                </li>
+                                <li ng-if="model.manageCourseOption.coursetype['video']  === true && model.manageCourseOption.Price ===  false">
+                                    {{'On the' | translate}} <a href="/manage-course/edit-price-and-promotions/{{model.manageCourseOption.id}}"
+                                        target="_blank" title="Price">{{'Price page' | translate}}</a>{{', you should' | translate}}
+                                    <ul>
+                                        <li>{{'Select a price for your course' | translate}}</li>
+                                    </ul>
+                                </li>
+                                <li ng-if="((model.manageCourseOption.coursetype['onsite']  === true || model.manageCourseOption.coursetype['online']  === true) &&($root.settings['site.enabled_plugins'].indexOf('OfflineCourse') > -1 || $root.settings['site.enabled_plugins'].indexOf('WebinarCourses') > -1)&& model.manageCourseOption.Demo_schedule ===  false)">
+                                    {{'On the' | translate}} <a href="/manage-course/demo-schedule/{{model.manageCourseOption.id}}" target="_blank"
+                                        title="Demo Schedule">{{'Demo Schedule page' | translate}}</a>{{', you should' | translate}}
+                                    <ul>
+                                        <li>{{'Atleast one demo schedule class need to create' | translate}}</li>
+                                    </ul>
+                                </li>
+                                <li ng-if="model.manageCourseOption.coursetype['online']  === true && $root.settings['site.enabled_plugins'].indexOf('WebinarCourses') > -1 && model.manageCourseOption.Online_schedule ===  false">
+                                    {{'On the' | translate}} <a href="/manage-course/online-schedule/{{model.manageCourseOption.id}}" target="_blank"
+                                        title="Led Live Online Training">{{'Led Live Online Training page' | translate}}</a>{{', you should' | translate}}
+                                    <ul>
+                                        <li>{{'Atleast one Instructor-Led live online training class need to create' | translate}}</li>
+                                    </ul>
+                                </li>
+                                <li ng-if="model.manageCourseOption.coursetype['onsite']  === true  && $root.settings['site.enabled_plugins'].indexOf('OfflineCourse') > -1 && model.manageCourseOption.Onsite_schedule ===  false">
+                                    {{'On the' | translate}} <a href="/manage-course/onsite-schedule/{{model.manageCourseOption.id}}" target="_blank"
+                                        title="Led Live Onsite Training">{{'Led Live Onsite Training page</a>, you should' | translate}}
+                                    <ul>
+                                        <li>{{'Atleast one Instructor-Led live onsite training class need to create' | translate}}</li>
+                                    </ul>
+                                </li>
+                                <li ng-if="model.manageCourseOption.Automated_message ===  false">
+                                    {{'On the' | translate}} <a href="/manage-course/edit-automated-message/{{model.manageCourseOption.id}}"
+                                        target="_blank" title="Automated Messages">{{'Automated Messages page' | translate}}</a>{{', you should' | translate}}
+                                    <ul>
+                                        <li>{{'Have a congratulation message' | translate}} </li>
+                                        <li>{{'Have a welcome message' | translate}} </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

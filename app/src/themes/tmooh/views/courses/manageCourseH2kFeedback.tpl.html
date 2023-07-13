@@ -1,0 +1,184 @@
+<section class="container pb-3 mb-5">
+        <course-navbar></course-navbar>
+        <div class="card shadow bg-white">
+          <div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading"></div>
+          <div class="card-body" ng-if="!model.loading" id="h2kcourse_feedback">
+            <h3 class="text-default">{{'Tmooh Feedback'|translate}}</h3>
+            <p>{{'After submitting your course our team will review it against our quality standards and provide feedback to increase student engagement and conversion rates.
+Visit your Course Roadmap for next steps.'|translate}}</p>
+
+                    <div class="well-lg panel clearfix row" ng-show="$root.auth.providertype === 'admin'">
+                        <div class="col-12" ng-if="!model.loadingNavBar && !model.loading">
+                            <form role="form" class="form-horizontal clearfix" name='manage_course_feedback' ng-submit="createCourseFeedback(manage_course_feedback.$valid, manage_course_feedback)">
+                                <fieldset>
+                                    <legend>{{'Post Feedback'|translate}}</legend>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label class="control-label required" for="sub_category">{{'Course Feedback Question'|translate}}</label>
+                                                <div class="">
+                                                    <select class="form-control" id="sub_category" ng-model="model.new_feedback.course_feedback_question_id" ng-options="feedback_question.id as feedback_question.name for feedback_question in model.Course_feedback_questions"
+                                                        name="sub_category" required>
+													<option value="" >{{'Please Select' | translate}}</option>
+												</select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label required" for="course_subtitle">{{'Feedback'|translate}}</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control " id="course_sub_title" placeholder="{{'Feedback'|translate}}" maxlength="200" ng-model="model.new_feedback.feedback"
+                                                required>
+                                            <div class="input-group-append">
+                                              <span class="input-group-text">{{200 - model.new_feedback.feedback.length}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <div class="form-group">
+                                    <label class="sr-only" for="submit">{{'Submit'|translate}}</label>
+                                    <input type="submit" class="btn btn-primary btn-course" id="submit" value="{{'Submit'|translate}}">
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="panel pad15 course-feedback" ng-if="!model.loadingNavBar && !model.loading && (model.IncompletedFeedbacks.length > 0 || model.CompletedFeedbacks.length > 0)">
+                            <!--Incompleted Feedback listing -->
+                            <div ng-if="model.IncompletedFeedbacks.length > 0">
+                                <h4 class="no-mar text-15"><span class="text-success">{{'Required Fixes:' | translate}}</span></h4>
+                                <div class="mt20 panel panel-default" ng-repeat="IncompleteFeedback in  model.IncompletedFeedbacks">
+                                    <div class="panel-heading" ng-class="{'incomplete' : IncompleteFeedback.is_fixed , 'markfixed': !IncompleteFeedback.is_fixed}"
+                                        role="tab">
+                                        <div class="dfx">
+                                            <a class="dfxfl mr10" role="button" data-toggle="collapse12" data-parent="#accordion" ng-click="IncompleteFeedback.isCollapsed = !IncompleteFeedback.isCollapsed"
+                                                aria-expanded="true" aria-controls="collapseOne">
+                                                <span class="text-left">{{IncompleteFeedback.feedback_question_name}}</span>
+                                            </a>
+
+                                            <a href="" class="" ng-if="!IncompleteFeedback.is_fixed" ng-click="model.courseH2kFeedbackupdate($index,'mark')">{{'Mark as fixed'|translate}}</a>
+                                            <a href="" class="" ng-if="IncompleteFeedback.is_fixed" ng-click="model.courseH2kFeedbackupdate($index,'unmark')">{{'unmark as fixed'|translate}}</a>
+                                            <a role="button" data-toggle="collapse12" data-parent="#accordion" ng-click="IncompleteFeedback.isCollapsed = !IncompleteFeedback.isCollapsed"
+                                                aria-expanded="true" aria-controls="collapseOne">
+                                                <i class="glyphicon" ng-class="{'glyphicon-chevron-down': !IncompleteFeedback.isCollapsed, 'glyphicon-chevron-right': IncompleteFeedback.isCollapsed}"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div uib-collapse="IncompleteFeedback.isCollapsed" class="panel-collapse collapse12" role="tabpanel" aria-labelledby="headingOne"
+                                        aria-expanded="true">
+                                        <div class="card-body">
+                                            <strong>{{'Feedback'|translate}}:</strong>&nbsp;{{IncompleteFeedback.feedback}}
+                                            <!--If login user as admin -->
+                                            <div class="float-right" ng-if="$root.auth.providertype === 'admin'">
+                                                <!--Feedback unapproved-->
+                                                <a href="" ng-if="IncompleteFeedback.admin_approved == false" ng-click="IncompleteFeedback.admin_approved = true;adminFeedbackapprove(IncompleteFeedback)">
+                                                <i class="mdi-18px mdi mdi-checkbox-blank-circle-outline fa-2x" aria-hidden="true" tooltip-placement="auto"
+                                                        tooltip-animation="false" uib-tooltip="Mark to move the feedback to completed items section"></i>
+                                                </a>
+                                                <!--Feedback Approved-->
+                                                <a href="" ng-if="IncompleteFeedback.admin_approved == true" ng-click="IncompleteFeedback.admin_approved = false;adminFeedbackapprove(IncompleteFeedback)"><i class="mdi-18px mdi mdi-check-circle fa-2x" aria-hidden="true" tooltip-placement="auto"
+                                                        tooltip-animation="false" uib-tooltip="Unmark to move the feedback to  required fixes section"></i>
+                                                </a>
+                                            </div>
+                                            <hr>
+                                            <form class="pb20" ng-submit="model.saveFeedbackComment($index)">
+                                                <div class="media">
+                                                    <a href="#" class="float-left media-top">
+                                                        <profile-image image-type='image' user-image-hash='$root.auth.user_image_hash' user-display-name='{{$root.auth.username}}'
+                                                            user-profile-id='$root.auth.id' user-profile-thumb='macro_thumb'
+                                                            ng-if='$root.auth.user_image_hash' class="float-left"></profile-image>
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <textarea rows="2" class="form-control" cols="90" ng-model="IncompleteFeedback.message" placeholder="{{'Enter your comment...'|translate}}"
+                                                            required ng-focus="IncompleteFeedback.showInfo = true;" ng-blur="IncompleteFeedback.showInfo = false;"
+                                                            ng-keydown="model.saveFeedbackComment($event, $index);"></textarea>
+                                                        <div ng-if="IncompleteFeedback.showInfo === true"><span>{{'Press' | translate}} </span><b>{{'Enter' | translate}}</b><span> {{'to post,' | translate}} </span><b>{{'Esc' | translate}}</b><span> {{'to cancel,' | translate}} </span><b>Shift + Enter</b><span> {{'to go to a new line' | translate}}</span></div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <div ng-repeat="Feedback_comment in IncompleteFeedback.comments">
+                                                <div class="media">
+                                                    <a href="#" class="float-left media-top">
+                                                        <profile-image image-type='image' user-image-hash='Feedback_comment.other_user[0].image_hash' user-display-name='{{Feedback_comment.other_user[0].username}}'
+                                                            user-profile-id='Feedback_comment.other_user[0].id' user-profile-thumb='macro_thumb'
+                                                            ng-if='Feedback_comment.other_user[0].username' class="float-left"></profile-image>
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <h4 class="h5 text-uppercase media-head">
+                                                            <strong>{{Feedback_comment.other_user[0].username}}</strong>
+                                                        </h4>
+                                                        <p>
+                                                            {{Feedback_comment.message}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Completed Feedback listing -->
+                            <div ng-if="model.CompletedFeedbacks.length > 0">
+                                <h4 class="no-mar text-15"><span class="text-green">{{'Completed Items:' | translate}}</span></h4>
+                                <div class="mt20 panel panel-default" ng-repeat="completedFeedback in  model.CompletedFeedbacks">
+                                    <div class="panel-heading complete" role="tab">
+                                        <h2 class="panel-title clearfix">
+                                            <a role="button" data-toggle="collapse12" data-parent="#accordion" ng-click="completedFeedback.isCollapsed = !completedFeedback.isCollapsed"
+                                                aria-expanded="true" aria-controls="collapseOne" class="">
+                                                <span class="text-left">{{completedFeedback.feedback_question_name}}</span>
+                                                <span class="float-right"><i class="float-right glyphicon" ng-class="{'glyphicon-chevron-down': !completedFeedback.isCollapsed, 'glyphicon-chevron-right': completedFeedback.isCollapsed}"></i></span>
+                                                <span ng-if="completedFeedback.admin_approved == true" class="text-primary float-right">({{'Approved' | translate}})</span>
+                                            </a>
+                                        </h2>
+                                    </div>
+                                    <div uib-collapse="completedFeedback.isCollapsed" class="panel-collapse collapse12" role="tabpanel" aria-labelledby="headingOne"
+                                        aria-expanded="true">
+                                        <div class="card-body">
+                                            <strong>Feedback:</strong>&nbsp;{{completedFeedback.feedback}}
+                                            <!--If login user as admin -->
+                                            <div class="float-right" ng-if="$root.auth.providertype === 'admin'">
+                                                <!--Feedback unapproved-->
+                                                <a href="" ng-if="completedFeedback.admin_approved == false" ng-click="completedFeedback.admin_approved = true;adminFeedbackapprove(completedFeedback)">
+                                                <i class="mdi-18px mdi mdi-checkbox-blank-circle-outline fa-2x" aria-hidden="true" tooltip-placement="left"
+                                                        tooltip-animation="false" uib-tooltip="Mark to move the feedback to completed items section"></i>
+                                                </a>
+                                                <!--Feedback Approved-->
+                                                <a href="" ng-if="completedFeedback.admin_approved == true" ng-click="completedFeedback.admin_approved = false;adminFeedbackapprove(completedFeedback)"><i class="mdi-18px mdi mdi-check-circle fa-2x" aria-hidden="true" tooltip-placement="left"
+                                                        tooltip-animation="false" uib-tooltip="Unmark to move the feedback to  required fixes section"></i>
+                                                </a>
+                                            </div>
+                                            <hr>
+                                            <div ng-repeat="Feedback_comment in completedFeedback.comments">
+                                                <div class="media">
+                                                    <a href="#" class="float-left media-top">
+                                                        <profile-image image-type='imagecircle' user-image-hash=' Feedback_comment.other_user[0].image_hash' user-display-name='{{Feedback_comment.other_user[0].username}}'
+                                                            user-profile-id='Feedback_comment.other_user[0].id' user-profile-thumb='macro_thumb'
+                                                            ng-if='Feedback_comment.other_user[0].username' class="float-left"></profile-image>
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <h4 class="h5 text-uppercase media-head">
+                                                            <strong>{{Feedback_comment.other_user[0].username}}</strong>
+                                                        </h4>
+                                                        <p>
+                                                            {{Feedback_comment.message}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loadingNavBar || model.loading"></div>
+
+
+
+          </div>
+        </div>
+
+</section>

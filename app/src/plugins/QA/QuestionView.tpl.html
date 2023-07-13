@@ -1,0 +1,136 @@
+<learner-dashboard-navbar></learner-dashboard-navbar>
+<section>
+    <div class="bottom__content container">
+        <div class="message">
+            <a class="float-left" href="/learn/{{model.course_user_id}}/{{model.type}}">{{'Back to All Questions'|translate}}</a>
+            <br><br>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="qalistinner read">
+                        <div class="form-group">
+                            <div class="component-thread-head">
+                                <div class="qatopcomment">
+                                    <div class="qaactualques">
+                                        <div class="qaavatar">
+                                            <img ng-if="model.question.user_image !== '' && model.question.user_image !== null" ng-src="{{$root.site_url}}img/small_thumb/User/{{model.question.user_image}}"
+                                                alt="[Image: {{model.question.other_user}}]" title="{{message.other_user}}" />
+                                            <img ng-if="model.question.user_image === '' || model.question.user_image === null" ng-src="{{$root.site_url}}img/small_thumb/User/0.default.jpg"
+                                                alt="[Image: {{model.question.other_user}}]" title="{{model.question.other_user}}"
+                                            />
+                                        </div>
+                                        <div class="qaactdls">
+                                            <div>{{model.question.user}}</div>
+                                            <div class="dropdown action-btn  float-right" title="{{'Options'|translate}}" ng-if="model.question.editable === true">
+                                                <a href="" class="dropdown-toggle btn btn-outline-secondary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                                    role="button"><i class="mdi-18px mdi mdi-dots-vertical fa-lg"></i></a>
+                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                    <li>
+                                                        <a href="#" ng-click="model.QuestionDeleteFormSubmit('Parent',message_key, null);" title="{{'Delete'|translate}}" class="text-muted">
+                                               {{'Delete'|translate}}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="text-grey">{{'Posted On :' | translate}} <span am-time-ago="model.question.created"></span></div>
+                                            <div><strong ng-bind-html="model.question.subject"></strong></div>
+                                            <div ng-bind-html="model.question.message"></div>
+                                        </div>
+                                    </div>
+                                    <div class="qaqusreplyblk">
+                                        <div class="qasinglereply" ng-repeat="(child_key, child_message) in  model.question.children">
+                                            <div class="qasingavator">
+                                                <span ng-if="child_message.is_sender === false">
+                                         <img ng-if="child_message.other_user[0].image_hash !== '' && child_message.other_user[0].image_hash !== null" ng-src="{{$root.site_url}}img/small_thumb/User/{{child_message.other_user[0].image_hash}}" alt="[Image: {{child_message.other_user[0].username}}]"
+                                        title="{{child_message.other_user[0].username}}" />
+                                    <img ng-if="child_message.other_user[0].image_hash === '' || child_message.other_user[0].image_hash === null" ng-src="{{$root.site_url}}img/small_thumb/User/0.default.jpg" alt="[Image: {{child_message.other_user[0].username}}]" title="{{child_message.other_user[0].username}}" />
+                                    </span>
+                                                <span ng-if="child_message.is_sender === true">
+                                         <img ng-if="child_message.user[0].image_hash !== '' && child_message.user[0].image_hash !== null" ng-src="{{$root.site_url}}img/small_thumb/User/{{child_message.user[0].image_hash}}" alt="[Image: {{child_message.user[0].username}}]"
+                                        title="{{child_message.user[0].username}}"/>
+                                    <img ng-if="child_message.user[0].image_hash === '' || child_message.user[0].image_hash === null" ng-src="{{$root.site_url}}img/small_thumb/User/0.default.jpg" alt="[Image: {{child_message.user[0].username}}]" title="{{child_message.user[0].username}}" />
+                                    </span>
+                                            </div>
+                                            <div class="qasingdtls text-15">
+                                                <div>
+                                                    <a ng-if="child_message.is_sender === false" title="{{child_message.other_user[0].username}}">{{child_message.other_user[0].username}}</a>
+                                                    <a ng-if="child_message.is_sender === true" title="{{child_message.user[0].username}}">{{child_message.user[0].username}}</a>
+                                                    <span class="label label-default" ng-if="child_message.is_helpful == true">{{'Marked as Helpful' | translate}}</span>
+                                                    <span class="label label-default" ng-if="child_message.is_answer == true">{{'Marked as Top answer' | translate}}</span>
+                                                </div>
+                                                <div class="dropdown action-btn float-right" title="{{'Options'|translate}}" ng-if="child_message.editable === true">
+                                                    <a href="" class="dropdown-toggle btn btn-outline-secondary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                                        role="button"><i class="mdi-18px mdi mdi-dots-vertical fa-lg"></i></a>
+                                                    <ul class="dropdown-menu dropdown-menu-right">
+                                                        <li>
+                                                            <a href="#" ng-click="child_message.editForm = !child_message.editForm;child_message.edit_message = child_message.message"
+                                                                title="{{'Edit'|translate}}" class="text-muted">
+                                               {{'Edit'|translate}}</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" ng-click="model.QuestionDeleteFormSubmit('child', child_key);" title="{{'Delete'|translate}}" class="text-muted">
+                                               {{'Delete'|translate}}</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="text-grey">{{'Posted On :' | translate}} <span am-time-ago="child_message.created"></span></div>
+                                                <p ng-bind-html="child_message.message" ng-if="!child_message.editForm"></p>
+                                                <!--Question and Answer edit form -->
+                                                <form role="form" class="form-horizontal qareplyareafrm clearfix" name="MessageEditForm" ng-submit="model.QuestionEditFormSubmit(MessageEditForm.$valid,MessageEditForm, child_key);"
+                                                    novalidate ng-if="child_message.editForm">
+                                                    <div class="clearfix">
+                                                        <div class="form-group" ng-class="{ 'has-error' : ((MessageEditForm.$submitted || MessageEditForm.description{{child_key}}.$touched) && (MessageEditForm.description{{child_key}}.$invalid))}">
+                                                            <div class="">
+                                                                <div text-angular ng-model="child_message.edit_message" name="description{{child_key}}" ta-toolbar="[['p','bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol','insertImage', 'insertLink']]"
+                                                                    ta-toolbar-class="btn-toolbar" ta-toolbar-group-class="btn-group"
+                                                                    ta-toolbar-button-active-class="active" ta-focussed-class="focussed"
+                                                                    ta-text-editor-class="form-control" ta-html-editor-class="form-control"
+                                                                    required data-ng-required="true"></div>
+                                                                <div ng-show="((MessageEditForm.$submitted || MessageReplyForm.description{{child_key}}.$touched) && (MessageEditForm.description{{child_key}}.$invalid))">
+                                                                    <div class="error text-danger" ng-show="(MessageEditForm.description{{child_key}}.$error.required || MessageEditForm.description{{child_key}}.$invalid)">{{'Required' | translate}} </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="">
+                                                            <div class="">
+                                                                <label class="sr-only" for="submit2">{{'Save'|translate}}</label>
+                                                                <button type="submit" class="btn btn-primary" id="submit2">{{'Save'|translate}} <span ng-show="disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+                                                                <button type="button" class="btn btn-outline-secondary" ng-click="child_message.editForm = !child_message.editForm">{{'Cancel' | translate}}</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <form role="form" class="form-horizontal clearfix" name="MessageReplyForm" ng-submit="model.QuestionReplyFormSubmit(MessageReplyForm.$valid,MessageReplyForm, message);"
+                                        novalidate>
+                                        <div class="row" ng-class="{ 'has-error' : ((MessageReplyForm.$submitted || MessageReplyForm.description.$touched) && (MessageReplyForm.description.$pristine || MessageReplyForm.description.$invalid))}">
+                                            <div class="col-sm-12">
+                                                <div text-angular ng-model="model.question.reply_message" name="description" ta-toolbar="[['p','bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol','justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent','insertImage', 'insertLink', 'wordcount']]"
+                                                    ta-toolbar-class="btn-toolbar" ta-toolbar-group-class="btn-group" ta-toolbar-button-active-class="active"
+                                                    ta-focussed-class="focussed" ta-text-editor-class="form-control" ta-html-editor-class="form-control"
+                                                    required data-ng-required="true" placeholder="Write your response"></div>
+                                                <div ng-show="((MessageReplyForm.$submitted || MessageReplyForm.description.$touched) && (MessageReplyForm.description.$pristine || MessageReplyForm.description.$invalid))">
+                                                    <div class="error text-danger" ng-show="(MessageReplyForm.description.$error.required || MessageReplyForm.description.$invalid)">{{'Required' | translate}} </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="">
+                                            <div class="top-space">
+                                                <label class="sr-only" for="submit2">{{'Add an answer'|translate}}</label>
+                                                <button type="submit" class="btn btn-success" id="submit2" ng-disabled="model.reply_disableButton">
+                                            <span ng-if="!model.reply_disableButton">{{'Add an answer'|translate}}</span>
+                                            <span ng-if="model.reply_disableButton">{{'Proceed'|translate}} <span ng-show="model.reply_disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></span> </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>

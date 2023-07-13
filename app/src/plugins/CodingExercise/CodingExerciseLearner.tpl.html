@@ -1,0 +1,57 @@
+<!--Quiz form -->
+<div class="" ng-if="model.codingExercise !== null && model.files.length > 0">
+	<div class="">
+		<p> {{model.codingExercise.description}}</p>
+		<p class="float-right" ng-if="model.files[0].solution_files_Showing && showsolution"> {{'Solution Files'|translate}}</p>
+		<form role="form" name="quiz_add" class="form-horizontal clearfix" ng-submit="model.addcodingexercise($event)">
+					<div class="">
+							<ul class="list-unstyled">
+								<li class="learn-page-lesson-list" ng-repeat="file in model.files[0].initial_files">
+									<a href="" class="media" ng-click="model.onclickStudentTab($index,'change_tab')">
+										<span class="float-left">
+											<i class="mdi-18px mdi mdi-checkbox-blank-circle-outline fa-lg" ng-class="{'text-success': file.initialShow === true && model.files[0].initial_files_Showing === true}"></i>
+										</span>
+										<span class="media-body">
+											{{file.filename}}
+										</span>	
+									</a>
+								</li>
+							</ul>
+						<div class="">
+							<ul class="list-unstyled">
+								<li ng-if="model.files[0].initial_files_Showing" ng-repeat="file in  model.files[0].initial_files">
+									<div class="" ng-if="file.initialShow">
+											<div class="form-group has-feedback">
+												<div ui-ace="{
+												useWrapMode : true,
+  showGutter: false,
+  onLoad: aceLoaded,
+	firstLineNumber: 1,
+  onChange: aceChanged}" ng-model="file.answer"></div>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+			<div class="alert alert-warning" ng-if=" model.learnerCodingExercise.Checked_answer === 'Failed'"><i class="mdi-18px mdi mdi-information fa-2x" aria-hidden="true"></i> {{'Oops, your solution is incorrect'|translate}}</div>
+			<div class="alert alert-success" ng-if=" model.learnerCodingExercise.Checked_answer === 'Passed'"><i class="mdi-18px mdi mdi-check fa-2x" aria-hidden="true"></i> {{'Well done, your solution is correct!'|translate}}</div>
+			<div class="alert alert-warning" ng-if=" model.learnerCodingExercise.Checked_answer === 'CodeError'"><i class="mdi-18px mdi mdi-information fa-2x" aria-hidden="true"></i>{{model.learnerCodingExercise.Checked_error}}</div>
+			<div class="alert alert-warning" ng-if=" model.learnerCodingExercise.Checked_answer === 'ServerError'"><i class="mdi-18px mdi mdi-information fa-2x" aria-hidden="true"></i>{{'Oops,Sorry unable to check for solution.Pls Try
+				again later'|translate}}</div>
+			<div class="clearfix float-right">
+				<div class="text-center">
+					<button type="submit" ng-disabled="model.check_disableButton" class="btn btn-primary"> {{'Check'|translate}}<span ng-show="model.check_disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span> </button>
+
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div ng-if="!loader">
+	<div ng-if="!model.codingExercise.length && !model.files.length">
+		<div role="alert" class="with-icon alert alert-danger mt30" style=""> <span class="icon udi udi-warning"></span>
+			<p class="content" translate=""><span>{{'Sorry. No Coding practice available'|translate}}</span></p>
+		</div>
+	</div>
+</div>

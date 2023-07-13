@@ -1,0 +1,56 @@
+<div class="container">
+	<h2 class="mt-3">{{title}}</h2>
+	<div class="title_2"><span><em></em></span></div>
+	<div ng-include src="'common/loader.tpl.html'" class="top-mspace" ng-show="model.loader"><br><br></div>
+	<div class="card card-horizontal border-0 mb-3 shadow-sm" ng-repeat="(key, courses) in model.homeCourse.data" ng-if="!model.loader">
+		
+		<a analytics-on 
+		analytics-event="ImageClick"
+		analytics-properties="{ id: {{courses.id}}, name: '{{courses.title}}', 'label': '{{courses.title}}' , category: 'HomeCarousel {{filter}}' , author: '{{courses.displayname}}' , position: {{key}} }" 
+		ng-href="/course/{{courses.id}}/{{courses.slug|escape}}">
+
+			<!-- course image when is_from_mooc_affiliate false -->
+			<img ng-if="courses.image_hash && courses.is_from_mooc_affiliate !== 1" class="card-img-left list-height course-thumbnail" animate-visible="{{ImgLazyLoad.AnimateVisible}}" animate-speed="{{ImgLazyLoad.AnimateSpeed}}" lazy-src="{{$root.site_url}}img/list/Course/{{courses.image_hash}}" alt="[Image: {{courses.title}}]" title="{{courses.title}}"/>
+
+			<img ng-if="!courses.image_hash && courses.is_from_mooc_affiliate !== 1" class="card-img-left list-height course-thumbnail" animate-visible="{{ImgLazyLoad.AnimateVisible}}" animate-speed="{{ImgLazyLoad.AnimateSpeed}}" lazy-src="{{$root.site_url}}assets/img/261X200.jpg" alt="[Image: {{courses.title}}]" title="{{courses.title}}"/>
+
+
+			<!-- course image when is_from_mooc_affiliate true -->
+			<img ng-if="courses.course_image && courses.is_from_mooc_affiliate === 1" class="card-img-left list-height course-thumbnail" animate-visible="{{ImgLazyLoad.AnimateVisible}}" animate-speed="{{ImgLazyLoad.AnimateSpeed}}" lazy-src="{{courses.course_image}}" alt="[Image: {{courses.title}}]" title="{{courses.title}}"/>
+
+			<img ng-if="!courses.course_image && courses.is_from_mooc_affiliate === 1" class="card-img-left list-height course-thumbnail" animate-visible="{{ImgLazyLoad.AnimateVisible}}" animate-speed="{{ImgLazyLoad.AnimateSpeed}}" lazy-src="{{$root.site_url}}assets/img/261X200.jpg" alt="[Image: {{courses.title}}]" title="{{courses.title}}"/>
+		</a>
+
+		<div class="card-body pb-0 position-relative" style="overflow:hidden;">
+			<h2 class="card-title text-truncate two-line mb-0"><a 
+				analytics-on 
+				analytics-event="TitleClick"
+				analytics-properties="{ id: {{courses.id}}, name: '{{courses.title}}', 'label': '{{courses.title}}' , category: 'HomeCarousel {{filter}}' , author: '{{courses.displayname}}' , position: {{key}} }"
+				ng-href="/course/{{courses.id}}/{{courses.slug|escape}}" class="text-dark">{{courses.title}}</a></h2>
+			<p class="card-text mb-0 d-none d-sm-block">
+				<small>
+				<a  ui-sref="CourseSearch({ category_id: courses.parent_category_id })" title="{{courses.parent_category_name}}">
+					{{courses.parent_category_name}}
+				</a>
+				<span ng-if="courses.category_name" class="text-muted">&nbsp;/&nbsp;</span>
+				<a  ui-sref="CourseSearch({ category_id: courses.category_id })" title="{{courses.category_name}}">{{courses.category_name}} </a>
+			</small>
+			</p>
+			<p class="card-text mb-0 text-truncate" ng-if="$root.settings['site.enabled_plugins'].indexOf('Instructor') > -1 && courses.user_id"><small class="text-muted">{{'by'|translate}}&nbsp;<profile-name instructor="true" user-profile-id='courses.user_id' user-display-name='courses.displayname' ng-if='courses.user_id'></profile-name></small></p>
+			<div class="rating">
+				<rating-stars average-rating='{{courses.average_rating}}' ng-if="model.courses && $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1"></rating-stars>
+			</div>
+			<div class="price d-block d-sm-none d-md-none">
+				<span ng-if="courses.course_campaign === true">
+						<span class="strike">
+							<amount-display amount='{{courses.price}}' ng-if="courses.price" fraction='2' is-course-price='yes' tier-id='{{courses.tier_id}}'></amount-display>
+						</span> &nbsp;
+				<amount-display amount='{{courses.original_price}}' ng-if="courses.original_price" fraction='2' is-course-price='yes'></amount-display>
+				</span>
+				<span ng-if="courses.course_campaign === false">
+						<amount-display amount='{{courses.price}}' ng-if="courses" fraction='2' is-course-price='yes' tier-id='{{courses.tier_id}}'></amount-display>
+				</span>
+			</div>
+		</div>
+	</div>
+</div>	

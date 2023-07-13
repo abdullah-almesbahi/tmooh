@@ -1,0 +1,25 @@
+<!-- <a href="javascript:void(0);" class="btn btn-primary" title="{{'Add Video'|translate}}" ng-class="{'active' :showForm}" ng-click="uploadConfigure()" ng-if="action === 'add'" >
+  <i class="mdi mdi-message-video"></i>&nbsp;{{'Bulk Uploader from computer'|translate}}
+</a> -->
+
+<!-- Button trigger modal -->
+<button type="button"  ng-click="uploadConfigure()" class="btn btn-primary mb-4" data-toggle="modal" data-target="#dropzoneModal">
+  <i class="mdi mdi-message-video"></i>&nbsp;{{'Bulk Uploader From Computer'|translate}}
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="dropzoneModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{'Bulk Uploader From Computer'|translate}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ng-dropzone class="dropzone" options="dzOptions" callbacks="dzCallbacks" methods="dzMethods"></ng-dropzone>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,98 @@
+<div>
+	<!--Question length checking to display Question section -->
+	<div ng-if="model.quizQuestionlists.length>0">
+		<div ng-repeat="(key,Questions) in model.quizQuestionlists" ng-if="Questions.current_index === key && !ShowAnswer">
+			{{'Question'|translate}}{{Questions.Number}}:
+
+			<form action="" name="QuizForm">
+				<div class="mb30">
+					<strong ng-bind-html="Questions.question"></strong>
+				</div>
+				<ul class="list-unstyled">
+					<li ng-repeat="answer in Questions.answer" class="lessonspanel">
+						<label class="form-group has-feedback radio">
+						<input type="radio" name="optionsRadios{{key}}" id="optionsRadios{{key}}" ng-model="Questions.student_answer" value="{{answer.id}}"
+							ng-click="hideError()" required>
+							<span ng-bind-html="answer.answer"></span>
+					</label>
+
+					</li>
+				</ul>
+				<!-- Display the error message  -->
+				<div ng-show="Incorrectoption" role="alert" class="with-icon alert alert-danger" style=""> <span class="icon udi udi-warning"></span>
+					<p class="content" translate=""><span>{{'Please select answer to go to next Question' | translate}}</span></p>
+				</div>
+				<!-- Display the error message  -->
+				<div class="lessons-settings">
+					<div class="lsettinginner">
+						<div class="mark-review">
+
+						</div>
+						<div class="seeallques">
+
+						</div>
+						<div class="lsettingsrgt">
+							<div class="settingsrgtgrp">
+								<a class="ml5 btn btn-primary" ng-if="Questions.previous_key" ng-click="model.question_slide_change('prev',key)">
+									<i class="mdi-18px mdi mdi-chevron-left"></i> {{'Previous'|translate}}</a>
+								<a class="ml5 btn btn-primary navbar-right" ng-if="Questions.next_key" ng-click="model.question_slide_change('next',key)">{{'Next'|translate}}  <i class="mdi-18px mdi mdi-chevron-right"></i></a>
+								<button type="submit" class="ml5 mr5 btn btn-primary navbar-right" ng-click="model.question_slide_change('submit')" ng-if="Questions.submit_key">{{'Submit'|translate}}</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</form>
+		</div>
+		<!-- Showing the Correct and Incorrect answer -->
+		<div ng-if="ShowAnswer">
+			<div class="quesanslistings">
+				<div ng-repeat="(key,Questions) in model.LearnerReviwedQuestionList">
+					{{'Question'|translate}} {{key+1}}:
+					<div class="quesans-hd" ng-bind-html="Questions.question "></div>
+					<ul class="list-unstyled">
+						<li ng-repeat="answer in Questions.answer">
+							<label>
+							<div class="flxmainblk" ng-if="Questions.Student_Answered == false">
+								<div class="flxmin" ng-bind-html="answer.answer"></div>
+								<div class="fw600">
+									<div class="lescorrect" ng-if="answer.is_answer == true">({{'Correct' | translate}})</div>
+									<div  class="leswrong" ng-if="answer.id == Questions.student_answer">({{'InCorrect' | translate}})</div>
+								</div>
+							</div>
+							<div class="flxmainblk" ng-if="Questions.Student_Answered == true">
+								<div class="flxmin" ng-bind-html="answer.answer"></div>
+								<div class="fw600">
+									<div class="lescorrect" ng-if="answer.is_answer == true">({{"Correct" | translate}})</div>
+								</div>
+							</div>
+						</label>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--Question length checking to display no record found section -->
+		<div ng-if="!model.quizQuestionlists.length && !loader">
+			<div role="alert" class="with-icon alert alert-danger mt30" style=""> <span class="icon udi udi-warning"></span>
+				<p class="content" translate=""><span>{{'Sorry. No question available' | translate}}</span></p>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="lessons-settings" ng-if="ShowAnswer">
+		<div class="lsettinginner">
+			<div class="mark-review">
+
+			</div>
+			<div class="seeallques">
+
+			</div>
+			<div class="lsettingsrgt">
+				<div class="settingsrgtgrp">
+					<a class="btn btn-primary navbar-right" ng-click="model.QuestionTryAGain()">{{'Try Again'|translate}}  <i class="mdi-18px mdi mdi-chevron-right"></i></a>
+				</div>
+			</div>
+		</div>
+	</div>

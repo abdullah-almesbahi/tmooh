@@ -1,0 +1,32 @@
+<div class="container">
+	<div class="navbar-left">
+		<div class="breadcumb-blk">
+			<ul class="breadcrumb top-mspace">
+				<li>
+					<a href="/">{{'Home' | translate}}</a>
+				</li>
+				<li>
+					<a href="/category/{{model.news.category_id}}/news">{{model.news.category_name}}</a>
+				</li>
+				<li class="active">
+					<a href="">{{'News' | translate}}</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<section class="news-view-page">
+	<div class="container">
+		<div class="title-block">
+			<h5>{{model.news.title}}</h5>
+		</div>
+		<div class="">
+			<p class="grayc"><span>{{model.news.created | amDateFormat:'MMM D ,YYYY'}}</span></p>
+			<!--<a href="news-decription"><img src="assets/img/news-decription.jpg" alt="[Image: news-decription]" class="img-fluid center-block"></a>-->
+			<p>{{ model.news.content}}</p>
+		</div>
+	</div>
+</section>
+<section ng-show="model.loading === false">
+	<div banner position="bottomBanner" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1"></div>
+</section>

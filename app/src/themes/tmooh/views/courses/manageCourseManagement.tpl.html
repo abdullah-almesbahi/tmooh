@@ -1,0 +1,159 @@
+<section class="container pb-3 mb-5">
+  <course-navbar></course-navbar>
+  <div class="card shadow bg-white">
+    <div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading"></div>
+    <div class="card-body" ng-if="!model.loading">
+      <h3 class="text-default">{{'Settings'|translate}}</h3>
+      <p>{{'Add setting to your course'|translate}}</p>
+      <div class="space">
+          <!--EMAIL NOFICATION FORM -->
+          <form method="post" class="form-horizontal clearfix" name="mailNoficationForm" ng-submit="model.courseupdate(mailNoficationForm.$valid);mailNoficationForm.$setPristine()">
+              <h4>{{'Manage email notifications '|translate}}</h4>
+              <div class="form-group has-feedback">
+                  <div for="ga_tracking_id" class="col-xs-12">
+                      <div class="checkbox">
+                          <label>
+        <input type="checkbox" ng-model=" model.courseManagement.is_leason_ready_emails" ng-true-value="true" ng-false-value="false">
+        <span>{{'Lesson Ready Emails'|translate}}</span>
+      </label>
+                      </div>
+                  </div>
+              </div>
+              <div class="form-group has-feedback">
+                  <div for="ga_tracking_id" class="col-xs-12">
+                      <div class="checkbox">
+                          <label>
+        <input type="checkbox" ng-model="model.courseManagement.is_send_daily_qa_mail" ng-true-value="true" ng-false-value="false">
+        <span>{{'Daily Q and A '|translate}}</span>
+      </label>
+                      </div>
+                  </div>
+              </div>
+              <!--<div class="form-group">-->
+              <label class="sr-only" for="user_profile_save">{{'Save'|translate}}</label>
+              <input type="submit" class="btn btn-primary" id="user_profile_save" value="{{'Save'|translate}}" ng-hide="disableSave">
+              <button type="submit" class="btn btn-primary" ng-disabled="true" id="user_profile_save" ng-hide="!disableSave">{{' Validating'|translate}} <span><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+              <!--</div>-->
+          </form>
+          <hr>
+          <!--Privacy-->
+          <form method="post" class="form-horizontal clearfix" name="PrivayForm" ng-submit="model.courseupdate(PrivayForm.$valid);PrivayForm.$setPristine()">
+              <h4>{{'Privacy '|translate}}</h4>
+              <br>
+              <div class="form-group has-feedback form-groupfeeback">
+                  <div class="col-xs-12 col-sm-4">
+                      <select name="time_zones" id="time_zones" class="form-control" ng-model="model.courseManagement.privacy_id" ng-change="getpassword()"
+                          ng-options="managecourseprivacy.id as managecourseprivacy.name for managecourseprivacy in  model.managecourseprivacy"
+                          ng-required="true">
+    </select>
+                  </div>
+              </div>
+              <div class="form-group has-feedback password-icon" ng-if="model.password_field === true && model.courseManagement.privacy_id === 3"
+                  ng-class="{ 'has-error' : PrivayForm.password.$invalid && PrivayForm.password.$dirty }">
+                  <div class="col-xs-12 col-sm-4">
+                      <label class="control-label required">{{'Password'|translate}}</label>
+                      <div class="pr">
+                          <input class="form-control" type="{{model.input_type}}" name="password" ng-model=" model.courseManagement.password" placeholder="{{'Enter a password '|translate}}"
+                              required>
+                          <a href="" ng-mousedown="model.input_type = 'text'" ng-mouseup="model.input_type = 'password'" ng-mouseleave="model.input_type = 'password'"
+                              class="mdi-18px mdi mdi-eye form-control-feedback"></a>
+                          <div class="text-danger" ng-if="PrivayForm.password.$dirty" ng-messages="PrivayForm.password.$error">
+                              <div ng-message="email">{{'enter the Valid email '|translate}}.</div>
+                              <div ng-message="required">{{'Required'|translate}}.</div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="">
+                  <label class="sr-only" for="user_profile_save">{{'Save'|translate}}</label>
+                  <input type="submit" class="btn-course btn btn-primary btn-lg" id="user_profile_save" value="{{'Save'|translate}}" ng-hide="disableSave">
+                  <button type="submit" class="btn btn-primary btn-lg" ng-disabled="true" id="user_profile_save" ng-hide="!disableSave">{{' Validating'|translate}} <span><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+              </div>
+          </form>
+          <hr>
+          <!--MULTIPLE NSTRCUTOR -->
+          <multiple-instructor course-id='{{course_id}}' ng-if="$root.settings['site.enabled_plugins'].indexOf('MultipleInstructor') > -1"></multiple-instructor>
+          <!--GOOGLE TRACKING FORM-->
+          <div class="frm-block">
+              <hr>
+              <form method="post" class="mob-no-pad form-horizontal clearfix" name="googleTrackingForm" ng-submit="model.courseupdate(googleTrackingForm.$valid);googleTrackingForm.$setPristine()">
+                  <h4>{{'Third Party Integration'|translate}}</h4>
+                  <br>
+                  <div class="form-group has-feedback">
+                      <label class="col-md-4 col-sm-4 control-label" for="ga_tracking_id">{{'Google Analytics Tracking ID'|translate}}</label>
+                      <div class="col-md-5 col-sm-8">
+                          <input type="text" class="form-control" name="ga_tracking_id" id="ga_tracking_id" placeholder="UA-########-#"
+                              ng-model="model.courseManagement.ga_tracking_id" maxlength="60" />
+                      </div>
+                  </div>
+                  <div class="form-group has-feedback">
+                      <label class="col-md-4 col-sm-4 control-label" for="google_adwords_conversion_id">{{'Google Adwords Conversion ID'|translate}}</label>
+                      <div class="col-md-5 col-sm-8">
+                          <input type="text" class="form-control" name="google_adwords_conversion_id" id="google_adwords_conversion_id" placeholder="{{'Google Adwords Conversion Id'|translate}}"
+                              ng-model="model.courseManagement.google_adwords_conversion_id" />
+                      </div>
+                  </div>
+                  <div class="form-group has-feedback">
+                      <label class="col-md-4 col-sm-4 control-label" for="landing_page_conversion_label">{{'Landing Page Conversion Label'|translate}}</label>
+                      <div class="col-md-5 col-sm-8">
+                          <input type="text" class="form-control" id="landing_page_conversion_label" name="landing_page_conversion_label" placeholder="{{'Landing Page Conversion Label'|translate}}"
+                              ng-model="model.courseManagement.landing_page_conversion_label" />
+                      </div>
+                  </div>
+                  <div class="form-group has-feedback">
+                      <label class="col-md-4 col-sm-4 control-label" for="checkout_page_conversion_label">{{'Checkout Page Conversion Label'|translate}}</label>
+                      <div class="col-md-5 col-sm-8">
+                          <input type="text" class="form-control" id="checkout_page_conversion_label" name="checkout_page_conversion_label" placeholder="{{'Checkout Page Conversion Label'|translate}}"
+                              ng-model="model.courseManagement.checkout_page_conversion_label">
+                      </div>
+                  </div>
+                  <div class="form-group has-feedback">
+                      <label class="col-md-4 col-sm-4 control-label" for="success_page_conversion_label">{{'Success Page Conversion Label'|translate}}</label>
+                      <div class="col-md-5 col-sm-8">
+                          <input type="text" class="form-control" id="success_page_conversion_label" name="success_page_conversion_label" placeholder="{{'Success Page Conversion Label'|translate}}"
+                              ng-model="model.courseManagement.success_page_conversion_label">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <div class="col-sm-8 col-sm-offset-4">
+                          <label class="sr-only" for="user_profile_save">{{'Save'|translate}}</label>
+                          <input type="submit" class="btn btn-primary btn-course" id="user_profile_save" value="{{'Save'|translate}}" ng-hide="disableSave">
+                          <button type="submit" class="btn btn-primary btn-course" ng-disabled="true" id="user_profile_save" ng-hide="!disableSave">{{' Validating'|translate}} <span><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+                      </div>
+                  </div>
+              </form>
+          </div>
+          <hr>
+          <!--COURSE STATUS FORM-->
+          <div>
+              <form method="post" class="form-horizontal clearfix" name="CourseStatusForm">
+                  <h4>{{'Course Status'|translate}}</h4>
+                  <div class="row">
+                      <!--ng-disabled="model.SubmitForReview === false || model.courseManagement.course_status_id !== '3'"-->
+                      <div class="col-sm-3">
+                      <a class="btn btn-outline-secondary min-wid-btn" ng-disabled="model.courseManagement.course_status_id !== 2 && model.courseManagement.course_status_id !== 3 && model.courseManagement.course_status_id !== 1"
+                          title="Unpublish" ng-click="model.publishCourse('draft')">
+                          <span class="error">{{'Unpublish'|translate}} </span>
+                      </a>
+                      </div>
+                      <div class="col-sm-9">
+                       <p>{{'Instructors can unpublish their course at anytime, once they are done with the course
+                                                                                           and no more students will be added to the Course.' | translate}}</p>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-sm-3">
+                      <a class="btn btn-primary min-wid-btn" title="delete" ng-disabled="model.courseManagement.course_user_count > 0" ng-click="model.DeleteCourse()">{{'Delete'|translate}}</a>
+                      </div>
+                      <div class="col-sm-9">
+                      <p>{{'We promise students lifetime access, so courses cannot be deleted after students have
+                                                                                        enrolled.' | translate}}</p>
+                      </div>
+                  </div>
+
+              </form>
+          </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,47 @@
+<!--Button Section-->
+
+<a class="video-link" title="{{'Add External/Embed Video'|translate}}" ng-class="{'active' :showForm}" ng-click="uploadConfigure()"
+    ng-if="action === 'add'">
+    <i class="mdi-36px mdi mdi-file-video"></i>
+    <span class="inner-video-lesson">{{'Embed Video' | translate}}</span>
+</a>
+<!--Add Section-->
+<div ng-if="showForm && action === 'add'" class="col-xs-12">
+    <form class="col-lg-12 mt30 form-horizontal" name="add_video_embed" ng-submit="model.CheckUnpublishedLessons($event);add_video_embed.$setPristine()">
+        <div class="">
+            <div id="row-embed_code" class="form-group has-feedback" ng-class="add_video_embed.embed_code.$dirty ? (add_video_embed.embed_code.$valid ? 'has-success' : 'has-error') : ''">
+                <label for="embed_code" class="control-label text-muted">{{'Video Page URL'|translate}}&nbsp;*&nbsp;</label>
+                <div class="ng-admin-type-text">
+                    <input type="url" ng-model="model.onlineVideoEmbedLesson.embed_code" name="embed_code" class="form-control" required="" />
+                    <span ng-show="add_video_embed.embed_code.$dirty" class="glyphicon form-control-feedback" ng-class="add_video_embed.embed_code.$valid ? 'mdi mdi-check' : 'mdi mdi-close'"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="">
+                    <button type="submit" class="btn btn-primary" ng-disabled="disableButton">{{'Submit'|translate}} <span ng-show="disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>&nbsp;{{'or'|translate}}&nbsp;
+                    <a href="#" ng-click="hideForm($event)" class="btn btn-outline-secondary">{{'Cancel'|translate}}</a>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+<!--Edit Section-->
+<div ng-if="action === 'edit' && editForm" class="col-xs-12">
+    <form class="col-lg-12 form-horizontal" name="edit_video_embed" ng-submit="editExternalOrEmbed($event);edit_video_embed.$setPristine()">
+        <div class="row">
+            <div id="row-embed_code" class="form-group has-feedback" ng-class="edit_video_embed.embed_code.$dirty ? (edit_video_embed.embed_code.$valid ? 'has-success' : 'has-error') : ''">
+                <label for="embed_code" class="control-label text-muted">{{'Video Page URL'|translate}}&nbsp;*&nbsp;</label>
+                <div class="ng-admin-type-text">
+                    <input type="url" ng-model="model.editOnlineVideoEmbedLesson.embed_code" name="embed_code" class="form-control" required/>
+                    <span ng-show="edit_video_embed.embed_code.$dirty" class="glyphicon form-control-feedback" ng-class="edit_video_embed.embed_code.$valid ? 'mdi mdi-check' : 'mdi mdi-close'"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div>
+                    <button type="submit" class="btn btn-primary" ng-disabled="disableButton">{{'Save'|translate}} <span ng-show="disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+                </div>
+            </div>
+
+    </form>
+    </div>

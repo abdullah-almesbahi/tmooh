@@ -1,0 +1,41 @@
+// Form control feedback states
+//
+// Apply contextual and semantic states to individual form controls.
+
+.has-feedback {
+  // Enable absolute positioning
+  position: relative;
+
+  // Ensure icons don't overlap text
+  .form-control {
+      padding-right: 10px;
+  }
+
+  // Feedback icon (requires .glyphicon classes)
+  .form-control-feedback {
+    position: absolute;
+    top: 25px;
+    right: 0;
+    display: block;
+    width: 38px;
+    height: 38px;
+    line-height: 38px;
+    text-align: center;
+  }
+}
+
+// Feedback states
+.has-error .form-control {
+    border-color: #d9534f;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+.has-error .form-control-feedback {
+    color: #d9534f;
+}
+.error {
+    display: inline-block;
+    color: #d9534f;
+    font-size: 14px;
+    padding-top: 5px;
+}

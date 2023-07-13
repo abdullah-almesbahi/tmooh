@@ -1,0 +1,6 @@
+<div class="">
+    <span>{{'Under the Conversion Analytics tab, you'll see a graph showing the number of page visits by traffic source. Use this information to optimize your sales funnel. Are most of your students coming from Facebook? Think about the tactics you're using there, and incorporate them into your marketing strategies on other sites. With Conversion Analytics, you can see the number of new students in your course, broken down by month. For those instructors who are doing monthly marketing strategies, this is an awesome way of tracking what works and what doesn't.' | translate}}</span>
+</div>
+
+<column-high-chart type="column" ng-if="!model.coversion_analytics_loading" categories="{{Conversion_categories}}" title="{{model.title}}"
+    yaxis-title="{{model.yAxis_title}}" series-data={{Conversion_series_data}}>{{'Placeholder for pie chart' | translate}}</column-high-chart>

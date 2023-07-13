@@ -1,0 +1,51 @@
+<section class="profile-page clearfix my-5">
+    <div class="container">
+        <div class="row">
+            <userprofile-navbar>
+            </userprofile-navbar>
+            <div class="col-sm-8 col-md-9">
+                <div class="right-side-block card bg-white">
+                   <div class="card-body">
+                     <h3 class="card-title">{{'PayPal Account'|translate}}</h3>
+                     <p class="card-text">{{'Add PayPal information yourself.'|translate}}</p>
+
+                     <div class="alert alert-info">
+                         <div>
+                             <strong><i class="mdi-18px mdi mdi-information-outline" aria-hidden="true"></i></strong>&nbsp;{{ConstToolTipContent.PayPalPaymentInfo}}
+                             {{$root.settings['site.name']}}.
+                         </div>
+                     </div>
+                     <form class="form-horizontal" name="IntructorPaymentForm">
+                         <div class="form-group has-feedback row">
+                             <div class="col-2">
+                               <label class="control-label">
+                                   <img src="assets/img/paypal.png" alt="[Image: PayPal]" title="PayPal" class="img-fluid center-block">
+                                 </label>
+                             </div>
+
+                             <div class="col-6">
+                                 <div class="text-danger text-center" ng-if="model.user_profile.paypal_email == null || model.user_profile.paypal_email == undefined || model.user_profile.paypal_email == ''">
+                                     {{'No Active Account'|translate}}
+                                 </div>
+                                 <div class="input-group w100p" ng-if="model.user_profile.paypal_email != null && model.user_profile.paypal_email != undefined && model.user_profile.paypal_email != ''">
+                                     <div class="form-control" title="{{model.user_profile.paypal_email}}">
+                                         <b>{{model.user_profile.paypal_email}}</b>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="col-3">
+                                 <button class=" btn btn-outline-primary btn-social payPal-button  btn-arc" ng-click="Paypalauthenticate()" title="Log In with PayPal">
+                                 <i class="mdi mdi-paypal" aria-hidden="true"></i> <span class="col-xs-12 text-center nav">{{'Log In with PayPal'|translate}}</span>
+                                 </button>
+                             </div>
+                         </div>
+                     </form>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div oc-lazy-load='loadSeo'>
+    <user-profile-seo></user-profile-seo>
+</div>

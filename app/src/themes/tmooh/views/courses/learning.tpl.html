@@ -1,0 +1,287 @@
+<section id="learning-courses" class="course-tab bg-white mb-3">
+	<div class="container card-body pb-0">
+		<h3>{{'My Courses'|translate}}</h3>
+		<ul class="nav nav-tabs" role="tablist">
+			<li class="nav-item "><a class="nav-link active" ui-sref="LearnCourseview" title="{{'Learning'|translate}}" aria-controls="learning" role="tab">{{'Learning'|translate}}</a></li>
+			<li class="nav-item" ng-if="$root.settings['site.enabled_plugins'].indexOf('CourseWishlist') > -1"><a class="nav-link" ui-sref="myCoursesWishlist" title="{{'Wishlist'|translate}}" aria-controls="wishlist" role="tab">{{'Wishlist'|translate}}</a></li>
+			<li class="nav-item" ng-if="$root.settings['site.enabled_plugins'].indexOf('Group') > -1"><a class="nav-link" ui-sref="myCoursesgroup" title="{{'Groups'|translate}}" aria-controls="wishlist" role="tab">{{'Groups'|translate}}</a></li>
+		</ul>
+	</div>
+</section>
+<section>
+	<div class="container">
+		<!--<div class="col-xs-12">-->
+		<div class="tab-content">
+			<div id="learning" class="tab-pane active" role="tabpanel">
+				<div class="card-body bg-white ver-mspace mb-3" ng-if="_metadata.total_records > 0 && model.learningCourses.data.length">
+					<ul class="list-inline learning-block clearfix mb-0">
+						<li class="list-inline-item">
+							<div class="search form-search">
+								<form class="form-inline form_teaching" method="post">
+									<div class="input-group">
+										<input type="search" placeholder="{{'Search Courses'|translate}}" class="form-control" ng-model="csearchVal" ng-keyup="$event.keyCode == 13 ? goToState('myCoursesLearning', {q: csearchVal}) : null">
+										<span class="input-group-btn">
+												<a ui-sref="myCoursesLearning({q:csearchVal})" class="btn btn-success" type="button"><i class="mdi-18px mdi mdi-magnify"></i></a>
+											</span>
+									</div>
+									<div class="d-none"><a href="#" title="{{'Search'|translate}}"><i class="mdi-18px mdi mdi-magnify fa-lg text-muted"></i></a></div>
+								</form>
+							</div>
+						</li>
+						<li class="list-inline-item" ng-if="model.Instructor.length > 0">
+							<div class="dropdown">
+								<a href="javascript:void(0)" data-toggle="dropdown" class="btn btn-outline-secondary">
+									<span ng-show="!instructor">{{'All Instructor'|translate}}</span>
+									<span ng-show="instructor">{{instructor.teacher_name}}</span>
+									<i class="mdi-18px mdi mdi-chevron-down text-muted"></i> </a>
+								<div class="dropdown-menu dropdown-menu-right">
+									<a href="javascript:void(0);" class="dropdown-item" title="All" ui-sref="myCoursesLearning({ instructor:'-1' })">{{'All Instructor' | translate}}</a>
+
+
+									<a href="javascript:void(0);" class="dropdown-item" ng-if="model.Instructor.length" ui-sref="myCoursesLearning({ instructor: $index })" title="{{instructor.teacher_name}}" ng-repeat="instructor in model.Instructor">
+												{{instructor.teacher_name}}</a>
+								</div>
+							</div>
+						</li>
+						<li class="list-inline-item">
+							<div class="dropdown">
+								<a href="javascript:void(0)" ng-show="!ordering" title="{{'All Courses'|translate}}" data-toggle="dropdown" class="btn btn-outline-secondary">
+									<span>{{'All Courses'|translate}} </span>&nbsp;<i class="mdi-18px mdi mdi-chevron-down text-muted"></i>
+								</a>
+								<a href="javascript:void(0)" ng-show="ordering === 'in_progress'" title="{{'In Progress'|translate}}" data-toggle="dropdown" class="btn btn-outline-secondary">
+									<span>{{'In Progress'|translate}} </span>&nbsp;<i class="mdi-18px mdi mdi-chevron-down text-muted"></i>
+								</a>
+								<a href="javascript:void(0)" ng-show="ordering === 'not_started'" title="{{'Not Started'|translate}}" data-toggle="dropdown" class="btn btn-outline-secondary">
+									<span>{{'Not Started'|translate}}</span>&nbsp;<i class="mdi-18px mdi mdi-chevron-down text-muted"></i>
+								</a>
+								<a href="javascript:void(0)" ng-show="ordering === 'completed'" title="{{'Completed'|translate}}" data-toggle="dropdown" class="btn btn-outline-secondary">
+									<span>{{'Completed'|translate}}</span>&nbsp;<i class="mdi-18px mdi mdi-chevron-down text-muted"></i>
+								</a>
+								<a href="javascript:void(0)" ng-show="ordering === 'archived'" title="{{'Archived'|translate}}" data-toggle="dropdown" class="btn btn-outline-secondary">
+									<span>{{'Archived'|translate}}</span>&nbsp;<i class="mdi-18px mdi mdi-chevron-down text-muted"></i>
+								</a>
+								<a href="javascript:void(0)" ng-show="ordering === 'created'" title="{{'created'|translate}}" data-toggle="dropdown" class="btn btn-outline-secondary">
+									<span>{{'Date Created - Newest'|translate}}</span>&nbsp;<i class="mdi-18px mdi mdi-chevron-down text-muted"></i>
+								</a>
+								<a href="javascript:void(0)" ng-show="ordering === '-created'" title="{{'Date Created - Oldest'|translate}}" data-toggle="dropdown" class="btn btn-outline-secondary">
+									<span>{{'Date Created - Oldest'|translate}}</span>&nbsp;<i class="mdi-18px mdi mdi-chevron-down text-muted"></i>
+								</a>
+								<a href="javascript:void(0)" ng-show="ordering === 'title'" title="{{'Title A-Z'|translate}}" data-toggle="dropdown" class="btn btn-outline-secondary">
+									<span>{{'Title A-Z'|translate}}</span>&nbsp;<i class="mdi-18px mdi mdi-chevron-down text-muted"></i>
+								</a>
+								<a href="javascript:void(0)" ng-show="ordering === '-title'" title="{{'Title Z-A'|translate}}" data-toggle="dropdown" class="btn btn-outline-secondary">
+									<span>{{'Title Z-A'|translate}}</span>&nbsp;<i class="mdi-18px mdi mdi-chevron-down text-muted"></i>
+								</a>
+								<div class="dropdown-menu dropdown-menu-right">
+									<a class="dropdown-item" href="/my-courses/learning" title="{{'All Courses'|translate}}">{{'All Courses'|translate}} </a>
+									<a class="dropdown-item" ui-sref="myCoursesLearning({ ordering: 'in_progress' })" title="{{'In Progress'|translate}}">{{'In Progress'|translate}}</a>
+									<a class="dropdown-item" ui-sref="myCoursesLearning({ ordering: 'not_started' })" title="{{'Not Started'|translate}}">{{'Not Started'|translate}}</a>
+									<a class="dropdown-item" ui-sref="myCoursesLearning({ ordering: 'completed' })" title="{{'Completed'|translate}}">{{'Completed'|translate}}</a>
+									<a class="dropdown-item" ui-sref="myCoursesLearning({ ordering: 'archived' })" title="{{'Archived'|translate}}">{{'Archived'|translate}}</a>
+									<a class="dropdown-item" ui-sref="myCoursesLearning({ ordering: 'created' })" title="{{'Date Created - Newest'|translate}}">{{'Date Created - Newest'|translate}}</a>
+									<a class="dropdown-item" ui-sref="myCoursesLearning({ ordering: '-created' })" title="{{'Date Created - Oldest'|translate}}">{{'Date Created - Oldest'|translate}}</a>
+									<a class="dropdown-item" ui-sref="myCoursesLearning({ ordering: 'title' })" title="{{'Title A-Z'|translate}}">{{'Title A-Z'|translate}}</a>
+									<a class="dropdown-item" ui-sref="myCoursesLearning({ ordering: '-title' })" title="{{'Title Z-A'|translate}}">{{'Title Z-A'|translate}}</a>
+								</div>
+							</div>
+						</li>
+						<li class="list-inline-item">
+							<div class="dropdown">
+								<a href="javascript:void(0)" data-toggle="dropdown" class="btn btn-outline-secondary">
+									<span ng-show="!type || type === 'all' ">{{'Type - All'|translate}}</span>
+									<span ng-show="type === 'online' ">{{'Type - Instructor-Led Live Online Training'|translate}}</span>
+									<span ng-show="type === 'onsite'">{{'Type -Instructor-Led Live Onsite Training'|translate}}</span>
+									<span ng-show="type === 'video'">{{'Type - Video based Training'|translate}}</span> &nbsp;
+									<i class="mdi-18px mdi mdi-chevron-down text-muted"></i> </a>
+								<div class="dropdown-menu dropdown-menu-right">
+									<a class="dropdown-item" ui-sref="myCoursesLearning({ type: 'all' })" title="{{'All'|translate}}">{{'All'|translate}}</a>
+									<a class="dropdown-item" ui-sref="myCoursesLearning({ type: 'online' })" title="{{'Instructor-Led Live Online Training'|translate}}">{{'Instructor-Led Live Online Training'|translate}}</a>
+									<a class="dropdown-item" ui-sref="myCoursesLearning({ type: 'onsite' })" title="{{'Instructor-Led Live Onsite Training'|translate}}">{{'Instructor-Led Live Onsite Training'|translate}}</a>
+									<a class="dropdown-item" ui-sref="myCoursesLearning({ type: 'video' })" title="{{'Video based Training'|translate}}">{{'Video based Training'|translate}}</a>
+
+								</div>
+							</div>
+						</li>
+						<li class="list-inline-item">
+							<div class="dropdown">
+								<a href="javascript:void(0)" data-toggle="dropdown" class="btn btn-outline-secondary">
+									<span ng-show="!feature || feature === 'all'">{{'Feature - All'|translate}}</span>
+									<span ng-show="feature === 'coding_exercises'">{{'Feature - Coding Exercise'|translate}}</span>
+									<span ng-show="feature === 'quiz'">{{'Feature - Quizzes'|translate}}</span>
+									<span ng-show="feature === 'practise_test'">{{'Feature - Practise Test'|translate}}</span>
+									<span ng-show="feature === 'assignment'">{{'Feature - Assignment'|translate}}</span>
+									<span ng-show="feature === 'closed_captions'"> {{'Feature - Closed Captions'|translate}}</span> &nbsp;
+									<i class="mdi-18px mdi mdi-chevron-down text-muted"></i> </a>
+								<div class="dropdown-menu dropdown-menu-right">
+									<a class="dropdown-item" ui-sref="myCoursesLearning({ feature: 'all' })" title="{{'All'|translate}}">{{'All'|translate}}</a>
+									<a class="dropdown-item" ui-sref="myCoursesLearning({ feature: 'coding_exercises' })" title="{{'Coding Exercies'|translate}}">{{'Coding Exercise'|translate}}</a>
+									<a class="dropdown-item" ui-sref="myCoursesLearning({ feature: 'quiz' })" title="{{'Quizzes'|translate}}">{{'Quizzes'|translate}}</a>
+									<a class="dropdown-item" ui-sref="myCoursesLearning({ feature: 'practise_test' })" title="{{'Practise Test'|translate}}">{{'Practise Test'|translate}}</a>
+									<a class="dropdown-item" ui-sref="myCoursesLearning({ feature: 'assignment' })" title="{{'Assignment'|translate}}">{{'Assignment'|translate}}</a>
+									<a class="dropdown-item" ui-sref="myCoursesLearning({ feature: 'closed_captions' })" title="{{'Closed Captions'|translate}}">{{'Closed Captions'|translate}}</a>
+								</div>
+							</div>
+						</li>
+						<li class="list-inline-item" ng-if="model.parentCategories.length > 0">
+							<div class="dropdown">
+								<a href="javascript:void(0)" data-toggle="dropdown" class="btn btn-outline-secondary">
+									<span ng-show="!category">{{'All Categories'|translate}}</span>
+									<span ng-show="category">{{category.sub_category_name}}</span>
+									<i class="mdi-18px mdi mdi-chevron-down text-muted"></i> </a>
+								<div class="dropdown-menu dropdown-menu-right">
+									<a class="dropdown-item" title="All" ui-sref="myCoursesLearning({ category_id:'-1' })">All Categories</a>
+
+									<a class="dropdown-item" ng-if="model.parentCategories.length" ui-sref="myCoursesLearning({ category_id: $index })" title="{{instructor.teacher_name}}" ng-repeat="parentCategory in  model.parentCategories">
+												{{parentCategory.sub_category_name}}</a>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="row list-unstyled learning-list course-listing couselistingnew">
+					<div class="col-12" ng-include src="'common/loader.tpl.html'" ng-show="model.loader"></div>
+					<div class="col-md-3 col-sm-4 col-xs-12 mb-4" ng-repeat="learningCourses in model.learningCourses.data" id="learning_elements_{{learningCourses.id}}" ng-show="!model.loader">
+						<div class="card shadow-sm">
+							<div class="panel dashboardPanelHeight">
+								<!--Vedio Course Section for image-->
+								<span ng-if="learningCourses.vedio_course">
+									<!-- course image when is_from_mooc_affiliate false -->
+							<a ng-if="learningCourses.course_image_hash && learningCourses.is_from_mooc_affiliate !== 1" class="course_thumb" ui-sref="LearnCourseview({course_user_id: learningCourses.id,type:'overview'})"
+								title="{{learningCourses.course_title}}"><span class="card-img-top grid-height">
+                    <img ng-src="{{$root.site_url}}img/medium_thumb/Course/{{learningCourses.course_image_hash}}" alt="[Image: {{learningCourses.course_title}}]" title="{{learningCourses.course_title}}" class="card-img-top grid-height" /></span></a>
+								<a ng-if="!learningCourses.course_image_hash && learningCourses.is_from_mooc_affiliate !== 1" class="course_thumb" ui-sref="LearnCourseview({course_user_id: learningCourses.id,type:'overview'})" title="{{learningCourses.course_title}}"><span class="card-img-top grid-height">
+                     <img ng-src="{{$root.site_url}}img/medium_thumb/Course/0.default.jpg" alt="[Image: {{learningCourses.course_title}}]" title="{{learningCourses.course_title}}" class="card-img-top grid-height" /></span></a>
+
+								<!-- course image when is_from_mooc_affiliate true -->
+								<a ng-if="learningCourses.course_image && learningCourses.is_from_mooc_affiliate === 1" class="course_thumb" ui-sref="LearnCourseview({course_user_id: learningCourses.id,type:'overview'})" title="{{learningCourses.course_title}}"><span class="card-img-top grid-height">
+ <img ng-src="{{learningCourses.course_image}}" alt="[Image: {{learningCourses.course_title}}]" title="{{learningCourses.course_title}}" class="card-img-top grid-height" /></span></a>
+								<a ng-if="!learningCourses.course_image && learningCourses.is_from_mooc_affiliate === 1" class="course_thumb" ui-sref="LearnCourseview({course_user_id: learningCourses.id,type:'overview'})" title="{{learningCourses.course_title}}"><span class="card-img-top grid-height">
+ <img ng-src="{{$root.site_url}}img/medium_thumb/Course/0.default.jpg" alt="[Image: {{learningCourses.course_title}}]" title="{{learningCourses.course_title}}" class="card-img-top grid-height"  /></span></a>
+								</span>
+								<!--Webinar course Section for image -->
+								<span ng-if="learningCourses.webinar_course">
+									<!-- course image when is_from_mooc_affiliate false -->
+							<a ng-if="learningCourses.course_image_hash && learningCourses.is_from_mooc_affiliate !== 1" class="course_thumb" href="" ng-click="model.openWebinarCourseModal($index)"
+								title="{{learningCourses.course_title}}"><span class="card-img-top grid-height">
+                    <img ng-src="{{$root.site_url}}img/medium_thumb/Course/{{learningCourses.course_image_hash}}" alt="[Image: {{learningCourses.course_title}}]" title="{{learningCourses.course_title}}" class="card-img-top grid-height" /></span></a>
+								<a ng-if="!learningCourses.course_image_hash && learningCourses.is_from_mooc_affiliate !== 1" class="course_thumb" href="" ng-click="model.openWebinarCourseModal($index)" title="{{learningCourses.course_title}}"><span class="card-img-top grid-height">
+                     <img ng-src="{{$root.site_url}}img/medium_thumb/Course/0.default.jpg" alt="[Image: {{learningCourses.course_title}}]" title="{{learningCourses.course_title}}" class="card-img-top grid-height" /></span></a>
+
+								<!-- course image when is_from_mooc_affiliate true -->
+								<a ng-if="learningCourses.course_image && learningCourses.is_from_mooc_affiliate === 1" class="course_thumb" href="" ng-click="model.openWebinarCourseModal($index)" title="{{learningCourses.course_title}}"><span class="card-img-top grid-height">
+ <img ng-src="{{learningCourses.course_image}}" alt="[Image: {{learningCourses.course_title}}]" title="{{learningCourses.course_title}}" class="card-img-top grid-height" /></span></a>
+								<a ng-if="!learningCourses.course_image && learningCourses.is_from_mooc_affiliate === 1" class="course_thumb" href="" ng-click="model.openWebinarCourseModal($index)" title="{{learningCourses.course_title}}"><span class="card-img-top grid-height">
+ <img ng-src="{{$root.site_url}}img/medium_thumb/Course/0.default.jpg" alt="[Image: {{learningCourses.course_title}}]" title="{{learningCourses.course_title}}" class="card-img-top grid-height"  /></span></a>
+								</span>
+								<!--Offline course image section -->
+								<span ng-if="learningCourses.offline_course">
+									<!-- course image when is_from_mooc_affiliate false -->
+							<a ng-if="learningCourses.course_image_hash && learningCourses.is_from_mooc_affiliate !== 1" class="course_thumb" href="" ng-click="model.openOfflineCourseModal($index)"
+								title="{{learningCourses.course_title}}"><span class="card-img-top grid-height">
+                    <img ng-src="{{$root.site_url}}img/medium_thumb/Course/{{learningCourses.course_image_hash}}" alt="[Image: {{learningCourses.course_title}}]" title="{{learningCourses.course_title}}" class="card-img-top grid-height" /></span></a>
+								<a ng-if="!learningCourses.course_image_hash && learningCourses.is_from_mooc_affiliate !== 1" class="course_thumb" href="" ng-click="model.openOfflineCourseModal($index)" title="{{learningCourses.course_title}}"><span class="card-img-top grid-height">
+                     <img ng-src="{{$root.site_url}}img/medium_thumb/Course/0.default.jpg" alt="[Image: {{learningCourses.course_title}}]" title="{{learningCourses.course_title}}" class="card-img-top grid-height" /></span></a>
+
+								<!-- course image when is_from_mooc_affiliate true -->
+								<a ng-if="learningCourses.course_image && learningCourses.is_from_mooc_affiliate === 1" class="course_thumb" href="" ng-click=" model.openOfflineCourseModal($index)" title="{{learningCourses.course_title}}"><span class="card-img-top grid-height">
+ <img ng-src="{{learningCourses.course_image}}" alt="[Image: {{learningCourses.course_title}}]" title="{{learningCourses.course_title}}" class="card-img-top grid-height" /></span></a>
+								<a ng-if="!learningCourses.course_image && learningCourses.is_from_mooc_affiliate === 1" class="course_thumb" href="" ng-click=" model.openOfflineCourseModal($index" title="{{learningCourses.course_title}}"><span class="card-img-top grid-height">
+ <img ng-src="{{$root.site_url}}img/medium_thumb/Course/0.default.jpg" alt="[Image: {{learningCourses.course_title}}]" title="{{learningCourses.course_title}}" class="card-img-top grid-height"  /></span></a>
+								</span>
+
+
+								<div class="card-body">
+									<div class="float-right dropdown action-btn" title="{{'Options'|translate}}" ng-if="learningCourses.course_user_status !== 'Archived'">
+										<a href="javascript:void(0);" class=" btn bn-link btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button"><i class="mdi-18px mdi mdi-dots-vertical fa-lg"></i></a>
+										<ul class="dropdown-menu dropdown-menu-right">
+											<li class="project-group dropdown-item" ng-if="$root.settings['site.enabled_plugins'].indexOf('Group') > -1"> {{'Groups' | translate}}</li>
+											<li class=" dropdown-item" ng-if="$root.settings['site.enabled_plugins'].indexOf('Group') > -1">
+												<group-button position='listing' course-id='{{learningCourses.course_id}}' course-user-id='{{learningCourses.id}}' group-id='{{learningCourses.group_id}}' updateparent="model.getLearningCourses()" ng-if="$root.settings['site.enabled_plugins'].indexOf('Group') > -1"
+												  course-groups="{{learningCourses.course_groups}}" groups-list="{{model.groups}}"></group-button>
+												<hr class="no-mar">
+											</li>
+											<li class=" dropdown-item" ng-if="$root.settings['site.enabled_plugins'].indexOf('Group') > -1">
+												<group-button position='tab' course-id='{{learningCourses.course_id}}' ng-if="$root.settings['site.enabled_plugins'].indexOf('Group') > -1" updateparent="model.getLearningCourses()"></group-button>
+											</li>
+											<li class=" dropdown-item">
+												<a href="#" ng-click="model.addToArchive(learningCourses.id, $event, ordering)" title="{{'Archive'|translate}}" class="text-muted">
+											<i class="mdi-18px mdi mdi-inbox fa-fw" aria-hidden="true"></i>{{'Archive'|translate}}</a>
+											</li>
+										</ul>
+									</div>
+									<div class="float-right dropdown action-btn" title="{{'Options'|translate}}" ng-if="learningCourses.course_user_status == 'Archived'">
+										<a href="" class="dropdown-toggle btn btn-outline-secondary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button"><i class="mdi-18px mdi mdi-dots-vertical fa-lg"></i></a>
+										<ul class="dropdown-menu dropdown-menu-right">
+											<li>
+												<a href="#" ng-click="model.addToUnarchive(learningCourses.id, $event)" title="{{'Unarchive'|translate}}" class="text-muted">
+											<i class="mdi-18px mdi mdi-close-circle" aria-hidden="true"></i>&nbsp;{{'Unarchive'|translate}}</a>
+											</li>
+										</ul>
+									</div>
+									
+										<h5 class="card-title text-truncate">
+											<a  ng-if="learningCourses.vedio_course" ui-sref="LearnCourseview({course_user_id: learningCourses.id,type:'overview'})" title="{{learningCourses.course_title}}" class="text-muted">
+												<i class="mdi mdi-video mdi-18px"></i> {{learningCourses.course_title}}
+											</a>
+											<!--offline course section showing-->
+											<a class="text-muted" ng-if="learningCourses.offline_course" href="" title="{{learningCourses.course_title}}" ng-click=" model.openOfflineCourseModal($index)">
+												<i class="mdi mdi-laptop mdi-18px"></i> {{learningCourses.course_title}}
+											</a>
+											<!--Webinar_course section showing-->
+											<a ng-if="learningCourses.webinar_course"  href="" title="{{learningCourses.course_title}}" class="text-muted clearfix" ng-click="model.openWebinarCourseModal($index)">
+												<i class="mdi mdi-teach mdi-18px"></i> {{learningCourses.course_title}}
+											</a>
+									</h5>
+
+
+
+										<p ng-if="$root.settings['site.enabled_plugins'].indexOf('Instructor') > -1">
+											<profile-name instructor='true' user-profile-id='learningCourses.teacher_user_id' ng-if='learningCourses' user-display-name='learningCourses.teacher_name' user-name-class='text-muted text-truncate'></profile-name>
+										</p>
+										<div ng-if="learningCourses.vedio_course" class="progress progress-striped active" data-toggle="tooltip" tooltp-placement="bottom" tooltp="{{(100*(learningCourses.completed_lesson_count/learningCourses.active_online_course_lesson_count)) | number: 0}}{{'% Complete'|translate}}">
+											<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{(100*(learningCourses.completed_lesson_count/learningCourses.active_online_course_lesson_count)) | number: 2}}%"><span class="sr-only">{{(100*(learningCourses.completed_lesson_count/learningCourses.active_online_course_lesson_count)) | number: 0}}{{'% Complete'|translate}}</span>
+											</div>
+										</div>
+										<div ng-if="learningCourses.webinar_course || learningCourses.offline_course" class="progress progress-striped active" data-toggle="tooltip" tooltp-placement="bottom" tooltp="{{learningCourses.progess_percentage}}{{'% Complete'|translate}}">
+											<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{learningCourses.progess_percentage}}%"><span class="sr-only">{{learningCourses.progess_percentage}}{{'% Complete'|translate}}</span>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-6 float-left">
+												<span class="show text-muted" ng-if="learningCourses.vedio_course">{{(100*(learningCourses.completed_lesson_count/learningCourses.active_online_course_lesson_count)) | number: 0}}{{'% Complete'|translate}}</span>
+												<span class="show text-muted" ng-if="learningCourses.webinar_course || learningCourses.offline_course">{{learningCourses.progess_percentage}}{{'% Complete'|translate}}</span>
+
+												<div ng-if="learningCourses.course_user_status === 'Completed'">
+													<course-certificate-button class="course-certficate" course-user-id='{{learningCourses.id}}' type='model' position='my_course'></course-certificate-button>
+												</div>
+											</div>
+											<div class="col-sm-6 float-right text-right">
+												<rating-stars average-rating='{{learningCourses.rating}}' ng-if="model.learningCourses && $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1"></rating-stars>
+												<div class="text-right">
+													<rating-button class="rating-btn" courseuserid='{{learningCourses.id}}' btnstyle="text" btntext="{{'Rate It'|translate}}" user-id='{{learningCourses.user_id}}' course-id='{{learningCourses.course_id}}' ng-if='model.learningCourses'></rating-button>
+												</div>
+											</div>
+										</div>
+
+
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="text-center" ng-show="_metadata.total_records === 0 ||!model.learningCourses.data.length &&  !model.loader">
+				<p class="alert alert-danger text-center">{{'No records found'|translate}}</p>
+			</div>
+			<div class="well-lg"></div>
+			<div class="paging clearfix text-center" ng-show="_metadata.total_records > 0">
+				<ul uib-pagination total-items="_metadata.total_records" ng-model="currentPage" ng-change="paginate('#learning-courses')" max-size="_metadata.maxSize" boundary-links="true" num-pages="_metadata.noOfPages" items-per-page="_metadata.limit" first-text="{{'First'|translate}}"
+				  last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}" first-text="{{'First'|translate}}" last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+			</div>
+		</div>
+	</div>
+	<!--</div>-->
+	</div>
+</section>

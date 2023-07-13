@@ -1,0 +1,9 @@
+<section class="container pb-3 mb-5">
+  <course-navbar></course-navbar>
+  <div class="card shadow bg-white">
+    <div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading"></div>
+    <div class="card-body" ng-if="!model.loading">
+      <p ng-bind-html="model.courseRoadmap.content"></p>
+    </div>
+	</div>
+</section>

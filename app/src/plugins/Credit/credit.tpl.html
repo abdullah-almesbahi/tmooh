@@ -1,0 +1,74 @@
+<section class="container pb-3 pt-4 mb-5">
+	<div class="row">
+		<userprofile-navbar></userprofile-navbar>
+		<div class="col-sm-8 col-md-9">
+			<div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading"></div>
+			<div class="card" ng-if="!model.loading">
+				<div class="card-body">
+			      <h3 class="text-default">{{'Credit Cards'|translate}}</h3>
+			      <p>{{'Update your credit card information.'|translate}}</p>
+						<h4>{{'Payment Settings:'|translate}}</h4>
+						<div class="form-group has-feedback clearfix">
+							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+								<div class="checkbox">
+									<label>
+											<input type="checkbox" ng-click="model.editProfile()" ng-model="model.is_credit_card_use_for_purchases" ng-true-value="true"
+									ng-false-value="false">
+											<span></span>
+											{{'Use my transaction credit cards for further purchases.'|translate}}
+										</label>
+								</div>
+							</div>
+						</div><br>
+						<div class="col-xs-12 custom-table" id="creditcard_list">
+							<div class="table-responsive">
+								<table class="table">
+									<thead>
+										<tr>
+											<th class="text-center">{{'Type'|translate}}</th>
+											<th class="text-center">{{'Number'|translate}}</th>
+											<th class="text-center">{{'Expiry Date'|translate}}</th>
+											<th class="text-center">{{'Actions'|translate}}</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="vault_list in model.vault_lists" ng-if="!model.loader && model.vault_lists.length">
+											<td class="text-center pr">
+												<span class="{{vault_list.credit_card_type| lowercase}}">
+								<span class="cc-type"></span> </span>
+
+											</td>
+											<td class="text-center">{{vault_list.masked_cc}}</td>
+											<td class="text-center">{{vault_list.expire_month}}/{{vault_list.expire_year}}</td>
+											<td class="text-center">
+												<a href="" ng-click='model.VaultDelete(vault_list.vault_id,$index,$event)' title="{{'delete' | translate}}">
+
+													<i class="mdi-18px mdi mdi-close  fa-fw"></i></a>
+											</td>
+										</tr>
+										<td colspan="12" ng-show="model.loader">
+											<div ng-include src="'common/loader.tpl.html'"></div>
+										</td>
+										<tr ng-if="! model.vault_lists.length && !model.loader">
+											<td colspan="4" class="text-center">
+												<span class="error">{{'No Record Found' |translate}}</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="paging clearfix text-center" ng-show="_metadata.total_records > 0 && !model.loader">
+								<ul uib-pagination total-items="_metadata.total_records" ng-model="currentPage" ng-change="paginate('#transactions_list')" max-size="_metadata.maxSize"
+									boundary-links="true" num-pages="_metadata.noOfPages" items-per-page="_metadata.limit" first-text="{{'First'|translate}}"
+									last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+							</div>
+						</div>
+
+						<div oc-lazy-load='loadSeo'>
+							<user-profile-seo></user-profile-seo>
+						</div>
+			    </div>
+			</div>
+		</div>
+	</div>
+</section>

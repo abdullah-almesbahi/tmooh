@@ -1,0 +1,109 @@
+<section class="profile-page clearfix" >
+	<div class="container">
+		<div class="row">
+			<userprofile-navbar>
+			</userprofile-navbar>
+			<div class="col-sm-8 col-md-9">
+				<div class="right-side-block">
+					<div class="panel">
+						<div class="text-center">
+							<h3>{{'API Clients'|translate}}</h3>
+							<p>{{'Edit and list your API clients.'|translate}}</p>
+						</div>
+					</div>
+					<div class="well-lg panel clearfix">
+						<form id="oauthClientEditForm" name="oauthClientEditForm" class="form-horizontal col-xs-12" ng-submit="editOauthClient(oauthClientEditForm.$valid)"
+							novalidate>
+							<div class="form-group" ng-class="{ 'has-error' : (oauthClientEditForm.$submitted || oauthClientEditForm.inputClientName.$touched) && (oauthClientEditForm.inputClientName.$pristine || oauthClientEditForm.inputClientName.$invalid)}">
+								<label class="col-md-3 col-sm-3 control-label" for="inputClientName"><font><font>{{'Application Name*' | translate}}</font></font></label>
+								<div class="col-md-5 col-sm-9">
+									<input type="text" class="form-control" name="inputClientName" id="inputClientName" placeholder="{{'Application Name'|translate}}"
+										ng-model="model.oauth_client.client_name" maxlength="60" required />
+									<div><span class="help-block"><font><font>{{'Something, the user is recognized, will be trusted' | translate}}</font></font></span></div>
+									<div class="text-danger" ng-if="(oauthClientEditForm.$submitted || oauthClientEditForm.inputClientName.$touched) && (oauthClientEditForm.inputClientName.$pristine || oauthClientEditForm.inputClientName.$invalid)"
+										ng-messages="oauthClientEditForm.inputClientName.$error">
+										<div ng-message="required">{{'You must enter your Application name'|translate}}.</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group" ng-class="{ 'has-error' : (oauthClientEditForm.$submitted || oauthClientEditForm.client_url.$touched) && (oauthClientEditForm.client_url.$pristine || oauthClientEditForm.client_url.$invalid || oauthClientEditForm.client_url.$error.url)}">
+								<label class="col-md-3 col-sm-3 control-label" for="client_url"><font><font>Client URL*</font></font></label>
+								<div class="col-md-5 col-sm-9">
+									<input type="url" class="form-control" name="client_url" id="client_url" placeholder="{{'client link'|translate}}" ng-model="model.oauth_client.client_url"
+										required>
+									<span class="help-block">{{'Enter your Client URL start with http:// or https://'|translate}}</span>
+									<div class="text-danger" ng-if="(oauthClientEditForm.$submitted || oauthClientEditForm.client_url.$touched) && (oauthClientEditForm.client_url.$pristine || oauthClientEditForm.client_url.$invalid)"
+										ng-messages="oauthClientEditForm.client_url.$error">
+										<div ng-message="url">{{'URL is invalid'|translate}}.</div>
+										<div ng-message="required">{{'Required'|translate}}.</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group" ng-class="{ 'has-error' : (oauthClientEditForm.$submitted || oauthClientEditForm.logo_url.$touched) && (oauthClientEditForm.logo_url.$pristine || oauthClientEditForm.logo_url.$invalid || oauthClientEditForm.logo_url.$error.url)}">
+								<label class="col-md-3 col-sm-3 control-label" for="logo_url"><font><font>{{'Logo URL*' | translate}}</font></font></label>
+								<div class="col-md-5 col-sm-9">
+									<input type="url" class="form-control" name="logo_url" id="logo_url" placeholder="{{'Logo link'|translate}}" ng-model="model.oauth_client.logo_url"
+										required/>
+									<span class="help-block">{{'Enter your Logo URL start with http:// or https://'|translate}}</span>
+									<div class="text-danger" ng-if="(oauthClientEditForm.$submitted || oauthClientEditForm.logo_url.$touched) && (oauthClientEditForm.logo_url.$pristine || oauthClientEditForm.logo_url.$invalid)"
+										ng-messages="oauthClientEditForm.logo_url.$error">
+										<div ng-message="url">{{'URL is invalid'|translate}}.</div>
+										<div ng-message="required">{{'Required'|translate}}.</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group" ng-class="{ 'has-error' : (oauthClientEditForm.$submitted || oauthClientEditForm.policy_url.$touched) && (oauthClientEditForm.policy_url.$pristine || oauthClientEditForm.policy_url.$invalid || oauthClientEditForm.policy_url.$error.url)}">
+								<label class="col-md-3 col-sm-3 control-label" for="policy_url"><font><font>{{'Policy URL*' | translate}}</font></font></label>
+								<div class="col-md-5 col-sm-9">
+									<input type="url" class="form-control" name="policy_url" id="policy_url" placeholder="{{'Policy link'|translate}}" ng-model="model.oauth_client.policy_url"
+										required/>
+									<span class="help-block">{{'Enter your Policy URL start with http:// or https://'|translate}}</span>
+									<div class="text-danger" ng-if="(oauthClientEditForm.$submitted || oauthClientEditForm.policy_url.$touched) && (oauthClientEditForm.policy_url.$pristine || oauthClientEditForm.policy_url.$invalid)"
+										ng-messages="oauthClientEditForm.policy_url.$error">
+										<div ng-message="url">{{'URL is invalid'|translate}}.</div>
+										<div ng-message="required">{{'Required'|translate}}.</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group" ng-class="{ 'has-error' : (oauthClientEditForm.$submitted || oauthClientEditForm.redirect_uri.$touched) && (oauthClientEditForm.redirect_uri.$pristine || oauthClientEditForm.redirect_uri.$invalid || oauthClientEditForm.redirect_uri.$error.url)}">
+								<label class="col-md-3 col-sm-3 control-label" for="inputRedirectUris"><font><font>{{'Redirect URL*' | translate}}</font></font></label>
+								<div class="col-md-5 col-sm-9">
+									<input type="url" class="form-control" name="redirect_uri" id="redirect_uri" placeholder="{{'Redirect link'|translate}}"
+										ng-model="model.oauth_client.redirect_uri" required/>
+									<span class="help-block">{{'Enter your Redirect URL start with http:// or https://'|translate}}</span>
+									<div class="text-danger" ng-if="(oauthClientEditForm.$submitted || oauthClientEditForm.redirect_uri.$touched) && (oauthClientEditForm.redirect_uri.$pristine || oauthClientEditForm.redirect_uri.$invalid)"
+										ng-messages="oauthClientEditForm.redirect_uri.$error">
+										<div ng-message="url">{{'URL is invalid'|translate}}.</div>
+										<div ng-message="required">{{'Required'|translate}}.</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group" ng-class="{ 'has-error' : (oauthClientEditForm.$submitted || oauthClientEditForm.tos_url.$touched) && (oauthClientEditForm.tos_url.$pristine || oauthClientEditForm.tos_url.$invalid || oauthClientEditForm.tos_url.$error.url)}">
+								<label class="col-md-3 col-sm-3 control-label" for="tos_url"><font><font>{{'Tos URL*' | translate}}</font></font></label>
+								<div class="col-md-5 col-sm-9">
+									<input type="url" class="form-control" name="tos_url" id="tos_url" placeholder="{{'Tos link'|translate}}" ng-model="model.oauth_client.tos_url"
+										required/>
+									<span class="help-block">{{'Enter your Tos URL start with http:// or https://'|translate}}</span>
+									<div class="text-danger" ng-if="(oauthClientEditForm.$submitted || oauthClientEditForm.tos_url.$touched) && (oauthClientEditForm.tos_url.$pristine || oauthClientEditForm.tos_url.$invalid)"
+										ng-messages="oauthClientEditForm.tos_url.$error">
+										<div ng-message="required">{{'Required'|translate}}.</div>
+										<div ng-message="url">{{'URL is invalid'|translate}}.</div>
+									</div>
+								</div>
+							</div>
+							<div class="float-right">
+								<label class="sr-only" for="user_profile_save">{{'Save'|translate}}</label>
+								<button type="submit" class="btn btn-primary" id="submit" ng-hide="edit_disableButton">{{'Update'|translate}}</button>
+								<button type="submit" class="btn btn-primary" ng-disabled="true" id="user_profile_save" ng-hide="!edit_disableButton">{{'Updating'|translate}} <span><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+								<a class="btn btn-primary" href="/user/api-clients" title="API Client">{{'Cancel'|translate}}</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<div oc-lazy-load='loadSeo'>
+	<user-profile-seo></user-profile-seo>
+</div>

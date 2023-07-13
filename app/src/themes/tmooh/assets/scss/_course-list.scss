@@ -1,0 +1,23 @@
+.card-img-right {
+  @include border-right-radius($card-inner-border-radius);
+  max-width: 110px;
+}
+
+.card-img-left {
+  @include border-left-radius($card-inner-border-radius);
+  max-width: 110px;
+}
+
+
+// Horizontal cards
+.card-horizontal {
+  flex-direction: row;
+}
+
+.strike {
+    font-style: initial;
+    text-decoration: line-through;
+    color: #686f7a;
+    font-weight: 400;
+    font-size: 13px;
+}

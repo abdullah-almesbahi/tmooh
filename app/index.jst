@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html ng-app="ace" ng-controller="AppController"  dir="{{(Language.isRtl())?'rtl':'ltr'}}" lang="ar">
+
+<head>
+    <link rel='dns-prefetch' href='//www.googletagmanager.com'>
+    <link rel='preconnect' href='https://www.googletagmanager.com'>
+
+
+    <!-- End Google Tag Manager -->
+    <title ng-bind="pageTitle"></title>
+    <meta name="Description" content="{{$root.metaDescription}}">
+
+
+    <!-- compiled CSS -->
+    <style type="text/css" class="keep">#preloader{position:fixed;top:0;left:0;right:0;width:100%;height:100%;bottom:0;background-color:#fff;z-index:99999999999!important}[data-loader=circle-side]{position:absolute;width:50px;height:50px;top:50%;left:50%;margin-left:-25px;margin-top:-25px;-webkit-animation:circle infinite .95s linear;-moz-animation:circle infinite .95s linear;-o-animation:circle infinite .95s linear;animation:circle infinite .95s linear;border:2px solid #EF4350;border-top-color:rgba(0,0,0,.2);border-right-color:rgba(0,0,0,.2);border-bottom-color:rgba(0,0,0,.2);-webkit-border-radius:100%;-moz-border-radius:100%;-ms-border-radius:100%;border-radius:100%}@-webkit-keyframes circle{0%{-webkit-transform:rotate(0);-moz-transform:rotate(0);-ms-transform:rotate(0);-o-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);-moz-transform:rotate(360deg);-ms-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}}@-moz-keyframes circle{0%{-webkit-transform:rotate(0);-moz-transform:rotate(0);-ms-transform:rotate(0);-o-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);-moz-transform:rotate(360deg);-ms-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}}@-o-keyframes circle{0%{-webkit-transform:rotate(0);-moz-transform:rotate(0);-ms-transform:rotate(0);-o-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);-moz-transform:rotate(360deg);-ms-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes circle{0%{-webkit-transform:rotate(0);-moz-transform:rotate(0);-ms-transform:rotate(0);-o-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);-moz-transform:rotate(360deg);-ms-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}}</style>
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/assets/favicon.ico">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/apple-touch-icon-114x114.png" />
+    <link rel="canonical" href="{{$root.canonical? $root.canonical : $root.absUrl}}" />
+    <link rel="prev" ng-if="$root.prev" href="{{$root.prev}}" />
+    <link rel="next" ng-if="$root.next" href="{{$root.next}}" />
+    <!-- <link rel="icon" type="images/svg+xml" href="/assets/img/logo.svg"/> -->
+
+    <meta charset="UTF-8">
+    <meta name="fragment" content="!">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="fb:app_id" content="252984688577566"/>
+    <meta property="og:app_id" content="252984688577566"/>
+    <meta property="fb:admins" content="{{$root.settings['facebook.admin.userid']}}" ng-if="$root.settings['facebook.admin.userid']"/>
+    <meta property="og:locale" content="ar_SA" />
+    <meta property="og:type" content="{{$root.isHome ? 'website' : 'video_lecture'}}" />
+    <meta property="og:title" content="{{$root.pageTitle}}"/>
+    <meta property="og:description" content="{{$root.metaDescription}}"/>
+    <meta property="og:url" content="{{$root.canonical? $root.canonical : $root.absUrl}}"/>
+    <meta property="og:site_name" content="{{$root.settings['site.name']}}"/>
+    <meta property="og:image" content="{{!$root.metaImage?$root.site_url+ 'assets/apple-touch-icon-114x114.png' : $root.site_url + $root.metaImage}}"/>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:description" content="{{$root.metaDescription}}" />
+    <meta name="twitter:title" content="{{$root.pageTitle}}" />
+    <meta name="twitter:site" content="@tmoohco" />
+    <meta name="twitter:image" content="{{!$root.metaImage?$root.site_url+ 'assets/apple-touch-icon-114x114.png' : $root.site_url + $root.metaImage}}" />
+    <meta name="twitter:creator" content="@tmoohco" />
+
+
+    
+    <base href="/">
+
+    <meta name="theme-color" content="#EF4350"/>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="preload" href="/assets/fonts/materialdesignicons-webfont.woff2" as="font" type="font/woff2" crossorigin>
+
+    <richcard></richcard>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-118616789-1', { 'cookieDomain': 'none' });
+    ga('require', 'ec');
+    ga('config', 'AW-809667009');
+    </script>
+</head>
+<body data-status="{{$root.status}}" class="" ng-class="{'rtl':Language.isRtl(),'no-footer course-taking':$root.success_state_name == 'LearnCourse'}" >
+
+  <div id="preloader" class="loadAng">
+     <div data-loader="circle-side"></div>
+       <div id="status">&nbsp;</div>
+  </div>
+  <div id="index" class="content">
+        <div growl></div>
+
+
+        <div class="bmd-layout-container bmd-drawer-f-{{Language.isRtl()?'r':'l'}} bmd-drawer-overlay">
+            <!--header section start-->
+            <div ng-if ="$root.is_learn_page === false" header></div>
+            <!--header section end-->
+
+            <div id="mainMenu" class="bmd-layout-drawer bg-faded" drawer-content></div>
+
+            <!--main section start-->
+            <main id="main" class="bmd-layout-content">
+               <!--  <div class="bmd-layout-container bmd-drawer-f-r bmd-drawer-overlay">
+                    <div id="subMenu" class="bmd-layout-drawer bg-faded"></div>
+                    <main class="bmd-layout-content"> -->
+                        
+                      <div ui-view="main" autoscroll="true" class="page" ng-hide="isOn404"></div>
+                      <div ng-show="isOn404">
+                        <div class="container">
+                          <div class="well-lg"></div>
+                          <div class="well-lg"></div>
+                          <div class="">
+                            <h3>404 Page Not Found</h3>
+                          </div>
+                        </div>
+                      </div>
+
+<!--                     </main>
+                </div> -->
+
+
+            </main>
+            <!--main section end-->
+
+            <!--footer section start-->
+            <div ng-if ="$root.is_learn_page === false" footer></div>
+
+        </div>
+
+    </div>
+
+  <!--footer section end-->
+    <div id="fb-root"></div>
+
+	<script>
+		var api_url = '/';
+		var token = '';
+		var theme = 'tmooh';
+	</script>
+
+
+   <script type="text/javascript" class="keep">
+    /* First CSS File */
+    var giftofspeed = document.createElement('link');
+    giftofspeed.rel = 'stylesheet';
+    giftofspeed.href = '<% styles.forEach( function ( style ) { %><%= style %><% }); %>';
+    giftofspeed.type = 'text/css';
+    var godefer = document.getElementsByTagName('link')[0];
+    godefer.parentNode.insertBefore(giftofspeed, godefer);
+
+    </script>
+
+    <script>
+      // var _learnq = _learnq || [];
+      var _learnq = window._learnq  = window._learnq || [];
+      _learnq.push(['account', 'QKQa74']);
+      (function () {
+        var b = document.createElement('script'); b.type = 'text/javascript'; b.async = true;
+        b.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'a.klaviyo.com/media/js/analytics/analytics.js';
+        var a = document.getElementsByTagName('script')[0]; a.parentNode.insertBefore(b, a);
+      })();
+    </script>
+
+    <!-- Hotjar Tracking Code for tmooh.com -->
+    <script>
+        (function(h,o,t,j,a,r){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid:966394,hjsv:6};
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');r.async=1;
+            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+
+
+    <!-- compiled JavaScript -->
+    <% scripts.forEach( function ( script ) { %><script  type="text/javascript" src="<%= script %>"></script>
+    <% }); %>
+
+    <!-- Start of tmooh Zendesk Widget script -->
+    <script>/*<![CDATA[*/window.zE||(function(e,t,s){var n=window.zE=window.zEmbed=function(){n._.push(arguments)}, a=n.s=e.createElement(t),r=e.getElementsByTagName(t)[0];n.set=function(e){ n.set._.push(e)},n._=[],n.set._=[],a.async=true,a.setAttribute("charset","utf-8"), a.src="https://static.zdassets.com/ekr/asset_composer.js?key="+s, n.t=+new Date,a.type="text/javascript",r.parentNode.insertBefore(a,r)})(document,"script","e3900675-b55d-4678-ad1c-534574d33c5e");/*]]>*/
+    </script>
+    <!-- End of tmooh Zendesk Widget script -->
+
+
+</body>
+</html>

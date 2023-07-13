@@ -1,0 +1,67 @@
+<div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading"></div>
+<form role="form" class="form-horizontal" name="manage_course_price" ng-submit='model.priceSave(manage_course_price.$valid)' ng-if="!model.loading">
+  <div ng-class="{ 'has-error' : manage_course_price.price.$invalid && manage_course_price.price.$dirty }">
+    <h5 for="course_price">{{'Price'|translate}}
+            <span>({{selected.symbol}})</span>
+            </h4>
+            <ul class="list-inline edit-price-list">
+                <li class="list-inline-item">
+                    <div class="btn-group" uib-dropdown is-open="status.isopen">
+                        <button id="single-button" type="button" class="btn btn-outline-secondary" uib-dropdown-toggle>
+                          {{ selected.code || 'Please Select' }}
+    					                 <span class="caret"></span>
+	                      </button>
+                        <ul class="dropdown-menu dropdown-menu-right" boundary="scrollParent" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                            <li role="menuitem" ng-repeat="currency in model.currencies">
+                                <a href="" class="dropdown-item" ng-click="selected === null" ng-if="$index === 0">{{'Please Select' | translate}}</a>
+                                <a href="" class="dropdown-item" ng-click="model.CurrencyTireFilter($index)">{{ currency.code }} {{currency.symbol}}</a>
+                                <input type="hidden" name="currency" id="currency" name="options" ng-model="selected" ng-required="true">
+                            </li>
+                            <li ng-if="!model.currencies.length">
+                                <a href="">
+                                    <p class="error"> {{'No Currencies Found'|translate}}
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div ng-show="((manage_course_price.$submitted || manage_course_price.currency.$touched) && (manage_course_price.currency.$invalid))">
+                        <div class="error text-danger" ng-show="(manage_course_price.currency.$error.required || manage_course_price.currency.$invalid)">{{'Required' | translate}} </div>
+                    </div>
+                </li>
+                <li class="list-inline-item">
+                    <div class="btn-group" uib-dropdown is-open="status2.isopen">
+                        <button id="single-button" type="button" class="btn btn-outline-secondary" uib-dropdown-toggle>
+              						{{ tier_selected.amount || 'Please Select'|translate }}
+              						<span class="caret"></span>
+              					</button>
+                        <div class="dropdown-menu dropdown-scroll dropdown-menu-right" uib-dropdown-menu role="menu" boundary="scrollParent" aria-labelledby="single-button">
+
+                            <div role="menuitem" ng-repeat="tier in model.currencies_tiers | orderBy : 'amount'">
+                                <a href="" class="dropdown-item" ng-click="tier_selected === null" ng-if="$index === 0">{{' Please Select' | translate}}</a>
+                                 <a href="" class="dropdown-item" ng-click="model.TireFilter('Free')" ng-if="$index === 0">{{'Free' | translate}}</a>
+                                <a href="" class="dropdown-item" ng-click="model.TireFilter(tier)">{{ tier.amount }}</a>
+                                <input type="hidden" name="currency_tier" id="currency_tier" ng-model="tier_selected" ng-required="true">
+                            </div>
+                            <div ng-if="!model.currencies_tiers.length">
+                                <a href="">
+                                    <p class="error text-center"> {{'No Price Found'|translate}}
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                        <div ng-show="((manage_course_price.$submitted || manage_course_price.currency_tier.$touched) && (manage_course_price.currency_tier.$invalid))">
+                            <div class="error text-danger" ng-show="(manage_course_price.currency_tier.$error.required || manage_course_price.currency_tier.$invalid)">{{'Required' | translate}} </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="clearfix">
+                <label class="sr-only" for="submit">{{'Save'|translate}}</label>
+                <input type="submit" class="btn btn-primary" id="submit" value="{{'Save'|translate}}">
+                <label class="sr-only" for="submit">{{'Save'|translate}} & {{'Next'|translate}}</label>
+                <input type="submit" ng-model="model.NextButtonVal" class="btn btn-primary btn-course float-right"
+                    id="submit" value="{{'Save'|translate}} & {{'Next'|translate}}" ng-click="model.NextButtonVal = 'next'">
+            </div>
+</form>
+</div>

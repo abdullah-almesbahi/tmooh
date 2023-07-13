@@ -1,0 +1,21 @@
+<div ng-if="!model.loggedUser" class="user-photo">
+	<a ng-if="model.userImageHash !== '' && model.userImageHash !== null && $root.settings['site.enabled_plugins'].indexOf('InstructorProfile') > -1" ng-href="/{{model.profileUrl}}/{{user_id}}/{{model.userDisplayName|slugify|escape}}" title="{{model.userDisplayName}}">
+		<img  ng-src="{{$root.site_url}}img/{{model.userProfileThumb}}/User/{{model.userImageHash}}" alt="[Image: {{model.userDisplayName}}]" title="{{model.userDisplayName}}" class="img-fluid" ng-class="{'rounded-circle': model.imageType === 'imagecircle'}" />
+	</a>
+	<a ng-if="model.userImageHash === '' || model.userImageHash === null && $root.settings['site.enabled_plugins'].indexOf('InstructorProfile') > -1" ng-href="/{{model.profileUrl}}/{{user_id}}/{{model.userDisplayName|slugify|escape}}" title="{{model.userDisplayName}}">
+		<img  ng-src="{{$root.site_url}}img/{{model.userProfileThumb}}/User/0.default.jpg" alt="[Image: {{model.userDisplayName}}]" title="{{model.userDisplayName}}" class="img-fluid" ng-class="{'rounded-circle': model.imageType === 'imagecircle'}" />
+	</a>
+	<img  ng-if="model.userImageHash !== '' && model.userImageHash !== null && $root.settings['site.enabled_plugins'].indexOf('InstructorProfile') === -1" ng-src="{{$root.site_url}}img/{{model.userProfileThumb}}/User/{{model.userImageHash}}" alt="[Image: {{model.userDisplayName}}]" title="{{model.userDisplayName}}" class="img-fluid" ng-class="{'rounded-circle': model.imageType === 'imagecircle'}" />
+	<img  ng-if="model.userImageHash === '' || model.userImageHash === null && $root.settings['site.enabled_plugins'].indexOf('InstructorProfile') === -1" ng-src="{{$root.site_url}}img/{{model.userProfileThumb}}/User/0.default.jpg" alt="[Image: {{model.userDisplayName}}]" title="{{model.userDisplayName}}" class="img-fluid" ng-class="{'rounded-circle': model.imageType === 'imagecircle'}" />
+</div>
+
+<div ng-if="model.loggedUser === 'yes'" class="user-photo">
+	<a ng-if="model.userImageHash !== '' && model.userImageHash !== null && $root.settings['site.enabled_plugins'].indexOf('InstructorProfile') > -1" ng-href="/{{model.profileUrl}}/{{user_id}}/{{model.userDisplayName|slugify|escape}}" title="{{model.userDisplayName}}">
+		<img  ng-src="{{$root.site_url}}img/{{model.userProfileThumb}}/User/{{model.userImageHash}}" alt="[Image: {{model.userDisplayName}}]" title="{{model.userDisplayName}}" class="rounded-circle" />
+	</a>
+	<a ng-if="model.userImageHash === '' || model.userImageHash === null && $root.settings['site.enabled_plugins'].indexOf('InstructorProfile') > -1" ng-href="/{{model.profileUrl}}/{{user_id}}/{{model.userDisplayName|slugify|escape}}" title="{{model.userDisplayName}}">
+		<img ng-src="{{$root.site_url}}img/{{model.userProfileThumb}}/User/0.default.jpg" alt="[Image: {{model.userDisplayName}}]" title="{{model.userDisplayName}}" class="rounded-circle" />
+	</a>
+	<img  ng-if="model.userImageHash !== '' && model.userImageHash !== null && $root.settings['site.enabled_plugins'].indexOf('InstructorProfile') === -1" ng-src="{{$root.site_url}}img/{{model.userProfileThumb}}/User/{{model.userImageHash}}" alt="[Image: {{model.userDisplayName}}]" title="{{model.userDisplayName}}" class="rounded-circle" />
+	<img  ng-if="model.userImageHash === '' || model.userImageHash === null && $root.settings['site.enabled_plugins'].indexOf('InstructorProfile') === -1" ng-src="{{$root.site_url}}img/{{model.userProfileThumb}}/User/0.default.jpg" alt="[Image: {{model.userDisplayName}}]" title="{{model.userDisplayName}}" class="rounded-circle" />
+</div>

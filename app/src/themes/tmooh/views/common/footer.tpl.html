@@ -1,0 +1,64 @@
+<footer itemscope="itemscope" itemtype="https://schema.org/WPFooter" id="footer" class="bg-dark footer" ng-hide="$root.success_state_name == 'LearnCourse' || $state.success_state_name == 'LearnCourseEmpty'">
+	<div class="container margin_120_95">
+		<div class="row">
+			<div class="col-md-3 mt-3">
+				<ul class="nav flex-column">
+				  <li class="nav-item">
+						<a href="/contactus" title="{{'Help and Contact'|translate}}" class=" text-light">{{'Help and Contact'|translate}}</a>
+				  </li>
+<!-- 				  <li class="nav-item">
+						<a href="/page/about" title="{{'About '|translate}}" class=" text-light">{{'About Tmooh'|translate}}</a>
+				  </li> -->
+					<li class="nav-item" ng-show="$root.is_teacher !== 1 && $root.settings['site.enabled_plugins'].indexOf('Instructor') > -1">
+						<a href="/courses/add" rel="nofollow" title="{{'Become an Instructor'|translate}}" class=" text-light">{{'Become an Instructor'|translate}}</a>
+				  </li>
+					<li class="nav-item">
+						<a href="/page/instructor-terms" class=" text-light">{{'Instructor Terms and Conditions'|translate}}</a>
+				  </li>
+				</ul>
+
+			</div>
+			<div class="col-md-3 mt-3">
+				<ul class="nav flex-column">
+				  <li class="nav-item">
+						<a href="https://about.tmooh.com/" title="{{'About '|translate}}" class=" text-light">{{'About Tmooh'|translate}}</a>
+				  </li>
+					<li class="nav-item">
+						<a href="https://about.tmooh.com/%D8%A7%D9%84%D9%85%D8%AF%D9%88%D9%86%D8%A9/"  title="{{'Blog'|translate}}" class=" text-light">{{'Blog'|translate}}</a>
+				  </li>
+				</ul>
+			</div>
+			<div class="col-md-6">
+				
+				<div class="float-right mt-3 mb-2"><language-select></language-select></div>
+				<div class="clearfix"></div>
+
+				<ul class="list-inline float-right mb-0">
+					<li class="list-inline-item">{{'Follow us'|translate}}</li>
+					<li class="list-inline-item" ng-show="$root.settings['social_networks.facebook']"><a target="_blank" rel="nofollow" href="{{$root.settings['social_networks.facebook']}}"><i class="text-light mdi-18px mdi mdi-facebook"></i></a></li>
+					<li class="list-inline-item" ng-show="$root.settings['social_networks.twitter']"><a target="_blank" rel="nofollow" href="{{$root.settings['social_networks.twitter']}}"><i class="text-light mdi-18px mdi mdi-twitter"></i></a></li>
+					<li class="list-inline-item" ng-show="$root.settings['social_networks.google_plus']"><a target="_blank" rel="nofollow" href="{{$root.settings['social_networks.google_plus']}}"><i class="text-light mdi-18px mdi mdi-google"></i></a></li>
+					<li class="list-inline-item" ng-show="$root.settings['social_networks.pinterest']"><a target="_blank" rel="nofollow" href="{{$root.settings['social_networks.pinterest']}}"><i class="text-light mdi-18px mdi mdi-pinterest"></i></a></li>
+					<li class="list-inline-item" ng-show="$root.settings['social_networks.instagram']"><a target="_blank" rel="nofollow" href="{{$root.settings['social_networks.instagram']}}"><i class="text-light mdi-18px mdi mdi-instagram"></i></a></li>				<li class="list-inline-item" ng-show="$root.settings['social_networks.youtube']"><a target="_blank" rel="nofollow" href="{{$root.settings['social_networks.youtube']}}"><i class="text-light mdi-18px mdi mdi-youtube"></i></a></li>
+					<li class="list-inline-item"><a target="_blank" rel="nofollow" href="https://www.linkedin.com/company/tmoohco/"><i class="text-light mdi-18px mdi mdi-linkedin"></i></a></li>
+				</ul>
+
+
+			</div>
+		</div>
+		<!--/row-->
+		<hr style="border-top:1px solid rgba(255, 255, 255, 0.1)">
+		<div class="row">
+			<div class="col-md-8">
+				<ul class="list-inline">
+					<li class="list-inline-item"><a href="/page/terms" title="{{'Terms and conditions'|translate}}" class="text-secondary">{{'Terms and conditions'|translate}}</a></li>
+					<li class="list-inline-item"><a href="/page/privacy-policy" title="{{'Privacy Policy'|translate}}" class="text-secondary">{{'Privacy Policy'|translate}}</a></li>
+				</ul>
+			</div>
+			<div class="col-md-4">
+				<div id="copy" class="text-light float-right">© {{cdate | date:'yyyy'}} {{$root.settings['site.name']}}</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<!--/footer-->

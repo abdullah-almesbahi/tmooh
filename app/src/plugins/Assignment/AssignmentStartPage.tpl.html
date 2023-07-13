@@ -1,0 +1,53 @@
+
+<div data-reactroot="" class="" ng-if="!start_test">
+<div class="clearfix">
+    <ul class="list-unstyled assignment-toptabs">
+                <li class="active"><a href="#"><span>{{'Instructions' |translate}}</span></a></li>
+    <li><a href="#"><span>{{'Submission' |translate}}</span></a></li>
+    <li><a href="#"><span>{{'Instructor Examples' |translate}}</span></a></li>
+    <li><a href="#"><span>{{'Give Feedback' |translate}}</span></a></li>
+            </ul>
+</div>
+
+
+    <div>
+        <section>
+        <div class="clearfix">
+            <div class="practice-text-title">{{model.assignmentDetails.lesson_name}}</div>
+            <div class="assignment-test-status">
+                <span><i class="mdi-18px mdi mdi-clock-outline" aria-hidden="true"></i> {{model.assignmentDetails.quiz_question_count}} {{'Question'|translate}}</span>
+            <span> | </span>
+            <span>{{model.assignmentDetails.allowed_duration}} {{'Minutes'|translate}}</span>
+                </div>
+                </div>
+            <div  class="lessonspanel assignmentpnl clearfix">
+                    <div class="practice-test-lstcontent">
+                        <p>
+                        {{model.assignmentDetails.lesson_description}}
+                        </p>
+                    </div>
+
+                </div>
+           
+        </section>
+
+
+
+
+        
+
+<div class="lessons-settings">
+            <div class="lsettinginner">
+                <div class="mark-review">
+                </div>
+                <div class="seeallques">
+                </div>
+                <div class="lsettingsrgt">
+                <button type="button" class="btnskipques" ng-click="startPracticeTest()">{{'Begin Test'|translate}}&nbsp;<i class="mdi-18px mdi mdi-chevron-right" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<assignment-exercise-learner course='{{model.assignmentDetails.course_id}}' ng-if="$root.settings['site.enabled_plugins'].indexOf('CodingExercise') > -1 && start_test === true" lesson-id='{{model.assignmentDetails.id}}' lesson-detail='{{model.assignmentDetails}}'></assignment-exercise-learner>

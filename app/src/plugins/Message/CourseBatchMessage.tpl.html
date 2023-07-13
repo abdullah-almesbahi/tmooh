@@ -1,0 +1,62 @@
+<div class="modal-login" ng-class="{'container': currentPageType === 'page'}">	
+	<div class="center-form" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+		<div class="panel-heading clearfix">				
+			<h3 class="text-center">{{'Compose Message'|translate}} 
+				<a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose float-right">X</a>
+			</h3>
+		</div>
+		<div class="card-body">
+			<div class="panel-content">
+				<form method="post" name="BatchmessageForm" ng-submit="model.sendMessage(BatchmessageForm.$valid)">
+					<div ng-if='!contentInIframe'>
+						<div class="form-group has-feedback clearfix" ng-class="{ 'has-error' : BatchmessageForm.displayname.$invalid && BatchmessageForm.displayname.$dirty }">
+							<label class="control-label">{{'From'|translate}}</label>
+							<div>
+								{{$root.auth.displayname}}
+							</div>
+						</div>
+						<div class="form-group has-feedback clearfix" ng-class="{ 'has-error' : BatchmessageForm.email.$invalid && BatchmessageForm.email.$dirty }">
+							<label class="control-label">{{'To'|translate}}</label>
+							<div>
+								<span ng-if="model.type === 'Batch'">
+								{{'All'| translate}}</span>
+								<span ng-if="model.type === 'User'">
+								{{model.Batch_details.learner_name}}</span>
+							</div>
+						</div>
+						<div class="form-group has-feedback clearfix">
+							<label class="control-label">{{'Subject'|translate}}</label>
+							<div ng-class="{ 'has-error' : BatchmessageForm.subject.$invalid && BatchmessageForm.subject.$dirty }">
+								<textarea class="form-control" minlength="5" name="subject" ng-model="model.batch.subject" placeholder="{{'Type your subject'|translate}}"
+									required></textarea>
+								<span class="ion-key form-control-feedback"></span>
+								<div class="text-danger" ng-if="BatchmessageForm.subject.$dirty" ng-messages="BatchmessageForm.subject.$error">
+									<div ng-message="required">{{'subject is required'|translate}}.</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group has-feedback clearfix" ng-class="{ 'has-error' : BatchmessageForm.message.$invalid && BatchmessageForm.message.$dirty }">
+							<label class="control-label">{{'Message'|translate}}</label>
+							<div>
+								<textarea class="form-control" minlength="5" name="message" ng-model="model.batch.message" placeholder="{{'Type your message Here message'|translate}}"
+									required></textarea>
+								<span class="ion-key form-control-feedback"></span>
+								<div class="text-danger" ng-if="BatchmessageForm.message.$dirty" ng-messages="BatchmessageForm.message.$error">
+									<div ng-message="required">{{'Message is required'|translate}}.</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="float-left">
+								<label class="sr-only" for="submit">{{'Send'|translate}}</label>
+								<button type="submit" class="btn btn-success" ng-disabled="BatchmessageForm.$invalid || message_disableButton" id="submit">{{'Send'|translate}} <span ng-show="message_disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+								<button type="button" class="btn btn-outline-secondary" id="oauthClientAddForm_cancel" value="{{'cancel'|translate}}" ng-click="modalClose($event)">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>	
+	<div banner position="bottomBanner" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1 && currentPageType === 'page'"></div>
+</div>

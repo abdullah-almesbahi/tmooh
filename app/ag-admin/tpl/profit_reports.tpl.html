@@ -1,0 +1,115 @@
+<div class="row">
+	<div class="col-lg-12">
+		<content-top>
+			<div class="content-top clearfix">
+				<h1 class="al-title ng-binding">PROFIT REPORTS</h1>
+				<ul class="breadcrumb al-breadcrumb">
+					<li><a href="#/dashboard">Dashboard</a></li>
+					<li class="ng-binding">Profit Reports</li>
+				</ul>
+			</div>
+		</content-top>
+	</div>
+</div>
+
+<div class="row" id="create-view">
+	<div class="clearfix scroll-table">
+		<!--Course revenue report table -->
+		<div class="col-lg-12">
+			<div class="panel table-panel panel animated zoomIn">
+				<div class="panel-heading clearfix">
+					<h3 class="panel-title">Courses</h3>
+				</div>
+				<div class="panel-body">
+					<div>
+						<div class="horizontal-scroll">
+							<table class="table table-hover">
+								<thead>
+									<tr class="black-muted-bg">
+										<th>Course Name</th>
+										<th>Course Type</th>
+										<th>Instructor Name</th>
+										<th >Students Count</th>
+										<th>Profit</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="no-top-border" ng-repeat="profit_course in profit_reports.course">
+										<td >{{profit_course.course_title}}</td>
+										<td >{{profit_course.course_type}}</td>
+										<td >{{profit_course.teacher_name}}</td>
+										<td>{{profit_course.student_count}}</td>
+										<td >{{profit_course.profit}}</td>
+									</tr>
+
+									<tr ng-if="!profit_reports.course.length">
+										<td colspan="2" class="text-center">
+											<span class="hor-space">No Record Found</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+
+						</div>
+
+					</div>
+					<div class="paging clearfix text-center" ng-show="course_metadata.total_records > 0">
+						<uib-pagination total-items="course_metadata.total_records" ng-model="course_currentPage" ng-change="coursePaginate(course_currentPage)"
+							max-size="course_metadata.maxSize" boundary-links="true" num-pages="course_metadata.noOfPages" items-per-page="course_metadata.limit"
+							first-text="First" last-text="Last" next-text="Next" previous-text="Previous"></uib-pagination>
+					</div>
+				</div>
+			</div>
+			<!--Instructor revenue report -->
+
+
+		</div>
+		<div class="col-lg-12">
+			<div class="panel table-panel panel animated zoomIn">
+				<div class="panel-heading clearfix">
+					<h3 class="panel-title">Instructors</h3>
+				</div>
+				<div class="panel-body">
+					<div>
+						<div class="horizontal-scroll">
+							<table class="table table-hover">
+								<thead>
+									<tr class="black-muted-bg">
+										<th class="text-center">ID</th>
+										<th class="text-center">Name</th>
+										<th class="text-center">Email</th>
+										<th class="text-center">Courses Count</th>
+										<th class="text-center">Percentage</th>
+								</thead>
+								<tbody>
+									<tr class="no-top-border" ng-repeat="instructor_profit in profit_reports.instructor">
+										<td class="text-center">
+											<a href="#/users/show/{{instructor_profit.teacher_user_id}}">{{instructor_profit.teacher_user_id}}</a></td>
+										<td class="text-center"><a href="#/users/show/{{instructor_profit.teacher_user_id}}">{{instructor_profit.teacher_name}}</a></td>
+										<td class="text-center">{{instructor_profit.teacher_email}}</td>
+										<td class="text-center">{{instructor_profit.course_count}}</td>
+										<td class="text-center">{{instructor_profit.profit}}</td>
+									</tr>
+									<tr ng-if="!profit_reports.instructor.length">
+										<td colspan="2" class="text-center">
+											<span class="hor-space">No Record Found</span>
+										</td>
+									</tr>
+
+								</tbody>
+							</table>
+
+						</div>
+
+					</div>
+					<div class="paging clearfix text-center" ng-show="Instructor_metadata.total_records > 0">
+						<uib-pagination total-items="Instructor_metadata.total_records" ng-model="instructor_currentPage" ng-change="instructorPaginate(instructor_currentPage)"
+							max-size="Instructor_metadata.maxSize" boundary-links="true" num-pages="Instructor_metadata.noOfPages" items-per-page="Instructor_metadata.limit"
+							first-text="First" last-text="Last" next-text="Next" previous-text="Previous"></uib-pagination>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

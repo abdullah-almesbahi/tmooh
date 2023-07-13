@@ -1,0 +1,42 @@
+<section class="clearfix schedule-page" ng-show="model.loading === false">
+    <div class="container pb-3">
+        <course-navbar></course-navbar>
+        <div class="tab-content">
+            <div class="col-12" ng-if="model.loading === false">
+                <div class="card shadow  bg-white">
+                    <div class="panel">
+                        <div class="text-center">
+                            <h3 class="text-default">{{'Course Schedule'|translate}}</h3>
+                            <p>{{'You can create a schedule and share to your student.'|translate}}</p>
+                        </div>
+                    </div>
+                    <div class="navbar-default">
+                        <div class="alert alert-info">
+                            <div class="text-center">
+                                <strong> {{'Note:' | translate}} </strong>{{'If you have added or changed anything in schedule then your course will move to draft and you have to submit the course again for review. After admin approved, it will display in search.' | translate}}
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6">
+                                <div class="demo_sessionbtn">
+                                    <demo-session course-id='{{course_id}}'></demo-session>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <div class="demo_sessionbtn">
+                                    <offline-course course-id='{{course_id}}' ng-if="$root.settings['site.enabled_plugins'].indexOf('OfflineCourse') > -1"></offline-course>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="demo_sessionbtn">
+                                    <webinar-course course-id='{{course_id}}' ng-if="$root.settings['site.enabled_plugins'].indexOf('WebinarCourses') > -1"></webinar-course>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

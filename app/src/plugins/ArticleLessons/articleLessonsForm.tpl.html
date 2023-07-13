@@ -1,0 +1,44 @@
+<!--Button section-->
+<a class="video-link" title="{{'Add Article'|translate}}" ng-class="{'active' :showForm}" ng-click="uploadConfigure()" ng-if="action === 'add' ">
+    <i class="mdi-36px mdi mdi-pencil mt5"></i>
+    <span class="inner-video-lesson">{{'Article'|translate}}</span>
+</a>
+<!--Add section-->
+<div ng-if="showForm && action === 'add'" class="col-xs-12">
+    <form class="col-lg-12 mt30 form-horizontal" name="add_article" ng-submit="model.CheckUnpublishedLessons($event , add_article);add_article.$setPristine()">
+        <div id="row-description" class="form-group has-feedback" ng-class="add_article.article_content.$dirty ? (add_article.article_content.$valid ? 'has-success' : 'has-error') : ''">
+            <label for="article_content" class=" control-label text-muted">{{'Article Content'|translate}}&nbsp;*&nbsp;<span ng-show="add_article.article_content.$dirty" class="glyphicon form-control-feedback" ng-class="add_article.article_content.$valid ? 'mdi mdi-check' : 'mdi mdi-close'"></span></label>
+            <div class="input-group">
+                <div text-angular ng-model="model.onlineLesson.article_content" name="article_content" ta-toolbar="[['p','pre','quote'], ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol'],  ['justifyLeft', 'justifyCenter', 'justifyRight'], ['insertImage', 'insertLink']]"
+                    ta-toolbar-class="btn-toolbar" ta-toolbar-group-class="btn-group" ta-toolbar-button-class="btn btn-outline-secondary"
+                    ta-toolbar-button-active-class="active" ta-focussed-class="focussed" ta-text-editor-class="editorHeight"
+                    ta-html-editor-class="editorHeight" ta-required='true' data-ng-required="true" required></div>
+            </div>
+            <div class="alert navbar-btn" ng-class="{'alert-info': !error, 'alert-danger': error}" role="alert" ng-if='error'>{{info}}</div>
+        </div>
+        <div class="form-group">
+            <button type="submit" ng-disabled="disableButton" class="btn btn-primary">{{'Submit'|translate}} <span ng-show="disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>&nbsp;{{'or'|translate}}&nbsp;
+            <a href="#" ng-click="hideForm($event)" class="btn btn-outline-secondary">{{'Cancel'|translate}}</a>
+        </div>
+    </form>
+</div>
+<!--Edit section-->
+<div ng-if="action === 'edit' && editForm">
+    <form class="col-lg-12 form-horizontal" name="edit_article" ng-submit="editArticle($event, edit_article);edit_article.$setPristine()">
+        <div id="row-description" class="form-group has-feedback" ng-class="edit_article.edit_article_content.$dirty ? (edit_article.edit_article_content.$valid ? 'has-success' : 'has-error') : ''">
+            <label for="edit_article_content" class="control-label text-muted">{{'Article Content'|translate}}&nbsp;*&nbsp;</label>
+            <div class="">
+                <div text-angular ng-model="model.editOnlineLesson.edit_article_content" name="edit_article_content" ta-toolbar="[['p','pre','quote'], ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol'],  ['justifyLeft', 'justifyCenter', 'justifyRight'], ['insertImage', 'insertLink']]"
+                    ta-toolbar-class="btn-toolbar" ta-toolbar-group-class="btn-group" ta-toolbar-button-class="btn btn-outline-secondary"
+                    ta-toolbar-button-active-class="active" ta-focussed-class="focussed" ta-text-editor-class="form-control"
+                    ta-html-editor-class="form-control" ta-required='true' required=""></div>
+
+                <span ng-show="edit_article.edit_article_content.$dirty" class="glyphicon form-control-feedback" ng-class="edit_article.edit_article_content.$valid ? 'mdi mdi-check' : 'mdi mdi-close'"></span>
+                <div class="alert navbar-btn" ng-class="{'alert-info': !error, 'alert-danger': error}" role="alert" ng-if='error'>{{info}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" ng-disabled="disableButton">{{'Save'|translate}} <span ng-show="disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+        </div>
+    </form>
+</div>

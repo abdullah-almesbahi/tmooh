@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /learn-course/
+Disallow: /user/
+
+Sitemap: https://tmooh.com/sitemap.xml

@@ -1,0 +1,25 @@
+<div ng-if="model.wishlistType === 'heartWithText'">
+	<a href="#" ng-if="model.courseWishlist.is_favourite === true" title="{{model.wishlistedLabel}}" class="btn btn-outline-primary btn-block outline" ng-click="toggleFav(model.courseWishlist.id, $event, model.courseWishlist)">
+		<span ng-class="{'text-danger':model.courseWishlist.is_favourite === true}"><i class="mdi mdi-heart mdi-24px"></i>&nbsp;{{'Wishlisted'|translate}}</span>
+	</a>
+	<a href="#" ng-if="model.courseWishlist.is_favourite === false" title="{{model.wishlistLabel}}" class="btn btn-outline-primary btn-block outline" ng-click="toggleFav(model.courseWishlist.id, $event, model.courseWishlist)">
+		<span ng-class="{'text-danger':model.courseWishlist.is_favourite === true}"><i class="mdi mdi-heart"></i>&nbsp;{{'Add to wishlist'|translate}}</span>
+	</a>
+</div>
+
+<div ng-if="model.wishlistType === 'onlyHeart'">
+	<a href="#" title="{{model.wishlistedLabel}}" ng-if="model.courseWishlist.is_favourite === true" class="float-right unfavourite-text" ng-click="toggleFav(model.courseWishlist.id, $event, model.courseWishlist)"><i class="mdi mdi-heart mdi-24px" ng-class="{'text-danger': model.courseWishlist.is_favourite == true}"></i></a>
+	<a href="#" title="{{model.wishlistLabel}}" ng-if="model.courseWishlist.is_favourite === false" class="float-right unfavourite-text" ng-click="toggleFav(model.courseWishlist.id, $event, model.courseWishlist)"><i class="mdi mdi-heart mdi-24px" ng-class="{'text-danger': model.courseWishlist.is_favourite == true}"></i></a>
+</div>
+<div ng-if="model.wishlistType === 'onlyHeartButton'">
+	<a href="#" ng-if="model.courseWishlist.is_favourite === true" title="{{model.wishlistedLabel}}" class="btn btn-outline-primary btn-block outline" ng-click="toggleFav(model.courseWishlist.id, $event, model.courseWishlist)">
+		<span ng-class="{'text-danger':model.courseWishlist.is_favourite === true}"><i class="mdi mdi-heart mdi-24px"></i></span>
+	</a>
+	<a href="#" ng-if="model.courseWishlist.is_favourite === false" title="{{model.wishlistLabel}}" class="btn btn-outline-primary btn-block outline" ng-click="toggleFav(model.courseWishlist.id, $event, model.courseWishlist)">
+		<span ng-class="{'text-danger':model.courseWishlist.is_favourite === true}"><i class="mdi mdi-heart"></i></span>
+	</a>
+</div>
+<div ng-if="model.wishlistType === 'plusWithText'">
+	<a href="#" ng-if="model.courseWishlist.is_favourite === true" title="{{model.wishlistedLabel}}" class="btn btn-default" ng-click="toggleFav(model.courseWishlist.id, $event, model.courseWishlist)"><span ng-class="{'text-danger':model.courseWishlist.is_favourite === true}"><i class="mdi mdi-minus"></i>&nbsp;{{'Wishlisted'|translate}}</span></a>
+	<a href="#" ng-if="model.courseWishlist.is_favourite === false" title="{{model.wishlistLabel}}" class="btn btn-default" ng-click="toggleFav(model.courseWishlist.id, $event, model.courseWishlist)"><span ng-class="{'text-danger':model.courseWishlist.is_favourite === true}"><i class="mdi mdi-plus"></i>&nbsp;{{'Add to wishlist'|translate}}</span></a>
+</div>

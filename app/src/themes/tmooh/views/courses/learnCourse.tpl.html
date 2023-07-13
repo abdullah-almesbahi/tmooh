@@ -1,0 +1,216 @@
+<div class="clearfix lesson_container" id="js-lesson">
+  <div class="chapter-test lessonslist shadow">
+    <div class="m-2">
+        <a ng-if="$root.isAuth && $root.auth.providertype === 'admin'" href="ag-admin/courses/list" class="btn btn-sm btn-danger">
+          <i class="mdi-18px mdi mdi-chevron-left"></i>{{'Admin Panel'|translate}}
+        </a>
+        <a ng-if="$root.isAuth && $root.auth.providertype !== 'admin' && model.learn_page_params.learn" ng-href="/learn/{{model.learn_page_params.learn}}/overview" class="btn btn-sm">
+          {{'Go to Course Page'|translate}}
+        </a>         
+        <a ng-if="!$root.isAuth || ( !model.learn_page_params.learn && $root.isAuth && $root.auth.providertype !== 'admin' )" ng-href="/course/{{model.viewLessonDetails.course_id}}/{{model.viewLessonDetails.course_slug|escape}}" class="btn btn-sm">
+          {{'Go to Course Page'|translate}}
+        </a>
+        <a href="#" class="btn btn-link " style="float:left" ng-click="hideLessonNavbar($event);">
+          <i class="fa mdi-18px mdi mdi-close" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="clearfix"></div>
+    <div>
+      <uib-accordion ng-repeat="(online_chapter_key,online_chapter) in online_chapters">
+        <div uib-accordion-group class="shadow-sm mb-3" is-open="online_chapter.is_collapsed">
+          <uib-accordion-heading>
+            <span class="dfx">
+              <span class="dfxfl">
+                  <span class="chapterhdr text-dark d-block show">
+                    {{'Chapter'|translate}}:&nbsp;{{online_chapter_key+1}}
+                  </span>
+            <span class="text-dark show">
+                    {{online_chapter.lesson_name}}
+                  </span>
+            </span>
+            <span class="chapterhdr text-dark"> <strong class="text-primary">{{online_chapter.completed_lessons_count}}</strong> / {{online_chapter.total_lessons_count}}</span>
+            </span>
+          </uib-accordion-heading>
+          <ul class="list-unstyled mb-0">
+            <li class="border-bottom" ng-repeat="(OnlineCourse_key,OnlineCourse) in online_chapter.lessons" id="js-loader{{OnlineCourse.id}}" ng-class="{'lcurrent' : OnlineCourse.id == model.viewLessonDetails.id, '':OnlineCourse.id != model.viewLessonDetails.id, 'lcompleted' : OnlineCourse.completed == '1', '':OnlineCourse.completed == '0'}">
+              <!-- showing lesson chapter name-->
+              <span class="row " ng-if='OnlineCourse.is_chapter === 1'>
+                  <div class="col-xs-12 "><strong>{{'Chapter'|translate}}: {{OnlineCourse.lesson_name}} </strong></div>
+              </span>
+              <!-- showing lesson name -->
+              <span ng-if="OnlineCourse.is_practice_test" class="lessonsicon">
+                <i class="mdi-24px mdi mdi-file-document" aria-hidden="true"></i>
+              </span>
+              <span ng-if="OnlineCourse.is_assignment || OnlineCourse.is_quiz" class="lessonsicon"> <i class="mdi-24px mdi mdi-flash" aria-hidden="true"></i></span>
+              <span ng-if="OnlineCourse.online_lesson_type_id === 1" class="lessonsicon"> <i class="mdi-24px mdi mdi-file-document" aria-hidden="true"></i></span>
+              <span class="lessonsicon" ng-if="OnlineCourse.is_coding_exercises"><i class="mdi-24px mdi mdi-dots-horizontal" aria-hidden="true"></i></span>
+              <span ng-if="OnlineCourse.online_lesson_type_id === 5" class="lessonsicon"><i class="mdi-24px mdi mdi-download"></i></span>
+              <span ng-if="OnlineCourse.online_lesson_type_id === 4" class="lessonsicon"><i class="mdi-24px mdi mdi-file-video"></i></span>
+              <span ng-if="OnlineCourse.online_lesson_type_id === 3" class="lessonsicon"><i class="mdi-24px mdi mdi-play-circle-outline"></i></i></span>
+              <a class="media" ui-sref="LearnCourse({slug :OnlineCourse.course_slug, id:OnlineCourse.course_id, lesson: OnlineCourse.id,learn: couseUserID, is_preview: model.learn_page_params.is_preview})" ng-if='OnlineCourse.is_chapter === 0'>
+                <!-- Different lessons name  based on some condiition -->
+                <span class="" ng-if="!OnlineCourse.is_quiz && !OnlineCourse.is_assignment && !OnlineCourse.is_practice_test"> {{OnlineCourse.serial_number}}:&nbsp;</span>
+                <span class="" ng-if="OnlineCourse.is_practice_test">{{'Practice Test'|translate}} {{OnlineCourse.serial_number}}:&nbsp;</span>
+                <span class="" ng-if="OnlineCourse.is_assignment">{{'Assignment'|translate}} {{OnlineCourse.serial_number}}:&nbsp;</span>
+                <span class="" ng-if="OnlineCourse.is_quiz">{{'Quiz'|translate}} {{OnlineCourse.serial_number}}:&nbsp;</span>
+                <span class="" ng-if="OnlineCourse.is_coding_exercises">{{'Coding Exercise'|translate}} {{OnlineCourse.serial_number}}:&nbsp;</span>{{OnlineCourse.lesson_name}}
+                <!-- Mark as Completed -->
+              </a>
+              <span class="lessontimer" ng-if="OnlineCourse.online_lesson_type_id === 3 && OnlineCourse.video_duration !== null ">{{OnlineCourse.video_duration}}</span>
+              <i class="mdi mdi-24px mdi-loading mdi-spin lrotate"></i>
+              <i class="mdi mdi-24px mdi-radiobox-blank text-muted mt-1" ng-click="model.lessonComplete(OnlineCourse.id, OnlineCourse)" ng-if="OnlineCourse.id && coursePurchased &&  OnlineCourse.completed == '0'" tooltip-placement="auto" tooltip-animation="false" uib-tooltip="{{'Mark as Completed'|translate}}"></i>
+              <i class="mdi mdi-24px mdi-check-circle-outline text-success mt-1" ng-click="model.lessonComplete(OnlineCourse.id, OnlineCourse)" ng-if="OnlineCourse.id && coursePurchased &&  OnlineCourse.completed == '1'" tooltip-placement="auto" tooltip-animation="false" uib-tooltip="{{'Unmark to Unread'|translate}}"></i>
+            </li>
+          </ul>
+        </div>
+      </uib-accordion>
+    </div>
+  </div>
+
+  <div class="lessontoptoggle clearfix">
+    <a href="#" ng-if="model.lesson_navbar === false" class="lessons-toggle" ng-click="showLessonNavbar($event);">
+      <i class="mdi-18px mdi mdi-format-list-bulleted" aria-hidden="true"></i>
+    </a>
+    <h1 class="lessons-title" ng-if="!model.viewLessonDetails.is_assignment &&  !model.viewLessonDetails.is_practice_test">{{model.viewLessonDetails.lesson_name}}</h1>
+    <a href="#" ng-if="model.lesson_navbar === true" class="lessons-toggle" ng-click="hideLessonNavbar($event);">
+        <i class="fa mdi-18px mdi mdi-close" aria-hidden="true"></i>
+    </a>
+    <a ng-if="$root.isAuth && $root.auth.providertype !== 'admin'" href="/learn/{{model.learn_page_params.learn}}/overview" class="lessons-dboard">
+      {{'Go to Course Page'|translate}}
+    </a>    
+    <a ng-if="!$root.isAuth || ( !model.learn_page_params.learn && $root.isAuth && $root.auth.providertype !== 'admin' )" ng-href="/course/{{model.viewLessonDetails.course_id}}/{{model.viewLessonDetails.course_slug|escape}}" class="lessons-dboard">
+      {{'Go to Course Page'|translate}}
+    </a>
+  </div>
+  <div class="lessonsrgtcontent" id="js-video">
+    <div class="lecture-pagination clearfix">
+      <a href="javascript:void(0);" class="btn btn-primary btn-sm mx-2" tooltip-placement="auto" tooltip-animation="false" uib-tooltip="{{'Move to previous lesson'|translate}}" ng-disabled="model.neighbourDetails.previous_id === null" ui-sref="LearnCourse({slug :model.neighbourDetails.course_slug, id:model.neighbourDetails.course_id, lesson: model.neighbourDetails.previous_id,learn: couseUserID, is_preview: model.learn_page_params.is_preview})">
+        <i class="mdi-18px mdi mdi-chevron-left"></i>
+      </a>
+
+      <a href="javascript:void(0);" class="btn btn-primary btn-sm  float-left mx-2" tooltip-placement="auto" tooltip-animation="false" uib-tooltip="{{'Move to next lesson'|translate}}" ng-disabled="model.neighbourDetails.next_id === null" ui-sref="LearnCourse({slug :model.neighbourDetails.course_slug, id:model.neighbourDetails.course_id, lesson: model.neighbourDetails.next_id,learn: couseUserID, is_preview: model.learn_page_params.is_preview})"><i class="mdi-18px mdi mdi-chevron-right"></i></a>
+      <a class="btn btn-sm " ng-class="{'btn-success': model.viewLessonDetails.completed === '1', 'btn-outline-success':model.viewLessonDetails.completed !== '1'}" ng-disabled="shouldBuyCourse" ng-click="model.lessonComplete(model.viewLessonDetails.id, model.viewLessonDetails)" ng-if='model.viewLessonDetails.id && coursePurchased'>
+          <i class="mdi-18px mdi mdi-check-circle fa-lg fa-fw text-muted" ng-class="{'text-success': model.viewLessonDetails.completed === '1'}"></i>
+          <span class="" ng-if="model.viewLessonDetails.completed === '1'"> {{'Mark as Unread'|translate}}</span>
+          <span class="" ng-if="model.viewLessonDetails.completed !== '1'"> {{'Mark as Completed'|translate}}</span>
+      </a>
+    </div>
+    <div class="clearfix lesson_details bg-white" id="js-lesson-detail" ng-if='model.viewLessonDetails !== null && !shouldBuyCourse'>
+      <div class="clearfix">
+        <h1 class="practice-text-title mt-3" ng-if="!model.viewLessonDetails.is_assignment &&  !model.viewLessonDetails.is_practice_test">{{model.viewLessonDetails.lesson_name}}</h1>
+        <p ng-if="!model.viewLessonDetails.is_coding_exercises && !model.viewLessonDetails.is_assignment && !model.viewLessonDetails.is_practice_test">{{model.viewLessonDetails.lesson_description}}</p>
+      </div>
+
+      <div class="clearfix">
+        <div>
+          <!--  Article type lessons..-->
+          <div ng-if='model.viewLessonDetails.online_lesson_type_id === 1'>
+            <p class="course_cotenttext" ng-bind-html='model.viewLessonDetails.article_content'>
+          </div>
+          <!--  Video Based  type lessons..-->
+          <div ng-if='model.viewLessonDetails.online_lesson_type_id === 3'>
+            <div class="alert alert-info" ng-if="model.viewLessonDetails.is_video_converting_is_processing === 1">
+              <span class="well-sm">{{'Video converting under progressing'|translate}}</span>
+            </div>
+            <div class="alert alert-danger" ng-if="model.viewLessonDetails.is_video_converting_is_processing === 0 && model.viewLessonDetails.is_lesson_ready_to_view !== 1">
+              <span class="well-sm">{{'Video conversion Failed. Students can\'t view this lesson'|translate}}</span>
+            </div>
+            <div class="lsvideotopsection">
+              <amazon-upload type='Preview' video-url='{{model.viewLessonDetails.embed_code}}' data-method="model.amazonS3Upload" width=80 height=40 lesson-id='{{model.viewLessonDetails.id}}' ng-if="$root.settings['site.enabled_plugins'].indexOf('AmazonS3andRTMP') > -1 && model.viewLessonDetails.aws_job_id !== null && model.viewLessonDetails.is_video_converting_is_processing =='0' && model.viewLessonDetails.aws_job_id != 0 && model.viewLessonDetails.is_lesson_ready_to_view == '1'">
+              </amazon-upload>
+
+              <video id="video" ng-src="{{model.viewLessonDetails.video_url}}" controls="true" ng-if="((model.viewLessonDetails.aws_job_id === null || model.viewLessonDetails.aws_job_id === undefined || model.viewLessonDetails.aws_job_id == 0) &&  model.viewLessonDetails.is_lesson_ready_to_view === 1)"></video>
+            </div>
+          </div>
+          <!-- Embedded Video  type lessons like youtube etc..-->
+          <div class="lsvideotopsection" ng-if='model.viewLessonDetails.online_lesson_type_id === 4'>
+            <p class="videoWrapper" ng-if="!youtube" ng-bind-html='model.viewLessonDetails.embed_code'></p>
+            <span ng-if="youtube">
+              <video
+                id="vid1"
+                class="video-js vjs-tmooh-skin vjs-fill"
+                controls
+                vjs-video
+                autoplay
+                width="100%" height="100%"
+                vjs-setup='{ "techOrder": ["youtube"], "modestbranding" : 1 }'
+              >
+              </video>
+            </span>
+
+
+          </div>
+          <!-- File downloadable type lessons-->
+          <div ng-if='model.viewLessonDetails.online_lesson_type_id === 5'>
+            <div class="lessonspanel assignmentpnl clearfix">
+              <div class="mb5"><strong>{{'Download this lesson'|translate}}</strong></div>
+              <p class="text-center"><a ng-href="{{model.viewLessonDetails.download_url}}" target="_blank" class="btn btn-outline-primary btn-lg"><i class="mdi-24px mdi mdi-download"></i> {{'Download'|translate}} {{model.viewLessonDetails.filename}}</a></p>
+
+            </div>
+          </div>
+          <div ng-if='model.viewLessonDetails.online_lesson_type_id === 6'>{{model.viewLessonDetails.lessondescription}}</div>
+          <!--Quiz type lessons-->
+          <div ng-if="model.viewLessonDetails.is_quiz">
+            <div class="lessonspanel assignmentpnl clearfix">
+              <quiz-exercise-learner course='{{model.viewLessonDetails.course_id}}' ng-if="$root.settings['site.enabled_plugins'].indexOf('Quizz') > -1" lesson-id='{{model.viewLessonDetails.id}}'></quiz-exercise-learner>
+            </div>
+          </div>
+          <!--Coding exercise type lessons-->
+          <div ng-if="model.viewLessonDetails.is_coding_exercises">
+            <coding-exercise-learner course='{{model.viewLessonDetails.course_id}}' ng-if="$root.settings['site.enabled_plugins'].indexOf('CodingExercise') > -1" lesson-id='{{model.viewLessonDetails.id}}'></coding-exercise-learner>
+          </div>
+          <!--Pratice test type lessons -->
+          <div ng-if="model.viewLessonDetails.is_practice_test">
+            <practice-test-start-page course='{{model.viewLessonDetails.course_id}}' ng-if="$root.settings['site.enabled_plugins'].indexOf('CodingExercise') > -1" lesson-id='{{model.viewLessonDetails.id}}' lesson-detail='{{model.viewLessonDetails}}'></practice-test-start-page>
+          </div>
+          <!--Assignment type lessons  -->
+          <div ng-if="model.viewLessonDetails.is_assignment">
+            <assignment-start-page course='{{model.viewLessonDetails.course_id}}' ng-if="$root.settings['site.enabled_plugins'].indexOf('Assignment') > -1" lesson-id='{{model.viewLessonDetails.id}}' lesson-detail='{{model.viewLessonDetails}}'></assignment-start-page>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center" ng-if="model.viewLessonDetails === null || model.viewLessonDetails === undefined">
+    <h2 class="">{{'No lessons available.'|translate}}</h2>
+  </div>
+  <!--Browser QA question for video based lessons  -->
+  <!-- <div class="lessons-settings" ng-if='model.viewLessonDetails.online_lesson_type_id === 3 && model.browse_question === true'>
+    <div class="lsettinginner">
+      <div class="mark-review">
+      </div>
+      <div class="seeallques">
+        <a href="javascript:void(0);" class="btn btn-outline-primary btn-sm" ng-click="openBrowseQuestiontab()">{{'Browse Q&A' | translate}}<i class="mdi-18px mdi mdi-chevron-right" aria-hidden="true"></i></a>
+      </div>
+      <div class="lsettingsrgt">
+        <a href="javascript:void(0);" class="btn btn-outline-success  btn-sm mx-4" ng-if="model.neighbourDetails.next_id !== null" ui-sref="LearnCourse({slug :model.neighbourDetails.course_slug, id:model.neighbourDetails.course_id, lesson: model.neighbourDetails.next_id,learn: couseUserID, is_preview: model.learn_page_params.is_preview})">{{'Continue' | translate}}<i class="mdi-18px mdi mdi-chevron-right" aria-hidden="true"></i></a>
+      </div>
+    </div>
+  </div> -->
+  <!--Browser QA question for Coding exercises, Embedded video based lessons , article lessons ,Downloadable lessons -->
+  <!-- <div class="lessons-settings" ng-if='((model.viewLessonDetails.is_coding_exercises || model.viewLessonDetails.online_lesson_type_id === 1 || model.viewLessonDetails.online_lesson_type_id === 5 || model.viewLessonDetails.online_lesson_type_id === 4) && model.browse_question === true)'>
+    <div class="lsettinginner">
+      <div class="mark-review">
+      </div>
+      <div class="seeallques">
+        <a href="javascript:void(0);" class="btn btn-outline-primary btn-sm" ng-click="openBrowseQuestiontab()">{{'Browse Q&A' | translate}}<i class="mdi-18px mdi mdi-chevron-right" aria-hidden="true"></i></a>
+      </div>
+      <div class="lsettingsrgt">
+
+      </div>
+    </div>
+  </div> -->
+
+  <!--Left side  QA section in curriculum page-->
+  <div class="qa-questions-right">
+    <div class="questions-bl">
+      <div class="question-close mb-2">
+        <a href="#" class="questions-toggle bg-light" ng-click="closeBrowseQuestiontab()">
+            <i class="fa mdi-18px mdi mdi-close" aria-hidden="true"></i>
+        </a>
+      </div>
+      <question-answers course-instructor-id="{{model.viewLessonDetails.teacher_user_id}}" course-id="{{model.viewLessonDetails.course_id}}" ng-if="model.viewLessonDetails.course_id && model.viewLessonDetails.teacher_user_id"></question-answers>
+    </div>
+  </div>
+</div>

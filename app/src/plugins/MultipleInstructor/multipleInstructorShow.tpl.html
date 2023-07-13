@@ -1,0 +1,24 @@
+<div ng-if="model.loading == false && model.multipleInstructor.length > 0" ng-repeat="instructor in model.multipleInstructor">
+    <div class="media instructor-media">
+        <div class="float-left">
+            <profile-image instructor='true' user-image-hash='instructor.image_hash' user-display-name='{{instructor.displayname}}' user-profile-id='instructor.user_id' ng-if='instructor.user_id' user-profile-thumb='big_medium_thumb' image-type='image'></profile-image>
+        </div>
+        <div class="media-body">
+            <profile-name instructor='true' user-profile-id='instructor.user_id' ng-if='instructor.user_id' user-designation='yes' user-designation-text='{{instructor.designation}}' user-display-name='instructor.displayname' user-name-class='instuctor-profile'></profile-name>
+            <ul class="list-inline">
+                <li ng-show="instructor.twitter_profile_link"><a rel="nofollow" href="{{instructor.twitter_profile_link}}" target="_blank" class="text-muted"><span class="fa-stack fa-lg"> <i class="mdi-18px mdi mdi-square fa-stack-2x"></i> <i class="mdi-18px mdi mdi-twitter fa-stack-1x fa-inverse"></i> </span> </a></li>
+                <li ng-show="instructor.google_plus_profile_link">
+                    <a rel="nofollow" href="{{instructor.google_plus_profile_link}}" target="_blank" class="text-muted"> <span class="fa-stack fa-lg"> <i class="mdi-18px mdi mdi-square fa-stack-2x"></i> <i class="mdi-18px mdi mdi-google-plus fa-stack-1x fa-inverse"></i> </span></a>
+                </li>
+                <li ng-show="instructor.facebook_profile_link"><a rel="nofollow" href="{{instructor.facebook_profile_link}}" target="_blank" class="text-muted"><span class="fa-stack fa-lg"> <i class="mdi-18px mdi mdi-square fa-stack-2x"></i> <i class="mdi-18px mdi mdi-facebook fa-stack-1x fa-inverse"></i> </span></a></li>
+                <li ng-show="instructor.youtube_profile_link"><a rel="nofollow" href="{{instructor.youtube_profile_link}}" target="_blank" class="text-muted"><span class="fa-stack fa-lg"> <i class="mdi-18px mdi mdi-square fa-stack-2x"></i> <i class="mdi-18px mdi mdi-youtube fa-stack-1x fa-inverse"></i> </span> </a></li>
+                <li ng-show="instructor.website"><a rel="nofollow" href="{{instructor.website}}" target="_blank" class="text-muted"><span class="fa-stack fa-lg"> <i class="mdi-18px mdi mdi-square fa-stack-2x"></i> <i class="mdi-18px mdi mdi-earth fa-stack-1x fa-inverse"></i> </span> </a></li>
+                <li ng-show="instructor.linkedin_profile_link"><a rel="nofollow" href="{{instructor.linkedin_profile_link}}" target="_blank" class="text-muted"><span class="fa-stack fa-lg"> <i class="mdi-18px mdi mdi-square fa-stack-2x"></i> <i class="mdi-18px mdi mdi-linkedin fa-stack-1x fa-inverse"></i> </span> </a></li>
+            </ul>
+            <div class="mt10 clearfix">
+                <p class="" ng-if="instructor.biography" ng-bind-html="instructor.biography | nl2br"></p>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,95 @@
+<section class="container pb-3 mb-5">
+  <course-navbar></course-navbar>
+  <div class="card shadow bg-white">
+    <div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading"></div>
+    <div class="card-body" ng-if="!model.loading">
+      <h3 class="text-default">{{'Students'|translate}}</h3>
+      <p>{{'List of Enrolled Students.'|translate}}</p>
+      <div class="dropdown navbar-btn">
+        <a href="javascript:void(0)" ng-show="model.currentSortby == 'all'" title="{{'All Courses'|translate}}" data-toggle="dropdown" class="btn btn-outline-secondary">
+              <span>{{'Sort By'|translate}} </span>&nbsp;<i class="mdi-18px mdi mdi-chevron-down text-muted"></i>
+          </a>
+        <a href="javascript:void(0)" ng-show="model.currentSortby == 'booked_date'" title="{{'Join Date'|translate}}" data-toggle="dropdown" class="btn btn-outline-secondary">
+              <span>{{'Join Date'|translate}} </span>&nbsp;<i class="mdi-18px mdi mdi-chevron-down text-muted"></i>
+          </a>
+        <a href="javascript:void(0)" ng-show="model.currentSortby == 'end_date'" title="{{'End Date'|translate}}" data-toggle="dropdown" class="btn btn-outline-secondary">
+              <span>{{'End Date'|translate}}</span>&nbsp;<i class="mdi-18px mdi mdi-chevron-down text-muted"></i>
+          </a>
+        <a href="javascript:void(0)" ng-show="model.currentSortby =='learner_name'" title="{{'Name'|translate}}" data-toggle="dropdown" class="btn btn-outline-secondary">
+              <span>{{'Name'|translate}}</span>&nbsp;<i class="mdi-18px mdi mdi-chevron-down text-muted"></i>
+          </a>
+        <ul class="dropdown-menu dropdown-menu-right">
+          <li><a class="dropdown-item" href="" ng-click="model.sort('all')" title="{{'All'|translate}}">{{'Sort By'|translate}} </a></li>
+          <li><a class="dropdown-item" href="" ng-click="model.sort('learner_name')" title="{{'Name'|translate}}">{{'Name'|translate}}</a></li>
+          <li><a class="dropdown-item" href="" ng-click="model.sort('booked_date')" title="{{'Join Date'|translate}}">{{'Join Date'|translate}}</a></li>
+          <li><a class="dropdown-item" href="" ng-click="model.sort('end_date')" title="{{'End Date'|translate}}">{{'End Date'|translate}}</a></li>
+        </ul>
+      </div>
+      <!-- MULTIPLE NSTRCUTOR -->
+      <div class="custom-table">
+        <div class="table-responsive" id="studentlists">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th class="text-center">{{'Name'|translate}}</th>
+                <th class="text-center">{{'Batch Name'|translate}}</th>
+                <th class="text-center">{{'Join Date'|translate}}</th>
+                <th class="text-center">{{'End Date'|translate}}</th>
+                <th class="text-center">{{'Progress Live Onsite Training '|translate}}</th>
+                <th class="text-center">{{'Progress Live Online Training'|translate}}</th>
+                <th class="text-center">{{'Message'|translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="StudentCoursesList in  model.StudentCoursesLists">
+                <td class="text-center">{{StudentCoursesList.learner_name}}</td>
+                <td class="text-center"><span ng-if="StudentCoursesList.course_batch_id === null">
+    --
+    </span> <span ng-if="StudentCoursesList.course_batch_id !== null">{{StudentCoursesList.name}}
+      </span></td>
+                <td class="text-center">{{StudentCoursesList.created | amDateFormat: 'MM/DD/YYYY'}}</td>
+                <td class="text-center"><span ng-if="StudentCoursesList.end_date !== null">{{StudentCoursesList.end_date | amDateFormat: 'MM/DD/YYYY'}}</span>
+                  <span ng-if="StudentCoursesList.end_date === null">--</span>
+                </td>
+                <td class="text-center"><span ng-if="StudentCoursesList.is_offline == true">
+    <div class="progress">
+      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{StudentCoursesList.progess_percentage}}" aria-valuemin="0" aria-valuemax="100"
+        style="width:{{StudentCoursesList.progess_percentage}}%">
+        {{StudentCoursesList.progess_percentage}}{{'% Complete (success)' | translate}}
+      </div>
+    </div>
+    </span><span ng-if="StudentCoursesList.is_offline == false || StudentCoursesList.is_offline == undefined">
+      --
+    </span></td>
+                <td class="text-center"><span ng-if="StudentCoursesList.is_offline == false">
+      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{StudentCoursesList.progess_percentage}}" aria-valuemin="0" aria-valuemax="100"
+        style="width:{{StudentCoursesList.progess_percentage}}%">
+        {{StudentCoursesList.progess_percentage}}{{'% Complete (success)' | translate}}
+      </div>
+    </span>
+                  <span ng-if="StudentCoursesList.is_offline == true || StudentCoursesList.is_offline == undefined">
+      --
+    </span></td>
+                <td>
+                  <a href="" class="btn btn-primary navbar-btn" ng-click="modalSignup($event,StudentCoursesList)">
+                                  <i class="mdi-18px mdi mdi-pencil  fa-fw"></i>{{'Compose' | translate}}</a>
+                </td>
+              </tr>
+              <tr ng-if="!model.StudentCoursesLists.length" class="ng-scope">
+                <td colspan="7" class="text-center">
+                  <p class="error">{{'No Record Found' | translate}}</p>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+        <div class="paging clearfix text-center" ng-show="model._metadata.total_records > 0 && model._metadata.noOfPages > 1">
+          <ul uib-pagination total-items="model._metadata.total_records" ng-model="model.currentPage" ng-change="paginate('#studentlists')" max-size="model._metadata.maxSize" boundary-links="true" num-pages="model._metadata.noOfPages" items-per-page="model._metadata.limit"
+            first-text="{{'First'|translate}}" last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

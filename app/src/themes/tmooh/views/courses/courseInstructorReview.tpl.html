@@ -1,0 +1,79 @@
+<div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="tab-content row navbar-btn">
+          <div id="teaching" class="tab-pane active" role="tabpanel">
+            <div class="navbar-btn">
+              <div class="clearfix"></div>
+              <div class="well">
+                <div class=" float-right col-xs-12 col-md-6 col-sm-6">
+                  <div class="navbar-right dropdown">
+                    <a data-toggle="dropdown" class="btn btn-outline-secondary">
+                      <span ng-show="!messagesort.sortby || messagesort.sortby === 'created' ">{{'Newest To oldest'|translate}}</span>
+                      <span ng-show="messagesort.sortby === '-created' ">{{'Oldest To Newest'|translate}}</span>
+                      <span ng-show="messagesort.sortby === 'rating' ">{{'Rating Highest to Lowes'|translate}}</span>
+                      <span ng-show="messagesort.sortby === '-rating' ">{{'Rating Lowest to Highest'|translate}}</span> &nbsp;
+                      <i class="mdi-18px mdi mdi-chevron-down text-muted"></i> </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a href="javascript:void(0);" class="dropdown-item" ng-click="Sort('created')" title="{{'Newest To oldest'|translate}}">{{'Newest To oldest'|translate}}</a>
+                      <a href="javascript:void(0);" class="dropdown-item" ng-click="Sort('-created')" title="{{'Oldest To Newest'|translate}}">{{'Oldest To Newest'|translate}}</a>
+                      <a href="javascript:void(0);" class="dropdown-item" ng-click="Sort('rating')" title="{{'Newest To oldest'|translate}}">{{'Rating Highest to Lowest'|translate}}</a>
+                      <a href="javascript:void(0);" class="dropdown-item" ng-click="Sort('-rating')" title="{{'Newest To oldest'|translate}}">{{'Rating Lowest to Highest'|translate}}</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            <ul class="list-group clearfix  navbar-btn course-list">
+              <li class="list-group-item clearfix vdivide thumbnail" ng-repeat="feedback in model.CoursesFeedbacks">
+                <div class="col-md-6 col-xs-12 col-sm-6 ">
+                  <div class="media row teachingoverlay">
+                    <div class="float-left col-xs-4 row">
+                      <!-- course image when is_from_mooc_affiliate false -->
+                      <!--<a ng-if="feedback.image_hash" href="/manage-course/add/{{feedback.course_id}}/{{feedback.slug}}"
+                        title="{{feedback.title}}"><img animate-visible="{{ImgLazyLoad.AnimateVisible}}" animate-speed="{{ImgLazyLoad.AnimateSpeed}}"
+                          lazy-src="{{$root.site_url}}img/medium_thumb/Course/{{feedback.image_hash}}" alt="[Image: {{feedback.title}}]"
+                          title="{{feedback.title}}" class="img-fluid" /> </a>
+                      <a ng-if="!feedback.image_hash" href="/manage-course/add/{{feedback.course_id}}/{{feedback.slug}}"
+                        title="{{feedback.title}}"><img animate-visible="{{ImgLazyLoad.AnimateVisible}}" animate-speed="{{ImgLazyLoad.AnimateSpeed}}"
+                          lazy-src="{{$root.site_url}}img/medium_thumb/Course/0.default.jpg" alt="[Image: {{feedback.title}}]"
+                          title="{{feedback.title}}" class="img-fluid" /> </a>-->
+                      <!-- course image when is_from_mooc_affiliate true -->
+                      <a ng-if="feedback.user_image" ng-href="/manage-course/add/{{feedback.course_id}}/{{feedback.slug|escape}}"
+                        title="{{feedback.title}}"><img ng-src="{{feedback.user_image}}" alt="[Image: {{feedback.title}}]" title="{{feedback.title}}"
+                          class="img-fluid" /> </a>
+                      <a ng-if="!feedback.user_image" ng-href="/manage-course/add/{{feedback.course_id}}/{{feedback.slug|escape}}"
+                        title="{{feedback.title}}"><img ng-src="{{$root.site_url}}img/medium_thumb/Course/0.default.jpg" alt="[Image: {{feedback.title}}]"
+                          title="{{feedback.title}}" class="img-fluid" /> </a>
+                    </div>
+                    <div class="media-body">
+                      <a class="text-muted" href=""><strong class="text-truncate">Title:{{feedback.review_title}}</strong></a>
+                        <a class="text-muted" href=""><strong class="text-truncate"> {{'Course Title:' | translate}}{{feedback.course_title}}</strong></a>
+                          By <br>{{feedback.created}}
+                          {{feedback.displayname}}
+                      <div>
+                        <strong class="float-left">{{feedback.course_status_name}}</strong>
+                        	<rating-stars average-rating='{{feedback.rating}}' ng-if=" $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1" ></rating-stars>
+                        <span class="float-right well-sm">
+                          <amount-display amount='{{feedback.price}}' fraction='0' is-course-price='yes'>
+
+                          </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="text-center" ng-show="model._metadata.total_records === 0">
+            <p class="alert alert-danger">{{'No records found'|translate}}</p>
+          </div>
+          <div class="paging clearfix text-center" ng-show="model._metadata.total_records> 0">
+            <ul uib-pagination total-items="model._metadata.total_records" ng-model="currentPage" ng-change="paginate('#feeedback_list')" max-size="model._metadata.maxSize"
+              boundary-links="true" num-pages="model._metadata.noOfPages" items-per-page="model._metadata.limit" first-text="{{'First'|translate}}"
+              last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+          </div>
+        </div>
+      </div>
+    </div>

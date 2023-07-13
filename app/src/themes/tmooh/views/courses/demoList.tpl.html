@@ -1,0 +1,27 @@
+<div class="" ng-class="{'container': currentPageType === 'page'}">
+	<div class="center-form" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+		<div class="modal-scroll">
+			<div class="card-body">
+				<div class="col-xs-12">
+					<div class="row">
+						<div class="col-md-4 col-sm-6" ng-repeat="demosession in model.demosession_data">
+							<div ng-if="demosession.type === 'online'">
+							{{'Start date :' | translate}} {{demosession.session_start_date}}
+							{{'End date :' | translate}} {{demosession.session_end_date}}
+							Type : {{demosession.type}}
+							<a href="" class="btn btn-success btn-xs" ng-click="OpenWebinarWindow(demosession.webinar_url)">Launch Meeting</a>
+							</div>
+							<div ng-if="demosession.type === 'onsite'">
+							{{'Start date :' | translate}} {{demosession.session_start_date}}
+							{{'End date :' | translate}} {{demosession.session_end_date}}
+							{{'Type :' | translate}} {{demosession.type}}
+							{{'Address :' | translate}} {{demosession.address}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>

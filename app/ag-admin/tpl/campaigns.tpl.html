@@ -1,0 +1,163 @@
+<div class="row">
+    <div class="col-lg-12">
+        <content-top>
+            <div class="content-top clearfix">
+                <ul class="breadcrumb al-breadcrumb">
+                    <h4 class="al-title ng-binding">Add/Edit Campaign</h4>
+					 <a class="btn btn-default pull-right" ng-class="size ? 'btn-' + size : ''"  href="#/campaigns/list">
+               <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+                </ul>
+            </div>
+		</content-top>
+    </div>
+</div>
+<div class="row" id="create-view">
+    <div class="clearfix well-sm with-scroll  panel animated zoomIn">
+        <!--Course revenue report table -->
+        <div class="col-lg-12">
+            <div class="panel-body">
+                <div class="row">
+                    <form class="col-lg-12 form-horizontal" name="CampaignCreateForm" ng-submit="CampaignSubmit(CampaignCreateForm.$valid)" novalidate>
+                        <div>
+                            <div id="row-pages-slug" class="form-group has-feedback"> <label for="pageSlug" class="col-sm-2 control-label">Name*</label>
+                                <div class="ng-admin-type-text col-sm-10 col-md-8 col-lg-7">
+                                    <input type="text" ng-model="campaign.name" class="form-control" name="campaign_name" ng-required="true">
+                                    <div ng-show="(CampaignCreateForm.$submitted || CampaignCreateForm.campaign_name.$touched) && (CampaignCreateForm.campaign_name.$pristine || CampaignCreateForm.campaign_name.$invalid)">
+                                        <span class="error text-danger" ng-show="(CampaignCreateForm.campaign_name.$error.required)">{{'Required' | translate }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div id="row-pages-slug" class="form-group has-feedback"> <label for="pageSlug" class="col-sm-2 control-label">Description</label>
+                                <div class="ng-admin-type-text col-sm-10 col-md-8 col-lg-7">
+                                    <input type="text" ng-model="campaign.description" class="form-control" name="campaign_description">
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="channel_needed">
+                            <div id="row-pages-slug" class="form-group has-feedback"> <label for="pageSlug" class="col-sm-2 control-label">Channel*</label>
+                                <div class="ng-admin-type-text col-sm-10 col-md-8 col-lg-7">
+                                    <select id="campaign_channel_id" name="campaign_channel_id" class="form-control" ng-options="channel.id as channel.name for channel in channels" ng-model="campaign.channel_id" ng-required="true" ng-disabled="edit_field">
+                                        <option value="">Select</option>
+                                    </select>
+                                    <div ng-show="(CampaignCreateForm.$submitted || CampaignCreateForm.campaign_channel_id.$touched) && (CampaignCreateForm.campaign_channel_id.$pristine || CampaignCreateForm.campaign_channel_id.$invalid)">
+                                        <span class="error text-danger" ng-show="(CampaignCreateForm.campaign_channel_id.$error.required)">{{'Required' | translate }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div id="row-pages-slug" class="form-group has-feedback"> <label for="pageSlug" class="col-sm-2 control-label">is_site_promotions *</label>
+                                <div class="ng-admin-type-text col-sm-10 col-md-8 col-lg-7">
+                                    <select class="form-control" name="campaign_is_site_promotions" ng-model="campaign.is_site_promotions" ng-required="true" ng-change="sitePromotionValidation()" ng-disabled="edit_field">
+										<option value="">Filter values</option>
+									<option value='true'>Yes</option>
+									<option value='false'>No</option>
+									</select>
+                                    <div ng-show="(CampaignCreateForm.$submitted || CampaignCreateForm.campaign_is_site_promotions.$touched) && (CampaignCreateForm.campaign_is_site_promotions.$pristine || CampaignCreateForm.campaign_is_site_promotions.$invalid)">
+                                        <span class="error text-danger" ng-show="(CampaignCreateForm.campaign_is_site_promotions.$error.required)">{{'Required' | translate }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div id="row-pages-slug" class="form-group has-feedback"> <label for="pageSlug" class="col-sm-2 control-label">start Date *</label>
+                                <div class="ng-admin-type-text col-sm-10 col-md-8 col-lg-7">
+                                    <p class="input-group">
+                                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="tmp_start_date" is-open="opened.date_pop1" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" name="campaign_start_date"
+                                        />
+                                        <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="datePickerOpen('date_pop1')"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+                                    </p>
+                                    <div ng-show="(CampaignCreateForm.$submitted || CampaignCreateForm.campaign_start_date.$touched) && (CampaignCreateForm.campaign_start_date.$pristine || CampaignCreateForm.campaign_start_date.$invalid)">
+                                        <span class="error text-danger" ng-show="(CampaignCreateForm.campaign_start_date.$error.required)">{{'Required' | translate }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div id="row-pages-slug" class="form-group has-feedback"> <label for="pageSlug" class="col-sm-2 control-label">End Date *</label>
+                                <div class="ng-admin-type-text col-sm-10 col-md-8 col-lg-7">
+                                    <p class="input-group">
+                                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="tmp_end_date" is-open="opened.date_pop2" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" name="campaign_end_date"
+                                        />
+                                        <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="datePickerOpen('date_pop2')"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+                                    </p>
+                                    <div ng-show="(CampaignCreateForm.$submitted || CampaignCreateForm.campaign_end_date.$touched) && (CampaignCreateForm.campaign_end_date.$pristine || CampaignCreateForm.campaign_end_date.$invalid)">
+                                        <span class="error text-danger" ng-show="(CampaignCreateForm.campaign_end_date.$error.required)">{{'Required' | translate }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="!channel_needed">
+                            <div id="row-pages-slug" class="form-group has-feedback"> <label for="pageSlug" class="col-sm-2 control-label">Discounted Amount * </label>
+                                <div class="ng-admin-type-text col-sm-10 col-md-8 col-lg-7">
+                                    <input type="number" step="0.01" pattern="^\d+(?:\.\d{1,2})?$" ng-model="campaign.discounted_amount" class="form-control" name="campaign_discounted_amount" ng-required="true" ng-minlength="0" ng-maxlength="5" ng-disabled="edit_field">
+                                    <div ng-show="(CampaignCreateForm.$submitted || CampaignCreateForm.campaign_discounted_amount.$touched) && (CampaignCreateForm.campaign_discounted_amount.$pristine || CampaignCreateForm.campaign_discounted_amount.$invalid)">
+                                        <span class="error text-danger" ng-show="(CampaignCreateForm.campaign_discounted_amount.$error.required)">{{'Required' | translate }}</span>
+                                        <span class="error  text-danger" ng-show="(CampaignCreateForm.campaign_discounted_amount.$error.max || CampaignCreateForm.campaign_discounted_amount.$error.min)">{{'Not a valid percentage'| translate }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="!channel_needed">
+                            <div id="row-pages-slug" class="form-group has-feedback"> <label for="pageSlug" class="col-sm-2 control-label">Discount Type *</label>
+                                <div class="ng-admin-type-text col-sm-10 col-md-8 col-lg-7">
+                                    <select class="form-control" name="campaign_discount_type" ng-model="campaign.discount_type" ng-required="true" ng-disabled="edit_field">
+										<option value="">Filter values</option>
+									<option value="percentage">Percentage</option>
+									<option value="fixed">Fixed</option>
+									</select>
+                                    <div ng-show="(CampaignCreateForm.$submitted || CampaignCreateForm.campaign_discount_type.$touched) && (CampaignCreateForm.campaign_discount_type.$pristine || CampaignCreateForm.campaign_discount_type.$invalid)">
+                                        <span class="error text-danger" ng-show="(CampaignCreateForm.campaign_discount_type.$error.required)">{{'Required' | translate }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div  ng-if="channel_needed">
+                            <div id="row-pages-slug" class="form-group has-feedback"> <label for="pageSlug" class="col-sm-2 control-label">Utm Source * </label>
+                                <div class="ng-admin-type-text col-sm-10 col-md-8 col-lg-7">
+                                    <input type="text" ng-model="campaign.utm_source" class="form-control" name="campaign_utm_source" ng-required="true">
+                                    <div ng-show="(CampaignCreateForm.$submitted || CampaignCreateForm.campaign_utm_source.$touched) && (CampaignCreateForm.campaign_utm_source.$pristine || CampaignCreateForm.campaign_utm_source.$invalid)">
+                                        <span class="error text-danger" ng-show="(CampaignCreateForm.campaign_utm_source.$error.required)">{{'Required' | translate }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div  ng-if="channel_needed">
+                            <div id="row-pages-slug" class="form-group has-feedback"> <label for="pageSlug" class="col-sm-2 control-label">Utm Medium * </label>
+                                <div class="ng-admin-type-text col-sm-10 col-md-8 col-lg-7">
+                                    <input type="text" ng-model="campaign.utm_medium" class="form-control" name="campaign_utm_medium" ng-required="true">
+                                    <div ng-show="(CampaignCreateForm.$submitted || CampaignCreateForm.campaign_utm_medium.$touched) && (CampaignCreateForm.campaign_utm_medium.$pristine || CampaignCreateForm.campaign_utm_medium.$invalid)">
+                                        <span class="error text-danger" ng-show="(CampaignCreateForm.campaign_utm_medium.$error.required)">{{'Required' | translate }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div  ng-if="channel_needed">
+                            <div id="row-pages-slug" class="form-group has-feedback"> <label for="pageSlug" class="col-sm-2 control-label">Utm Campaign * </label>
+                                <div class="ng-admin-type-text col-sm-10 col-md-8 col-lg-7">
+                                    <input type="text" ng-model="campaign.utm_campaign" class="form-control" name="campaign_utm_campaign" ng-required="true">
+                                    <div ng-show="(CampaignCreateForm.$submitted || CampaignCreateForm.campaign_utm_campaign.$touched) && (CampaignCreateForm.campaign_utm_campaign.$pristine || CampaignCreateForm.campaign_utm_campaign.$invalid)">
+                                        <span class="error text-danger" ng-show="(CampaignCreateForm.campaign_utm_campaign.$error.required)">{{'Required' | translate }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-8"> <button class="btn btn-primary" type="submit">Submit</button>
+                                <a class="btn btn-primary" href="#/campaigns/list">Cancel</a></div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

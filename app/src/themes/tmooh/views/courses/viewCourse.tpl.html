@@ -1,0 +1,649 @@
+<div class="bg-light d-none d-sm-block">
+  <div class="container">
+    <ol class="breadcrumb bg-transparent px-0 mb-0">
+      <li class="breadcrumb-item">
+        <a href="/" class="text-dark">{{'Home'|translate}}</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a ui-sref="browseCourse({ category_id: model.course.parent_category_id, slug: slugify(model.course.parent_category_name) })"  class="text-dark">{{model.course.parent_category_name}}</a>
+      </li>
+      <li class="breadcrumb-item active" class="text-dark">
+        {{model.course.title}}
+      </li>
+    </ol>
+  </div>
+</div>
+
+<div class="bg-dark">
+  <div class="container text-white py-5">
+
+          <figure class="row" ng-if="$root.isMobile">
+
+            <!--Amazon s3 plugin enabled-->
+            <div class="col-md-12">
+              <div ng-if="$root.settings['site.enabled_plugins'].indexOf('AmazonS3andRTMP') > -1">
+                <!-- course image when is_from_mooc_affiliate false and promo video not enabled -->
+                <div ng-if="(model.course.aws_job_id == null || model.course.aws_job_id == '0') && !model.course.embed_code">
+                  <img ng-if="model.course.image_hash" ng-src="{{$root.site_url}}img/big_thumb/Course/{{model.course.image_hash}}" alt="[Image: {{model.course.title}}]" title="{{model.course.title}}" class="img-fluid" />
+                  <img ng-if="!model.course.image_hash" ng-src="{{$root.site_url}}img/big_thumb/Course/0.default.jpg" alt="[Image: {{model.course.title}}]" title="{{model.course.title}}" class="img-fluid center-block" />
+                </div>
+
+                <!-- course image when is_from_mooc_affiliate false and promo video enabled and amazson s3 plugin should be enabled -->
+                <button type="button" class="btn btn-dark btn-lg btn-block pt-5 pb-5" data-toggle="modal" data-target="#exampleModal" ng-if="$root.settings['site.enabled_plugins'].indexOf('AmazonS3andRTMP') > -1 && model.course.aws_job_id != null && model.course.aws_job_id != 0 && model.course.embed_code && model.course.is_promo_video_convert_error == 0 && model.course.is_promo_video_converting_is_processing == 0 && $root.settings['video.is_enabled_promo_video'] === '1'">
+                  <i class="mdi mdi-play-circle-outline mdi-48px"></i>
+                </button>
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{'Promo Video'|translate}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body" style="max-height:500px">
+                        <amazon-upload type='Preview' video-url='{{model.course.embed_code}}' ng-if="$root.settings['site.enabled_plugins'].indexOf('AmazonS3andRTMP') > -1 && model.course.aws_job_id != null && model.course.aws_job_id != 0 && model.course.embed_code && model.course.is_promo_video_convert_error == 0 && model.course.is_promo_video_converting_is_processing == 0 && $root.settings['video.is_enabled_promo_video'] === '1'"
+                          width=16 height=10>
+                        </amazon-upload>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- course image when promo video failed or amazon s3 or promo video enabled settings disabled -->
+                <div ng-if="(model.course.embed_code && ((model.course.is_promo_video_convert_error !== 0 || model.course.is_promo_video_converting_is_processing !== 0 )|| (model.course.is_promo_video_convert_error == '0' && model.course.is_promo_video_converting_is_processing !== 0)) && $root.settings['site.enabled_plugins'].indexOf('AmazonS3andRTMP') > -1 && ($root.settings['video.is_enabled_promo_video'] === '0' || $root.settings['video.is_enabled_promo_video'] === '1' )) &&  model.course.aws_job_id != 0 && model.course.aws_job_id != null">
+                  <img ng-if="model.course.image_hash" ng-src="{{$root.site_url}}img/big_thumb/Course/{{model.course.image_hash}}" alt="[Image: {{model.course.title}}]" title="{{model.course.title}}" class="img-fluid center-block" />
+                  <img ng-if="!model.course.image_hash" ng-src="{{$root.site_url}} n.nisha+reg@agriya.in img/big_thumb/Course/0.default.jpg" alt="[Image: {{model.course.title}}]" title="{{model.course.title}}" class="img-fluid center-block" />
+                </div>
+              </div>
+
+              <!--Amazon  S3 plugin disabled and vedio lesson plugin enable or disabled -->
+              <div ng-if="$root.settings['site.enabled_plugins'].indexOf('AmazonS3andRTMP') === -1">
+                <!-- course image when is_from_mooc_affiliate false and promo video not enabled -->
+                <div ng-if="!model.course.video_url && model.course.is_from_mooc_affiliate !== 1">
+                  <img ng-if="model.course.image_hash" ng-src="{{$root.site_url}}img/big_thumb/Course/{{model.course.image_hash}}" alt="[Image: {{model.course.title}}]" title="{{model.course.title}}" class="img-fluid" />
+                  <img ng-if="!model.course.image_hash" ng-src="{{$root.site_url}}img/big_thumb/Course/0.default.jpg" alt="[Image: {{model.course.title}}]" title="{{model.course.title}}" class="img-fluid center-block" />
+                </div>
+                <!-- course image when is_from_mooc_affiliate true -->
+                <div ng-if="model.course.is_from_mooc_affiliate === 1">
+                  <img ng-if="model.course.course_image" ng-src="{{model.course.course_image}}" alt="[Image: {{model.course.title}}]" title="{{model.course.title}}" class="img-fluid center-block" />
+                  <img ng-if="!model.course.course_image" ng-src="{{$root.site_url}}img/big_thumb/Course/0.default.jpg" alt="[Image: {{model.course.title}}]" title="{{model.course.title}}" class="img-fluid center-block" />
+                </div>
+
+                <!-- course image when is_from_mooc_affiliate false and promo video enabled and videolessons plugin should be enabled -->
+                <div ng-if="model.course.video_url && model.course.is_promo_video_convert_error === 0 && model.course.is_promo_video_converting_is_processing === 0 && model.course.is_from_mooc_affiliate !== 1 && $root.settings['site.enabled_plugins'].indexOf('VideoLessons') > -1 && $root.settings['video.is_enabled_promo_video'] === '1'">
+                  <video id="video" ng-src="{{model.course.video_url}}" controls="true"></video>
+                </div>
+
+                <!-- course image when promo video failed or videolessonplugin or promo video enabled settings disabled -->
+                <div ng-if="(model.course.video_url && model.course.is_promo_video_convert_error !== 0 || model.course.is_promo_video_converting_is_processing !== 0) || ($root.settings['site.enabled_plugins'].indexOf('VideoLessons') === -1 && model.course.video_url) || ($root.settings['video.is_enabled_promo_video'] === '0' && model.course.video_url) && model.course.is_from_mooc_affiliate !== 1">
+                  <img ng-if="model.course.image_hash" ng-src="{{$root.site_url}}img/big_thumb/Course/{{model.course.image_hash}}" alt="[Image: {{model.course.title}}]" title="{{model.course.title}}" class="img-fluid center-block" />
+                  <img ng-if="!model.course.image_hash" ng-src="{{$root.site_url}}img/big_thumb/Course/0.default.jpg" alt="[Image: {{model.course.title}}]" title="{{model.course.title}}" class="img-fluid center-block" />
+                </div>
+              </div>
+            </div>
+
+
+
+
+          </figure>
+
+    <h1 class="h1 ">{{model.course.title}}</h1>
+    <p>{{model.course.subtitle}}</p>
+    <div class="row">
+<!--       <div class="col-6 col-md-4" ng-if="$root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1 && model.course.is_from_mooc_affiliate !== 1">
+        <rating-stars average-rating='{{model.course.average_rating}}' ng-click="gotoAnchorLink($event,'reviews', model.course.course_user_feedback_count)" ng-if="model.course && $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1"></rating-stars>
+      </div> -->
+<!--       <div class="col-6 col-md-4" ng-if="$root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1 && model.course.is_from_mooc_affiliate !== 1">
+        {{model.course.average_rating}}&nbsp;({{model.course.course_user_feedback_count}} {{'ratings'|translate}})
+      </div> -->
+      <div class="w-100 d-block d-sm-none"></div>
+      <!-- <div class="col-6 col-md-4">
+        {{model.course.course_user_count}} {{'students enrolled'|translate}}
+      </div> -->
+      <div class="col-12 col-md-4"  ng-if="$root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1 && model.course.is_from_mooc_affiliate !== 1">
+        {{'Created by'|translate}}
+        <profile-name ng-if="model.course.user_id" instructor='true' user-profile-id='model.course.user_id' ng-if='model.course.user_id' user-display-name='model.course.displayname'></profile-name>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 col-md-4"  ng-if="$root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1 && model.course.is_from_mooc_affiliate !== 1">
+        <span class="update-txt">{{'Last updated'|translate}}: {{model.course.modified}}</span>
+      </div>
+      <div class="col-6 col-md-4">
+          <course-flags course-id='{{model.course.id}}' style-class="" ng-if="model.course.id && $root.auth && $root.settings['site.enabled_plugins'].indexOf('CourseFlags') > -1 && $root.auth.id != model.course.user_id"></course-flags>
+      </div>
+      <div class="w-100 d-block d-sm-none"></div>
+      <div class="col-12 col-md-4" ng-if="model.course.instructional_level_name">
+        {{'Skill level'|translate}} : {{model.course.instructional_level_name}}
+      </div>
+      <!-- <div class="col-6 col-md-4" ng-if="model.course.language_name">
+         {{'Language'|translate}} : <strong> {{model.course.language_name}} </strong>
+      </div> -->
+    </div>
+    <!-- <ul class="list-inline mb-0">
+      <li class="list-inline-item" ng-if="$root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1 && model.course.is_from_mooc_affiliate !== 1">
+        <rating-stars average-rating='{{model.course.average_rating}}' ng-click="gotoAnchorLink($event,'reviews', model.course.course_user_feedback_count)" ng-if="model.course && $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1"></rating-stars>
+      </li>
+      <li class="list-inline-item mx-3" ng-if="$root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1 && model.course.is_from_mooc_affiliate !== 1">
+        {{model.course.average_rating}}&nbsp;({{model.course.course_user_feedback_count}} {{'ratings'|translate}})
+      </li>
+      <li class="list-inline-item mx-3">
+        {{model.course.course_user_count}} {{'students enrolled'|translate}}
+      </li>
+      <li class="list-inline-item"></li>
+    </ul> -->
+    <!-- <ul class="list-inline mb-0">
+      <li class="list-inline-item" ng-if="$root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1 && model.course.is_from_mooc_affiliate !== 1">
+        <strong>{{'Created by'|translate}}</strong>
+        <profile-name ng-if="model.course.user_id" instructor='true' user-profile-id='model.course.user_id' ng-if='model.course.user_id' user-display-name='model.course.displayname'></profile-name>
+      </li>
+      <li class="list-inline-item mx-3" ng-if="$root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1 && model.course.is_from_mooc_affiliate !== 1">
+        <span class="update-txt">{{'Last updated'|translate}}: {{model.course.modified | amDateFormat:'MMM D ,YYYY'}}</span>
+      </li>
+      <li class="list-inline-item">
+        <course-flags course-id='{{model.course.id}}' style-class="btn btn-link" ng-if="model.course.id && $root.auth && $root.settings['site.enabled_plugins'].indexOf('CourseFlags') > -1 && $root.auth.id != model.course.user_id"></course-flags>
+      </li>
+      <li ng-if="model.course.instructional_level_name" class="list-inline-item"><span class="col-5">{{'Skill level'|translate}}</span> <span class="col-7"><strong>{{model.course.instructional_level_name}}</strong></span> </li>
+      <li ng-if="model.course.language_name" class="list-inline-item"> <span class="col-5">{{'Language'|translate}}</span> <span class="col-7"><strong> {{model.course.language_name}} </strong></span> </li>
+    </ul> -->
+  </div>
+</div>
+
+<div class="clearfix col-xs-12" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1">
+  <div banner position="topBanner"></div>
+</div>
+<section class="pt-5 bg-white" ng-show="model.loading === false">
+  <div class="container">
+    <div class="row">
+      <div class="" ng-class="{'col-12':$root.isMobile,'col-lg-8':!$root.isMobile}" data-spy="scroll" data-target="navbar-scrollspy" data-offset="0">
+
+        <div ng-if="$root.isMobile">
+          <ul class="list-unstyled based-list">
+            <li>
+              <div class="media">
+                <div class="media-body">
+                  <div class="float-right" ng-if="!model.loader && model.course.coursetype.video === true">
+                    <div class="enroll-blk">
+                      <div class="price-txt" ng-if="model.course.price === 0 || model.course.price === null || model.course.price === undefined">{{'Free'|translate}}</div>
+                      <div class="price-txt" ng-if="model.course.price !== 0  && model.course.price !== null && model.course.price !== undefined">
+                        <span ng-if="model.course.course_campaign === true">
+                            <span class="strike">
+                              <amount-display amount='{{model.course.price}}' ng-if="model.course.price" fraction='2' is-course-price='yes' tier-id='{{model.course.tier_id}}'>
+                            </span> &nbsp;
+                            <amount-display amount='{{model.course.original_price}}' ng-if="model.course.original_price" fraction='2' is-course-price='yes'>
+                        </span>
+                        <span ng-if="model.course.course_campaign === false">
+                            <amount-display amount='{{model.course.price}}' ng-if="model.course.price" fraction='2' is-course-price='yes' tier-id='{{model.course.tier_id}}'>
+                        </span>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li ng-if="!model.loader && $root.settings['site.enabled_plugins'].indexOf('WebinarCourses') > -1 && model.course.coursetype.online == true">
+              <!--Course Type of webinar course disabled-->
+              <div class="media" ng-if="model.course.coursetype.online !== true">
+                <a href="#" class="float-left"><i class="mdi mdi-teach mdi-18px"></i></a>
+                <div class="media-body">
+                  <div class="clearfix">
+                    <div class="float-left">
+                      <div class="media-heading">
+                        {{'Instructor-Led live Online training' | translate}}
+                      </div>
+                      <div class="text-center">
+                        <a href="#" class="text-traning text-danger">{{'No batches available.' | translate}}</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--Course Type of webinar course enabled-->
+              <webinar-course-batch ng-if="model.course.id && model.course.coursetype.online === true" course-user='{{model.couse_users}}' course-id='{{model.course.id}}' user-id="{{model.course.user_id}}" slug='{{model.course.slug}}' title='{{model.course.title}}'
+                course-price='{{model.course.price}}'>
+              </webinar-course-batch>
+            </li>
+            <li ng-if="!model.loader && $root.settings['site.enabled_plugins'].indexOf('OfflineCourse') > -1 && model.course.coursetype.onsite == true">
+              <!--Course Type of offline course disabled-->
+              <div class="media" ng-if="model.course.coursetype.onsite !== true">
+                <a href="#" class="float-left"><i class="mdi mdi-laptop mdi-18px"></i></a>
+                <div class="media-body">
+                  <div class="clearfix">
+                    <div class="float-left">
+                      <div class="media-heading">
+                        {{'Instructor-Led live Onsite training' | translate}}
+                      </div>
+                      <div class="text-center">
+                        <a href="#" class="text-traning text-danger">{{'No batches available.' | translate}}</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--Course Type of offline course enabled-->
+              <offline-course-batch ng-if="model.course.id && model.course.coursetype.onsite === true" course-user='{{model.couse_users}}' course-id='{{model.course.id}}' user-id="{{model.course.user_id}}" slug='{{model.course.slug}}' title='{{model.course.title}}'
+                course-price='{{model.course.price}}'>
+              </offline-course-batch>
+            </li>
+
+          </ul>
+
+          <div class="row">
+            <div class="col-8">
+                <cart-buttons position="listInline" type="enroll" user-id="{{model.course.user_id}}" batch-price='{{model.course.price}}' course-id='{{model.course.id}}' ng-if='model.course.id' slug='{{model.slug}}' course-type='vedio' batch-pruchased='{{model.course_pruchased}}'
+                  course-user-id='{{model.course_user_id}}' campaign-id='{{model.course.campaign_id}}'></cart-buttons>
+            </div>
+            <div class="col-4">
+                <course-wishlist course-wishlist='model.course' wishlist-type='onlyHeartButton' wishlist-label="{{'Wishlist'|translate}}" 
+          wishlisted-label="{{'Wishlisted'|translate}}" 
+          ng-if="model.course && $root.settings['site.enabled_plugins'].indexOf('CourseWishlist') > -1">
+                </course-wishlist>
+            </div>
+          </div>
+          
+
+          <div class="clearfix mt-2"></div>
+          <p class="text-center mt-2 text-muted">{{$root.settings['site.payout_date']}} {{'Day Money-Back Guarantee'|translate}}</p>
+          <div style="border-bottom:1px solid #ededed;margin:20px 0px; width:100%"></div>
+          <div class="Courseincludes bg-light border p-2">
+            <b>{{'Includes'|translate}}</b>
+            <ul class="list-unstyled" style="line-height: 27px;">
+              <li ng-if="model.course.video_duration !== 0">
+                <span><i class="mdi-18px mdi mdi-play-circle" aria-hidden="true"></i>&nbsp;
+                </span> {{model.course.video_duration}} {{'video'|translate}}
+              </li>
+              <li>
+                <div ng-if="model.course.article_lesson_count != 0"><i class="mdi-18px mdi mdi-file-outline" aria-hidden="true"></i> {{model.course.article_lesson_count}} {{'Articles'|translate}} </div>
+                <div ng-if="model.course.video_lesson_count != 0"><i class="mdi-18px mdi mdi-file-video" aria-hidden="true"></i> {{model.course.video_lesson_count}} {{'Videos'|translate}}</div>
+                <div ng-if="model.course.downloadable_lesson_count != 0"><i class="mdi-18px mdi mdi-download" aria-hidden="true"></i> {{model.course.downloadable_lesson_count}} {{'Downloadable Files'|translate}} </div>
+                <div ng-if="model.course.video_external_lesson_count != 0"><i class="mdi-18px mdi mdi-file-document" aria-hidden="true"></i> {{model.course.video_external_lesson_count}} {{'External/Embed Video Lessons'|translate}} </div>
+                <div ng-if="model.course.quiz_count != 0"><i class="mdi-18px mdi mdi-file-outline" aria-hidden="true"></i> {{model.course.quiz_count}} {{'Quizzes'|translate}} </div>
+                <div ng-if="model.course.practice_test_count != 0"><i class="mdi-18px mdi mdi-file-outline" aria-hidden="true"></i> {{model.course.practice_test_count}} {{'Practice Tests'|translate}} </div>
+                <div ng-if="model.course.assignment_count != 0"><i class="mdi-18px mdi mdi-file-outline" aria-hidden="true"></i> {{model.course.assignment_count}} {{'Assignments'|translate}} </div>
+                <div ng-if="model.course.coding_exercise_count != 0"><i class="mdi-18px mdi mdi-file-outline" aria-hidden="true"></i> {{model.course.coding_exercise_count}} {{'Coding Exercises'|translate}} </div>
+
+
+
+              </li>
+              <!-- <li ng-if="model.course.is_lesson_ready_count !== 0">
+                      <span><i class="mdi-18px mdi mdi-file-outline" aria-hidden="true"></i></span>&nbsp; {{model.course.is_lesson_ready_count}}
+                      No. of lessons
+                  </li>
+                  <li ng-if="model.course.article_lesson_count !== 0">
+                      <span><i class="mdi-18px mdi mdi-file-outline" aria-hidden="true"></i></span>&nbsp; {{model.course.article_lesson_count}}
+                      Articles
+                  </li>
+                  <li ng-if="model.course.video_lesson_count !== 0">
+                      <span><i class="mdi-18px mdi mdi-file-video" aria-hidden="true"></i></span>&nbsp; {{model.course.video_lesson_count}}
+                      Videos
+                  </li>
+                  <li ng-if="model.course.downloadable_lesson_count !== 0">
+                      <span><i class="mdi-18px mdi mdi-download" aria-hidden="true"></i></span>&nbsp; {{model.course.downloadable_lesson_count}}
+                      Downloadable Files
+                  </li>
+                  <li ng-if="model.course.video_external_lesson_count !== 0">
+                      <span><i class="mdi-18px mdi mdi-file-document" aria-hidden="true"></i></span>&nbsp; {{model.course.video_external_lesson_count}}
+                      External/Embed Video Lessons
+                  </li>-->
+              <li ng-if="model.course.coursetype.video === true">
+                <span><i class="mdi-18px mdi mdi-lifebuoy" aria-hidden="true"></i></span>&nbsp; {{'Full Time Access'|translate}}
+              </li>
+              <li ng-if="model.course.coursetype.video === true">
+                <span><i class="mdi-18px mdi mdi-cellphone" aria-hidden="true"></i></span>&nbsp; {{'Access on mobile and TV'|translate}}
+              </li>
+              <li>
+                <span><i class="mdi-18px mdi mdi-certificate" aria-hidden="true"></i></span>&nbsp; {{'Certificate of Completion'|translate}}
+              </li>
+            </ul>
+
+          </div>
+          <div class="share_post border-top pt-4 text-center mb-3">
+            <div class="mb-2">{{'Share and earn money'|translate}}</div>
+            <social-share share-style="ListInline" share-title='{{model.course.title}}' share-link='course/{{model.course.id}}/{{model.course.slug|escape}}' ng-if="model.course.id && $root.settings['site.enabled_plugins'].indexOf('SocialShare') > -1"></social-share>
+          </div>
+
+        </div>
+
+        <div style="border-bottom:1px solid #ededed;margin:20px 0px; width:100%"></div>
+
+        <h2 ng-show="studentsWillBeAbleTo !== '' && studentsWillBeAbleTo !== null">{{'What am I going to get from this course?'|translate}}</h2>
+        <div class="title_2"><span><em></em></span></div>
+        <p class="" style="overflow-x: auto;" ng-bind-html="studentsWillBeAbleTo"></p>
+        <!-- /section -->
+
+        <section id="lessons">
+          <online-lessons filter="CourseView" ng-if="model.course.id" course-id="{{model.course.id}}"></online-lessons>
+        </section>
+        <!-- /section -->
+
+        <h2 id="description" ng-if="model.course.description !== null && model.course.description">{{'Course Description'|translate}}</h2>
+        <div class="title_2"><span><em></em></span></div>
+        <p class="" style="overflow-x: auto;" ng-bind-html="model.course.description"></p>
+
+        <div ng-if="WhatActionsStudentsHaveToPerformBeforeBegin !== '' && WhatActionsStudentsHaveToPerformBeforeBegin !== null">
+          <h2 >{{'What are the requirements?'|translate}}</h2>
+          <div class="title_2"><span><em></em></span></div>
+          <p class="" style="overflow-x: auto;" ng-bind-html="WhatActionsStudentsHaveToPerformBeforeBegin"></p>
+        </div>
+
+
+        <div ng-if="whoShouldTakeThisCourseAndWhoShouldNot !== '' && whoShouldTakeThisCourseAndWhoShouldNot !== null"> 
+          <h2 >{{'What is the target audience?'|translate}}</h2>
+          <div class="title_2"><span><em></em></span></div>
+          <p class="" style="overflow-x: auto;" ng-bind-html="whoShouldTakeThisCourseAndWhoShouldNot"></p>
+        </div>
+
+
+        <div ng-if="model.course.certificate !== null && model.course.certificate !== '' && model.course.certificate !== undefined">
+          <h5>{{'Course certificate'|translate}}</h5>
+          <div class="title_2"><span><em></em></span></div>
+          <p style="overflow-x: auto;" ng-bind-html="model.course.certificate"></p>
+        </div>
+
+        <span ng-if="model.course.projects !== null && model.course.projects">
+          <h5>{{'Course projects'|translate}}</h5>
+          <div class="title_2"><span><em></em></span></div>
+          <p style="overflow-x: auto;"  ng-bind-html="model.course.projects"></p>
+        </span>
+
+        <span ng-if="model.course.faq !== null && model.course.faq !== '' && model.course.faq !== undefined">
+            <h5>{{'Course FAQs'|translate}}</h5>
+            <div class="title_2"><span><em></em></span></div>
+            <p  style="overflow-x: auto;" ng-bind-html="model.course.faq"></p>
+        </span>
+
+
+        <section id="instructor" ng-if="model.user_profile && model.course.user_id">
+          <h2>{{'Instructor Biography'|translate}}</h2>
+          <div class="title_2"><span><em></em></span></div>
+          <ul class="list-unstyled">
+            <li class="media">
+              <profile-image class="mr-3" user-image-hash='model.course.user_image_hash' user-display-name='{{model.course.displayname}}' user-profile-id='model.course.user_id' ng-if='model.course.user_id' user-profile-thumb='medium_thumb' image-type='imagecircle'></profile-image>
+              <div class="media-body">
+                <profile-name class="mt-0 mb-1" instructor='true' user-profile-id='model.course.user_id' ng-if='model.course.user_id' user-designation='yes' user-designation-text='{{model.course.designation}}' user-display-name='model.course.displayname'></profile-name>
+                <ul class="list-inline mt-2">
+                  <li class="list-inline-item" ng-show="model.user_profile.twitter_profile_link">
+                    <a rel="nofollow" href="{{model.user_profile.twitter_profile_link}}" target="_blank" class="text-muted"> <i class="mdi mdi-twitter-box mdi-36px"></i>  </a>
+                  </li>
+                  <li class="list-inline-item" ng-show="model.user_profile.google_plus_profile_link"><a rel="nofollow" href="{{model.user_profile.google_plus_profile_link}}" target="_blank" class="text-muted"> <i class="mdi mdi-google-plus-box mdi-36px"></i></a></li>
+                  <li class="list-inline-item" ng-show="model.user_profile.facebook_profile_link"><a rel="nofollow" href="{{model.user_profile.facebook_profile_link}}" target="_blank" class="text-muted"><i class="mdi mdi-facebook-box mdi-36px"></i></a></li>
+                  <li class="list-inline-item" ng-show="model.user_profile.youtube_profile_link"><a rel="nofollow" href="{{model.user_profile.youtube_profile_link}}" target="_blank" class="text-muted"><i class="mdi mdi-youtube mdi-36px"></i> </a></li>
+                  <li class="list-inline-item" ng-show="model.user_profile.website"><a rel="nofollow" href="{{model.user_profile.website}}" target="_blank" class="text-muted"><i class="mdi mdi-earth mdi-36px"></i> </a></li>
+                  <li class="list-inline-item" ng-show="model.user_profile.linkedin_profile_link"><a rel="nofollow" href="{{model.user_profile.linkedin_profile_link}}" target="_blank" class="text-muted"><i class="mdi mdi-linkedin-box mdi-36px"></i> </a></li>
+                </ul>
+                <p class="" ng-if="model.user_profile.biography" ng-bind-html="model.user_profile.biography | nl2br"></p>
+              </div>
+            </li>
+          </ul>
+          <!--Multiple instrcutor plugin enabled and showing the multiple instructor details showing -->
+          <multiple-instructor-show course-id='{{model.course.id}}' ng-if="model.course.id && $root.settings['site.enabled_plugins'].indexOf('MultipleInstructor') > -1"></multiple-instructor-show>
+        </section>
+
+        <course-feedback course-id='{{model.course.id}}' limit="3" ng-if="model.course.id && model.courseFeedback.length > 0 && $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1"></course-feedback>
+      </div>
+      <!-- /col -->
+
+      <aside class="col-lg-4" id="sidebar" ng-if="!$root.isMobile">
+        <div class="box_detail shadow-sm border bg-white px-3 pt-3 pb-3">
+          <figure class="row">
+
+
+            <!--Amazon s3 plugin enabled-->
+            <div class="col-md-12">
+              <div ng-if="$root.settings['site.enabled_plugins'].indexOf('AmazonS3andRTMP') > -1">
+                <!-- course image when is_from_mooc_affiliate false and promo video not enabled -->
+                <div ng-if="(model.course.aws_job_id == null || model.course.aws_job_id == '0') && !model.course.embed_code">
+                  <img ng-if="model.course.image_hash" ng-src="{{$root.site_url}}img/big_thumb/Course/{{model.course.image_hash}}" alt="[Image: {{model.course.title}}]" title="{{model.course.title}}" class="img-fluid" />
+                  <img ng-if="!model.course.image_hash" ng-src="{{$root.site_url}}img/big_thumb/Course/0.default.jpg" alt="[Image: {{model.course.title}}]" title="{{model.course.title}}" class="img-fluid center-block" />
+                </div>
+
+                <!-- course image when is_from_mooc_affiliate false and promo video enabled and amazson s3 plugin should be enabled -->
+                <button type="button" class="btn btn-dark btn-lg btn-block pt-5 pb-5" data-toggle="modal" data-target="#exampleModal" ng-if="$root.settings['site.enabled_plugins'].indexOf('AmazonS3andRTMP') > -1 && model.course.aws_job_id != null && model.course.aws_job_id != 0 && model.course.embed_code && model.course.is_promo_video_convert_error == 0 && model.course.is_promo_video_converting_is_processing == 0 && $root.settings['video.is_enabled_promo_video'] === '1'">
+                  <i class="mdi mdi-play-circle-outline mdi-48px"></i>
+                </button>
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{'Promo Video'|translate}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body" style="max-height:500px">
+                        <amazon-upload type='Preview' video-url='{{model.course.embed_code}}' ng-if="$root.settings['site.enabled_plugins'].indexOf('AmazonS3andRTMP') > -1 && model.course.aws_job_id != null && model.course.aws_job_id != 0 && model.course.embed_code && model.course.is_promo_video_convert_error == 0 && model.course.is_promo_video_converting_is_processing == 0 && $root.settings['video.is_enabled_promo_video'] === '1'"
+                          width=16 height=10>
+                        </amazon-upload>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- course image when promo video failed or amazon s3 or promo video enabled settings disabled -->
+                <div ng-if="(model.course.embed_code && ((model.course.is_promo_video_convert_error !== 0 || model.course.is_promo_video_converting_is_processing !== 0 )|| (model.course.is_promo_video_convert_error == '0' && model.course.is_promo_video_converting_is_processing !== 0)) && $root.settings['site.enabled_plugins'].indexOf('AmazonS3andRTMP') > -1 && ($root.settings['video.is_enabled_promo_video'] === '0' || $root.settings['video.is_enabled_promo_video'] === '1' )) &&  model.course.aws_job_id != 0 && model.course.aws_job_id != null">
+                  <img ng-if="model.course.image_hash" ng-src="{{$root.site_url}}img/big_thumb/Course/{{model.course.image_hash}}" alt="[Image: {{model.course.title}}]" title="{{model.course.title}}" class="img-fluid center-block" />
+                  <img ng-if="!model.course.image_hash" ng-src="{{$root.site_url}} n.nisha+reg@agriya.in img/big_thumb/Course/0.default.jpg" alt="[Image: {{model.course.title}}]" title="{{model.course.title}}" class="img-fluid center-block" />
+                </div>
+              </div>
+
+              <!--Amazon  S3 plugin disabled and vedio lesson plugin enable or disabled -->
+              <div ng-if="$root.settings['site.enabled_plugins'].indexOf('AmazonS3andRTMP') === -1">
+                <!-- course image when is_from_mooc_affiliate false and promo video not enabled -->
+                <div ng-if="!model.course.video_url && model.course.is_from_mooc_affiliate !== 1">
+                  <img ng-if="model.course.image_hash" ng-src="{{$root.site_url}}img/big_thumb/Course/{{model.course.image_hash}}" alt="[Image: {{model.course.title}}]" title="{{model.course.title}}" class="img-fluid" />
+                  <img ng-if="!model.course.image_hash" ng-src="{{$root.site_url}}img/big_thumb/Course/0.default.jpg" alt="[Image: {{model.course.title}}]" title="{{model.course.title}}" class="img-fluid center-block" />
+                </div>
+                <!-- course image when is_from_mooc_affiliate true -->
+                <div ng-if="model.course.is_from_mooc_affiliate === 1">
+                  <img ng-if="model.course.course_image" ng-src="{{model.course.course_image}}" alt="[Image: {{model.course.title}}]" title="{{model.course.title}}" class="img-fluid center-block" />
+                  <img ng-if="!model.course.course_image" ng-src="{{$root.site_url}}img/big_thumb/Course/0.default.jpg" alt="[Image: {{model.course.title}}]" title="{{model.course.title}}" class="img-fluid center-block" />
+                </div>
+
+                <!-- course image when is_from_mooc_affiliate false and promo video enabled and videolessons plugin should be enabled -->
+                <div ng-if="model.course.video_url && model.course.is_promo_video_convert_error === 0 && model.course.is_promo_video_converting_is_processing === 0 && model.course.is_from_mooc_affiliate !== 1 && $root.settings['site.enabled_plugins'].indexOf('VideoLessons') > -1 && $root.settings['video.is_enabled_promo_video'] === '1'">
+                  <video id="video" ng-src="{{model.course.video_url}}" controls="true"></video>
+                </div>
+
+                <!-- course image when promo video failed or videolessonplugin or promo video enabled settings disabled -->
+                <div ng-if="(model.course.video_url && model.course.is_promo_video_convert_error !== 0 || model.course.is_promo_video_converting_is_processing !== 0) || ($root.settings['site.enabled_plugins'].indexOf('VideoLessons') === -1 && model.course.video_url) || ($root.settings['video.is_enabled_promo_video'] === '0' && model.course.video_url) && model.course.is_from_mooc_affiliate !== 1">
+                  <img ng-if="model.course.image_hash" ng-src="{{$root.site_url}}img/big_thumb/Course/{{model.course.image_hash}}" alt="[Image: {{model.course.title}}]" title="{{model.course.title}}" class="img-fluid center-block" />
+                  <img ng-if="!model.course.image_hash" ng-src="{{$root.site_url}}img/big_thumb/Course/0.default.jpg" alt="[Image: {{model.course.title}}]" title="{{model.course.title}}" class="img-fluid center-block" />
+                </div>
+              </div>
+            </div>
+
+
+
+
+          </figure>
+          <div style="border-bottom:1px solid #ededed;margin:20px 0px; width:100%"></div>
+
+
+          <ul class="list-unstyled based-list">
+            <li>
+              <div class="media">
+                <a href="#" class="float-left video-icon"><i class="mdi mdi-video mdi-18px"></i></a>
+                <div class="media-body">
+                  <div class="float-left video-txt">
+                    <div class="media-heading">
+                      {{'video based Training'|translate}}
+                    </div>
+                  </div>
+                  <div class="float-right" ng-if="!model.loader && model.course.coursetype.video === true">
+                    <div class="enroll-blk">
+                      <div class="price-txt" ng-if="model.course.price === 0 || model.course.price === null || model.course.price === undefined">{{'Free'|translate}}</div>
+                      <div class="price-txt" ng-if="model.course.price !== 0  && model.course.price !== null && model.course.price !== undefined">
+                        <span ng-if="model.course.course_campaign === true">
+      											<span class="strike">
+            									<amount-display amount='{{model.course.price}}' ng-if="model.course.price" fraction='2' is-course-price='yes' tier-id='{{model.course.tier_id}}'>
+                            </span> &nbsp;
+                            <amount-display amount='{{model.course.original_price}}' ng-if="model.course.original_price" fraction='2' is-course-price='yes'>
+                        </span>
+                        <span ng-if="model.course.course_campaign === false">
+      											<amount-display amount='{{model.course.price}}' ng-if="model.course.price" fraction='2' is-course-price='yes' tier-id='{{model.course.tier_id}}'>
+      									</span>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="w-100 mt-3">
+                <cart-buttons position="listInline" type="enroll" user-id="{{model.course.user_id}}" batch-price='{{model.course.price}}' course-id='{{model.course.id}}' ng-if='model.course.id' slug='{{model.slug}}' course-type='vedio' batch-pruchased='{{model.course_pruchased}}'
+                  course-user-id='{{model.course_user_id}}' campaign-id='{{model.course.campaign_id}}'></cart-buttons>
+              </div>
+            </li>
+            <li ng-if="!model.loader && $root.settings['site.enabled_plugins'].indexOf('WebinarCourses') > -1 && model.course.coursetype.online == true">
+              <!--Course Type of webinar course disabled-->
+              <div class="media" ng-if="model.course.coursetype.online !== true">
+                <a href="#" class="float-left"><i class="mdi mdi-teach mdi-18px"></i></a>
+                <div class="media-body">
+                  <div class="clearfix">
+                    <div class="float-left">
+                      <div class="media-heading">
+                        {{'Instructor-Led live Online training' | translate}}
+                      </div>
+                      <div class="text-center">
+                        <a href="#" class="text-traning text-danger">{{'No batches available.' | translate}}</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--Course Type of webinar course enabled-->
+              <webinar-course-batch ng-if="model.course.id && model.course.coursetype.online === true" course-user='{{model.couse_users}}' course-id='{{model.course.id}}' user-id="{{model.course.user_id}}" slug='{{model.course.slug}}' title='{{model.course.title}}'
+                course-price='{{model.course.price}}'>
+              </webinar-course-batch>
+            </li>
+            <li ng-if="!model.loader && $root.settings['site.enabled_plugins'].indexOf('OfflineCourse') > -1 && model.course.coursetype.onsite == true">
+              <!--Course Type of offline course disabled-->
+              <div class="media" ng-if="model.course.coursetype.onsite !== true">
+                <a href="#" class="float-left"><i class="mdi mdi-laptop mdi-18px"></i></a>
+                <div class="media-body">
+                  <div class="clearfix">
+                    <div class="float-left">
+                      <div class="media-heading">
+                        {{'Instructor-Led live Onsite training' | translate}}
+                      </div>
+                      <div class="text-center">
+                        <a href="#" class="text-traning text-danger">{{'No batches available.' | translate}}</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--Course Type of offline course enabled-->
+              <offline-course-batch ng-if="model.course.id && model.course.coursetype.onsite === true" course-user='{{model.couse_users}}' course-id='{{model.course.id}}' user-id="{{model.course.user_id}}" slug='{{model.course.slug}}' title='{{model.course.title}}'
+                course-price='{{model.course.price}}'>
+              </offline-course-batch>
+            </li>
+
+          </ul>
+
+
+          <div class="clearfix mt-2"></div>
+          <course-wishlist course-wishlist='model.course' wishlist-type='heartWithText' wishlist-label="{{'Wishlist'|translate}}" 
+          wishlisted-label="{{'Wishlisted'|translate}}" 
+          ng-if="model.course && $root.settings['site.enabled_plugins'].indexOf('CourseWishlist') > -1">
+            
+          </course-wishlist>
+          <p class="text-center mt-2 text-muted">{{$root.settings['site.payout_date']}} {{'Day Money-Back Guarantee'|translate}}</p>
+          <div class="Courseincludes">
+            <b>{{'Includes'|translate}}</b>
+            <ul class="list-unstyled" style="line-height: 27px;">
+              <li ng-if="model.course.video_duration !== 0">
+                <span><i class="mdi-18px mdi mdi-play-circle" aria-hidden="true"></i>&nbsp;
+                </span> {{model.course.video_duration}} {{'video'|translate}}
+              </li>
+              <li>
+                <div ng-if="model.course.article_lesson_count != 0"><i class="mdi-18px mdi mdi-file-outline" aria-hidden="true"></i> {{model.course.article_lesson_count}} {{'Articles'|translate}} </div>
+                <div ng-if="model.course.video_lesson_count != 0"><i class="mdi-18px mdi mdi-file-video" aria-hidden="true"></i> {{model.course.video_lesson_count}} </div>
+                <div ng-if="model.course.downloadable_lesson_count != 0"><i class="mdi-18px mdi mdi-download" aria-hidden="true"></i> {{model.course.downloadable_lesson_count}} {{'Downloadable Files'|translate}} </div>
+                <div ng-if="model.course.video_external_lesson_count != 0"><i class="mdi-18px mdi mdi-file-document" aria-hidden="true"></i> {{model.course.video_external_lesson_count}} {{'External/Embed Video Lessons'|translate}} </div>
+                <div ng-if="model.course.quiz_count != 0"><i class="mdi-18px mdi mdi-file-outline" aria-hidden="true"></i> {{model.course.quiz_count}} {{'Quizzes'|translate}} </div>
+                <div ng-if="model.course.practice_test_count != 0"><i class="mdi-18px mdi mdi-file-outline" aria-hidden="true"></i> {{model.course.practice_test_count}} {{'Practice Tests'|translate}} </div>
+                <div ng-if="model.course.assignment_count != 0"><i class="mdi-18px mdi mdi-file-outline" aria-hidden="true"></i> {{model.course.assignment_count}} {{'Assignments'|translate}} </div>
+                <div ng-if="model.course.coding_exercise_count != 0"><i class="mdi-18px mdi mdi-file-outline" aria-hidden="true"></i> {{model.course.coding_exercise_count}} {{'Coding Exercises'|translate}} </div>
+
+
+
+              </li>
+              <!-- <li ng-if="model.course.is_lesson_ready_count !== 0">
+                      <span><i class="mdi-18px mdi mdi-file-outline" aria-hidden="true"></i></span>&nbsp; {{model.course.is_lesson_ready_count}}
+                      No. of lessons
+                  </li>
+                  <li ng-if="model.course.article_lesson_count !== 0">
+                      <span><i class="mdi-18px mdi mdi-file-outline" aria-hidden="true"></i></span>&nbsp; {{model.course.article_lesson_count}}
+                      Articles
+                  </li>
+                  <li ng-if="model.course.video_lesson_count !== 0">
+                      <span><i class="mdi-18px mdi mdi-file-video" aria-hidden="true"></i></span>&nbsp; {{model.course.video_lesson_count}}
+                      Videos
+                  </li>
+                  <li ng-if="model.course.downloadable_lesson_count !== 0">
+                      <span><i class="mdi-18px mdi mdi-download" aria-hidden="true"></i></span>&nbsp; {{model.course.downloadable_lesson_count}}
+                      Downloadable Files
+                  </li>
+                  <li ng-if="model.course.video_external_lesson_count !== 0">
+                      <span><i class="mdi-18px mdi mdi-file-document" aria-hidden="true"></i></span>&nbsp; {{model.course.video_external_lesson_count}}
+                      External/Embed Video Lessons
+                  </li>-->
+              <li ng-if="model.course.coursetype.video === true">
+                <span><i class="mdi-18px mdi mdi-lifebuoy" aria-hidden="true"></i></span>&nbsp; {{'Full Time Access'|translate}}
+              </li>
+              <li ng-if="model.course.coursetype.video === true">
+                <span><i class="mdi-18px mdi mdi-cellphone" aria-hidden="true"></i></span>&nbsp; {{'Access on mobile and TV'|translate}}
+              </li>
+              <li>
+                <span><i class="mdi-18px mdi mdi-certificate" aria-hidden="true"></i></span>&nbsp; {{'Certificate of Completion'|translate}}
+              </li>
+            </ul>
+
+          </div>
+          <div class="share_post border-top pt-4 text-center">
+            <social-share share-style="ListInline" share-title='{{model.course.title}}' share-link='course/{{model.course.id}}/{{model.course.slug|escape}}' ng-if="model.course.id && $root.settings['site.enabled_plugins'].indexOf('SocialShare') > -1"></social-share>
+          </div>
+        </div>
+    </aside>
+    </div>
+    <!-- /row -->
+  </div>
+
+
+
+
+</section>
+
+
+
+<section class="navbar-btn" ng-show="model.loading === false">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 navbar-btn max-img">
+
+        <related-courses-by-user user-id="{{model.course.user_id}}" limit="3" course-id="{{model.course.id}}" ng-if="model.course.user_id && $root.settings['site.enabled_plugins'].indexOf('Instructor') > -1"></related-courses-by-user>
+
+        <!-- comments section -->
+        <div ng-if="$root.settings['site.enabled_plugins'].indexOf('Comments') > -1 && ($root.settings['facebook.is_enabled_facebook_comment'] === '1' || $root.settings['disqus.is_enabled_disqus_comment'] === '1')">
+          <facebook-comments ng-if="$root.settings['facebook.comments.api_key'] && $root.settings['facebook.is_enabled_facebook_comment'] === '1'"></facebook-comments>
+          <dir-disqus config="disqusConfig" ng-if="model.course.id && $root.settings['disqus.comments.shortname'] && $root.settings['disqus.is_enabled_disqus_comment'] === '1'"></dir-disqus>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 navbar-btn max-img">
+        <related-courses-by-category ng-if="model.course.category_id && model.course.id" course-id="{{model.course.id}}" category-id="{{model.course.category_id}}" limit="3"></related-courses-by-category>
+        <div banner position="courseBanner" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1" class="max-img"></div>
+      </div>
+    </div>
+    <!-- /row -->
+  </div>
+  <!-- /container -->
+</section>
+<section ng-show="model.loading === false">
+  <div banner position="bottomBanner" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1"></div>
+</section>

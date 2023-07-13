@@ -1,0 +1,135 @@
+<div class="drawer-main" ng-show="currentDrawer == 0">
+	<div class="bg-primary border-bottom pb-2" ng-show="isAuth" ng-if="isAuth">
+		<div class="media">
+		  <img ng-if="$root.auth.user_image_hash != '' && $root.auth.user_image_hash != null" ng-src="/assets/img/default-user.png" width="65" alt="[Image: {{$root.auth.displayname}}]" title="{{$root.auth.displayname}}" class="rounded-circle mt-3 mx-3 mb-2" />		  
+		  <img ng-if="$root.auth.user_image_hash == '' || $root.auth.user_image_hash == null" ng-src="/assets/img/default-user.png" width="65" alt="[Image: {{$root.auth.displayname}}]" title="{{$root.auth.displayname}}" class="rounded-circle mt-3 mx-3 mb-2" />
+		  <div class="media-body" style="padding-top: 30px;">
+		    <a href="javascript:void(0);" ng-click="setCurrentDrawer(100)" itemprop="url"  class="btn btn-light btn-sm" title="{{'My Account'|translate}}">{{'My Account'|translate}}</a>
+		  </div>
+		</div>
+		<div class="px-3 text-white">
+			<h5 class="m-0">{{$root.auth.displayname}}</h5>
+			{{$root.auth.email}}
+		</div>
+
+		    
+	</div>
+
+	<ul class="nav flex-column">
+	  <li class="nav-item mt-2">
+	    <a class="nav-link text-muted" href="#" ng-click="setCurrentDrawer(1)">
+	      <i class="mdi-18px mdi mdi-apps"></i>
+	      {{'Categories'|translate}}
+	      <i class="mdi-18px mdi mdi-chevron-{{isRtl?'left':'right'}}"></i>
+	    </a>
+	  </li>
+	  <li class="dropdown-divider"></li>
+	</ul>
+
+	<!-- logged -->
+	<ul class="navbar-nav user-menu" ng-show="isAuth" ng-if="isAuth">
+		<li class="nav-item  ">
+			<a href="javascript:void(0);" title="{{'Admin Dashboard'|translate}}" class="dropdown-item text-muted" ng-class="{'text-secondary':!$root.isHome,'text-white' : $root.isHome}" ng-click="admin_url()" ng-if="$root.auth.providertype === 'admin'">
+				{{'Admin Dashboard'|translate}}
+			</a>
+			<a href="/my-courses/teaching" title="{{'Instructor Dashboard'|translate}}" class="dropdown-item text-muted" data-toggle="drawer" data-target="#mainMenu" ng-if="model.userDetails.is_teacher === 1 && $root.settings['site.enabled_plugins'].indexOf('Instructor') > -1 && $root.auth.providertype !== 'admin'">
+				{{'Instructor Dashboard'|translate}}
+			</a>
+			<a href="/courses/add" rel="nofollow" title="{{'Become an Instructor'|translate}}" class="dropdown-item text-muted" data-toggle="drawer" data-target="#mainMenu" ng-if="model.userDetails.is_teacher !== 1 && $root.settings['site.enabled_plugins'].indexOf('Instructor') > -1 && $root.auth.providertype !== 'admin'">
+				{{'Become an Instructor'|translate}}
+			</a>
+			<a href="/my-courses/learning" title="{{'My Courses'|translate}}" class="dropdown-item text-muted " data-toggle="drawer" data-target="#mainMenu" ng-if="$root.auth.providertype !== 'admin'">{{'My Courses'|translate}}</a>
+
+			<a href="/message/inbox" title="{{'My Messages'|translate}}" class="text-muted dropdown-item" data-toggle="drawer" data-target="#mainMenu" ng-if="$root.settings['site.enabled_plugins'].indexOf('Message') > -1">{{'My Messages'|translate}}</a>
+
+			<div class="dropdown-divider"></div>
+			<a href="/users/purchase-history" ng-if="$root.settings['site.enabled_plugins'].indexOf('CourseCheckout') > -1" title="Purchase History"
+			 class="text-muted dropdown-item" data-toggle="drawer" data-target="#mainMenu">{{'Purchase History'|translate}}</a>
+			<a href="/transactions" class="text-muted dropdown-item" data-toggle="drawer" data-target="#mainMenu" title="{{'My Transactions'| translate}}">{{'My Transactions'| translate}}</a>
+			
+			<!-- <message-notification></message-notification> -->
+	
+			<a href="/user_cash_withdrawals" class="text-muted dropdown-item" data-toggle="drawer" data-target="#mainMenu" title="{{'Withdraw Fund Requests'| translate}}" ng-if="$root.settings['site.enabled_plugins'].indexOf('CourseCheckoutRevenueWithdrawal') > -1">{{'Withdraw Fund Requests'| translate}}</a>
+			<div class="dropdown-divider"></div>
+			<a ng-if='!contentInIframe' href="/users/logout" title="{{'Logout'|translate}}" class="text-muted dropdown-item" data-toggle="drawer" data-target="#mainMenu">{{'Logout'|translate}}</a>
+
+		</li>
+	</ul>
+
+	 <!-- not logged -->
+	<ul class="nav flex-column" ng-show="!isAuth" ng-if="!isAuth" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement" >
+		<li class="nav-item "><a href="/users/login" itemprop="url" class="login nav-link text-muted" data-toggle="drawer" data-target="#mainMenu" title="{{'Become an Instructor'|translate}}">{{'Become an Instructor'| translate}}</a></li>
+		<li class="nav-item "><a ng-href="/users/login" itemprop="url" class="nav-link m-3 btn btn-outline-secondary" data-toggle="drawer" data-target="#mainMenu" ng-click="modalLogin($event)" title="{{'Login'| translate}}">{{'Login'| translate}}</a></li>
+		<li class="nav-item hidden_tablet">
+			<a ng-href="/users/signup" itemprop="url" data-toggle="drawer" data-target="#mainMenu" ng-click="modalSignup($event)" class="nav-link mx-3 btn btn-primary" title="{{'Signup'| translate}}">{{'Signup'| translate}}</a>
+		</li>
+	</ul>
+</div>
+
+<div class="drawer-category" ng-show="currentDrawer == 1" ng-class="{'in':currentDrawer == 1}">
+	<ul class="nav flex-column">
+		<li class="nav-item bg-light border-bottom" >
+			<a itemprop="url" href="javascript:void(0);" ng-click="setCurrentDrawer(0)"  class="nav-link">
+				<i class="mdi-18px mdi mdi-chevron-{{isRtl?'right':'left'}}"></i>
+				{{'Back'|translate}}
+			</a>
+		</li>
+	</ul>
+	<ul class="nav flex-column" aria-labelledby="browseCategory">
+		<li class="nav-item" ng-repeat="parentCategory in model.common.parentCategories.data">
+			<a itemprop="url" ui-sref="browseCourse({ category_id: {{parentCategory.id}} , slug: slugify(parentCategory.sub_category_name) , page:1 })" data-toggle="drawer" data-target="#mainMenu" title="{{parentCategory.sub_category_name}}" class="nav-link text-muted">
+
+				<i class="mdi-18px mdi mdi-code-tags" ng-if="parentCategory.id == 201"></i>
+				<i class="mdi-18px mdi mdi-finance" ng-if="parentCategory.id == 207"></i>
+				<i class="mdi-18px mdi mdi-television" ng-if="parentCategory.id == 213"></i>
+				<i class="mdi-18px mdi mdi-checkbox-multiple-marked-outline" ng-if="parentCategory.id == 219"></i>
+				<i class="mdi-18px mdi mdi-book-open-page-variant" ng-if="parentCategory.id == 225"></i>
+				<i class="mdi-18px mdi mdi-grease-pencil" ng-if="parentCategory.id == 230"></i>
+				<i class="mdi-18px mdi mdi-bullseye-arrow" ng-if="parentCategory.id == 231"></i>
+				<i class="mdi-18px mdi mdi-camera" ng-if="parentCategory.id == 233"></i>
+				<i class="mdi-18px mdi mdi-food-apple" ng-if="parentCategory.id == 235"></i>
+				<i class="mdi-18px mdi mdi-react" ng-if="parentCategory.id == 237"></i>
+				{{parentCategory.sub_category_name}} <small>({{parentCategory.available_courses}})</small>
+			</a>
+		</li>
+	</ul>
+</div>	
+
+<div class="drawer-account" ng-show="currentDrawer == 100" ng-class="{'in':currentDrawer == 100}">
+	<ul class="nav flex-column">
+		<li class="nav-item bg-light border-bottom" >
+			<a itemprop="url" href="javascript:void(0);" ng-click="setCurrentDrawer(0)"  class="nav-link">
+				<i class="mdi-18px mdi mdi-chevron-{{isRtl?'right':'left'}}"></i>
+				{{'Back'|translate}}
+			</a>
+		</li>
+	</ul>
+
+	<ul class="nav flex-column">
+		<li>
+			<!--User Profile-->
+			<a data-toggle="drawer" data-target="#mainMenu" class="nav-link text-muted" ng-href="/user/{{$root.auth.id}}/{{$root.auth.displayname|slugify|escape}}" title="View Public Profile">{{'View my profile' | translate}}</a>
+			<!--Instructor Profile-->
+			<!--<a data-toggle="drawer" data-target="#mainMenu" class="nav-link text-muted" href="/instructor/{{$root.auth.id}}/{{$root.auth.displayname|slugify}}" title="View Public Profile" ng-if="model.userDetails.is_teacher === 1">View Public Profile</a>-->
+		</li>
+		<li class="nav-item" ><a data-toggle="drawer" data-target="#mainMenu" class="nav-link text-muted" ng-class="{active: profile_activetab == 'profile_edit'}" href="/users/edit-profile" title="{{'Edit Profile'|translate}}">{{'Profile'|translate}}</a></li>
+		<li class="nav-item" ><a data-toggle="drawer" data-target="#mainMenu" class="nav-link text-muted" ng-class="{active: profile_activetab == 'profile_photo'}" href="/users/photo" title="Photo">{{'Photo'|translate}}</a></li>
+		<li class="nav-item" ng-if="$root.auth.providertype !== 'admin'" ><a data-toggle="drawer" data-target="#mainMenu" class="nav-link text-muted" ng-class="{active: profile_activetab == 'profile_payment'}" href="/users/instructor_payment" title="Payment">{{'Payment'|translate}}</a></li>
+		<li class="nav-item" ><a data-toggle="drawer" data-target="#mainMenu" class="nav-link text-muted" ng-class="{active: profile_activetab == 'profile_referral'}" href="/users/referral" title="Refer & Earn">{{'Refer & Earn' | translate}}</a></li>
+		<li class="nav-item" ng-if="model.userDetails.is_teacher === 1 && $root.settings['site.enabled_plugins'].indexOf('Instructor') > -1 && $root.auth.providertype !== 'admin'">
+			<a data-toggle="drawer" data-target="#mainMenu" class="nav-link text-muted" ng-class="{active: profile_activetab == 'profile_promotional'}" href="/users/promotional_agreements" title="Promotional Agreements">{{'Promotional Agreements'|translate}}</a>
+		</li>
+		<li class="nav-item" ><a data-toggle="drawer" data-target="#mainMenu" class="nav-link text-muted" ng-class="{active: profile_activetab == 'profile_Account'}" href="/users/edit_account" title="{{'Account'|translate}}" title="Account">{{'Account'|translate}}</a></li>
+		<li credit position='editprofile' ng-if="$root.settings['site.enabled_plugins'].indexOf('CourseBulkCheckout') > -1 && $root.settings['site.enabled_plugins'].indexOf('PaypalREST') > -1" class="nav-item" ng-class="{active: profile_activetab == 'profile_creditCard'}">
+			{{'Credit Cards'|translate}}
+		</li>
+		<li class="nav-item" ><a data-toggle="drawer" data-target="#mainMenu" class="nav-link text-muted" ng-class="{active: profile_activetab == 'profile_privacy'}" href="/users/privacy" title="Privacy">{{'Privacy'|translate}}</a></li>
+		<li class="nav-item" ><a data-toggle="drawer" data-target="#mainMenu" class="nav-link text-muted" ng-class="{active: profile_activetab == 'profile_notification'}" href="/users/notifications" title="Notifications">{{'Notifications'|translate}}</a></li>
+		<li class="nav-item" ng-if="$root.settings['site.enabled_plugins'].indexOf('OAuthClient') > -1" ><a data-toggle="drawer" data-target="#mainMenu" class="nav-link text-muted" ng-class="{active: profile_activetab == 'profile_oAuthClient'}" href="/user/api-clients" title="API Clients">{{'API Clients' | translate}}</a></li>
+		<li class="nav-item" ><a data-toggle="drawer" data-target="#mainMenu" class="nav-link text-muted" ng-class="{active: profile_activetab == 'profile_credits'}" href="/credits" title="Credits">{{'Credits'|translate}}</a></li>
+		<li class="nav-item" ><a data-toggle="drawer" data-target="#mainMenu" class="nav-link text-muted" ng-class="{active: profile_activetab == 'profile_disable'}" href="/users/danger-zone" title="Disable">{{'Disable'|translate}}</a></li>
+
+
+	</ul>
+</div>	
+

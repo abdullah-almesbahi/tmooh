@@ -1,0 +1,73 @@
+<div class="" ng-class="{'container mt-5 mb-5 mx-auto': currentPageType === 'page'}">
+	<div class="card">
+		<div class="card-body">
+	<div class="row">
+		<div class="center-form col-12" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+			<a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose" ng-if="currentPageType === 'modal'"><i class="mdi-18px mdi mdi-close close"></i></a>
+			<div banner position="topBanner" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1 && currentPageType === 'page'"></div>
+			<h3 class="lead">{{'Sign up to'|translate}} {{$root.settings['site.name']}}</h3>
+			<hr>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6" ng-if="$root.settings['site.enabled_plugins'].indexOf('SocialLogins') > -1">
+			<h3 class="lead text-center text-primary">{{'Sign up with social accounts'|translate}}</h3>
+			<social-login page-type='{{currentPageType}}'></social-login>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6" ng-class="{'col-lg-offset-3': $root.settings['site.enabled_plugins'].indexOf('SocialLogins') == -1}">
+			<h3 class="lead text-center text-primary">{{'Sign up with your email'|translate}}</h3>
+			<form method="post" name="signupForm" novalidate>
+
+				<div class="form-group has-feedback" ng-class="{ 'has-error' : (signupForm.$submitted || signupForm.displayname.$touched) && (signupForm.displayname.$pristine || signupForm.displayname.$invalid || signupForm.displayname.$error.email)}">
+					<input class="form-control input-lg" type="text" name="displayname" ng-model="user.displayname" placeholder="{{'Name'|translate}}"
+						required ng-required="true" ng-minlength="4" ng-maxlength="40">
+					<span class="ion-person form-control-feedback"></span>
+					<div class="" ng-show="(signupForm.$submitted || signupForm.displayname.$touched) && (signupForm.displayname.$pristine || signupForm.displayname.$invalid)">
+						<span class="error" ng-show="(signupForm.displayname.$error.required)">{{'Required' | translate }}.</span>
+						<span class="error" ng-show="signupForm.displayname.$error.minlength">{{'Your name should contain atleast 4 characters' | translate }}.</span>
+						<span class="error" ng-show="signupForm.displayname.$error.maxlength">{{ 'Sorry you are exceeding the limit' | translate }}.</span>
+					</div>
+					<!--<div class="text-danger" ng-if="signupForm.displayname.$dirty" ng-messages="signupForm.displayname.$error">
+						<div ng-message="required">{{'You must enter your name'|translate}}.</div>
+					</div>-->
+				</div>
+				<div class="form-group has-feedback" ng-class="{ 'has-error' : (signupForm.$submitted || signupForm.email.$touched) && (signupForm.email.$pristine || signupForm.email.$invalid || signupForm.email.$error.email)}">
+					<input class="form-control input-lg" type="email" id="email" name="email" ng-model="user.email" placeholder="{{'Email'|translate}}"
+						required>
+					<span class="ion-at form-control-feedback"></span>
+					<div class="" ng-show="(signupForm.$submitted || signupForm.email.$touched) && (signupForm.email.$pristine || signupForm.email.$invalid)">
+						<span class="error" ng-show="(signupForm.email.$error.required)">{{'Required' | translate }}.</span> <span class="error"
+							ng-show="(signupForm.email.$error.email || signupForm.email.$error.pattern)">{{ 'Enter valid email' | translate}}.</span>									</div>
+				</div>
+				<div class="form-group has-feedback" ng-class="{ 'has-error' : (signupForm.$submitted || signupForm.password.$touched) && (signupForm.password.$pristine || signupForm.password.$invalid)}">
+					<input class="form-control input-lg" type="password" minlength="5" name="password" ng-model="user.password" placeholder="{{'Password'|translate}}"
+						ng-pattern="/^[A-Za-z0-9\d!-\/:-@\[-`{-~\]&]{6,}$/" required>
+					<span class="ion-key form-control-feedback"></span>
+					<div class="" ng-show="(signupForm.$submitted || signupForm.password.$touched) && (signupForm.password.$pristine || signupForm.password.$invalid)">
+						<span class="error" ng-show="(signupForm.password.$error.required)">{{'Required' | translate }}.</span> <span class="error"
+							ng-show="(signupForm.password.$error.password || signupForm.password.$error.pattern)">{{ 'Password must minimum 6 characters' | translate}}.</span>
+						</div>
+				</div>
+				<div class="form-group has-feedback" ng-class="{ 'has-error' : (signupForm.$submitted || signupForm.confirmPassword.$touched) && (signupForm.confirmPassword.$pristine || signupForm.confirmPassword.$invalid)}">
+					<input password-match="user.password" class="form-control input-lg" type="password" minlength="5" name="confirmPassword"
+						ng-model="user.confirm_password" placeholder="{{'Confirm Password'|translate}}" required ng-pattern="/^[A-Za-z0-9\d!-\/:-@\[-`{-~\]&]{6,}$/">
+					<span class="ion-key form-control-feedback"></span>
+					<div class="" ng-show="(signupForm.$submitted || signupForm.confirmPassword.$touched) && (signupForm.confirmPassword.$pristine || signupForm.confirmPassword.$invalid)">
+						<span class="error" ng-show="(signupForm.confirmPassword.$error.required && !signupForm.confirmPassword.$error.compareTo)">{{'Required' | translate }}.</span>
+						<span class="error" ng-show="(signupForm.confirmPassword.$error.compareTo)">{{'Password and confirm password must be same' | translate }}.</span>
+					</div>
+				</div>
+				<p class="text-center text-muted agreetermstxt">{{'By clicking on Sign up, you agree to'|translate}} <a href="/page/terms" target="_blank">{{'Terms and conditions'|translate}}</a> {{'and'|translate}}&nbsp;<a href="/page/privacy-policy" target="_blank">{{'Privacy Policy'|translate}}</a></p>
+				<button ng-click="onSubmitted(signupForm.$valid,user)" ng-disabled=" disableButton" class="btn btn-lg btn-block btn-primary">{{'Sign up'|translate}} <span ng-show="disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+				<br/>
+				<p class="text-center text-muted signinftxt">{{'Already have an account?'|translate}}
+					<a ng-if="currentPageType === 'page'" ng-href="/users/login"><strong>{{'Log in now'|translate}}</strong></a>
+					<a ng-if="currentPageType === 'modal'" ng-click="goToState('Login')" ng-href="/users/login"><strong>{{'Log in now'|translate}}</strong></a></p>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+</div>
+<div banner position="bottomBanner" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1 && currentPageType === 'page'"></div>
+</div>

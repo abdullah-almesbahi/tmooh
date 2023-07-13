@@ -1,0 +1,392 @@
+<section class="container pb-3 pt-4 mb-5">
+	<div class="row">
+		<userprofile-navbar></userprofile-navbar>
+		<div class="col-sm-8 col-md-9">
+			<div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading"></div>
+			<div class="card" ng-if="!model.loading">
+				<div class="card-body">
+					<form method="post" class="form-horizontal clearfix was-validated" name="changeEmailForm" ng-submit="editProfile(changeEmailForm.$valid)" novalidate>
+
+
+						<div class="term-color1 message-unread no-border">
+							<div class="list-header well-sm" id="paid_agree">
+								<h5 class="text-default">{{'Instructor Terms and Conditions (Required):'|translate}}</h5>
+								<div class="agreement-content" ng-if="isRtl">
+اخر تعديل للاتفاقية كان في تاريخ 2018/8/7 .
+
+عند اشتراكك "كمدرب" أو "مالك حقوق دورة تدريبية" أو "مدبلج أو مترجم" دورة تدريبية فإنك تتعاقد مباشرة مع Tmooh LTD ، وهي شركة مقرها في اسطنبول ، تركيا .
+
+هذه الاتفاقية تحتوي على بنود وشروط مشاركتك….في خدمات طموح .
+
+جميع المصطلحات المكتوبة بين علامتي التنصيص ( " " ) يكون لها المعنى المنسوب إليها في البند الأول من هذه الاتفاقية .
+<ol>
+ 	<li>
+<h3>التعريفات الرئيسية</h3>
+<b>"المدرب" </b>هو من يمتلك دورة تدريبية محتواها مقدم باللغة العربية .
+
+<b>"مالك حقوق دورة تدريبية"</b> هو يمتلك دورة تدريبية محتواها مقدم بلغة غير العربية وتم دبلجتها أو ترجمتها إلى اللغة العربية .
+
+<b>"المدبلج أو المترجم" </b>هو من قام بدبلجة أو ترجمة دورة تدريبية إلى اللغة العربية .
+
+<b>"السعر الأساسي"</b> يعني سعر الدورة الذي يحدده "مالك حقوق الدورة التدريبية" أو "المدرب" داخل الدورة التدريبية .
+
+<b>"سياسة المستوى السعري"</b> تعني الأسعار المتاحة في جدول ( الأسعار الأساسية ) لجميع العملات المتاحة والذي يمكنك من خلاله تحديد "السعر الأساسي" لدورتك التدريبية .
+
+<b>"سعر البيع"</b> هو "السعر الأساسي" للدورة ، ولكن قد يختلف بموجب الفقرة (ج) من البند 5 ، كما قد يختلف إذا اخترت الاشتراك في برنامج الخصومات بالنسب المئوية أو برنامج الخصومات بأسعار ثابتة ، المذكورين في صفحة التسويق والعروض الترويجية .
+
+<b>"صافي المبلغ"</b> هو "سعر البيع" ، ناقصا منه رسوم برنامج "مشاركة الإيرادات" ( إذا كان المستخدم الملتحق لدورتك التدريبية هو أحد المسجلين عبر برنامج "مشاركة الإيرادات" ) ، ناقصا رسوم شركات الدفع ورسوم التشغيل الإداري وقدرهما 3% من المبلغ الإجمالي ، وناقصا منه أي رسوم تم طلب استردادها من الطلاب ( لغير الشركات ) ، ناقصا منه الضرائب ( بموجب البند 9 ) .
+
+<b>"إيراداتك"</b> تعني المبلغ المستحق لك كـ "مدرب" أو "مالك حقوق دورة تدريبية" أو "مدبلج أو مترجم"  من "صافي المبلغ" .
+
+<b>"مشاركة الإيرادات"</b> هو أحد برامج التسويق الخاص بطموح ، المذكور في صفحة التسويق والعروض الترويجية .
+
+<b>"الخصومات"</b> هو أحد برامج التسويق الخاص بطموح ، المذكور في صفحة التسويق والعروض الترويجية .
+
+<b>"التسويق والعروض الترويجية"</b> تعني برامج التسويق المذكورة في صفحة التسويق والعروض الترويجية الخاصة بطموح .</li>
+ 	<li>
+<h3>علاقتك مع الطلاب أو "المدبلج أو المترجم"</h3>
+لا يوجد تعاقد مباشر بين "المدرب" أو "مالك حقوق دورة تدريبية" أو "المدبلج أو المترجم" مع الطلاب . فقط سنوفر لك معلومات الطالب التي حدد إظهارها . أنت تدرك وتوافق على أنك ستقوم بتعويض طموح عن أي مشاكل تنشأ عن سوء استخدامك لأي بيانات ذات صلة بالطلاب .
+
+كما أنه لا يوجد تعاقد مباشر بين "المدرب" و "المدبلج أو المترجم" . فقط سنوفر لـ "مالك حقوق الدورة التدريبية" معلومات "المدبلج أو المترجم" التي حدد إظهارها . أنت تدرك وتوافق على أنك ستقوم بتعويض طموح عن أي مشاكل تنشأ عن سوء استخدامك لأي بيانات ذات صلة "بالمدبلج أو المترجم" .</li>
+ 	<li>
+<h3>الالتزامات</h3>
+باشتراكك في طموح فإنك تتعهد وتوافق على أن :
+<ol>
+ 	<li>تكون مسؤولاً عن كل المحتوى المقدم منك . ولا يحق لك تقديم محتوى ينتهك أو يسيء استخدام أي حق من حقوق الملكية الفكرية لطرف ثالث .</li>
+ 	<li>لديك المؤهلات والاعتمادات والخبرات المطلوبة بما تقوم بتقديمه في الدورة التدريبية .</li>
+ 	<li>لن تقوم بنشر أو تقديم أي محتوى أو معلومات غير لائقة أو مسيئة أو عنصرية أو إباحية أو كاذبة أو غير صحيحة أو تشهيرية .</li>
+ 	<li>لن تستخدم خدمات طموح لأي عمل آخر بخلاف توفير الخدمات التعليمية والتدريبية للطلاب .</li>
+ 	<li>لن تشارك في محتوى يتطلب من طموح الحصول على أي تراخيص من أي طرف ثالث أو دفع أي رسوم استخدام .</li>
+ 	<li>لن تنتحل شخصية شخص آخر أو تحصل على حق دخول غير مصرح به إلى حساب شخص آخر .</li>
+ 	<li>لن تقوم بإدخال أي فيروس أو برنامج تجسس أو أي رمز أو ملف أو برنامج قد يهدف إلى تدمير أو خرق عمل أي جهاز أو نظام .</li>
+ 	<li>لن تتدخل أو تمنع المدربين الآخرين من تقديم خدماتهم أو دوراتهم .</li>
+ 	<li>سوف تحافظ على بيانات حسابك السريه وستكون مسؤولا أي خطأ قد ينتج بسبب عدم الإلتزام بذلك .</li>
+ 	<li>بصفتك "مدربا" أو "مالك حقوق دورة تدريبية" فيجب عليك الاستجابة الفورية للطلاب والإجابة على جميع استفساراتهم . وفي حالة أن الطالب ليس لدية المعرفة الكافية للغة الانجليزية التي تمكنه من الاستفسار من "مالك حقوق الدورة التدريبية" بشكل مباشر ، فإنه يجب على "المدبلج أو المترجم" المساعدة  بالترجمة بين الطالب و "مالك حقوق الدورة التدريبية" .</li>
+ 	<li>يجب أن يكون/يتجاوز عمرك الـ 18 عامًا ، وفي حال كان عمرك ما بين 13 و 17 عامًا فيجب أولا من أحد الوالدين أو الوصي القانوني عنك الموافقة على شروط المدربين ، بالإضافة إلى جميع البنود والسياسات الأخرى التي نتبعها .</li>
+ 	<li>يخضع استخدامك لخدمات طموح للموافقة ، والتي يجوز لنا منحها أو رفضها وفقًا لتقديرنا الخاص .</li>
+ 	<li>بصفتك "مالك حقوق دورة تدريبية" أو "مدبلج أو مترجم" لا يحق لك استخدام أو نشر محتوى الدورات المدبلجة أو المترجمة في منصات اخرى دون الحصول على موافقة من طموح ( تقوم طموح بإعلام الطرف الآخر برغبتك باستخدام المحتوى في منصات اخرى لأخذ الموافقة منه ) .</li>
+</ol>
+</li>
+ 	<li>
+<h3>التسجيل</h3>
+لاستخدام خدمات طموح ، ستحتاج إلى التسجيل والحصول على حساب وكلمة مرور . أنت وحدك المسؤول عن الحفاظ على سرية معلومات حسابك ، وتقر وتضمن أن معلومات حسابك ستكون دقيقة في جميع الأوقات . يجب تأكيد خروجك من حسابك في نهاية كل استخدام للخدمات ، ويجب عليك إبلاغنا فوراً بأي استخدام غير مصرح به لحسابك وأي خرق للأمان .</li>
+ 	<li>
+<h3>التسعير</h3>
+أ. بصفتك "مدرباً" أو "مالك حقوق دورة تدريبية" ، ستكون مسؤولاً عن تحديد "السعر الأساسي" الذي تفرضه على الطلاب مقابل دورتك ، عبر حسابك في طموح ، على أن يتم تحديد السعر من جدول الأسعار الأساسية ، كما يمكنك تغيير السعر متى أردت ذلك .
+
+ب. لا يحق "للمدرب" أو "مالك حقوق دورة تدريبية" فرض رسوم إضافية بشكل منفصل على أية إضافات للدورات التدريبية ، كمثال إضافة ملفات PDF قابلة للتحميل أو أي محتوى أو خدمات أخرى مقابل مبلغ إضافي ، حتى إن كان يتم تقديمها من خلال طرف خارجي (ثالث) .
+
+ج. قد يختلف "سعر البيع" حسب بلد المنشأ للمستخدم الذي يشتري الدورة التدريبية ، وأيضا قد يختلف إذا قمت بالمشاركة في برامج "الخصومات" المذكور في صفحة التسويق والعروض الترويجية الخاصة بطموح .
+
+د. إذا كانت الدورة التدريبية متاحة في منصات أخرى ، فلا يحق "للمدرب" أو "مالك حقوق دورة تدريبية" تحديد سعر على الطلاب يكون أعلى من المحدد في المنصات الأخرى .
+
+ر. بصفتك "مدرباً" يمكنك إنشاء كوبونات لجعل الدورة التدريبية مجانية ، لتسمح لبعض المستخدمين بأخذ الدورة التدريبية مجانا ( لا يحق "للمدبلج أو المترجم" أو "مالك حقوق دورة تدريبية" إنشاء كوبونات مجانية دون الحصول على موافقة من طموح ( تقوم طموح بإعلام الطرف الآخر برغبتك بإنشاء كوبونات لجعل الدورة التدريبية مجانية لأخذ الموافقة منه ) ) .</li>
+ 	<li>
+<h3>ترخيص لـ طموح</h3>
+بموجب هذه الإتفاقية فإنك توافق وتمنح طموح التراخيص والحقوق والموافقات والأذونات اللازمة من استخدام أي محتوى لمراقبة الجودة أو للترويج أو التسويق أو العرض بشكل علني أو استخدامه بأي شكل آخر من خلال الخدمات حتى إن كانت الدورة التدريبية تحتوي على صورتك أو صوتك أو اسمك . كما أنك تمنح ترخيصًا للمستخدمين من أجل مشاهدة المحتوى أو تسويقه . لمزيد من المعلومات حول كيفية استخدامنا للمحتوى المقدم ، يرجى زيارة<a href="https://tmooh.com/page/privacy-policy"> سياسة الخصوصية</a> الخاصة بنا . إذا كنت "مدربا" يحق لك حذف دورتك التدريبية من طموح في أي وقت وإنهاء التراخيص والحقوق السابقة في حالة عدم التحاق أحد المستخدمين لدورتك التدريبية . ولكن في حالة التحاق أحد المستخدمين لدورتك التدريبية فلا يحق لك حذف الدورة التدريبية عن المستخدمين الملتحقين في دورتك وذلك وفقاً للشروط الممنوحة للمستخدمين ، ويمكنك إخفاء الدورة من المستخدمين الآخرين ، بحيث لا تظهر إلا للمستخدمين الملتحقين سابقا . أما إذا كنت "مالك حقوق دورة تدريبية" فإنه يحق لك حذف دورتك التدريبية من طموح بعد مرور سنة ميلادية كاملة من تاريخ نشر الدورة التدريبية في طموح وإنهاء التراخيص والحقوق السابقة في حالة عدم إلتحاق أحد المستخدمين لدورتك التدريبية . ولكن في حالة إلتحاق أحد المستخدمين لدورتك التدريبية فلا يحق لك حذف الدورة التدريبية عن المستخدمين الملتحقين في دورتك وذلك وفقاً للشروط الممنوحة للمستخدمين ، ويمكنك إخفاء الدورة من المستخدمين الآخرين ، بحيث لا تظهر إلا للمستخدمين الملتحقين سابقا . وإضافة إلى ذلك بصفتك "مالك حقوق دورة تدريبية" فلك الخيار في منح طموح كامل الحقوق لدبلجة دورتك التدريبية أو اختيار ترجمتها عبر طرف ثالث ( خارجي ) أو اختيار كلا الخيارين ( الدبلجة والترجمة ) .</li>
+ 	<li>
+<h3>المدفوعات</h3>
+<ul>
+ 	<li>إذا كنت "مدربا" فإننا ندفع لك نسبة خمسين بالمائة ( 50% ) من "صافي المبلغ" المستلم لدورتك التدريبية . وإذا كنت "مالك حقوق دورة تدريبية" تم دبلجتها فإننا ندفع لك نسبة خمسة وعشرون بالمائة ( 25% ) من "صافي المبلغ" المستلم من دورتك التدريبية المدبلجة وندفع نسبة خمسة وعشرون بالمائة ( 25% ) لمدبلج الدورة التدريبية للغة العربية . وإذا كنت "مالك حقوق دورة تدريبية" مترجمة فإننا ندفع لك نسبة ثمانية وثلاثون بالمائة ( 38% ) من "صافي المبلغ" المستلم من دورتك التدريبية المترجمة وندفع نسبة اثنا عشر بالمائة ( 12% ) لمترجم الدورة التدريبية للغة العربية ولكن يرجى ملاحظة أنه في حالة كان الملتحق لدورتك التدريبية من أحد المسجلين عبر برنامج "مشاركة الإيرادات" المذكور في صفحة التسويق والعروض الترويجية فإنه يتم خصم رسوم برنامج "مشاركة الإيرادات" قبل حساب "صافي المبلغ" ، كما يتم خصم رسوم شركات الدفع ورسوم التشغيل الإداري وقدرهما 3% من "سعر البيع" ، وخصم الضرائب إن وجدت ( بموجب البند 9 ) .</li>
+ 	<li>يجب أن تُدخل في حسابك الخاص بـ طموح البريد الإلكتروني المرتبط بحسابك في الـ PayPal أو حسابك في الـ Payoneer ، وأن يكون الحساب مفعل ويعمل بشكل جيد ، بحيث يمكن لطموح أن تحول لك أموالك عند قيامك بطلب التحويل .</li>
+ 	<li>لا يمكن طلب تحويل "إيراداتك" إلا بعد انقضاء 20 يوماً من تاريخ استلام رسوم الدورة التدريبية ، ولا يمكن طلب التحويل إلا إذا تجاوزت "إيراداتك" 100$ .</li>
+ 	<li>تقوم طموح بتسديد جميع المدفوعات بالدولار الأمريكي فقط .</li>
+</ul>
+</li>
+ 	<li>
+<h3>الأموال المستردة</h3>
+...أنت تقر وتوافق على حق الطلاب في استرداد أموالهم ، كما هو موضح في البند 7 من<a href="https://tmooh.com/page/terms"> اتفاقية الاستخدام</a> الخاصة بـ طموح . لا يتم تعويضك ... عن أي مدفوعات أو رسوم أو عمولات تم طلب استردادها من قبل الطلاب . في حالة قيام الطالب بطلب استرداد الأموال الخاصة المحصولة من دورتك التدريبية فإن طموح تقوم بخصم المبلغ من حسابك لاسترجاعه للطالب .</li>
+ 	<li>
+<h3>الضرائب</h3>
+أنت تفهم وتوافق على أنك مسؤول عن أي ضرائب على دخلك . عند بيع دورة تدريبية أو أي محتوى يترتب عليه دفع ضرائب في بلدك ، فإنك مسؤول عن متابعة متطلبات هيئة الضريبة المتعلقة بضريبة المبيعات على الدورات التدريبية الخاصة بك . لا تستطيع طموح تزويدك بنصائح ضريبية ويجب عليك استشارة مستشارك الضريبي الخاص بك. يمكنك تقديم سندات أو اثباتات ضرائب مبيعات دورتك لـ طموح لتقوم طموح بدفع المبالغ المستحقة لهيئة الضرائب أو الجهات المختصة بالضرائب في بلدك ، قبل حساب "صافي المبلغ"... .</li>
+ 	<li>
+<h3>حدود المسؤولية</h3>
+تقوم طموح بإشعار جميع المستخدمين بجدولة وقت توقف النظام عن الخدمات لأغراض الصيانة أو لأغراض أخرى . بالإضافة لذلك قد يحدث انقطاع للنظام غير المخطط له ، على سبيل المثال لا الحصر ، من شركات الاستضافة السحابية ، أو مزودي خدمة الإنترنت في بلدك ، أو أي أسباب أخرى . أنت توافق على أن طموح لا تتحمل أي مسؤولية وليست مسؤولة عن عدم توفر الخدمات أو أي فقدان للبيانات أو المعاملات أو أي مواد أخرى ناجمة عن انقطاع النظام . بما ينتج عن ذلك من تأخير أو سوء تسليم أو عدم تسليم المحتوى المطلوب .</li>
+ 	<li>
+<h3>الإنهاء</h3>
+إذا أردت حذف حسابك ، فيمكنك القيام بذلك من خلال حسابك . وإذا وُجدت مبالغ مالية مستحقة ، فسيتم تحويلها إليك . أنت تفهم وتوافق على أنه إذا وجد طلاب قد التحقوا مسبقاً بـ دورتك التدريبية أنه سيستمر تقديم دورتك التدريبية والتراخيص والحقوق السابقة لهم ، وأنه سيظل اسمك موجود في دورتك ، وذلك مراعاة لحق الطلاب الموضح في<a href="https://tmooh.com/page/terms"> اتفاقية الاستخدام</a> في البند 7 . تحتفظ طموح بالحق في حذف أو تعليق ، أي محتوى مقدم أو وصولك إلى خدماتنا أو حسابك إذا انتهكت أي من هذه الشروط أو أي من سياساتنا المعمول بها حسب تقديرنا الخاص . قد تتخذ طموح إجراء فورياً دون إشعار مسبق وإذا تم اتخاذ الإجراء فلن نتحمل أي مسؤولية تجاهك .</li>
+ 	<li>
+<h3>تعديلات على اتفاقية المدربين</h3>
+من وقت لآخر ، قد نقوم بتحديث اتفاقية المدربين ، لعدة أسباب كمثل إضافة ميزات جديدة . تحتفظ طموح بحق تعديل أو إجراء تغييرات على اتفاقية المدربين في أي وقت . إذا قمنا بإجراء أي تغيير مادي سنقوم بإعلامك قبل 10 أيام عبر إرسال إشعار لعنوان بريدك الإلكتروني أو عن طريق نشر إشعار على خدماتنا . ستصبح التعديلات الأخرى سارية في اليوم الذي يتم نشرها فيه ما لم يذكر خلاف ذلك . إذا استمر استخدامك لخدماتنا بعد تاريخ سريان أي تغيير ، فسيتم اعتبار هذا الاستخدام كموافقة على الالتزام باتفاقية المدربين كما تم تغييرها.</li>
+</ol>
+
+								</div>
+								<div class="agreement-content" ng-if="!isRtl">
+									<em>Last updated to the Agreement was on 7th of Aug 2018.</em>
+
+When you join us as "instructor" , "course's owner (the rights holder of a course, whose content is provided in non-Arabic language)" or "Translator/Dubbing" , you are directly contracted with Tmooh LTD, which is a company based in Istanbul, Turkey. This Agreement contains the terms and conditions of your participation in Tmooh services. All terms written between quotation marks (“    ”) have the meaning referred at the first article of this Agreement.
+<ol>
+ 	<li>
+<h3>Definitions</h3>
+<ul>
+ 	<li>"Instructor" is a person who has a training course in Arabic.</li>
+ 	<li>"Course's owner" has a course whose content is provided in a language other than Arabic and has been dubbed or translated into Arabic.</li>
+ 	<li>"Translator/Dubbing" is the one who dubbed or translated a training course into Arabic.</li>
+ 	<li>“‎Base price” means course price, which is determined by the "Instructor" or "Course's owner" from course setting .</li>
+ 	<li>“Price level policy” means the prices provided in (base price) table for all available currencies, which helps you to determine the base price of your course.</li>
+ 	<li>“‎Sale price” means the “base price” of the course, however, it may vary under paragraph (C), article (5). Also, it may vary if you subscribe to percentage discount program or fixed price discount program, which are mentioned in Marketing and Promotion page.</li>
+ 	<li>“Net amount” means the “base price” of the course subtract the fees of “revenue sharing” program (in case the user who enrolled in your course is a subscriber to “revenue sharing” program), the fees of payment processor, administrative expenses, which is 3% of total amount, any fees refunded to students (excluding companies) and taxes (under article 9).</li>
+ 	<li>“Instructor's income” means "instructor" , "course's owner" or "Translator/Dubbing" 's amount due of “net amount”.</li>
+ 	<li>“Revenue sharing” is one of Tmooh marketing programs, which is mentioned in Marketing and Promotion page.</li>
+ 	<li>“Discounts” is one of Tmooh marketing programs, which is mentioned in Marketing and Promotion page.</li>
+ 	<li>“Marketing and promotion” is the marketing programs that are mentioned in Tmooh Marketing and Promotion page.</li>
+</ul>
+</li>
+ 	<li>
+<h3>Instructor’s relationship with students or translator/dubbing</h3>
+There is no direct contract between "instructor" , "course's owner" or "Translator/Dubbing" and students. We provide you with student’s information that he/she published publicly. You acknowledge and agree that you shall compensate Tmooh in recognition of any problem arising out of your misuse of any data related to students. There is also no direct contract between the "Instructor" and "translator/dubbing". We will only provide to "Course's Owner"  information of the translator that she/je select to display. You understand and agree that you will compensate for any problems arising out of your misuse of any data related to the "Translator/Dubbing"</li>
+ 	<li>
+<h3>Obligations</h3>
+By joining us in Tmooh, you agree and commit that:
+<ol>
+ 	<li>You are responsible for all contents you provide, and you shall not provide any content that infringes or misuses any of third party’s copyright.</li>
+ 	<li>You have the qualifications, credits and experience required to provide the course.</li>
+ 	<li>You shall not publish nor provide any content or information that is inappropriate, offensive, racist, pornographic, false, incorrect, or defamatory.</li>
+ 	<li>You shall not use Tmooh services for any work other than providing educational and training services for students.</li>
+ 	<li>You shall not provide any content that requires Tmooh to obtain any license from any third party or pay any usage fees.</li>
+ 	<li>You shall not impersonate someone else nor have unauthorized access to someone else's account.</li>
+ 	<li>You shall not enter any virus, spyware, code, file nor program that may be intended to harm or disrupt the operation of any device or system.</li>
+ 	<li>You shall not interfere or prevent other instructors from providing their services or courses.</li>
+ 	<li>You shall maintain your confidential account data and be liable for any error that may result from failure to comply.</li>
+ 	<li>As a "Instructor" or "Course's Owner" you should respond immediately to students and answer all their questions. If the student does not have sufficient knowledge of the English language to be able to inquire directly from the Course's Owner, the the "Translator/Dubbing" must assist in the translation between the student and the Course's Owner.</li>
+ 	<li>You must be at least 18 years of age. If your age is between 13 and 17 years, your parent or legal guardian must, firstly, agree to the instructors, as well as all other terms and policies.</li>
+ 	<li>Your use of Tmooh services is subjected to approval, which we may grant or reject at our sole discretion.</li>
+ 	<li>You are not entitled to use or publish the content of the dubbed or translated courses on other platforms without the consent of Tmooh (Tmooh informs the other party of your desire to use the content on other platforms for approval).</li>
+</ol>
+</li>
+ 	<li>
+<h3>Registration</h3>
+You need to register on Tmooh and have an account and a password in order to use Tmooh services. You are solely responsible for maintaining the confidentiality of your account information and acknowledge and ensure that your account information will be accurate at all times. You should sign out after using Tmooh services and inform us immediately of any unauthorized access to your account or any other breach of security.</li>
+ 	<li>
+<h3>Pricing</h3>
+As a instructor, you have the right to determine the “base price” that you will charge your student for your course(s) through your account on Tmooh. The price would be determined from the base price table.
+<ul>
+ 	<li>A. As a "Instructor" or "Course's Owner," you'll be responsible for setting the "base price" you charge for your course, through your account in Tmooh. The price is determined from the base price table, and you can change the price whenever you want.</li>
+ 	<li>B. As "Instructor" or "Course's owner" shall not charge extra fees for course additions, such as adding downloadable PDF files or any other content or services for an additional amount, even if they are offered through third party.</li>
+ 	<li>C. “Sale price” may vary depending on user’s hometown who enrolled in the course. It may also vary if you subscribed to “discounts” program mentioned in Tmooh Marketing and Promotion page.</li>
+ 	<li>D. If the course is available on other platforms, the instructor shall not charge students more than what already determined on those platforms.</li>
+ 	<li>F. As a "Instructor," you can create coupons to make the course free, to allow some users to take the course free of charge (the "translator/dubbing" or "course's owner" does not have the right to create free coupons without the approval of Tmooh. (Tmooh informs the other party that you want to create coupons to make the course free of charge for approval)).</li>
+</ul>
+</li>
+ 	<li>
+<h3>Grant license to Tmooh</h3>
+Under this Agreement, you agree to grant all necessary licenses, rights, approvals and permissions to Tmooh, including the use of any content for quality control, promotion, marketing, public display or any other form through the services, even if the course contains your image, voice or name. You also grant users the license to users to watch and market the content. For more information about how we use the content provided, please visit our privacy policy page. Moreover, As "Instructor" you have the right to delete your course on Tmooh and terminate previous licenses and rights only if none of users has enrolled in it, if a user, enrolled in your course, you shall not delete it and expel enrolled users in accordance with the terms granted to users, and you can, however, hide your course from other users, as it only appears to previously enrolled users. If you are the "Course's Owner" you may delete your course from Tmooh after a full calendar year from the date of publication of the training course in Tmooh and termination of licenses and previous rights in the event that a user does not join the course. However, if a user enrolls in your course, you are not entitled to delete the course from users enrolled in your course in accordance with the terms granted to users, and you can hide the course from other users, so that they only appear to users who have previously been enrolled. In addition, as the "Course's Owner" you have the option to grant full rights to Tmooh to dub your course or choose to translate it through a third party (external) or choose both options (dubbing and translation).</li>
+ 	<li>
+<h3>Payments</h3>
+<ul>
+ 	<li>if you are "Instructor", We pay you fifty percent (50%) of the “net amount” received for your course.
+<ul>
+ 	<li>If you are a "Course's Owner" of dubbed course, we will pay you twenty five percent (25%) of the "net amount" received from your course and pay twenty five percent (25%) for person who dubbed your course to Arabic.</li>
+ 	<li>If you are a "Course's Owner", we will pay you 38% of the "net amount" received from your translated course and pay a (12%) to the person who translated your course to Arabic.</li>
+</ul>
+Please note that if the enrolled user in your course is a subscriber to “revenue sharing” program, which is mentioned in Marketing and Promotion page, the fees of “revenue sharing” program will be subtracted before determining “net amount”, as well as fees of payment processor, administrative expenses, which are 3% of “sale price, and taxes, if any (under article 9).</li>
+ 	<li>You shall provide your email that is linked to your PayPal or Payoneer account in your Tmooh account, and it must be verified and activated, thus Tmooh can transfer your money when you request it.</li>
+ 	<li>You cannot request the transfer of “instructor revenues” before 20 days from the date of receiving course fees, and “instructor revenues” must exceed $100.</li>
+ 	<li>Tmooh makes all payments in US dollars only.</li>
+</ul>
+</li>
+ 	<li>
+<h3>Refunds</h3>
+As a instructor, you acknowledge and agree that students have the right to refunds their payments as described in item 7 of Tmooh usage agreement. instructors will not be compensated for any refunded payments, fees or commotions by the students. If a student requests a refund the payment of a course, Tmooh will deduct the amount the instructor received for the course and refund it to the student.</li>
+ 	<li>
+<h3>Taxes</h3>
+You acknowledge and agree to be responsible for and taxes on your income. When you sell a course or any content, a tax may be imposed in your country, therefore, you are responsible for following up the requirements of tax authority for sales tax on your training courses. Tmooh doesn’t provides tax advice and you should consult tax advisor. You can provide Tmooh with your tax bonds or proof of sales of your course(s), thus Tmooh will pay the amounts due to the tax authority in your country before determining “net amount” (from the “total amount” that Tmooh received from selling your course(s)).</li>
+ 	<li>
+<h3>limitation of liability</h3>
+Tmooh notifies all users about rescheduling if the system is down for maintenance or other purposes. In addition, there may be an unplanned interruption of the system, for example but not limited to, From cloud hosting companies, internet service providers in your country or any other reasons. You agree that Tmooh is not responsible for services inaccessibility or unavailability or any loss of data, transactions or other material caused by system interruption. Resulting in delay or poor delivery or inability to deliver the required content.</li>
+ 	<li>
+<h3>Termination</h3>
+If you wanted to delete your instructor account, you can do so through your account. If there’s any amount due, it would be transferred to you. You acknowledge and agree that if students have previously enrolled in your course(s), it would still be available for them and they would still have the necessary rights and licenses, your name would be entitled to your course(s) as well, considering student’s right set forth in article 7 of usage agreement. Tmooh reserves the right to delete or suspend any of your content and your access to our services or your account if you violate, at our sole discretion, any of these terms or our applicable policies. Therefore, Tmooh may take immediate action without prior notice, if the action is taken, we will not be responsible to you.</li>
+ 	<li>
+<h3>Amendments to instructor terms</h3>
+Betweenwhiles, we may update instructor terms for many reasons such as adding a new feature. Tmooh reserves the right to amendment and change instructor terms anytime. If we desire to make any major amendments, we will notify you 10 days in advance by sending a notice to your email address or by posting a notice on our services. Other amendments will become effective on the day they are published unless otherwise stated. If you keep using our services after the date of effect of any amendment, this use will be considered as an acceptance of the new instructor terms as changed.</li>
+</ol>
+									
+								</div>
+								<div class="custom-checkbox mb-3" ng-class="{'green-input':model.user_profile.is_paid_course_terms_and_conditions, 'red-input':!model.user_profile.is_paid_course_terms_and_conditions}">
+									<input type="checkbox" class="custom-control-input" id="is_paid_course_terms_and_conditionsx" ng-model="model.user_profile.is_paid_course_terms_and_conditions" ng-true-value="true" ng-false-value="false" ng-click="ChangeChecking()">
+									<label class="custom-control-label px-4 pt-1" for="is_paid_course_terms_and_conditionsx">
+										لقد قرأت ووافقت على شروط الدورة التدريبية المدفوعة لطموح
+									</label>
+								</div>
+
+								<hr />
+								<h5 class="text-default">{{'Tmooh Deals Program: Targeted Price Testing to Drive Sales of Your Course(s)'|translate}}</h5>
+								<div class="agreement-content" ng-if="isRtl">
+<ol>
+ 	<li>
+<h3>التسويق والعروض الترويجية</h3>
+تمنحك طموح بصفتك "مدرب" أو "مالك حقوق دورة تدريبية" برامج وأدوات قوية لمساعدتك على تحقيق أقصى قدر من الأرباح المحتملة (يمكنك الوصول إلى إعداداتها عبر الدخول إلى حسابك وثم الدخول على صفحة "حسابي" ) ، ويوجد عدة برامج يمكنك اختيار أحدها أو جميعها حسب رغبتك "كمدرب" أو "مالك حقوق دورة تدريبية" . قد تتغير البرامج من وقت لآخر لتحسين عائداتك ، والبرامج المتاحة حاليا هي :
+<ul>
+ 	<li>
+<h4>برنامج الخصومات</h4>
+ويتم عبر أحد الاستراتيجيتين التاليتين :
+<ul>
+ 	<li>الخصومات بالنسب المئوية : تقوم طموح بإنشاء حملات إعلانية لدورات مختارة بشكل دوري ، وعند اشتراكك في برنامج "الخصومات بالنسب المئوية" فإنك تسمح لـ طموح بتقديم خصومات تصل إلى 75% من السعر الأساسي لدورتك ، بشرط أن لا يقل سعر الدورة عن 9.99$ أو بما يعادلها في جدول ( الأسعار الأساسية ) حسب بلد المنشأ للمستخدم الذي يشتري الدورة التدريبية .</li>
+ 	<li>برنامج الخصومات بأسعار ثابتة : تقوم طموح بإنشاء حملات إعلانية لدورات مختارة بشكل دوري ، وعند اشتراكك في برنامج "الخصومات بأسعار ثابتة" فإنك تسمح لـ طموح بتقديم خصومات بأسعار ثابتة مثل ( 9.99$ أو 19.99$ أو 29.99$ ) ، بشرط أن لا يقل سعر الدورة عن 9.99$ أو بما يعادلها في جدول ( الأسعار الأساسية ) حسب بلد المنشأ للمستخدم الذي يشتري الدورة التدريبية ، كما أنه يمكن أن تكون نسبة الخصم أعلى من 75% من السعر الأساسي لدورتك .</li>
+</ul>
+</li>
+ 	<li>
+<h4>برنامج طموح للأعمال</h4>
+توفر طموح اشتراكات شهرية خاصة للشركات ، وهي عبارة عن مجموعة دورات مختارة تقدم لموظفي الشركات ، حيث تقوم طموح بشكل دوري بتغيير مجموعة الدورات المختاره ، فإذا كنت لا تمانع بمشاركة دورتك في برنامج طموح للأعمال ، قد يتم اختيار دورتك من ضمن الدورات المختارة في التحديث القادم لمجموعة الدورات المقدمة لموظفي الشركات . إنها وسيلة رائعة لنشر دوراتك اكثر ولزيادة إيرادات دوراتك . طريقة حساب ايرادات برنامج طموح للأعمال : في نهاية كل شهر تقوم طموح بحساب المبلغ الإجمالي من جميع الشركات المشتركة في برنامج طموح للأعمال ، ثم يتم حساب إجمالي عدد الدقائق التي تم مشاهدتها من موظفي الشركات لجميع الدورات ، ثم يتم حساب النسبة المئوية لإجمالي الدقائق التي تم عرضها من دورتك التدريبية ، وعلى ذلك يتم تقدير "سعر البيع" الخاص بدورتك ……....</li>
+ 	<li>
+<h4>برنامج مشاركة الإيرادات</h4>
+هو برنامج يعتمد على شراكات مع أطراف خارجية ، حيث يحفز الآخرين ليقوموا بالتسويق للدورات التدريبية عبر اختيارهم أحد الاستراتيجيتين التاليتين :
+<ul>
+ 	<li>
+<h5>التسويق بالعمولة ( Affiliate )</h5>
+وهو مشاركة المسوق 50% من "سعر البيع" عند إتمام عملية بيع من أحد الذين قام بدعوتهم على دورة تدريبية محددة ( أي لا يتم مشاركة الإيرادات عند اتمام عمليات بيع على دورات أخرى غير التي قام بدعوتهم لها ) .</li>
+ 	<li>
+<h5>التسويق بالإحالة ( Referral )</h5>
+وهي مشاركة المسوق 20% من "سعر البيع" لجميع المبيعات التي تتم لمدى الحياة من خلال أصدقائه الذين قام بدعوتهم على موقع طموح بشكل عام ( دون تحديد دورة تدريبية ) .
+برنامج التسويق بالاحالة (Referral Marketing Program) هو برنامج إلزامي للجميع</li>
+</ul>
+</li>
+ 	<li>
+<h4>برنامج سوّق لدورتك</h4>
+<b> :</b> يمكنك زيادة مبيعاتك ونسبة "إيراداتك" عبر قيامك بالترويج لدوراتك باستخدام كوبون تقوم بإنشائه من حسابك في طموح ، وعند استخدام أحد المستخدمين الكوبون عند الإلتحاق لدورتك ، فإنك ستحصل على :
+<ul>
+ 	<li>100% من "صافي المبلغ" إذا كنت "مدرب"</li>
+ 	<li>75% من "صافي المبلغ" إذا كنت "مالك حقوق دورة تدريبية" مدبلجة</li>
+ 	<li>88% من "صافي المبلغ" إذا كنت "مالك حقوق دورة تدريبية" مترجمة للغة العربية</li>
+ 	<li>75% من "صافي المبلغ" إذا كنت "مدبلج دورة تدريبية" للغة العربية</li>
+ 	<li>62% من "صافي المبلغ" إذا كنت "مترجم دورة تدريبية" للغة العربية</li>
+</ul>
+إذا كنت مدرب أو مالك حقوق دورة تدريبية مدبلجة أو مترجمة فإنه يمكنك إنشاء كوبونات خصم وتحديد نسبة الخصم كما تريد ، بشرط ألا يقل سعر الدورة عن 9.99$ أو ما يعادلها بالعملات الأخرى ( لا يحق "للمدبلج أو المترجم" إنشاء كوبونات خصم ) .</li>
+</ul>
+</li>
+</ol>
+								</div>								
+								<div class="agreement-content" ng-if="!isRtl">
+									<ul>
+ 	<li>
+<h3>Marketing and Promotion</h3>
+Tmooh provides you, as "instructor" or "Course's owner", with powerful programs and tools to help you maximize your potential profits (You can access its settings by going to your account and then setting your preferences). Many programs are available, you can choose one or more of them as you want as "Instructor" or "course's owner". Deals may change every once in a while to improve your revenue, currently available deals are:
+<ul>
+ 	<li>
+<h4>Discount program</h4>
+It is done through one of the following strategies:
+<ul>
+ 	<li>Percentage discounts: Tmooh creates advertising campaigns for periodically selected courses. When you subscribe to “percentage discounts” program, Tmooh will offer up to 75% discounts of your course base price, provided that the price of the course is not less than $9.99 Or its equivalent in the (base price) table by country of origin of the user who purchases the course.</li>
+ 	<li>Fixed-price discount program: Tmooh creates advertising campaigns for periodically selected courses. When you subscribe to “fixed-price discount” program, Tmooh will offer fix discounts such as ($9.99, $19.99, $29.99, and so forth), provided that the price of the course is not less than $9.99 Or its equivalent in the (base price) table by country of origin of the user who purchases the course. Discount rate can be higher than 75% of your base price.</li>
+</ul>
+</li>
+ 	<li>
+<h4>Tmooh program for business</h4>
+Tmooh offers monthly subscriptions for businesses, which are a set of selected courses offered to employees. Tmooh periodically changes the selected courses set, therefore, if you do not mind your participation in Tmooh program for business, your courses may be among the selected courses in the next update of courses set offered to employees. It's a great way to promote your courses and increase your courses revenue. The method of calculating the revenues of Tmooh program for business: At the end of each month, Tmooh calculated the “total amount” received from all companies that are subscribed to Tmooh program for business, then calculate total minuets watched by the employees of all courses, and then the percentage of total minuets watched from your courses. Accordingly, “total amount” of your courses is estimated.</li>
+ 	<li>
+<h4>Revenue sharing program</h4>
+This program that relies on partnerships with third parties, as it motivates others to market the courses by choosing one of the following strategies:
+<ul>
+ 	<li>Affiliate marketing: Sharing 50% of "sale price" with the marketer when a sale is completed by someone who has been invited by the marketer to buy to a specific course (i.e. revenue is not shared with the marketer if the invited user buys a course other than course that the marketer invited to buy).</li>
+ 	<li>Referral marketing: Sharing 20% of "sale price" of all sales that are lifelong done by marketer’s invited users whom have been invited to Tmooh website in general (not to a specific course) by the marketer.
+Referral marketing strategy is mandatory for all instructors.</li>
+</ul>
+</li>
+ 	<li>
+<h4>Market your own course program</h4>
+You can increase your sales and your "revenue" by promoting your courses using a coupon you create from your account with Tmooh. When you use a coupon user when you join your course, you'll get:
+<ul>
+ 	<li>100% of the "net amount" If you are a "boss"</li>
+ 	<li>And 75% of the "net amount" if you are a "Course Rights Owner" dubbed</li>
+ 	<li>And 88% of the "net amount" if you are the "Course Rights Owner" translated into Arabic</li>
+ 	<li>And 75% of the "net amount" if you are a "Madbalij Training Course" for Arabic</li>
+ 	<li>And 62% of the "net amount" if you are a "training course translator" for Arabic</li>
+</ul>
+If you are a "Instructor" or "Course's owner" for a dubbed or translated course, you can create discount coupons and set the discount rate as you like, provided that the course price is not less than $ 9.99 or the equivalent in other currencies (the translator/dubbing does not have the right to create discount coupons).</li>
+</ul>
+When you create coupons, you can also set the discount rate as you want, provided that the price of the course is not less than $9.99 or equivalent in other currencies. Furthermore, you can make 100% discount and offer your course for free.</li>
+</ul>
+								</div>
+								<p>
+									{{'I have read and agree to the Tmooh Terms and Conditions with the following permissions:'|translate}}
+								</p>
+								<div class="row">
+									<div class="col">
+										<!--Marketting boost program term and condition-->
+										<div class="custom-checkbox mb-3" ng-class="{'green-input':model.user_profile.is_enable_courses_for_marketing_program, 'red-input':!model.user_profile.is_enable_courses_for_marketing_program}">
+											<input type="checkbox" class="custom-control-input" id="is_enable_courses_for_marketing_programx" ng-model="model.user_profile.is_enable_courses_for_marketing_program" ng-true-value="true" ng-false-value="false" ng-click="ChangeChecking()">
+											<label class="custom-control-label px-4 pt-1" for="is_enable_courses_for_marketing_programx">
+		التسويق بالعمولة (Affiliate)
+											</label>
+										</div>
+									</div>
+									<div class="col">
+										<div class="custom-checkbox mb-3" ng-class="{ 'green-input':model.user_profile.is_enable_courses_for_percentage_promotions, 'red-input':!model.user_profile.is_enable_courses_for_percentage_promotions}">
+											<input type="checkbox" class="custom-control-input" id="is_enable_courses_for_percentage_promotionsx" ng-model="model.user_profile.is_enable_courses_for_percentage_promotions" ng-true-value="true" ng-false-value="false" ng-click="ChangeChecking()">
+											<label class="custom-control-label px-4 pt-1" for="is_enable_courses_for_percentage_promotionsx">
+											الخصومات بالنسب المئوية
+											</label>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="custom-checkbox mb-3" ng-class="{ 'green-input':model.user_profile.is_enable_courses_for_fixed_price_promotions, 'red-input':!model.user_profile.is_enable_courses_for_fixed_price_promotions}">
+											<input type="checkbox" class="custom-control-input" id="is_enable_courses_for_fixed_price_promotions" ng-model="model.user_profile.is_enable_courses_for_fixed_price_promotions" ng-true-value="true" ng-false-value="false" ng-click="ChangeChecking()">
+											<label class="custom-control-label px-4 pt-1" for="is_enable_courses_for_fixed_price_promotions">
+		الخصومات بأسعار ثابتة
+											</label>
+										</div>
+
+									</div>
+									<div class="col">
+										<!--Corporate term and condition -->
+										<div class="custom-checkbox mb-3" ng-class="{ 'green-input':model.user_profile.is_enable_courses_for_corporate_program, 'red-input':!model.user_profile.is_enable_courses_for_corporate_program}">
+											<input type="checkbox" class="custom-control-input" id="is_enable_courses_for_corporate_programx" ng-model="model.user_profile.is_enable_courses_for_corporate_program" ng-true-value="true" ng-false-value="false" ng-click="ChangeChecking()">
+											<label class="custom-control-label px-4 pt-1" for="is_enable_courses_for_corporate_programx">
+												الاشتراك في محتوى الأعمال
+											</label>
+										</div>
+									</div>
+								</div>
+
+
+
+
+
+
+								<hr />
+
+
+
+								<h5 class="text-default">{{'Notes'|translate}}</h5>
+								<ol>
+									<li>
+										{{'The referral marketing program is mandatory for all instructors'|translate}}
+									</li>
+									<li>
+										{{'Tmooh reserves the right to select the specific courses that will participate in these marketing programs. Opting in to these programs does not guarantee participation, but it does enable us to move quickly and put some serious marketing muscle behind your course if the opportunity arises.'|translate}}
+									</li>
+									<li>
+										{{'Any changes made to your participation in our programs mentioned above will not apply to currently active campaigns.'|translate}}
+									</li>
+								</ol>
+
+							</div>
+
+
+						</div>
+						<!--Fixed and Fixed percentage settings	-->
+
+
+
+
+
+
+
+						<div class="float-right">
+							<label class="sr-only" for="submit">حفظ</label>
+							<button type="submit" class="btn btn-primary" ng-hide="disableSave" id="submit">حفظ</button>
+							<button type="submit" class="btn btn-primary" id="user_profile_save" ng-hide="!disableSave">جاري الحفظ <span><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+						</div>
+
+						<div oc-lazy-load='loadSeo'>
+							<user-profile-seo></user-profile-seo>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

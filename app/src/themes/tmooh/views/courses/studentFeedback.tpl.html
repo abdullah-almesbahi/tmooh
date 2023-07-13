@@ -1,0 +1,51 @@
+<dashboard-navbar></dashboard-navbar>
+<section class="feedback-page clearfix">
+    <div class="container">
+        <!--<instructor-courses-detail theme-name='teachr' ng-if="$root.settings['site.enabled_plugins'].indexOf('Instructor') > -1"></instructor-courses-detail>-->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="frm-block">
+                    <div class="well-lg panel clearfix">
+                        <form class="form-horizontal" name="feedbackForm" ng-submit="model.sendFeedback(feedbackForm.$valid, feedbackForm)" novalidate>
+                            <div class="form-group has-feedback">
+                                <label class="col-md-2 col-sm-3 control-label required" for="designation">{{'To'|translate}}</label>
+                                <div class="col-md-5 col-sm-9" ng-class="{ 'has-error' : ((feedbackForm.$submitted || feedbackForm.users.$touched) &&feedbackForm.users.$invalid)}">
+                                    <tags-input name="users" ng-model="tags" max-tags="1" placeholder="Add Student" add-from-autocomplete-only="true" ng-required="true">
+                                        <auto-complete source="loadCoursUsers($query)"></auto-complete>
+                                    </tags-input>
+                                    <div class="text-danger" ng-if="feedbackForm.users.$error.maxTags">
+                                        {{'Add a Single user'|translate}}.
+                                    </div>
+                                    <div class="text-danger" ng-if="feedbackForm.users.$error.required && feedbackForm.$submitted && !feedbackForm.users.$error.leftoverText && !feedbackForm.users.$error.maxTags">
+                                        {{'Required'|translate}}.
+                                    </div>
+                                    <div class="text-danger" ng-if="feedbackForm.users.$error.leftoverText">
+                                        {{'invalid name'|translate}}.
+                                    </div>
+                                    <span class="help-block">{{'Add the student from autocomplete ..'|translate}}</span>
+                                </div>
+                            </div>
+                            <div class="form-group has-feedback">
+                                <label class="col-md-2 col-sm-3 control-label required" for="message">{{'Feedback'|translate}}</label>
+                                <div class="col-md-5 col-sm-9" ng-class="{ 'has-error' :  ((feedbackForm.$submitted || feedbackForm.message.$touched) &&feedbackForm.message.$invalid)}">
+                                    <textarea class="form-control" minlength="10" name="message" ng-model="model.instructor_feedback.message" placeholder="{{'Type your feeedback message'|translate}}" ng-required="true"></textarea>
+                                    <div ng-show="((feedbackForm.$submitted || feedbackForm.message.$touched) && (feedbackForm.message.$pristine || feedbackForm.message.$invalid))">
+                                        <div class="error text-danger" ng-show="(feedbackForm.message.$error.required || feedbackForm.message.$invalid && !feedbackForm.message.$error.minlength)">{{'Required' | translate}}
+                                        </div>
+                                        <span class="error text-danger" ng-show="(!feedbackForm.message.$error.required && feedbackForm.message.$error.minlength)">{{'Feedback contain atleast minimum 10 characters'|translate}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-10 col-md-offset-2">
+                                    <label class="sr-only" for="user_profile_save">{{'Save'|translate}}</label>
+                                    <button type="submit" class="btn btn-primary" ng-disabled="message_disableButton" id="submit">{{'Save'|translate}} <span ng-show="message_disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

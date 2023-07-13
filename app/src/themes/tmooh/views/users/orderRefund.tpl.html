@@ -1,0 +1,87 @@
+<div class="modal-login" ng-class="{'container': currentPageType === 'page'}">
+	<div class="custom-table" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+		<div class="panel-heading clearfix">
+			<div class="float-right">
+				<a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose"><i class="fa fa-lg fa-times-circle close"></i></a>
+			</div>
+			<h3 class="text-center">{{'Claim for refund of order'|translate}}</h3>
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+					<dl class="dl-horizontal">
+						<dt>{{'Bill Name'|translate}}: </dt>
+						<dd>{{order.username}}</dd>
+
+						<dt>{{'Bill Address'|translate}}: </dt>
+						<dd> <span ng-if="order.billing_address !== null">{{order.billing_address}}, </span>
+							<span ng-if="order.billing_city !== null">{{order.billing_city}}, </span>
+							<span ng-if="order.billing_state !== null">{{order.billing_state}}, </span>
+							<span ng-if="order.billing_zip_code !== null">{{order.billing_zip_code}}</span></dd>
+
+						<dt>{{'Bill Mobile number'|translate}}: </dt>
+						<dd><span ng-if="order.buyer_phone_number !== null">{{order.buyer_phone_number}}</span></dd>
+
+						<dt>{{'Payment status'|translate}}: </dt>
+						<dd><span ng-if="order.is_paid" class="success">{{'Completed'|translate}}</span>
+							<span ng-if="!order.is_paid" class="danger">{{'Not Completed'|translate}}</span></dd>
+					</dl>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+					<dl class="dl-horizontal">
+						<dt>{{'Date'|translate}}: </dt>
+						<dd> {{order.created | amDateFormat: 'DD.MM.YYYY HH:mm a'}}</dd>
+						<dt>{{'Invoice No'|translate}}: </dt>
+						<dd>{{order.invoice_number}}</dd>
+					</dl>
+				</div>
+				<div class="col-xs-12" role="navigation">
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th class="text-center">{{'Date'|translate}}</th>
+									<th class="text-center">{{'Course Name'|translate}}</th>
+									<th class="text-center">{{'Coupon'|translate}}</th>
+									<th class="text-center">{{'Discount Amount'|translate}}</th>
+									<th class="text-center">{{'Amount'|translate}}</th>
+								</tr>
+								<tbody>
+									<tr ng-if="order !== null" ng-repeat="course_user in order.course_users">
+										<td class="text-center">{{course_user.booked_date | amDateFormat: 'DD.MM.YYYY HH:mm a'}}</td>
+										<td class="text-center">{{course_user.course_title}}</td>
+
+										<td class="text-center">
+											<span ng-if="course_user.coupon_id !== null">{{course_user.coupon_code}}</span>
+											<span ng-if="course_user.coupon_id === null">--</span>
+										</td>
+										<td class="text-center">{{course_user.discount_amount}}</td>
+										<td class="text-center">
+											{{course_user.price}}
+										</td>
+									</tr>
+									<tr ng-if="order === null">
+										<td colspan="4" class="text-center">
+											<span class="hor-space">{{'No Record Found' |translate}}</span>
+										</td>
+									</tr>
+								</tbody>
+						</table>
+					</div>
+					<div class="float-right">
+						<ul class="list-unstyled">
+							<li class="navbar-btn total-amt">
+								<span>{{'Total Amount'|translate}}</span>
+								<span class="price">: {{order.amount}}</span>
+							</li>
+							<li><a href="" class="btn btn-success" ng-click="refund_reason()">{{'Claim'|translate}}</a>
+								<a href="#" class="btn btn-outline-secondary" ng-click=" modalClose($event)">{{'Cancel'|translate}}</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div banner position="bottomBanner" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1 && currentPageType === 'page'"></div>
+</div>

@@ -1,0 +1,21 @@
+<div class="col-xs-12 clearfix  navbar-btn" ng-if="$root.QuizForm.questionlistForm && action == 'list'">
+	<div class="panel panel-default well-sm">
+		<ul class="clearfix list-unstyled navbar-btn" id="help_topics">
+			<li class="col-xs-12" ng-repeat="quizQuestion in model.quizQuestionlist">
+				<div class="panel" class="col-xs-12 col-xs-5">
+					<div class='text-muted navbar-btn'>
+						<p ng-bind-html='quizQuestion.question' class="well navbar-btn"></p>
+						<ul class="list-inline clearfix float-right">
+							<li>
+								<a href="#" class="btn  text-info float-right" ng-click="model.getQuizQuestionAnswer($event,quizQuestion.id,'edit')"><span class=""><i class="mdi-18px mdi mdi-pencil"></i></span></a>
+							</li>
+							<li>
+								<a href="#" class="btn  text-info float-right" ng-click="model.deleteLessonFun($event, OnlineCourse.id)"><span class="" ><i class="mdi-18px mdi mdi-delete"></i></span></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>

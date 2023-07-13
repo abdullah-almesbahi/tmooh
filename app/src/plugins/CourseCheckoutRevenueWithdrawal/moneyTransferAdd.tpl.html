@@ -1,0 +1,60 @@
+<div class="container pb-5">
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/user_cash_withdrawals" class="text-primary">{{'Withdraw Fund Requests'|translate}}</a></li>
+			<li class="breadcrumb-item active"><span class="text-muted">{{'Money Transfer Accounts'|translate}}</span></li>
+		</ol>
+	</nav>
+
+	<form role="form" class="form-horizontal clearfix" name="moneyTransferAdd" ng-submit="model.moneyTransferAddFormSubmit();moneyTransferAdd.$setPristine()">
+		<div class="card shadow-sm mt-2">
+			<div class="card-body">
+				<h1 class="card-title text-truncate">{{'Money Transfer Accounts'|translate}}</h1>
+
+
+
+				<div class="form-group" ng-class="{ 'has-error' : moneyTransferAdd.account_details.$invalid && moneyTransferAdd.account_details.$dirty }">
+					<label class="control-label" for="account_details">{{'Account Details'|translate}}</label>
+
+						<textarea class="form-control" name="account_details" rows="7" id="account_details" placeholder="{{'Account Details'|translate}}" ng-model='model.moneyTransferAdd.account' required></textarea>
+						<div class="help-block text-danger" ng-if="moneyTransferAdd.account_details.$dirty" ng-messages="moneyTransferAdd.account_details.$error">
+							<div ng-message="required">{{'You must enter the Account details'|translate}}.</div>
+						</div>
+						{{'Example'|translate}} :
+						<div class="help-block alert alert-info mt-2">
+								{{'Bank'|translate}}:&nbsp;{{'HDFC'|translate}}<br />
+								{{'Account No'|translate}}:&nbsp;<span>1111111111</span><br />
+								{{'Account Holder Name'|translate}}:&nbsp;<span>Mohmmed Ahmed</span><br />
+								{{'IFSC Code'|translate}}:&nbsp;<span>XXXXX</span>
+						</div>
+						<p>({{'or'|translate}})</p>
+						<div class="help-block alert alert-info mt-2">
+							{{'PayPal Account'|translate}}:&nbsp;example@domain.com
+						</div>
+
+				</div>
+			</div>
+			<div class="card-footer">
+				<label class="sr-only" for="submit">{{'Submit'|translate}}</label>
+				<input type="submit" class="btn btn-primary btn-lg" id="submit" value="{{'Submit'|translate}}">
+			</div>
+
+		</div>
+	</form>
+
+	<div class="card shadow-sm mt-3" ng-if="model.moneyTransferAccountList.length > 0">
+		<div class="card-body">
+			<h1 class="card-title text-truncate">{{'Existing Accounts'|translate}}</h1>
+			<div class="row border-top mt-3" ng-repeat='moneyTransferAccountList in model.moneyTransferAccountList'>
+				<div class=" col-md-6"><span><p ng-bind-html="moneyTransferAccountList.account|nl2br"></p></span></div>
+				<div class=" col-md-6 text-right">
+					<a href="javascript:void(0);" class="btn btn-danger btn-sm" ng-click='model.deleteMoneyTransferAccount(moneyTransferAccountList.id)'>{{'Delete'|translate}}</a>
+				</div>
+			</div>
+			<div class="text-center" ng-show="_metadata.total_records === 0">
+				<h3 class="text-muted">{{'No records found'|translate}}</h3>
+			</div>
+		</div>
+	</div>
+
+</div>

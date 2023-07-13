@@ -1,0 +1,179 @@
+<!--Leaner Dashboard Course Content template -->
+<div ng-if="model.filter === 'CourseLearner'">
+  <div ng-if="online_chapters.length &&  !model.loader">
+    <div class="clearfix" id="js-lesson">
+      <div class="clearfix row mb-3 learner-search">
+        <div class="search form-search col">
+          <form class="form-inline form_teaching ng-pristine ng-valid" method="post">
+            <div class="input-group">
+              <input type="search" placeholder="Search" class="form-control ng-pristine ng-valid ng-empty ng-touched" ng-model="search" ng-change="lessonSearch(search);">
+              <span class="input-group-btn">
+                <a href="javascript:void(0);"  class="btn btn-success" type="button" ><i class="mdi-18px mdi mdi-magnify"></i></a>
+							</span>
+            </div>
+          </form>
+        </div>
+        <div class="learner-filter col">
+          <button class="btn btn-link float-right" ng-class="{'text-b blackc': activeState === 'expand'}" ng-click="model.setOpenAll('true')" style="">
+            {{'All Sections' | translate}}
+          </button>
+          <button class="btn btn-link bold btn-text float-right" ng-class="{'text-b blackc': activeState === 'collapse'}" ng-click="model.setOpenAll('false')" style="">
+              {{'Current Section' | translate}}
+            </button>
+
+
+        </div>
+      </div>
+
+
+    </div>
+    <div class="chapter-test leaner-lessonslist">
+      <div>
+        <uib-accordion ng-repeat="(online_chapter_key,online_chapter) in online_chapters">
+          <div uib-accordion-group class="shadow-sm mb-3" is-open="online_chapter.is_collapsed">
+            <uib-accordion-heading>
+              <div class="row text-dark">
+                <div class="col">{{'Chapter'|translate}}:{{online_chapter_key+1}}</div>
+                <div class="col text-right"> <strong class="siteblue">{{online_chapter.completed_lessons_count}}</strong> / {{online_chapter.total_lessons_count}}</div>
+              </div>
+              <div class="row">
+                <div class="col">{{online_chapter.lesson_name}}</div>
+              </div>
+            </uib-accordion-heading>
+            <ul class="list-unstyled m-0">
+              <li class="row border-bottom py-3" ng-repeat="(OnlineCourse_key,OnlineCourse) in online_chapter.lessons" id="js-loader{{OnlineCourse.id}}" ng-class="{'lcurrent' : OnlineCourse.id == model.viewLessonDetails.id, '':OnlineCourse.id != model.viewLessonDetails.id, 'lcompleted' : OnlineCourse.completed == '1', '':OnlineCourse.completed == '0'}">
+                <!-- showing lesson chapter name-->
+                <div class="col-auto" ng-if='OnlineCourse.is_chapter === 1'>
+                  <div class="col-xs-12 "><strong>{{'Chapter'|translate}}: {{OnlineCourse.lesson_name}} </strong></div>
+                </div>
+
+                <!-- showing lesson name -->
+                <div class="col-auto">
+                  <span ng-if="OnlineCourse.is_practice_test" class="lessonsicon"> <i class="mdi-24px mdi mdi-file-document" aria-hidden="true"></i></span>
+                  <span ng-if="OnlineCourse.is_assignment || OnlineCourse.is_quiz" class="lessonsicon"> <i class="mdi-24px mdi mdi-flash" aria-hidden="true"></i></span>
+                  <span ng-if="OnlineCourse.online_lesson_type_id === 1" class="lessonsicon"> <i class="mdi-24px mdi mdi-file-document" aria-hidden="true"></i></span>
+                  <span class="lessonsicon" ng-if="OnlineCourse.is_coding_exercises"><i class="mdi-24px mdi mdi-dots-horizontal" aria-hidden="true"></i></span>
+                  <span ng-if="OnlineCourse.online_lesson_type_id === 5" class="lessonsicon"><i class="mdi-24px mdi mdi-download"></i></span>
+                  <span ng-if="OnlineCourse.online_lesson_type_id === 4" class="lessonsicon"><i class="mdi-24px mdi mdi-file-video"></i></span>
+                  <span ng-if="OnlineCourse.online_lesson_type_id === 3" class="lessonsicon"><i class="mdi-24px mdi mdi-play-circle-outline"></i></i></span>
+                </div>
+
+                <div class="col">
+                  <a class="media text-dark" ui-sref="LearnCourse({slug :OnlineCourse.course_slug, id:OnlineCourse.course_id, lesson: OnlineCourse.id,learn: model.course_user_id})" ng-if='OnlineCourse.is_chapter === 0' >
+                    <!--Different lessons icons  based on some condiition -->
+
+                    <!--Different lessons name  based on some condiition -->
+                    <span class="" ng-if="!OnlineCourse.is_quiz && !OnlineCourse.is_assignment && !OnlineCourse.is_practice_test">{{'Lesson'|translate}} {{OnlineCourse.serial_number}}:&nbsp;</span>
+                    <span class="" ng-if="OnlineCourse.is_practice_test">{{'Practice Test'|translate}} {{OnlineCourse.serial_number}}:&nbsp;</span>
+                    <span class="" ng-if="OnlineCourse.is_assignment">{{'Assignment'|translate}} {{OnlineCourse.serial_number}}:&nbsp;</span>
+                    <span class="" ng-if="OnlineCourse.is_quiz">{{'Quiz'|translate}} {{OnlineCourse.serial_number}}:&nbsp;</span>
+                    <span class="" ng-if="OnlineCourse.is_coding_exercises">{{'Coding Exercise'|translate}} {{OnlineCourse.serial_number}}:&nbsp;</span>{{OnlineCourse.lesson_name}}
+                    <!-- Mark as Completed -->
+                  </a>
+                </div>
+                <div class="col-auto">
+                  <span class="lessontimer mx-2" ng-if="OnlineCourse.online_lesson_type_id === 3 && OnlineCourse.video_duration !== null ">{{OnlineCourse.video_duration}}</span>
+
+                  <i class="mdi mdi-24px mdi-loading mdi-spin lrotate"></i>
+                  <i class="mdi mdi-24px mdi-radiobox-blank" ng-click="model.lessonComplete(OnlineCourse.id, OnlineCourse)" ng-if="OnlineCourse.id  &&  OnlineCourse.completed == '0'" tooltip-placement="auto" tooltip-animation="false" uib-tooltip="{{'Mark as Completed'|translate}}"></i>
+                  <i class="mdi mdi-24px mdi-check-circle-outline" ng-click="model.lessonComplete(OnlineCourse.id, OnlineCourse)" ng-if="OnlineCourse.id  &&  OnlineCourse.completed == '1'" tooltip-placement="auto" tooltip-animation="false" uib-tooltip="{{'Unmark to Unread'|translate}}"></i>
+                </div>
+
+              </li>
+            </ul>
+          </div>
+        </uib-accordion>
+      </div>
+    </div>
+  </div>
+  <div ng-if="!online_chapters.length &&  !model.loader && !model.search_start">
+    <br><br><br>
+    <p class="alert alert-danger">{{'No Content Found'|translate}}</p>
+  </div>
+  <div ng-if="!online_chapters.length &&  !model.loader && model.search_start === true">
+    <br><br><br>
+    <p class="alert alert-danger">{{'No lessons Found'|translate}}</p>
+    <span>{{'We couldn't find the content you searched for. Try searching for the name of a lessons.'|translate}}</span>
+  </div>
+</div>
+
+
+
+<!-- Course View page  Content template -->
+<div id="curriculum" ng-if="!model.loader && model.filter === 'CourseView'" class="abtcourseblk mt30">
+  <div class="row">
+    <div class="col">  
+      <h3>{{'Curriculum'|translate}}</h3>
+      <div class="title_2"><span><em></em></span></div>
+    </div>
+    <div class="col d-none d-sm-block">
+      <button class="btn btn-link float-right" ng-class="{'text-b blackc': activeState === 'expand'}" ng-click="model.setOpenAll('true')" style="">
+        {{'All Sections' | translate}}
+      </button>
+      <button class="btn btn-link bold btn-text float-right" ng-class="{'text-b blackc': activeState === 'collapse'}" ng-click="model.setOpenAll('false')" style="">
+        {{'Current Section' | translate}}
+      </button>
+    </div>
+  </div>
+  <div class="clearfix" ng-if="online_chapters.length">
+    <div class="clearfix"></div>
+    <div class="curriculumpnl-group " id="accordion" role="tablist" aria-multiselectable="true">
+      <div class="card card-default mb-3" ng-repeat="(online_chapter_key,online_chapter) in online_chapters">
+        <div class="card-header bg-light" role="tab" id="headingOne">
+          <h4 class="card-title mb-0">
+              <a role="button" class="collapsed" data-toggle="collapse12" data-parent="#accordion" ng-click="online_chapter.is_collapsed = !online_chapter.is_collapsed"
+                  aria-expanded="true" aria-controls="collapseOne">
+{{'Chapter'|translate}} {{online_chapter_key+1}}: &nbsp; {{online_chapter.lesson_name}}
+              <i class="float-right mdi" ng-class="{'mdi-menu-up': online_chapter.is_collapsed, 'mdi-menu-down': !online_chapter.is_collapsed}"></i>
+            </a>
+          </h4>
+        </div>
+        <div uib-collapse="!online_chapter.is_collapsed" class="card-collapse collapse12" role="tabcard" aria-labelledby="headingOne" aria-expanded="true">
+          <div class="">
+            <div class="cculamcardinner p-2 border-bottom" ng-repeat='(OnlineCourse_key , OnlineCourse) in online_chapter.lessons track by OnlineCourse.id'>
+              <div class="curriuminner clearfix">
+                <div class="row">
+                  <div class="col-9 courseview_tabinner" ng-if="OnlineCourse.is_chapter == 0" data-toggle="tooltip" data-placement="auto" 
+                title="{{OnlineCourse.is_preview === 1 ? '' : $root.isAuth? message_must_enroll : message_must_register }}">
+                    <!-- showing lesson name -->
+                    <span ng-if="OnlineCourse.is_practice_test" class="lessonsicon"> <i class="mdi-18px mdi mdi-file-document" aria-hidden="true"></i></span>
+                    <span ng-if="OnlineCourse.is_assignment || OnlineCourse.is_quiz" class="lessonsicon"> <i class="mdi-18px mdi mdi-flash" aria-hidden="true"></i>
+</span>
+                    <span ng-if="OnlineCourse.online_lesson_type_id === 1" class="lessonsicon"> <i class="mdi-18px mdi mdi-file-document" aria-hidden="true"></i></span>
+                    <span class="lessonsicon" ng-if="OnlineCourse.is_coding_exercises"><i class="mdi-18px mdi mdi-dots-horizontal" aria-hidden="true"></i>
+ </span>
+                    <span ng-if="OnlineCourse.online_lesson_type_id === 5" class="lessonsicon"><i class="mdi-18px mdi mdi-download"></i></span>
+                    <span ng-if="OnlineCourse.online_lesson_type_id === 4" class="lessonsicon"><i class="mdi-18px mdi mdi-file-video"></i></span>
+                    <span ng-if="OnlineCourse.online_lesson_type_id === 3" class="lessonsicon"><i class="mdi-18px mdi mdi-play-circle-outline"></i></i></span> &nbsp;&nbsp;
+                    <!-- <a class="text-primary" href="#" ng-click="showDetail(OnlineCourse, $event)"> -->
+                      <!--Different lessons name  based on some condiition -->
+                      <span class="" ng-if="!OnlineCourse.is_quiz && !OnlineCourse.is_assignment && !OnlineCourse.is_practice_test">{{'Lesson'|translate}} {{OnlineCourse.serial_number}}:&nbsp;</span>
+                      <span class="" ng-if="OnlineCourse.is_practice_test">{{'Practice Test'|translate}} {{OnlineCourse.serial_number}}:&nbsp;</span>
+                      <span class="" ng-if="OnlineCourse.is_assignment">{{'Assignment'|translate}} {{OnlineCourse.serial_number}}:&nbsp;</span>
+                      <span class="" ng-if="OnlineCourse.is_quiz">{{'Quiz'|translate}} {{OnlineCourse.serial_number}}:&nbsp;</span>
+                      <span class="" ng-if="OnlineCourse.is_coding_exercises">{{'Coding Exercise'|translate}} {{OnlineCourse.serial_number}}:&nbsp;</span> {{OnlineCourse.lesson_name}}
+                      <!-- <i class="mdi-18px mdi mdi-menu-down" ng-hide="active == OnlineCourse.id" ng-if='OnlineCourse.lesson_description'></i>
+                      <i class="mdi-18px mdi mdi-menu-up" ng-show="active==OnlineCourse.id"></i> -->
+                    <!-- </a> -->
+                  </div>
+                  <div class="col-3 text-center" ng-if="OnlineCourse.is_chapter == 0 && model.filter === 'CourseView'">
+                    <!-- <span ng-bind="getDuration(OnlineCourse.duration + '', $event)" class="float-right" ng-if="OnlineCourse.duration"></span> -->
+                    <div class="float-left mx-3"  ng-if='OnlineCourse.is_preview === 1'><a rel="nofollow" ng-href="/learn-course/{{OnlineCourse.course_id}}/{{OnlineCourse.id}}/{{OnlineCourse.lesson_name|slugify|escape}}" title="{{'Preview'|translate}}" class="btn btn-sm btn-primary">{{'Preview'|translate}}</a> </div>
+                    <span class="float-right" ng-if="OnlineCourse.duration">{{OnlineCourse.duration}}</span>
+                  </div>
+                </div>
+              </div>
+              <div ng-show="active==OnlineCourse.id" class="curriuminner curdescription clearfix">
+                <span>{{OnlineCourse.lesson_description}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div ng-if="!online_chapters.length &&  !model.loader">
+    <p class="alert alert-danger">{{'No Content Found'|translate}}</p>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<section class="container pb-3 mb-5">
+  <course-navbar></course-navbar>
+  <div class="card shadow bg-white">
+    <div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading"></div>
+    <div class="card-body" ng-if="!model.loading">
+      <h3 class="text-default">{{'Automated Messages'|translate}}</h3>
+      <p>{{'Write messages to your students (optional) that will be sent automatically when they join or complete your course to encourage students to engage with course content. If you do not wish to send a welcome or congratulations message, leave the
+        text box blank.'|translate}}</p>
+      <form class="form-horizontal" name="AutoMessageForm" ng-submit="model.courseupdate()">
+        <div class="form-group has-feedback">
+          <label class="col-md-3 col-sm-3 control-label required" for="congratulation_message">{{'Congratulation Message'|translate}}
+    </label>
+          <div class="col-md-5 col-sm-9" ng-class="{ 'has-error' : AutoMessageForm.welcome_message.$invalid && AutoMessageForm.welcome_message.$dirty }">
+            <textarea cols="102" rows="5" class="form-control" id="congratulation_message" name="congratulation_message" placeholder="{{'Congratulation message...'|translate}}" ng-model="model.course.congratulation_message" required></textarea>
+            <div class="help-block">
+              <div>{{'Congratulate a student who has completed 100% of your course Messages.'|translate}}.</div>
+            </div>
+            <div class="text-danger" ng-if="AutoMessageForm.congratulation_message.$dirty" ng-messages="AutoMessageForm.congratulation_message.$error">
+              <div ng-message="required">{{'You must enter your congratulation_message'|translate}}.</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group has-feedback">
+          <label class="col-md-3 col-sm-3 control-label required" for="welcome_message">{{'Welcome Message'|translate}}</label>
+          <div class="col-md-5 col-sm-9" ng-class="{ 'has-error' : AutoMessageForm.welcome_message.$invalid && AutoMessageForm.welcome_message.$dirty }">
+            <textarea cols="102" rows="5" class="form-control" id="welcome_message" name="welcome_message" placeholder="{{'Welcome message..'|translate}}" ng-model="model.course.welcome_message" required></textarea>
+            <div class="help-block">
+              <div>{{'Send a greeting automatically to students as soon as they enroll in your course.'|translate}}.</div>
+            </div>
+            <div class="text-danger" ng-if="AutoMessageForm.welcome_message.$dirty" ng-messages="AutoMessageForm.welcome_message.$error">
+              <div ng-message="required">{{'You must enter your welcome_message'|translate}}.</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="">
+            <label class="sr-only" for="submit">{{'Save'|translate}}</label>
+            <button type="submit" class="btn btn-primary btn-course" ng-disabled="model.add_disableButton" id="submit">{{'Save'|translate}}
+               <span ng-show="model.add_disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+            <!--Save & next-->
+            <label class="sr-only" for="submit">{{'Save'|translate}} & {{'Next'|translate}}</label>
+            <input type="submit" ng-model="model.NextButtonVal" class="btn btn-primary btn-course float-right" id="submit" value="{{'Save'|translate}} & {{'Next'|translate}}" ng-click="model.NextButtonVal = 'next'">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

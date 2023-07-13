@@ -1,0 +1,359 @@
+<!--<section class="message-page clearfix">
+	<div class="container">
+		<div class="row">
+			<div class="right-side-block">
+				<div class="panel">
+					<div class="list-header text-center well-sm" ng-if="!model.composeForm">
+						<h3>{{'Messages'|translate}}</h3>
+						<span>{{'Your have unread message.'|translate}}</span>
+					</div>
+					<div class="list-header text-center well-sm" ng-if="model.composeForm">
+						<h3>{{'New Message'|translate}}</h3>
+						<span>{{'Your can send new message.'|translate}}</span>
+					</div>
+				</div>
+				<div class="well-lg panel clearfix">
+					<div class="col-sm-6 navbar-btn" ng-if="!model.composeForm">
+						<ul class="list-inline navbar-btn nav nav-tabs" role="tablist">
+							<li class="" ng-class="{'active' : model.currentSlide === 'inbox'}"><a href="" ng-click="model.slideChange('inbox')" title="{{'inbox'|translate}}" aria-controls="inbox" role="tab">{{'INBOX'|translate}}</a></li>
+							<li class="" ng-class="{'active' : model.currentSlide === 'sent'}"><a href="" ng-click="model.slideChange('sent')" title="{{'Redemptions'|translate}}" aria-controls="sent" role="tab">{{'SENT'|translate}}</a></li>
+						</ul>
+					</div>
+					<input type="button" class="btn btn-primary float-right" title="New message" id="user_profile_save" value="{{'Compose Message'|translate}}"
+						ng-click="model.composeForm = true;" ng-if="!model.composeForm">
+					<input type="button" class="btn btn-primary float-right" title="back to inbox" id="user_profile_save" value="{{'Back to inbox'|translate}}"
+						ng-click="model.composeForm = false;" ng-if="model.composeForm"><br><br>
+					<div class="col-xs-12" id="mymessage_list" ng-if="!model.composeForm">
+						<div class="col-sm-2 col-xs-12 col-md-2 float-left clearfix" role="navigation">
+							<div class="row panel">
+								<ul class="nav nav-stacked  nav-pills list-group-item-heading list-group-item-text" id="leftnavbar">
+									<li class="" ng-class="{active:model.currentSorttype == 'Student'}"><a href="" class="" ng-click="model.sort('Student')">&nbsp; {{'Student Messages'|translate}} </a></li>
+									<li class="" ng-class="{active:model.currentSorttype == 'Instructor'}"><a href="" class="" ng-click="model.sort('Instructor')">&nbsp; {{'Instructor Messages'|translate}} </a></li>
+									<li class="" ng-class="{active: model.currentSorttype == 'Announcement'}"><a href="" class="" ng-click="model.sort('Announcement')">&nbsp; {{'Announcements'|translate}} </a></li>
+									<li class="" ng-class="{active:model.currentSorttype == 'Promotion'}"><a href="" class="" ng-click="model.sort('Promotion')">&nbsp; {{'Promotions'|translate}} </a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-sm-10 col-xs-12 col-md-10 float-left" role="navigation">
+							<ul class="list-unstyled navbar-btn course-list" ng-if="model.userCourseMessage .length">
+								<ul class="clearfix list-unstyled navbar-btn col-xs-12">
+									<li class="clearfix" ng-repeat='message in  model.userCourseMessage'>
+										<div class="col-xs-12 navbar-btn">
+											<div class="col-xs-12" ng-class="{'btn-outline-secondary': message.is_read == true, 'btn-success':message.is_read == false}">
+												<div class="clearfix well-sm"><strong><span>{{'From'|translate}}: </span> {{message.other_user}}</strong>&nbsp;&nbsp;
+													<span am-time-ago="message.created"></span>
+													<strong><span>{{'Subject'|translate}}: </span> {{message.subject}}</strong>
+													<a ng-click="showDetails = ! showDetails;model.messageMarkRead ($index,'read');" title="view" class="btn text-info float-right"><span><i class="fa fa-lg fa-caret-square-o-down"></i></span></a>
+													<a href="" class="btn  text-info float-right" ng-click="model.deleteMessage(message.id)"><span class="" ><i class="mdi-18px mdi mdi-delete"></i></span></a>
+													<a ng-click="model.messageMarkRead ($index,'unread');" title="view" class="btn text-info float-right"><span>Mark as unread</span></a>
+												</div>
+												<div class="navbar-btn clearfix panel text-primary well-sm " ng-show="showDetails">
+													<div class="clearfix">
+														{{'From'|translate}} : {{message.other_user}} {{'To'|translate}} : {{message.user}} {{'Time'|translate}}: {{message.created
+														| amDateFormat: 'MM.DD.YYYY HH:mm a'}} {{'Subject'|translate}} :
+														<p ng-bind-html="message.subject" class="well navbar-btn ng-binding"></p>
+
+														{{'Message'|translate}} :
+														<p ng-bind-html="message.message" class="well navbar-btn ng-binding"></p>
+
+													</div>
+
+												</div>
+											</div>
+									</li>
+								</ul>
+							</ul>
+							<div class="alert alert-danger" ng-if="!model.userCourseMessage.length">
+								<p class="text-center" ng-show="!loader">{{'No Message Found'|translate}}</p>
+							</div>
+							<div class="paging clearfix text-center" ng-show="_metadata.total_records > 0">
+								<ul uib-pagination total-items="_metadata.total_records" ng-model="currentPage" ng-change="paginate('#mymessage_list')" max-size="_metadata.maxSize"
+									boundary-links="true" num-pages="_metadata.noOfPages" items-per-page="_metadata.limit" first-text="{{'First'|translate}}"
+									last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+							</div>
+							</div>
+						</div>
+						<form method="post" name="MymessageForm" ng-submit="model.sendMessage(MymessageForm.$valid)" ng-if="model.composeForm">
+							<div class="well-sm">
+								<div ng-if='!contentInIframe'>
+									<div class="row">
+										<div class="form-group has-feedback">
+											<label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">{{'To'|translate}}</label>
+											<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" ng-class="{ 'has-error' : MymessageForm.tags.$invalid && MymessageForm.tags.$dirty }">
+												<tags-input ng-model="tags" placeholder="Select a user's name'" add-from-autocomplete-only="true" ng-required="true">
+													<auto-complete source="loadTags($query)"></auto-complete>
+												</tags-input>
+												<span class="ion-at form-control-feedback"></span>
+												<div class="text-danger" ng-if="MymessageForm.tags.$dirty" ng-messages="MymessageForm.tags.$error">
+													<div ng-message="required">{{'please the select the student is required'|translate}}.</div>
+													<div ng-message="tags">{{'selected student is invalid'|translate}}.</div>
+												</div>
+											</div>
+										</div>
+									</div><br><br><br><br>
+
+									<div class="row">
+										<div class="form-group has-feedback">
+											<label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">{{'Subject'|translate}}</label>
+											<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" ng-class="{ 'has-error' : MymessageForm.subject.$invalid && MymessageForm.subject.$dirty }">
+												<textarea class="form-control input" minlength="5" cols="30" rows="1" name="subject" ng-model="model.instructor.subject"
+													placeholder="{{'Type your subject...'|translate}}" required></textarea>
+												<span class="ion-key form-control-feedback"></span>
+												<div class="text-danger" ng-if="MymessageForm.subject.$dirty" ng-messages="MymessageForm.subject.$error">
+													<div ng-message="required">{{'subject is required'|translate}}.</div>
+												</div>
+											</div>
+										</div>
+									</div><br><br><br><br>
+
+									<div class="row">
+										<div class="form-group has-feedback">
+											<label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">{{'Message'|translate}}</label>
+											<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" ng-class="{ 'has-error' : MymessageForm.message.$invalid && MymessageForm.message.$dirty }">
+												<textarea class="form-control input" minlength="5" cols="30" rows="4" name="message" ng-model="model.instructor.message"
+													placeholder="{{'Type your message...'|translate}}" required></textarea>
+												<span class="ion-key form-control-feedback"></span>
+												<div class="text-danger" ng-if="MymessageForm.message.$dirty" ng-messages="MymessageForm.message.$error">
+													<div ng-message="required">{{'Message is required'|translate}}.</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+
+									<br><br>
+									<div class="form-group float-right">
+										<label class="sr-only" for="submit">{{'Send'|translate}}</label>
+										<button type="submit" class="btn btn-primary" ng-disabled="MymessageForm.$invalid || message_disableButton" id="submit">{{'Send'|translate}} <span ng-show="message_disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+										<input type="button" class="btn btn-outline-secondary" id="oauthClientAddForm_cancel" value="{{'cancel'|translate}}" ng-click="model.composeForm = false;">
+									</div>
+								</div>
+
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+</section>-->
+<!--<div oc-lazy-load='loadSeo'>
+	<user-profile-seo></user-profile-seo>
+</div>-->
+<!--<section class="message-section my-message-bar">
+    <div class="container">
+        <div class="clearfix">
+            <div class="filter-block">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+				<span><i class="mdi-18px mdi mdi-filter fa-fw"></i>{{model.currentSorttype|translate}}</span>
+				</button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li><a href="#" ng-click="model.sort('All', $event)">{{'All'|translate}}</a></li>
+                    <li><a href="#" ng-click="model.sort('Student', $event)">{{'Student'|translate}}</a></li>
+                    <li><a href="#" ng-click="model.sort('Instructor', $event)">{{'Instructor'|translate}}</a></li>
+                    <li><a href="#" ng-click="model.sort('Announcement', $event)">{{'Announcement'|translate}} </a></li>
+                    <li><a href="#" ng-click="model.sort('Promotion', $event)">{{'Promotions'|translate}}</a></li>
+                </ul>
+            </div>
+            <div class="float-right">
+                <button class="btn btn-primary" title="New message" ng-click="openComposeModel()">
+					{{'Compose'|translate}}
+				</button>
+            </div>
+        </div>
+        <div class="filter-block more-filter" ng-if="model.checked_row.length > 0">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+			<span><i class="mdi-18px mdi mdi-tag fa-fw"></i>More</span>
+			</button>
+            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li><a href="#" ng-if="model.currentSlide === 'inbox'" ng-click="model.MultipleProcess('unread', $event)"><span class="glyphicon mdi mdi-email"></span>{{'Unread'|translate}}</a></li>
+                <li><a href="#" ng-if="model.currentSlide === 'inbox'" ng-click="model.MultipleProcess('read', $event)"><span class="glyphicon mdi mdi-inbox"></span>{{'Read'|translate}}</a></li>
+                <li><a href="#" ng-click="model.MultipleProcess('delete', $event)"><span class="glyphicon mdi mdi-delete"></span>{{'Delete'|translate}}</a></li>
+            </ul>
+        </div>
+        <div class="course-tab">
+            <ul class="nav nav-tabs">
+                <li class="" ng-class="{'active' : model.currentSlide === 'inbox'}">
+                    <a href="" ng-click="model.slideChange('inbox')" data-toggle="tab" title="{{'inbox'|translate}}">
+                        <i class="mdi-18px mdi mdi-inbox fa-fw fa-lg"></i>Inbox</a>
+                </li>
+                <li class="" ng-class="{'active' : model.currentSlide === 'sent'}">
+                    <a href="" ng-click="model.slideChange('sent')" title="{{'Sent'|translate}}" data-toggle="tab">
+                        <i class="mdi-18px mdi mdi-account fa-fw fa-lg"></i> Sent
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane fade active in">
+                <div ng-include src="'common/loader.tpl.html'" ng-show="model.loader"></div>
+                <ul class="list-group">
+                    <li class="list-group-item" ng-class="{'light-gray-bg': (message.is_read == true && model.currentSlide === 'inbox'), 'message-unread':(message.is_read == false && model.currentSlide === 'inbox')}" ng-repeat='message in  model.userMessages' ng-if=" model.userMessages.length && !model.loader">
+                        <div class="message-checkbox">
+                            <div class="checkbox">
+                                <label>
+									<input type="checkbox" class="no-mar" ng-model="model.MessageArray[$index]" ng-click="model.getMessageDetails()">
+									<span></span>
+								</label>
+                            </div>
+                        </div>
+                        <ul class="list-inline clearfix message-list" ng-click="model.showMessage($index, $event,'Show')">
+                            <li>{{message.other_user}}</li>
+                            <li>
+                                <a href="" ng-click="model.showMessage($index, $event,'Show')" title="{{message.other_user}}">
+                                    <img ng-if="message.other_user_image !== '' && message.other_user_image !== null" ng-src="{{$root.site_url}}img/normal_thumb/User/{{message.other_user_image}}" alt="[Image: {{message.other_user}}]" title="{{message.other_user}}" class="img-circle" />
+                                    <img ng-if="message.other_user_image === '' || message.other_user_image === null" ng-src="{{$root.site_url}}img/normal_thumb/User/0.default.jpg" alt="[Image: {{message.other_user}}]" title="{{message.other_user}}" class="img-circle" />
+                                </a>
+                            </li>
+                            <li class="navbar-right">
+                                <span am-time-ago="message.created" class="badge"></span>
+                            </li>
+                        </ul>
+                        <div class="msg-list" ng-if="message.isShowContent">
+                            <h3>Message</h3>
+                            <p class="htruncate-m1 navbar-btn">{{message.message}}</p>
+                            <div class="row" ng-if="model.currentSlide === 'inbox'">
+                                <div class="col-sm-12" ng-if="!message.isShowReply">
+                                    <div class="top-mspace-20">
+                                        <a href="#" class="btn btn-primary float-right" ng-click="model.showMessage($index, $event,'Reply')">Reply</a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8" ng-if="message.isShowReply">
+                                    <form role="form" class="form-horizontal clearfix" name="MessageReplyForm" ng-submit=" model.MessageReplyFormSubmit(MessageReplyForm.$valid,MessageReplyForm, message);" novalidate>
+                                        <div class="form-group" ng-class="{ 'has-error' : ((MessageReplyForm.$submitted || MessageReplyForm.description.$touched) && (MessageReplyForm.description.$pristine || MessageReplyForm.description.$invalid))}">
+                                            <label class="col-md-2 col-sm-3 control-label" for="subject"></label>
+                                            <div class="col-md-9 col-sm-9">
+                                                <textarea class="form-control" name="description" id="description" rows="2" ng-model='message.reply_message' placeholder="{{'Reply..'|translate}}" required ng-required="true"></textarea>
+                                                <div ng-show="((MessageReplyForm.$submitted || MessageReplyForm.description.$touched) && (MessageReplyForm.description.$pristine || MessageReplyForm.description.$invalid))">
+                                                    <div class="error text-danger" ng-show="(MessageReplyForm.description.$error.required || MessageReplyForm.description.$invalid)">{{'Required' | translate}} </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-offset-3 col-sm-10 col-md-offset-2">
+                                                <label class="sr-only" for="submit2">{{'Reply'|translate}}</label>
+                                                <button type="submit" class="btn btn-primary" id="submit2">{{'Reply'|translate}} <span ng-show="disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+                                                <button type="button" class="btn btn-outline-secondary" ng-click="model.showMessage($index, $event,'Reply')">Cancel</button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="top-mspace text-center" ng-if="!model.userMessages.length && !model.loader">
+                    <p class="alert alert-danger no-mar ng-binding">No Records Available</p>
+                </div>
+                <div class="paging clearfix text-center" ng-show="_metadata.total_records > 0 && !model.loader">
+                    <ul uib-pagination total-items="_metadata.total_records" ng-model="currentPage" ng-change="paginate('#mymessage_list')" max-size="_metadata.maxSize" boundary-links="true" num-pages="_metadata.noOfPages" items-per-page="_metadata.limit" first-text="{{'First'|translate}}"
+                        last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+                </div>
+            </div>
+        </div>
+</section>
+-->
+
+
+<div class="panel custom-panel">
+    <div class="container">
+        <div class="bot-space">
+            <div class="breadcumb-blk">
+                <ul class="breadcrumb top-mspace">
+                    <li>
+                        <a href="#">{{'Home' | translate}}</a>
+                    </li>
+                    <li class="active">
+                        <a href="">{{'Messages' | translate}}</a>
+                    </li>
+                </ul>
+            </div>
+            <h3 ng-show="model.type == 'inbox'" class="ng-binding">{{'Inbox' | translate}}</h3>
+            <h3 ng-show="model.type == 'sent'" class="ng-binding">{{'Sent' | translate}}</h3>
+        </div>
+    </div>
+</div>
+<div class="message">
+    <div class="container">
+        <div class="clearfix">
+            <div class="filter-block">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+				<span><i class="mdi-18px mdi mdi-filter fa-fw"></i>{{model.currentSorttype|translate}}</span>
+				</button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li><a href="#" ng-click="model.sort('All', $event)">{{'All'|translate}}</a></li>
+                    <li><a href="#" ng-click="model.sort('Student', $event)">{{'Student'|translate}}</a></li>
+                    <li><a href="#" ng-click="model.sort('Instructor', $event)">{{'Instructor'|translate}}</a></li>
+                    <li><a href="#" ng-click="model.sort('Announcement', $event)">{{'Announcement'|translate}} </a></li>
+                    <li><a href="#" ng-click="model.sort('Promotion', $event)">{{'Promotions'|translate}}</a></li>
+                </ul>
+            </div>
+            <div class="float-right">
+                <button class="btn btn-primary" title="New message" ng-click="openComposeModel()">
+					{{'Compose'|translate}}
+				</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="filter-block more-filter" ng-if="model.checked_row.length > 0">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+			<span><i class="mdi-18px mdi mdi-tag fa-fw"></i>{{'More' | translate}}</span>
+			</button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li><a href="" ng-if="model.type === 'inbox'" ng-click="model.MultipleProcess('unread')"><span class="glyphicon mdi mdi-email"></span>{{'Unread'|translate}}</a></li>
+                    <li><a href="" ng-if="model.type === 'inbox'" ng-click="model.MultipleProcess('read')"><span class="glyphicon mdi mdi-inbox"></span>{{'Read'|translate}}</a></li>
+                    <li><a href="" ng-click="model.messageDeleteConfirm()"><span class="glyphicon mdi mdi-delete"></span>{{'Delete'|translate}}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 col-md-2 message-sidebar ">
+                <ul class="list-unstyled ">
+                    <li class="" ng-class="{'message-active' : model.type === 'inbox'}"><a ui-sref="message({type:'inbox'})" title="{{'Inbox' | translate}}"><i class="mdi-18px mdi mdi-inbox"></i>{{'Inbox' | translate}}</a></li>
+                    <li class="" ng-class="{'message-active' : model.type === 'sent'}"><a ui-sref="message({type:'sent'})" title="{{'SentMail' | translate}}"><i class="mdi-18px mdi mdi-logout-variant"></i>{{'Sent' | translate}}</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-md-10">
+                <div class="message-view">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                             <div ng-include src="'common/loader.tpl.html'" ng-show="model.loader"></div>
+                            <tr ng-repeat="message in  model.userMessages" ng-class="{'message-unread': (message.is_read == true && model.type === 'inbox'), 'light-gray-bg':(message.is_read == false && model.type === 'inbox')}" ng-if=" model.userMessages.length && !model.loader">
+                                <td>
+                                    <div class="checkbox">
+                                        <label>
+									<input type="checkbox" class="no-mar" ng-model="model.MessageArray[$index]" ng-click="model.getMessageDetails()">
+									<span></span>
+								</label>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <a ng-href="/user/{{message.other_user_id}}/{{message.other_user|slugify|escape}}/">
+                                        <img ng-if="message.other_user_image !== '' && message.other_user_image !== null" ng-src="{{$root.site_url}}img/small_thumb/User/{{message.other_user_image}}" alt="[Image: {{message.other_user}}]" title="{{message.other_user}}" class="img-circle" />
+                                        <img ng-if="message.other_user_image === '' || message.other_user_image === null" ng-src="{{$root.site_url}}img/small_thumb/User/0.default.jpg" alt="[Image: {{message.other_user}}]" title="{{message.other_user}}" class="img-circle" />
+                                    </a>
+                                    <a ng-href="/user/{{message.other_user_id}}/{{message.other_user|slugify|escape}}/" title="{{message.from_user.username}}">{{message.other_user}}</a>
+                                </td>
+                                <td width="600" class="status-mail">
+                                    <a ui-sref="messageview({id:message.id,type:model.type})" title="{{message.subject}}"><span ng-bind-html="message.subject"></span></a>
+                                </td>
+                                <td>
+                                    <span am-time-ago="message.created" class="badge"></span>
+                                </td>
+                            </tr>
+                            <div class="text-center" ng-show="!model.userMessages.length && !model.loader">
+                                <p class="error">{{'No Message Found' |translate}}</p>
+                            </div>
+                        </table>
+                    </div>
+                    <div class="paging clearfix text-center" ng-show="_metadata.total_records > 0 && !model.loader">
+                        <ul uib-pagination total-items="_metadata.total_records" ng-model="currentPage" ng-change="paginate('#mymessage_list')" max-size="_metadata.maxSize" boundary-links="true" num-pages="_metadata.noOfPages" items-per-page="_metadata.limit" first-text="{{'First'|translate}}"
+                            last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

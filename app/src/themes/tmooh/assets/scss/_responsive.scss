@@ -1,0 +1,162 @@
+
+@include media-breakpoint-up(xs) {
+
+}
+// Small devices (landscape phones, 576px and up)
+@include media-breakpoint-up(sm) {
+  .card-horizontal {
+    // flex-direction: row;
+  }
+  .card-img-left {
+    // width: inherit;
+    height: 100%; // Required because we use flexbox and this inherently applies align-self: stretch
+    max-width: 335px;
+  }
+  .card-img-right {
+    // width: inherit;
+    height: 100%; // Required because we use flexbox and this inherently applies align-self: stretch
+    max-width: 335px;
+  }
+}
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {  }
+// Large devices (desktops, 992px and up)
+@include media-breakpoint-up(lg) {  }
+// Extra large devices (large desktops, 1200px and up)
+@include media-breakpoint-up(xl) {  }
+
+
+
+// Extra small devices (portrait phones, less than 576px)
+@include media-breakpoint-down(xs) {
+
+
+}
+// Small devices (landscape phones, less than 768px)
+@include media-breakpoint-down(sm) {
+  html {
+    position:unset;
+    min-height: 100%;
+  }
+  body {
+    margin-bottom: 0px;
+    background-color: white;
+    // font-size: 12px;
+  }
+  h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    // margin-bottom: 0.15rem;
+    // line-height: 1;
+  }
+  ol, ul, dl {
+    margin-bottom: 0.25rem;
+  }
+  h1 {
+    font-size: 18px !important;
+  }
+  h2 {
+    font-size: 17px !important;
+  }
+
+  h3 {
+    font-size: 16px !important;
+  }
+
+  h4 {
+    font-size: 12px !important;
+  }
+  p {
+    margin-bottom: 0.25rem;
+  }
+  .card-body {
+      padding: 0.50rem;
+  }
+  .card-title {
+    margin-bottom: 0.25rem;
+  }
+
+  .w-75,.w-50,.w-25 {
+    width: 100% !important;
+  }
+
+  .homepage-video-wrapper {
+    height: 450px !important;
+    .homepage-video {
+      .homepage-video-inner {
+        padding-top: 100px;
+        h3 {
+          font-size: 23px !important;
+        }
+        p{
+          font-size: 18px;
+          padding: 0 5%;
+        }
+        .w-25 {
+          width: 90% !important;
+        }
+      }
+    }
+  }
+  .mdi-48px.mdi-set, .mdi-48px.mdi:before {
+      padding: 16px;
+  }
+  .price {
+    font-size: 0.84rem;
+  }
+  .mm-listitem {
+    .dropdown-menu-category-icon {
+      position: relative;
+      top: 2px;
+      left: 0px;
+      line-height: inherit;
+    }
+  }
+  #search_results {
+    .card-horizontal.shadow-sm{
+        box-shadow: inherit !important;
+        border-bottom: 1px solid #f3f3f3 !important;
+    }
+    .card-body {
+      padding-top: 0px;
+    }
+    .price{
+      float:right;
+    }
+    .description{
+      font-size: 12px;
+      color:#6c757d;
+    }
+  }
+
+  .homepage-header{
+      // background-color: #212529;
+      background: -webkit-linear-gradient(left, #480048, #c04848);
+      background: linear-gradient(to right, #480048, #c04848);
+  }
+  .disable-float-xs {
+    float: inherit !important;
+  }
+  .notifications .dropdown-menu:after {
+      display: none;
+  }
+  .user-photo{
+    max-width: 50px;
+  }
+  .course-thumbnail {
+    min-width: 110px;
+    min-height:84px;
+    background-color:black;
+  }
+
+}
+// Medium devices (tablets, less than 992px)
+@include media-breakpoint-down(md) {
+  .homepage-video-wrapper .homepage-video {
+    background: gray url(img/slide1.jpg) center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+}
+// Large devices (desktops, less than 1200px)
+@include media-breakpoint-down(lg) {  }

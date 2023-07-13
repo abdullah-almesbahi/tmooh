@@ -1,0 +1,66 @@
+<learner-dashboard-navbar></learner-dashboard-navbar>
+<div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading === true"></div>
+<div class="bottom__content container" ng-if="!model.loading">
+    <div ng-if="model.type === 'overview'">
+        <div class="clearfix certificate-ourse" id="about-course">
+            <div class="abtcourseblk mt30">
+                <h3><span>{{'About this course' | translate}}</span></h3>
+                <div ng-if="model.course.description !== null && model.course.description">
+                    <p>{{'Course Description'|translate}}</p>
+                    <div ng-bind-html="model.course.description"></div>
+                </div>
+            </div>
+
+            <div class="whtreqblk mt30" ng-if="WhatActionsStudentsHaveToPerformBeforeBegin !=='' && WhatActionsStudentsHaveToPerformBeforeBegin!==null">
+                <h3>{{'What are the requirements?'|translate}}</h3>
+                <div ng-bind-html="WhatActionsStudentsHaveToPerformBeforeBegin"></div>
+            </div>
+
+
+            <div ng-if="((model.course.description ==='' || model.course.description ===null)&&(WhatActionsStudentsHaveToPerformBeforeBegin ==='' || WhatActionsStudentsHaveToPerformBeforeBegin ===null))">
+                <div class="text-center alert alert-danger mt30">
+                    <p>{{'No Description available.'|translate}}</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="instructorblk pb20 reviews mt30 clearfix" id="Instructor">
+            <h3><span>{{'Instructor' | translate}}</span></h3>
+            <div class="media instructor-media">
+              <ul class="list-unstyled">
+                <li class="media">
+                  <span class="mr-3">
+                    <profile-image instructor='true' user-image-hash='model.course.user_image_hash' user-display-name='{{model.course.displayname}}' user-profile-id='model.course.user_id' ng-if='model.course.user_id' user-profile-thumb='big_medium_thumb' image-type='image'></profile-image>
+                  </span>
+                  <div class="media-body">
+                    <h5 class="mt-0 mb-1">  <profile-name instructor='true' user-profile-id='model.course.user_id' ng-if='model.course.user_id' user-designation='yes' user-designation-text='{{model.course.designation}}' user-display-name='model.course.displayname' user-name-class='instuctor-profile'></profile-name></h5>
+                    <ul class="list-inline">
+                        <li class="list-inline-item" ng-show="model.user_profile.twitter_profile_link"><a rel="nofollow" href="{{model.user_profile.twitter_profile_link}}" target="_blank" class="text-muted">  <i class="mdi-18px mdi mdi-twitter fa-stack-1x fa-inverse"></i>  </a></li>
+                        <li class="list-inline-item" ng-show="model.user_profile.google_plus_profile_link">
+                            <a rel="nofollow" href="{{model.user_profile.google_plus_profile_link}}" target="_blank" class="text-muted">   <i class="mdi-18px mdi mdi-google-plus fa-stack-1x fa-inverse"></i> </a>
+                        </li>
+                        <li class="list-inline-item" ng-show="model.user_profile.facebook_profile_link"><a rel="nofollow" href="{{model.user_profile.facebook_profile_link}}" target="_blank" class="text-muted">  <i class="mdi-18px mdi mdi-facebook fa-stack-1x fa-inverse"></i> </a></li>
+                        <li class="list-inline-item" ng-show="model.user_profile.youtube_profile_link"><a rel="nofollow" href="{{model.user_profile.youtube_profile_link}}" target="_blank" class="text-muted">  <i class="mdi-18px mdi mdi-youtube fa-stack-1x fa-inverse"></i>  </a></li>
+                        <li class="list-inline-item" ng-show="model.user_profile.website"><a rel="nofollow" href="{{model.user_profile.website}}" target="_blank" class="text-muted">  <i class="mdi-18px mdi mdi-earth fa-stack-1x fa-inverse"></i>  </a></li>
+                        <li class="list-inline-item" ng-show="model.user_profile.linkedin_profile_link"><a rel="nofollow" href="{{model.user_profile.linkedin_profile_link}}" target="_blank" class="text-muted">  <i class="mdi-18px mdi mdi-linkedin fa-stack-1x fa-inverse"></i>  </a></li>
+                    </ul>
+                    <div class="mt10 clearfix">
+                        <p class="" ng-if="model.user_profile.biography" ng-bind-html="model.user_profile.biography | nl2br"></p>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <!--Multiple instrcutor plugin enabled and showing the multiple instructor details showing -->
+            <multiple-instructor-show course-id='{{model.course.id}}' ng-if="model.course.id && $root.settings['site.enabled_plugins'].indexOf('MultipleInstructor') > -1"></multiple-instructor-show>
+
+        </div>
+    </div>
+    <div ng-if="model.type === 'content'">
+        <online-lessons ng-if="model.course.id" filter="CourseLearner" course-id="{{model.course.id}}"></online-lessons>
+    </div>
+    <div ng-if="model.type === 'questions'" class="qa_myquestionblk">
+        <question-answers course-instructor-id="{{model.course.user_id}}" course-id="{{model.course.id}}" ng-if="model.course.id && model.course.user_id"></question-answers>
+    </div>
+</div>

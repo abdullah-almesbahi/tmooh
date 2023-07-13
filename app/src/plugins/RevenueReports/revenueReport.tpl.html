@@ -1,0 +1,111 @@
+<section class="clearfix">
+    <div class="">
+        <dashboard-navbar></dashboard-navbar>
+        <div class="container my-4">
+            <div class="">
+                <div class="right-side-block">
+                    <div class="">
+                        <div class="clearfix renevue-money">
+                            <div class="float-left">
+                                <h3>
+                                    <amount-display amount='{{model.RevenueReportsTotalValue}}' fraction='2' is-course-price='no' ng-if="model.RevenueReportsTotalValue"></amount-display>
+                                </h3>
+                                <strong><p>{{'Your Lifetime Earnings as of' | translate}} {{model.RevenueReportsUpdate}}</p></strong>
+                            </div>
+                            <div class="dropdown float-right">
+                                <a data-toggle="dropdown" class="btn btn-outline-secondary" ng-disabled="model.date_filter">
+                                    <span><i class="mdi-18px mdi mdi-menu" aria-hidden="true" ></i>
+									</span></a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="" ng-click="model.date_filter = !model.date_filter" title="{{'Filter by date'|translate}}">{{'Filter by date'|translate}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="" ng-if="model.date_filter" `>
+                            <div class="clearfix report-addon">
+                                <a href="" class="action-close float-right" ng-click="model.DateFilterClose()"><i class="mdi-18px mdi mdi-close" ></i></a>
+                                <span class="help-block text-center"><i>{{'Select the dates from calendar.'|translate}}</i></span>
+                                <div class="form-addon float-left">
+                                    <div class="form-group has-feedback">
+                                        <label>{{'Start date'|translate}}</label>
+
+
+                                        <div class="input-group clearfix">
+                                            <input type="text" id="start_date" name="start_date" class="form-control disabled" uib-datepicker-popup ng-model="model.picker1.date" is-open="popup2.opened" datepicker-options="model.picker1.datepickerOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats"
+                                            />
+                                            <div class="buton-addon">
+                                                <button type="button" class="btn btn-outline-secondary" ng-click="popup2.opened = !popup1.opened"><i class="mdi mdi-calendar"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-addon float-right">
+                                    <div class="form-group has-feedback">
+                                        <label>{{'End date'|translate}}</label>
+                                        <div class="input-group clearfix">
+                                            <input type="text" id="end_date" name="end_date" class="form-control disabled" uib-datepicker-popup ng-model="model.picker2.date" is-open="popup1.opened" datepicker-options="model.picker2.datepickerOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats"
+                                            />
+                                            <div class="buton-addon">
+                                                <button type="button" class="btn btn-outline-secondary" ng-click="popup1.opened = !popup1.opened"><i class="mdi mdi-calendar"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br><br>
+                        <!--overall revenue report by channels-->
+                        <!--class="revenue-chart"-->
+                        <div >
+                            <h4 class="chart-heading">{{'revenue chart' | translate}}</h4>
+                            <!--<div class="revenue-blck">-->
+                                <custom-high-chart ng-if="model.ChannelAreaShow" type="area" categories="{{categories}}" options="{{chartOptions}}" series-data={{AreaSeriesData}}>{{'Placeholder for pie chart' | translate}}</custom-high-chart>
+                            <!--</div>-->
+                        </div>
+                        <!--revenue report by months-->
+                        <div class="col-xs-12" id="revenue_reportlist">
+                            <div class="custom-table">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">{{'Time Period'|translate}}</th>
+                                            <th class="text-center">{{'Amount'|translate}}</th>
+                                            <th class="text-center"> {{'Expected Payment Date'|translate}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="month_revenuereport in model.months_revenuereport_list" ng-if="!model.loader && model.months_revenuereport_list.length">
+                                            <td class="text-center">
+                                                <a href="/Revenue-Report/{{month_revenuereport.id}}" title={{month_revenuereport.month}}><strong>{{month_revenuereport.month}}</strong></a>
+                                            </td>
+                                            <td class="text-center">
+                                                <amount-display amount='{{month_revenuereport.revenue_by_channels}}' fraction='2' is-course-price='no'>
+                                            </td>
+                                            <td class="text-center">
+                                                {{month_revenuereport.Expected_date}}
+                                            </td>
+                                        </tr>
+                                        <td colspan="12" ng-show="model.loader">
+                                            <div ng-include src="'common/loader.tpl.html'"></div>
+                                        </td>
+                                        <tr ng-if="!model.months_revenuereport_list.length && !model.loader">
+                                            <td colspan="3" class="text-center text-danger">
+                                                <span class="hor-space error">{{'No Record Found' |translate}}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="paging clearfix text-center" ng-show="_metadata.total_records > 0 && !model.loader && _metadata.noOfPages > 1">
+                                <ul uib-pagination total-items="_metadata.total_records" ng-model="model.currentPage" ng-change="paginate('#revenue_reportlist')" max-size="_metadata.maxSize" boundary-links="true" num-pages="_metadata.noOfPages" items-per-page="_metadata.limit" first-text="{{'First'|translate}}"
+                                    last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div oc-lazy-load='loadSeo'>
+    <user-profile-seo></user-profile-seo>
+</div>

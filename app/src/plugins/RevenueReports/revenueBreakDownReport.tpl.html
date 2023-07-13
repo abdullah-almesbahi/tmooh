@@ -1,0 +1,188 @@
+<!--Break Down Revenue Report Listing -->
+<div id="teaching" class="tab-pane active" role="tabpanel">
+    <div class="custom-table" id="creditcard_list">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>{{'Date'|translate}}</th>
+                        <th>{{'Customer Name'|translate}}</th>
+                        <th>{{'Course'|translate}}</th>
+                        <th>{{'Coupon Code'|translate}}</th>
+                        <th>{{'Channel'|translate}}</th>
+                        <th>{{'Price Paid'|translate}}</th>
+                        <th>{{'Your Revenue'|translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="break_down_Report in model.break_down_Reports" ng-if="!model.loader && model.break_down_Reports.length">
+                        <td>
+                            {{break_down_Report.created_at}}
+                        </td>
+                        <td>{{break_down_Report.learner_name}}</td>
+                        <td>{{break_down_Report.course_title}} <br>
+                            <strong><small>({{break_down_Report.course_type}})</small></strong>
+                        </td>
+                        <td>
+                            <span ng-if="break_down_Report.coupon_id !== null">{{break_down_Report.coupon_code}}</span>
+                        </td>
+                        <td>
+                            <span ng-if="break_down_Report.channel_id !== null">{{break_down_Report.channel_name}} </span>
+                        </td>
+                        <td>
+                            <span ng-if="$root.settings['site.enabled_plugins'].indexOf('MultiCurrency')> -1">
+                     <span ng-if="break_down_Report.price != '0'">{{break_down_Report.price | currency : break_down_Report.currency_symbol : 2}}</span>
+                            <span ng-if="break_down_Report.price == '0'">$0.00</span>
+                            </span>
+                            <span ng-if="$root.settings['site.enabled_plugins'].indexOf('MultiCurrency') ===  -1">
+                        <amount-display amount='{{break_down_Report.price}}' fraction='2' is-course-price='no'>
+                        </amount-display>
+                     </span>
+                        </td>
+                        <td>
+                            <a href="" ng-click='modalBreakDown($event,break_down_Report)'>
+                                <amount-display amount='{{break_down_Report.instructor_revenue_amount}}' fraction='2' is-course-price='no'></amount-display>
+                            </a>
+                        </td>
+                    </tr>
+                    <td colspan="12" ng-show="model.loader">
+                        <div ng-include src="'common/loader.tpl.html'"></div>
+                    </td>
+                    <tr ng-if="!model.break_down_Reports.length && !model.loader">
+                        <td colspan="7" class="text-center text-danger">
+                            <span class="hor-space error">{{'No Record Found' |translate}}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="paging clearfix text-center" ng-show="_metadata.total_records > 0 && !model.loader && _metadata.noOfPages > 1">
+            <ul uib-pagination total-items="_metadata.total_records" ng-model="model.currentPage" ng-change="paginate()" max-size="_metadata.maxSize"
+                boundary-links="true" num-pages="_metadata.noOfPages" items-per-page="_metadata.limit" first-text="{{'First'|translate}}"
+                last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+        </div>
+    </div>
+</div>
+<!--Declaring the breakDownRevenue.tpl.html Template-->
+<script type="text/ng-template" id="src/plugins/RevenueReports/breakDownRevenue.tpl.html">
+<div class="">
+	<div class="modal-login" ng-class="{'container': currentPageType === 'page'}">
+		<div class="">
+			<div class="center-form" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+				<div class="float-right">
+					<div class="navbar-btn">
+						<a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose">
+
+						</a>
+					</div>
+				</div>
+				<div class="modal-header">
+                <h4 class="modal-title text-center">{{'Earning Details'|translate}}</h4>
+            </div>
+				<div class="card-body">
+					<div class="row">
+						<div class="revenue-dl" ng-if='!contentInIframe && !iserror'>
+							<dl class="dl-horizontal">
+								<dt>Price paid</dt>
+								<dd>
+									<span ng-if="$root.settings['site.enabled_plugins'].indexOf('MultiCurrency')> -1">
+										<span ng-if="breakdown_report.price == '0'">$0.00</span>
+										<span ng-if="breakdown_report.price != '0'">{{breakdown_report.price | currency : breakdown_report.currency_symbol : 2}} </span>
+									</span>
+									<span ng-if="$root.settings['site.enabled_plugins'].indexOf('MultiCurrency') ===  -1">
+										<amount-display amount='{{breakdown_report.price}}' fraction='2' is-course-price='no'></amount-display>
+									</span>
+								</dd>
+								<dt ng-if="breakdown_report.country_tax_fee != 0">Tax</dt>
+								<dd ng-if="breakdown_report.country_tax_fee != 0">
+									<amount-display amount='{{breakdown_report.country_tax_fee}}' fraction='2' is-course-price='no'></amount-display>
+								</dd>
+								<dt>Net amount</dt>
+								<dd>
+									<span ng-if="$root.settings['site.enabled_plugins'].indexOf('MultiCurrency')> -1">
+										<amount-display amount='{{breakdown_report.currency_price}}' fraction='2' is-course-price='no'></amount-display>
+										<strong ng-if="breakdown_report.currency_price != breakdown_report.price">({{breakdown_report.currency_code}} to {{$root.settings.geoIP.code}}&nbsp;{{breakdown_report.currency_rate}} ) </strong>
+									</dd>
+								</span>
+								<span ng-if="$root.settings['site.enabled_plugins'].indexOf('MultiCurrency') === -1">
+									<amount-display amount='{{breakdown_report.amount}}' fraction='2' is-course-price='no'>
+									</dd>
+								</span>
+								<dt>
+									{{'Your revenue'}}
+								</dt>
+								<dd>
+									<amount-display amount='{{breakdown_report.instructor_revenue_amount}}' fraction='2' is-course-price='no'></amount-display>
+									<strong ng-if="breakdown_report.main_instructor == true">({{breakdown_report.instructor_shared_percentage}}%)</strong>
+                                    <strong ng-if="breakdown_report.main_instructor != true">({{breakdown_report.sharing_percentage}}%)</strong>
+									<!--Multiple instructor showing-->
+									<span ng-if="breakdown_report.multiple_instructor == true" class="text-primary">
+										<strong>
+											<a href="" ng-click="InstructorDetails();">{{'Instructors Sharing Details' | translate}}&nbsp;
+												<i ng-if="!isShowInstructor" class="mdi-18px mdi mdi-chevron-down" aria-hidden="true"></i>
+												<i class="mdi-18px mdi mdi-chevron-up" aria-hidden="true" ng-if="isShowInstructor"></i>
+											</a>
+										</strong>
+									</span>
+								</dd>
+								<table class="table table-bordered" ng-if="isShowInstructor">
+									<thead>
+										<tr>
+											<th>{{'Instructor Name'|translate}}</th>
+											<th>{{'Sharing Percentage'|translate}}</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat='course_instructor in breakdown_report.multiple_instructors'>
+											<td>{{course_instructor.username}}</td>
+											<td>{{course_instructor.original_sharing_percentage}}%</td>
+										</tr>
+									</tbody>
+								</table>
+								</dl>
+								<!--Ended Multiple instructor showing-->
+								<div class="revenue-details">
+									<dl class="dl-horizontal">
+									<dt>Course</dt>
+									<dd>{{breakdown_report.course_title}}</dd>
+									<dt>Course Type</dt>
+									<dd>{{breakdown_report.course_type}}</dd>
+									<dt>Customer</dt>
+									<dd>{{breakdown_report.learner_name}}</dd>
+									<dt>Date </dt>
+									<dd>{{breakdown_report.booked_date_at}}</dd>
+									<dt>Channel</dt>
+									<dd>{{breakdown_report.channel_name}}
+										<strong>({{breakdown_report.instructor_shared_percentage}}%)</strong>
+									</dd>
+                                    <!--Referral User Details-->
+                                    <span ng-if="breakdown_report.referral_user_id != null && breakdown_report.referral_user_id != undefined">
+                                        <dt>Referred User</dt><dd>{{breakdown_report.referral_user}}</dd>
+                                        <dt>Referred Sharing Percentage</dt><dd>
+                                            <strong>{{breakdown_report.referred_user_percentage}}%</strong>
+                                            </dd>
+                                    </span>
+                                    <!--Ended Referral User Details-->
+									<dt>Coupon</dt>
+									<dd>
+										<span ng-if="breakdown_report.coupon_id !== null">{{breakdown_report.coupon_code}}</span>
+										<span ng-if="breakdown_report.coupon_id === null">{{'No coupon' | translate}}</span>
+									</dd>
+									<dt ng-if="breakdown_report.platform_id !== null">{{'Platform' | translate}}</dt>
+									<dd>
+										<span ng-if="breakdown_report.platform_id !== null">{{breakdown_report.platform_name}}</span>
+									</dd>
+									</dl>
+								</div>
+
+						</div>
+						<div class="" ng-if='!contentInIframe && iserror'>
+                           {{'Sorry, No details available to see' | translate}}
+                       </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		</div>
+	</script>

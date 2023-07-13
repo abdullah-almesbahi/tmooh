@@ -1,0 +1,166 @@
+<div banner position="topBanner" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1"></div>
+<div class="panel">
+	<div class="container">
+		<div class="bot-space">
+			<div class="breadcumb-blk">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="/">{{'Home' | translate}}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						<a href="/cart">{{'Cart' | translate}}</a>
+					</li>
+				</ol>
+			</div>
+			<h3>{{'Cart'|translate}}</h3>
+			<p>{{'List of course you placed in the cart.'|translate}}</p>
+		</div>
+	</div>
+</div>
+
+<div class="container mb-4">
+	<div ng-include src="'common/loader.tpl.html'" ng-show="model.loader"></div>
+	<h4 class="fw400">
+			{{model.cartlists.length}} {{'Courses in Cart'|translate}}
+		</h4>
+	<div class="row">
+		<div class="col-9" ng-if="model.cartlists.length > 0 && !model.loader">
+
+			<div class="left-side-block" id="cart_lists">
+				<div class="carts-course">
+					<div class="panel clearfix">
+						<ul class="list-group">
+							<li class="list-group-item border-0 shadow-sm clearfix  mb-2" ng-repeat="cart in model.cartlists">
+								<div class="row">
+									<div class="col-3">
+										<!-- course image when is_from_mooc_affiliate false -->
+										<a ng-href="/course/{{cart.course_id}}/{{cart.course_slug|escape}}" ng-if="cart.course_image_hash && cart.is_from_mooc_affiliate !== 1">
+									<img class="img-fluid" ng-src="{{$root.site_url}}img/normal_thumb/Course/{{cart.course_image_hash}}" alt="[Image: {{cart.title}}]" title="{{cart.title}}"
+									/> </a>
+
+										<a ng-href="/course/{{cart.course_id}}/{{cart.course_slug|escape}}" ng-if="!cart.course_image_hash && cart.is_from_mooc_affiliate !== 1">
+									<img class="img-fluid" ng-src="{{$root.site_url}}img/normal_thumb/Course/0.default.jpg" alt="[Image: {{cart.title}}]" title="{{cart.title}}"
+									/></a>
+
+										<!-- course image when is_from_mooc_affiliate true -->
+										<a ng-href="/course/{{cart.course_id}}/{{cart.course_slug|escape}}" ng-if="cart.course_image && cart.is_from_mooc_affiliate === 1">
+									<img class="img-fluid" ng-src="{{cart.course_image}}" alt="[Image: {{cart.title}}]" title="{{cart.title}}" /></a>
+
+										<a ng-href="/course/{{cart.course_id}}/{{cart.course_slug|escape}}" ng-if="!cart.course_image && cart.is_from_mooc_affiliate === 1">
+									<img class="img-fluid" ng-src="{{$root.site_url}}img/normal_thumb/Course/0.default.jpg" alt="[Image: {{cart.title}}]" title="{{cart.title}}"
+									/>
+								</a>
+									</div>
+									<div class="col text-truncate">
+										<div class="clearfix cart-content">
+											<h4 class="float-left text-truncate text-truncate">
+												<a ng-href="/course/{{cart.course_id}}/{{cart.course_slug|escape}}" class="text-muted">{{cart.course_title}}</a>
+											</h4>
+										</div>
+										<span class="text-truncate clearfix list-group-item-heading cartcordesc">{{cart.subtitle}}</span>
+										<div class="list-group-item-heading cartcordls">
+											<p class="show text-muted clearfix" ng-if="$root.settings['site.enabled_plugins'].indexOf('Instructor') > -1 && cart.teacher_user_id"><span class="float-left">{{'by'|translate}}&nbsp;<profile-name instructor='true' user-profile-id='cart.teacher_user_id' user-display-name='cart.courses[0].teacher[0].displayname' ng-if='cart.teacher_user_id'></profile-name></span>
+												<span class="float-left" ng-if="cart.course_batch_id !== null && cart.course_batch_id !== undefined"><br>
+												<	strong>{{'BATCH'|translate}}:</strong> {{cart.start_date}} to {{cart.end_date}}
+												</span>
+												<span class="float-right" ng-if="cart.coupon_id === null && cart.coupon_code === null">
+													<a href="" ng-click ="cart.showCoupon = !cart.showCoupon">{{'Apply Coupon'|translate}}</a>
+												</span>
+												<span class="float-right" ng-if="cart.coupon_id !== null && cart.coupon_code !== null"></span>
+												<span ng-show="$root.settings['site.enabled_plugins'].indexOf('InstructorProfile') > -1 && cart.designation">-&nbsp;{{cart.designation}}</span>
+											</p>
+											<course-coupon-apply ng-if="$root.settings['site.enabled_plugins'].indexOf('Coupons') > -1 && cart.showCoupon" updateparent="model.Getcart()" cart-id='{{cart.id}}' ng-if='cart.id && cart.course_id' course-id='{{cart.course_id}}'>
+											</course-coupon-apply>
+										</div>
+									</div>
+									<div class="col-auto">
+										<div class="clearfix text-right space mt-3">
+											<span class="text-primary" ng-if="cart.original_price === null || cart.original_price === undefined"><strong>
+												<amount-display amount='{{cart.price}}' fraction='2' is-course-price='yes' tier-id ='{{cart.tier_id}}'></amount-display></strong>
+											</span>
+											<span ng-if="cart.original_price !== null && cart.original_price !== undefined">
+												<strong><amount-display amount='{{cart.original_price}}' fraction='2' is-course-price='no' ></amount-display></strong>
+												<p class="strike"><amount-display amount='{{cart.price}}' fraction='2' is-course-price='yes' tier-id ='{{cart.tier_id}}'></amount-display></p>
+											</span>
+
+											<rating-stars average-rating='{{cart.average_rating}}' ng-if="model.cart && $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1"></rating-stars>
+										</div>
+
+									</div>
+									<div class="delete-icon">
+
+										<a href="" ng-click="model.removeCart($index)" title="remove" class="text-danger">
+												<i class="mdi-18px mdi mdi-close fa-lg"></i>
+											</a>
+
+									</div>
+								</div>
+
+								<!--
+							<div class="clearfix" ng-if="cart.coupon_id !== null && cart.coupon_code !== null && $root.settings['site.enabled_plugins'].indexOf('Coupons') > -1">
+									<span class="coupon-text">{{'COUPON'|translate}}: </span><span class="text-primary text-b user-coupon"> {{cart.coupon_code}}
+										<a href="" ng-click="model.removeCoupon($index)" title="remove" class="text-danger">
+									<i class="mdi-18px mdi mdi-close fa-lg"></i>
+								</a>
+								</span>
+								</div>
+								<div class="clearfix" ng-if="cart.discount_percentage !== null">
+									<span>{{'DISCOUNT'|translate}}: </span><span class="text-primary text-b">{{cart.discount_percentage}}%</span>
+								</div>
+								-->
+
+
+								<div class="cartdiscountblk clearfix" ng-if="cart.coupon_id !== null && cart.coupon_code !== null && $root.settings['site.enabled_plugins'].indexOf('Coupons') > -1">
+									<div class="carttopblock clearfix" ng-if="cart.coupon_id !== null && cart.coupon_code !== null && $root.settings['site.enabled_plugins'].indexOf('Coupons') > -1">
+										{{'Coupon code'|translate}} <span>{{cart.coupon_code}}</span> has been applied.
+										<a href="" ng-click="model.removeCoupon($index)" title="remove" class="text-danger couponremove">
+									<i class="mdi-18px mdi mdi-close fa-lg"></i>
+								</a>
+									</div>
+									<div class="cartbottomblock clearfix">{{cart.discount_percentage}}% {{'Course Discount'|translate}}</div>
+
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="paging clearfix text-center " ng-show="_metadata.noOfPages > 1 && !model.loader">
+					<ul uib-pagination total-items="_metadata.total_records" ng-model="currentPage" ng-change="paginate('#cart_lists')" max-size="_metadata.maxSize" boundary-links="true" num-pages="_metadata.noOfPages" items-per-page="_metadata.limit" first-text="{{'First'|translate}}"
+					  last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-3" ng-if="model.cartlists.length && !model.loader">
+			<div class="right-side-block cartcoutblk">
+				<div class="well-sm  card-body shadow-sm mb-3 bg-white clearfix">
+					<div class="text-center">
+						<h4>{{'Total Amount'|translate}}:</h4>
+						<div class="text-primary">
+							<h3>
+						<amount-display amount='{{Total_amount}}' fraction='2' is-course-price='no' ng-if="Total_amount !== null && Total_amount !== undefined"></amount-display>
+					</h3>
+							<p class="strike" ng-if="model.discount_trigger ===  true">
+								<span class="text-primary">
+          			  <amount-display amount='{{model.original_amount}}' ng-if="model.original_amount !== 0" fraction='2' is-course-price='no'> </amount-display>
+                 </span>
+							</p>
+						</div>
+					</div>
+				</div>
+				<span class="cartcktbtn">
+					<bulk-checkout type="checkout" total-amount='{{Total_amount}}' hundre-percentage='{{model.hund_pre_exist}}'></bulk-checkout>
+			</span>
+			</div>
+		</div>
+	</div>
+	<div class="text-center alert alert-danger" ng-if="!model.cartlists.data.length && _metadata.total_records === 0 && !model.loader">
+		<h2 class="text-success">{{'Your cart is empty. Keep shopping to find a course!'|translate}}</h2>
+		<a href="/courses/search ">
+						{{'Search the course and add a course to the cart.' | translate}}
+					</a>
+	</div>
+</div>
+<!--</section>-->
+<div oc-lazy-load='loadSeo'>
+	<user-profile-seo></user-profile-seo>
+</div>

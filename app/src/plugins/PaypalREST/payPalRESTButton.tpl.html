@@ -1,0 +1,137 @@
+<div class="loading_container text-center" ng-show="model.loading === true">
+  <div class="well-lg"></div>
+  <i class="fa fa-pulse fa-3x  text-success fa-spinner"></i>
+  <div class="well-lg"></div>
+</div>
+<form class="form-horizontal form-content" role="form" name="PaymentForm" ng-submit="model.courseCheckout(PaymentForm.$valid)" novalidate ng-if="!model.loading">
+  <article id="get-gateways-index">
+    <div class="get-gateways text-left">
+      <div id="paymentgateways-tab-container" class="navbar-btn mb-4">
+        <ul class="nav nav-tabs cur" ng-if="payment_tab === 'Credit'">
+          <!-- sudopay tabs -->
+          <!-- <li class="nav-item">
+            <a class="nav-link active" href="" data-toggle="tab" ng-click="paymentGatewayUpdate('Credit',PaymentForm)"><img ng-src="//d1fhd8b1ym2gwa.cloudfront.net/gateways/4922-large.4ac30e6df33dfbdd1b15b39989ce879a.png"
+                            /> </a>
+          </li> -->
+          <!-- paypal tabs -->
+          <li class="nav-item">
+            <a class="nav-link active" data-target="#Paypal" data-toggle="tab" ng-click="paymentGatewayUpdate('Paypal',PaymentForm)"> <img ng-src="/assets/img/payment-gateway.jpg" data-target="#Paypal" /></a>
+          </li>
+
+        </ul>
+        <ul class="nav nav-tabs cur" ng-if="payment_tab === 'Paypal'">
+          <!-- sudopay tabs -->
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="" data-toggle="tab" ng-click="paymentGatewayUpdate('Credit',PaymentForm)"><img ng-src="//d1fhd8b1ym2gwa.cloudfront.net/gateways/4922-large.4ac30e6df33dfbdd1b15b39989ce879a.png"
+                            /> </a>
+          </li> -->
+          <!-- paypal tabs -->
+          <li class="nav-item">
+            <a class="nav-link active" data-target="#Paypal" data-toggle="tab" ng-click="paymentGatewayUpdate('Paypal',PaymentForm)"> <img ng-src="/assets/img/payment-gateway_grey.jpg" data-target="#Paypal" /></a>
+          </li>
+
+        </ul>
+      </div>
+      <div class="tab-content clearfix">
+        <!-- <div id="Credicart" ng-class='{active:(payment_tab === Credit)}' ng-if="payment_tab === 'Credit'">
+          <div class="">
+            <div class="js-form clearfix js-form">
+              <div class="js-gatway_form_tpl clearfix">
+                <div class="">
+                  <div class="no-mar  clearfix" ng-if="buyer.credit_card_number === null || buyer.credit_card_number === undefined">
+                    <span ng-if="model.paypal_Vaults.length">
+                    <h3>{{'Credit Cards'|translate}}</h3>
+                    <div class="clearfix" ng-class="{ 'has-error' : (PaymentForm.$submitted || PaymentForm.optionsRadios.$touched) && (PaymentForm.optionsRadios.$pristine || PaymentForm.optionsRadios.$invalid) }">
+                    <ul class="list-unstyled credit-card">
+                        <li ng-repeat="paypal_vault in  model.paypal_Vaults">
+                            <div class="form-group has-feedback">
+                                <label class="rad">
+                                    <input type="radio" name="optionsRadios" id="optionsRadios" ng-model="buyer.vault_id" value="{{paypal_vault.id}}" ng-required="true">
+                                    {{paypal_vault.credit_card_type}} &nbsp;{{paypal_vault.masked_cc}}
+
+                                </label>
+                            </div>
+                        </li>
+                  </ul>
+                </div>
+                <div class="error" ng-show="(PaymentForm.$submitted || PaymentForm.optionsRadios.$touched) && (PaymentForm.optionsRadios.$pristine || PaymentForm.optionsRadios.$invalid) && (PaymentForm.optionsRadios.$error.required)">{{'Required'|translate}}</div>
+                <h5 class="text-center" ng-if="buyer.vault_id === null ||buyer.vault_id === undefined">(OR)</h5>
+                </span>
+              </div>
+              <div class="no-mar  clearfix" ng-if="buyer.vault_id === null ||buyer.vault_id === undefined">
+                <h3>{{'Credit Card Details'|translate}}</h3>
+                <div ng-include src="'credit_card.html'" class="payment-form cc-section"></div>
+                <div class="checkbox">
+                  <label>
+					            <input type="checkbox" ng-model="buyer.is_save_credit_card" ng-true-value="true" ng-false-value="false">
+											<span></span>
+											{{'Remember this card'|translate}}
+										</label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="mob-clr pay-btn clearfix">
+          <div class="float-left mx-2"> <button type="submit" ng-disabled="paynow_is_disabled" class="btn btn-success" title='{{"Pay Now"|translate}}'>{{'Pay Now'|translate}} <span ng-show="paynow_is_disabled"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>            </div>
+          <div class="top-space term-condition">{{'By Clicking The "Pay Now" Button, You Agree To These '|translate}} <a target="_blank" href="/page/privacy-policy" title='{{"Terms of Service"|translate}}' class="text-primary">{{'Terms of Service'|translate}}.</a> </div>
+        </div>
+      </div>
+    </div> -->
+    <!-- paypal form -->
+    <div id="Paypal" class="active" ng-class='{active: (payment_tab === Paypal)}' ng-if="payment_tab === 'Paypal'">
+      <div ng-if="payment_gateway.group_id != first_gateway_id" class="input radio no-mar hor-mspace radio_buttons"> <input type="radio" checked name="data" id="PaymentGatewayIdSp" class="js-payment-type js-no-pjax float-left no-mar" value="sp" /> <label for="PaymentGatewayIdSp{{payment_gateway.id}}">
+                            <div class="float-left">
+                                <img ng-src= "//d1fhd8b1ym2gwa.cloudfront.net/gateways/1-large.41714c77b8cb8b597d6fc7aaee33128b.png" alt="[Image:Paypal]"/>
+                            </div>
+                        </label>
+      </div>
+      <div class="js-form js-form mob-clr pay-btn clearfix">
+        <div class="float-left mx-2">
+          <button type="submit" ng-disabled="paynow_is_disabled" class="textb text-13 btn  btn-success" title='{{"Pay Now"|translate}}'>{{'Pay Now'|translate}} <span ng-show="paynow_is_disabled"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+        </div>
+        <div class="top-space term-condition ng-binding"> {{'By clicking the "Pay Now" button, you agree to these '|translate}} <a target="_blank" href="/page/privacy-policy" title='{{"Terms of Service"|translate}}'>{{'Terms of Service.'|translate}}</a>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </article>
+</form>
+
+<div ng-if="!model.loading && model.no_payment">
+  <div class="alert alert-error">{{'Sorry! No payment gateway available to pay. Try again later '|translate}}
+  </div>
+</div>
+<script type="text/ng-template" id="credit_card.html">
+  <div class="credits-details">
+    <div class="row">
+      <div class="col-md-4 col-sm-3">
+        <div class="clearfix" ng-class="{ 'has-error' : (PaymentForm.$submitted || PaymentForm.credit_card_number.$touched) && (PaymentForm.credit_card_number.$pristine || PaymentForm.credit_card_number.$invalid) }">
+          <card-number-input ng-model="buyer.credit_card_number" class="form-control" name="credit_card_number" card-type="buyer.credit_card_type" placeholder="{{'Card Number'|translate}}" ng-required="true"></card-number-input> <span class="{{buyer.credit_card_type}}"><span class="cc-type"></span></span>
+        </div>
+        <div class="error" ng-show="(PaymentForm.$submitted || PaymentForm.credit_card_number.$touched) && (PaymentForm.credit_card_number.$pristine || PaymentForm.credit_card_number.$invalid) && (PaymentForm.credit_card_number.$error.required)">{{'Required'|translate}}</div>
+      </div>
+      <div class="col-md-3 col-sm-3">
+        <div class="clearfix" ng-class="{ 'has-error' : (PaymentForm.$submitted || PaymentForm.credit_card_expired.$touched) && (PaymentForm.credit_card_expired.$pristine || PaymentForm.credit_card_expired.$invalid) }">
+          <card-expiry-input class="form-control" name="credit_card_expired" ng-model="buyer.credit_card_expired" placeholder="{{'MM / YYYY'|translate}}" ng-required="true"></card-expiry-input>
+        </div>
+        <div class="error" ng-show="(PaymentForm.$submitted || PaymentForm.credit_card_expired.$touched) && (PaymentForm.credit_card_expired.$pristine || PaymentForm.credit_card_expired.$invalid) && (PaymentForm.credit_card_expired.$error.required)">{{'Required'|translate}}</div>
+      </div>
+      <div class="col-md-3 col-sm-3">
+        <div class="clearfix" ng-class="{ 'has-error' : (PaymentForm.$submitted || PaymentForm.credit_card_name_on_card.$touched) && (PaymentForm.credit_card_name_on_card.$pristine || PaymentForm.credit_card_name_on_card.$invalid) }"> <input name="credit_card_name_on_card" ng-model="buyer.credit_card_name_on_card" class="form-control" id="SudopayCreditCardNameOnCard" type="text" class="card_name" placeholder="{{'Name on Card'|translate}}" ng-required="true" />
+        </div>
+        <div class="error" ng-show="(PaymentForm.$submitted || PaymentForm.credit_card_name_on_card.$touched) && (PaymentForm.credit_card_name_on_card.$pristine || PaymentForm.credit_card_name_on_card.$invalid) && (PaymentForm.credit_card_name_on_card.$error.required)">{{'Required'|translate}}</div>
+      </div>
+      <div class="col-md-2 col-sm-3">
+        <div class="clearfix" ng-class="{ 'has-error' : (PaymentForm.$submitted || PaymentForm.credit_card_code.$touched) && (PaymentForm.ccNumcredit_card_codeber.$pristine || PaymentForm.credit_card_code.$invalid) }">
+          <card-cvc-input class="form-control" name="credit_card_code" ng-model="buyer.cvv2" placeholder="{{'Card Code'|translate}}" ng-required="true"></card-cvc-input>
+        </div>
+        <div class="error" ng-show="(PaymentForm.$submitted || PaymentForm.credit_card_code.$touched) && (PaymentForm.credit_card_code.$pristine || PaymentForm.credit_card_code.$invalid) && (PaymentForm.credit_card_code.$error.required)">{{'Required'|translate}}</div>
+      </div>
+
+    </div>
+  </div>
+  </div>
+</script>

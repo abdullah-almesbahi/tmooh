@@ -1,0 +1,19 @@
+<section class="clearfix" ng-show="model.loading === false">
+	<div class="container pb-3">
+		<course-navbar></course-navbar>
+		<div class="">
+		<div class="tab-content col-12" ng-if="model.loading === false">
+			<div class="card shadow  bg-white" id="danger_zone">
+				<div class="panel">
+					<div class="list-header text-center">
+						<h3>{{model.courseDangerZone.title}}</h3>
+					</div>
+				</div>
+				<div class="well-lg card-body clearfix">
+					<p ng-bind-html="model.courseDangerZone.content"></p>
+				</div>
+			</div>
+		</div>
+	  </div>
+	</div>
+</section>

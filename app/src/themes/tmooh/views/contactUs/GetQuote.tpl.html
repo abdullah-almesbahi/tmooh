@@ -1,0 +1,138 @@
+<!-- Contact Form-->
+<div class="container">
+    <div class="navbar-left">
+        <div class="breadcumb-blk">
+            <ul class="breadcrumb top-mspace">
+                <li>
+                    <a href="/">{{'Home'| translate}}</a>
+                </li>
+                <li class="active">
+                    <a href="">{{'Get Quote'| translate}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div banner position="topBanner" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1"></div>
+    <div class="frm-block">
+        <h3>{{'Get Quote'|translate}}</h3>
+        <form role="form" class="form-horizontal clearfix form-addon" name="QuotecontactForm" ng-submit=" model.QuotecontactFormSubmit(QuotecontactForm.$valid,QuotecontactForm);"
+            novalidate>
+            <div class="form-group">
+                <label class="col-md-2 col-sm-3 control-label required" for="business_name">{{'Business Name'|translate}}</label>
+                <div class="col-md-5 col-sm-9" ng-class="{ 'has-error' : ((QuotecontactForm.$submitted || QuotecontactForm.business_name.$touched) && (QuotecontactForm.business_name.$pristine || QuotecontactForm.business_name.$invalid))}">
+                    <input type="text" class="form-control" id="business_name" name="business_name" placeholder="{{'Business Name'|translate}}"
+                        ng-model='model.quotecontactvalue.business_name' required ng-required="true">
+                    <div ng-show="((QuotecontactForm.$submitted || QuotecontactForm.business_name.$touched) && (QuotecontactForm.business_name.$pristine || QuotecontactForm.business_name.$invalid))">
+                        <div class="error text-danger" ng-show="(QuotecontactForm.business_name.$error.required || QuotecontactForm.business_name.$invalid)">{{'Required' | translate}} </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 col-sm-3 control-label required" for="contact_person">{{'Contact Person Name'|translate}}</label>
+                <div class="col-md-5 col-sm-9" ng-class="{ 'has-error' : ((QuotecontactForm.$submitted || QuotecontactForm.contact_person.$touched) && (QuotecontactForm.contact_person.$pristine || QuotecontactForm.contact_person.$invalid))}">
+                    <input type="text" class="form-control" name="contact_person" id="contact_person" placeholder="{{'Contact Person'|translate}}"
+                        ng-model='model.quotecontactvalue.contact_person' required ng-required="true">
+                    <div ng-show="((QuotecontactForm.$submitted || QuotecontactForm.contact_person.$touched) && (QuotecontactForm.contact_person.$pristine || QuotecontactForm.contact_person.$invalid))">
+                        <div class="error text-danger" ng-show="(QuotecontactForm.contact_person.$error.required || QuotecontactForm.contact_person.$invalid)">{{'Required' | translate}} </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 col-sm-3 control-label required" for="email">{{'Email'|translate}}</label>
+                <div class="col-md-5 col-sm-9" ng-class="{ 'has-error' : ((QuotecontactForm.$submitted || QuotecontactForm.email.$touched) && (QuotecontactForm.email.$pristine || QuotecontactForm.email.$invalid))}">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="{{'Email'|translate}}" ng-model='model.quotecontactvalue.email'
+                        ng-required="true">
+                    <div ng-show="((QuotecontactForm.$submitted || QuotecontactForm.email.$touched) && (QuotecontactForm.email.$pristine || QuotecontactForm.email.$invalid))">
+                        <div class="error text-danger" ng-show="QuotecontactForm.email.$error.required">{{'Required' | translate}} </div>
+                        <div class="error text-danger" ng-show="QuotecontactForm.email.$error.email">{{'Enter the Valid Email address' | translate}} </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 col-sm-3 control-label required" for="contact_number">{{'Contact Number'|translate}}</label>
+                <div class="col-md-5 col-sm-9" ng-class="{ 'has-error' : ((QuotecontactForm.$submitted || QuotecontactForm.contact_number.$touched) && (QuotecontactForm.contact_number.$pristine || QuotecontactForm.contact_number.$invalid))}">
+                    <input type="text" class="form-control required" name="contact_number" id="contact_number" placeholder="{{'Contact Number'|translate}}"
+                        ng-model='model.quotecontactvalue.contact_number' ng-required="true">
+                    <div ng-show="((QuotecontactForm.$submitted || QuotecontactForm.contact_number.$touched) && (QuotecontactForm.contact_number.$pristine || QuotecontactForm.contact_number.$invalid))">
+                        <div class="error text-danger" ng-show="(QuotecontactForm.contact_number.$error.required || QuotecontactForm.contact_number.$invalid)">{{'Required' | translate}} </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 col-sm-3 control-label required" for="number_of_people">{{'Number of people'|translate}}</label>
+                <div class="col-md-5 col-sm-9" ng-class="{ 'has-error' : ((QuotecontactForm.$submitted || QuotecontactForm.number_of_people.$touched) && (QuotecontactForm.number_of_people.$pristine || QuotecontactForm.number_of_people.$invalid))}">
+                    <input type="number" class="form-control" name="number_of_people" id="number_of_people" placeholder="{{'Number of people'|translate}}"
+                        ng-model='model.quotecontactvalue.number_of_people' ng-required="true" min="1">
+                    <div ng-show="((QuotecontactForm.$submitted || QuotecontactForm.number_of_people.$touched) && (QuotecontactForm.number_of_people.$pristine || QuotecontactForm.number_of_people.$invalid))">
+                        <div class="error text-danger" ng-show="(QuotecontactForm.number_of_people.$error.required && QuotecontactForm.number_of_people.$invalid)">{{'Required' | translate}} </div>
+                        <span class="error text-danger" ng-show="(QuotecontactForm.number_of_people.$error.min || QuotecontactForm.number_of_people.$invalid && !QuotecontactForm.number_of_people.$error.required)">{{'Invalid number' | translate}}. </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 col-sm-3 control-label required" for="expected_date_time_to_start">{{'Expected Date / Time to start'|translate}}</label>
+                <div class="col-md-5 col-sm-9" ng-class="{ 'has-error' : (((QuotecontactForm.$submitted || QuotecontactForm.time.$touched) && (QuotecontactForm.time.$invalid))|| ((QuotecontactForm.$submitted || QuotecontactForm.date.$touched) && (QuotecontactForm.date.$invalid)))}">
+                    <div class="input-group">
+                        <input type="text" class="form-control datepickerdisabled" uib-datepicker-popup="dd MMM yyyy" ng-model="model.picker2.date" placeholder="Expected Date / Time"
+                            is-open="session.open" datepicker-options="model.picker2.datepickerOptions" ng-required="true" close-text="Close"
+                            alt-input-formats="altInputFormats" id="date" name="date" ng-required="true" />
+                        <div class="buton-addon">
+                            <button type="button" class="btn btn-outline-secondary" ng-click="session.open = !session.open"><i class="mdi mdi-calendar"></i></button>
+                        </div>
+
+                    </div>
+                    <div uib-timepicker ng-model="model.picker2.time" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" ng-required="true"
+                        id="time" name="time" ng-disabled="model.picker2.date === undefined"></div>
+
+                    <span ng-show="((QuotecontactForm.$submitted || QuotecontactForm.date.$touched) && (QuotecontactForm.date.$pristine || QuotecontactForm.date.$invalid) || (QuotecontactForm.$submitted || QuotecontactForm.time.$touched) && (QuotecontactForm.time.$pristine || QuotecontactForm.time.$invalid))">
+					<div class="error text-danger" ng-show="((QuotecontactForm.date.$error.required || QuotecontactForm.time.$invalid) ||(QuotecontactForm.time.$error.required || QuotecontactForm.time.$invalid))">{{'Required' | translate}} </div>
+												</span>
+                    <span class="help-block"><i>{{'Select the date/time from calendar and timepicker.'|translate}}</i></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 col-sm-3 control-label required" for="address_if_you_need_onsite_training">{{'Address if you need onsite training'|translate}}</label>
+                <div class="col-md-5 col-sm-9" ng-class="{ 'has-error' : ((QuotecontactForm.$submitted || QuotecontactForm.address_if_you_need_onsite_training.$touched) && (QuotecontactForm.address_if_you_need_onsite_training.$pristine || QuotecontactForm.Subject.$invalid))}">
+                    <textarea class="form-control" name="address_if_you_need_onsite_training" id="address_if_you_need_onsite_training" rows="6"
+                        ng-model='model.quotecontactvalue.address_if_you_need_onsite_training' placeholder="{{'Address'|translate}}"
+                        required ng-required="true"></textarea>
+                    <div ng-show="((QuotecontactForm.$submitted || QuotecontactForm.address_if_you_need_onsite_training.$touched) && (QuotecontactForm.address_if_you_need_onsite_training.$pristine || QuotecontactForm.address_if_you_need_onsite_training.$invalid))">
+                        <div class="error text-danger" ng-show="(QuotecontactForm.address_if_you_need_onsite_training.$error.required || QuotecontactForm.address_if_you_need_onsite_training.$invalid)">{{'Required' | translate}} </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 col-sm-3 control-label required" for="address_if_you_need_onsite_training">{{'Training Type'|translate}}</label>
+                <div class="col-md-5 col-sm-9" ng-class="{ 'has-error' : ((QuotecontactForm.$submitted || QuotecontactForm.training_type.$touched) && (QuotecontactForm.training_type.$pristine || QuotecontactForm.training_type.$invalid))}">
+                    <select name="training_type" id="training_type" class="form-control" ng-model="model.quotecontactvalue.training_type" required>
+				<option value="">{{'Please Select'| translate}}</option>
+				<option value="Led Live Onsite Training">{{'Led Live Online Training'| translate}}</option> 
+				<option value="Led Live Onsite Training">{{'Led Live Onsite Training'| translate}}</option>
+				</select><br>
+                    <div ng-show="((QuotecontactForm.$submitted || QuotecontactForm.training_type.$touched) && (QuotecontactForm.training_type.$pristine || QuotecontactForm.training_type.$invalid))">
+                        <div class="error text-danger" ng-show="(QuotecontactForm.training_type.$error.required || QuotecontactForm.training_type.$invalid)">{{'Required' | translate}} </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 col-sm-3 control-label required" for="address_if_you_need_onsite_training">{{'Details of training required'|translate}}</label>
+                <div class="col-md-5 col-sm-9" ng-class="{ 'has-error' : ((QuotecontactForm.$submitted || QuotecontactForm.details_of_training.$touched) && (QuotecontactForm.details_of_training.$pristine || QuotecontactForm.details_of_training.$invalid))}">
+                    <textarea class="form-control" name="details_of_training" id="details_of_training" rows="6" ng-model='model.quotecontactvalue.details_of_training'
+                        placeholder="{{'Details'|translate}}" required ng-required="true"></textarea>
+                    <div ng-show="((QuotecontactForm.$submitted || QuotecontactForm.details_of_training.$touched) && (QuotecontactForm.details_of_training.$pristine || QuotecontactForm.details_of_training.$invalid))">
+                        <div class="error text-danger" ng-show="(QuotecontactForm.details_of_training.$error.required || QuotecontactForm.details_of_training.$invalid)">{{'Required' | translate}} </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-offset-3 col-sm-10 col-md-offset-2">
+                    <label class="sr-only" for="submit2">{{'Submit'|translate}}</label>
+                    <button type="submit" class="btn btn-primary" id="submit2">{{'Submit'|translate}} <span ng-show="disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+                </div>
+            </div>
+    </div>
+    </form>
+</div>
+<div banner position="bottomBanner" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1"></div>
+</div>

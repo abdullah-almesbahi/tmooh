@@ -1,0 +1,50 @@
+<div class="col-12 pb-3" ng-if="!$root.isMobile">
+	<div class="left-side-block bg-white">
+		<a ng-if="$root.auth.user_image_hash !== '' && $root.auth.user_image_hash !== null" class="d-none d-sm-block">
+			<img ng-src="{{$root.site_url}}img/big_thumb/User/{{$root.auth.user_image_hash}}" alt="[Image: {{$root.auth.displayname}}]"
+				title="{{$root.auth.displayname}}" class="img-fluid center-block" />
+		</a>
+		<a ng-if="$root.auth.user_image_hash === '' || $root.auth.user_image_hash === null" class="d-none d-sm-block">
+			<img ng-src="{{$root.site_url}}img/big_thumb/User/0.default.jpg" alt="[Image: {{$root.auth.displayname}}]" title="{{$root.auth.displayname}}"
+				class="img-fluid center-block" />
+
+		</a>
+		<nav class="navbar navbar-expand-md  justify-content-between navbar-light">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#profileMenu" aria-controls="menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="profileMenu">
+				<ul class="nav navbar-nav flex-column">
+					<li class="active project-group text-center">
+						<a data-toggle="collapse" data-target="#profileMenu" class="nav-link" href="" title="{{$root.auth.displayname}}" class="text-center">{{$root.auth.displayname}}</a>
+						<p class="" ng-if="$root.auth.headline !== null && $root.auth.headline !== undefined" ng-bind-html="$root.auth.headline | nl2br | truncate : 25"></p>
+					</li>
+					<li>
+						<!--User Profile-->
+						<a data-toggle="collapse" data-target="#profileMenu" class="nav-link" ng-href="/user/{{$root.auth.id}}/{{$root.auth.displayname|slugify|escape}}" title="View Public Profile">{{'View my profile' | translate}}</a>
+						<!--Instructor Profile-->
+						<!--<a data-toggle="collapse" data-target="#profileMenu" class="nav-link" href="/instructor/{{$root.auth.id}}/{{$root.auth.displayname|slugify}}" title="View Public Profile" ng-if="model.userDetails.is_teacher === 1">View Public Profile</a>-->
+					</li>
+					<li class="nav-item" ><a data-toggle="collapse" data-target="#profileMenu" class="nav-link" ng-class="{active: profile_activetab == 'profile_edit'}" href="/users/edit-profile" title="{{'Edit Profile'|translate}}">{{'Profile'|translate}}</a></li>
+					<li class="nav-item" ><a data-toggle="collapse" data-target="#profileMenu" class="nav-link" ng-class="{active: profile_activetab == 'profile_photo'}" href="/users/photo" title="Photo">{{'Photo'|translate}}</a></li>
+					<li class="nav-item" ng-if="$root.auth.providertype !== 'admin'" ><a data-toggle="collapse" data-target="#profileMenu" class="nav-link" ng-class="{active: profile_activetab == 'profile_payment'}" href="/users/instructor_payment" title="Payment">{{'Payment'|translate}}</a></li>
+					<li class="nav-item" ><a data-toggle="collapse" data-target="#profileMenu" class="nav-link" ng-class="{active: profile_activetab == 'profile_referral'}" href="/users/referral" title="Refer & Earn">{{'Refer & Earn' | translate}}</a></li>
+					<li class="nav-item" ng-if="model.userDetails.is_teacher === 1 && $root.settings['site.enabled_plugins'].indexOf('Instructor') > -1 && $root.auth.providertype !== 'admin'">
+						<a data-toggle="collapse" data-target="#profileMenu" class="nav-link" ng-class="{active: profile_activetab == 'profile_promotional'}" href="/users/promotional_agreements" title="Promotional Agreements">{{'Promotional Agreements'|translate}}</a>
+					</li>
+					<li class="nav-item" ><a data-toggle="collapse" data-target="#profileMenu" class="nav-link" ng-class="{active: profile_activetab == 'profile_Account'}" href="/users/edit_account" title="{{'Account'|translate}}" title="Account">{{'Account'|translate}}</a></li>
+					<li credit position='editprofile' ng-if="$root.settings['site.enabled_plugins'].indexOf('CourseBulkCheckout') > -1 && $root.settings['site.enabled_plugins'].indexOf('PaypalREST') > -1" class="nav-item" ng-class="{active: profile_activetab == 'profile_creditCard'}">
+						{{'Credit Cards'|translate}}
+					</li>
+					<li class="nav-item" ><a data-toggle="collapse" data-target="#profileMenu" class="nav-link" ng-class="{active: profile_activetab == 'profile_privacy'}" href="/users/privacy" title="Privacy">{{'Privacy'|translate}}</a></li>
+					<li class="nav-item" ><a data-toggle="collapse" data-target="#profileMenu" class="nav-link" ng-class="{active: profile_activetab == 'profile_notification'}" href="/users/notifications" title="Notifications">{{'Notifications'|translate}}</a></li>
+					<li class="nav-item" ng-if="$root.settings['site.enabled_plugins'].indexOf('OAuthClient') > -1" ><a data-toggle="collapse" data-target="#profileMenu" class="nav-link" ng-class="{active: profile_activetab == 'profile_oAuthClient'}" href="/user/api-clients" title="API Clients">{{'API Clients' | translate}}</a></li>
+					<li class="nav-item" ><a data-toggle="collapse" data-target="#profileMenu" class="nav-link" ng-class="{active: profile_activetab == 'profile_credits'}" href="/credits" title="Credits">{{'Credits'|translate}}</a></li>
+					<li class="nav-item" ><a data-toggle="collapse" data-target="#profileMenu" class="nav-link" ng-class="{active: profile_activetab == 'profile_disable'}" href="/users/danger-zone" title="Disable">{{'Disable'|translate}}</a></li>
+
+
+				</ul>
+			</div>
+		</nav>
+	</div>
+</div>

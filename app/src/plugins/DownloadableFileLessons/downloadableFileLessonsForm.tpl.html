@@ -1,0 +1,88 @@
+<!--Button Section-->
+<a class="video-link" title="{{'Add Downloadable File'|translate}}" ng-class="{'active' :showForm}" ng-click="uploadConfigure()"
+    ng-if="action === 'add'">
+    <i class="mdi-36px mdi mdi-download"></i>
+    <span class="inner-video-lesson">{{'Download File' | translate}}</span>
+</a>
+<!--add Section-->
+<div ng-if="showForm && action === 'add'" class="col-xs-12">
+    <form class="col-lg-12 mt30 form-horizontal" name="add_downloable_file" ng-submit="model.CheckUnpublishedLessons($event);add_downloable_file.$setPristine()">
+        <div class="">
+            <div id="row-file" class="form-group has-feedback" ng-class="add_downloable_file.filename.$dirty ? (add_downloable_file.filename.$valid ? 'has-success' : 'has-error') : ''">
+                <label for="filename" class="control-label text-muted">{{'Downloadable File'|translate}}&nbsp;*&nbsp;</label>
+                <div class="ng-admin-type-text">
+                    <div class="alert alert-warning">
+                        <p ng-if="$root.settings['downloadable.max_size_to_allow_downloadable_file'] !== '' && $root.settings['downloadable.max_size_to_allow_downloadable_file'] !== null && $root.settings['downloadable.max_size_to_allow_downloadable_file'] !== undefined "><i class="mdi-18px mdi mdi-information" aria-hidden="true"></i> {{'File size should be lesser than'|translate}}
+                            {{$root.settings['downloadable.max_size_to_allow_downloadable_file'] | bytes}}</p>
+                    </div>
+                    <input type="file" name="filename" onchange="angular.element(this).scope().uploadDocumentFile(this.files)" required="" ng-model=" model.onlineDownloadableLesson.filename"
+                        id="downloadbleFileVal" accept="{{$root.settings['downloadable.extensions']}}" />
+                    <span ng-show="add_downloable_file.filename.$dirty" class="glyphicon form-control-feedback" ng-class="add_downloable_file.filename.$valid ? 'mdi mdi-check' : 'mdi mdi-close'"></span>
+                    <div class="help-block">
+                        <p ng-if="$root.settings['downloadable.extensions']">{{'Allowed extensions:'|translate}} {{$root.settings['downloadable.extensions']}}</p>
+                    </div>
+                </div>
+
+                <!--<div class="curriculum_videoupload">
+                    <label for="currivideoupload">
+                    <span class="input-group">
+                    <input type="text" readonly="" value="No file selected" class="form-control" />
+                    <span class="input-group-btn">
+                    <button type="button" class="form-field-watcher btn btn-outline-secondary">Select Video</button>
+                    </span>
+                    </span>
+                    </label>
+
+                    <input type="file" name="asset" accept=".mp4,.flv,.avi,.3gp,.mov,.wmv,.mpg" id="currivideoupload" class="hide" />
+                    <div class="text-grey"><em>Allowed extensions : .mp4, .flv, .avi, .3gp, .mov, .wmv, .mpg</em></div>
+                    <div>
+                    <div>
+                    <div class="mt10 mb10">
+                    <b>Note</b>:  Should be 720p minimum with clear lighting, composition, and a steady camera exported in 16:9 format.
+                    File size should be lesser than 1.02 KB
+                    </div>
+                    </div>
+                    </div>
+                </div>-->
+
+            </div>
+            <div class="form-group">
+                <div class="">
+                    <button ng-hide="disableSave" ng-disabled="disableButton" type="submit" class="btn btn-primary"> {{'Submit'|translate}}</button>
+                    <button ng-hide="!disableSave" ng-disabled="true" type="submit" class="btn btn-primary"> {{'Validating'|translate}} <span><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>                    &nbsp;{{'or'|translate}}&nbsp;
+                    <a href="#" ng-click="hideForm($event)" class="btn btn-outline-secondary">{{'Cancel'|translate}}</a>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+<!--edit Section-->
+<div ng-if="action === 'edit' && editForm"  class="col-xs-12">
+    <form class="col-lg-12 form-horizontal" name="edit_downloable_file" ng-submit="editDownloadFile($event);edit_downloable_file.$setPristine()">
+        <div class="row">
+            <div id="row-title" class="form-group has-feedback" ng-class="edit_downloable_file.filename.$dirty ? (edit_downloable_file.filename.$valid ? 'has-success' : 'has-error') : ''">
+                <label for="filename" class="control-label text-muted">{{'Downloadable File'|translate}}&nbsp;*&nbsp;</label>
+                <div class="ng-admin-type-text">
+                    <div class="alert alert-warning">
+                        <p ng-if="$root.settings['downloadable.max_size_to_allow_downloadable_file'] !== '' && $root.settings['downloadable.max_size_to_allow_downloadable_file'] !== null && $root.settings['downloadable.max_size_to_allow_downloadable_file'] !== undefined "><i class="mdi-18px mdi mdi-information" aria-hidden="true"></i> {{'File size should be lesser than'|translate}}
+                            {{$root.settings['downloadable.max_size_to_allow_downloadable_file'] | bytes}}</p>
+                    </div>
+                    <input type="file" name="filename" onchange="angular.element(this).scope().uploadDocumentFile(this.files)" ng-model=" model.editDownloadableLesson.filename"
+                        id="downloadbleFileVal" accept="$root.settings['downloadable.extensions']" />
+                    <span ng-show="edit_downloable_file.filename.$dirty" class="glyphicon form-control-feedback" ng-class="edit_downloable_file.filename.$valid ? 'mdi mdi-check' : 'mdi mdi-close'"></span>
+                    <div class="help-block">
+                        <p ng-if="$root.settings['downloadable.extensions']">{{'Allowed extensions:'|translate}} {{$root.settings['downloadable.extensions']}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div>
+                    <button ng-hide="disableSave" type="submit" ng-disabled="disableButton" class="btn btn-primary">{{'Save'|translate}}</button>
+                    <button ng-hide="!disableSave" ng-disabled="true" type="submit" class="btn btn-primary">{{'Validating'|translate}} <span><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>

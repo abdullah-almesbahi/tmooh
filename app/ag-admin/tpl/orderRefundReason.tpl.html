@@ -1,0 +1,48 @@
+<div class="modal-login" ng-class="{'container': currentPageType === 'page'}">
+	<div class="custom-table" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+		<div class="panel-heading clearfix navbar navbar-default navbar-static-top">
+			<div class="pull-right">
+				<a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose"><i class="fa fa-lg fa-times-circle close"></i></a>
+			</div>
+			<h3 class="text-center">{{'Process Refund'|translate}}</h3>
+		</div>
+		<div class="panel-body">
+			<div class="">
+				<div class="">
+					<div class="form-group row" ng-class="{ 'has-error' : refundForm.message.$invalid && refundForm.message.$dirty }">
+						<label class="col-md-3 col-sm-3 control-label" for="subject">{{'Refund reason'|translate}}</label>
+						<div class="col-md-8 col-sm-9">
+							{{course_users.refund_reason}}
+						</div>
+					</div>
+					<div class="">
+						<div class="">
+							<label class="sr-only" for="submit2">{{'Submit'|translate}}</label>
+							<button ng-click="ClaimRefund()" class="btn btn-primary" id="submit2" ng-disabled="accept_disableButton">{{'Accept'|translate}} <span ng-show="accept_disableButton"><i class="fa fa-spinner fa-pulse fa-lg"></i></span></button>
+							<button class="btn btn-danger" id="submit2" ng-click="show_reject = !show_reject">{{'Reject'|translate}}</button>
+						</div>
+					</div> <br>
+					<form ng-if="show_reject" role="form" class="form-horizontal clearfix" name="refundForm" ng-submit="RejectClaimRefund();refundForm.$setPristine();">
+
+						<div class="form-group" ng-class="{ 'has-error' : refundForm.message.$invalid && refundForm.message.$dirty }">
+							<label class="col-md-3 col-sm-3 control-label" for="subject">{{'Reject Reason'|translate}}</label>
+							<div class="col-md-8 col-sm-9">
+								<textarea rows="6" id="message" class="form-control" name="message" placeholder="{{'Message'|translate}}" ng-model='refund.refund_reason'
+									required></textarea>
+								<div class="text-danger" ng-if="refundForm.message.$dirty" ng-messages="refundForm.message.$error">
+									<div ng-message="required">{{'You must enter message'|translate}}.</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-offset-3 col-sm-10 col-md-offset-5">
+								<label class="sr-only" for="submit2">{{'Submit'|translate}}</label>
+								<button type="submit" class="btn btn-primary" id="submit2">{{'Submit'|translate}} <span ng-show="disableButton"><i class="fa fa-spinner fa-pulse fa-lg"></i></span></button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

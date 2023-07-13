@@ -1,0 +1,100 @@
+<div class="container">
+    <div class="clearfix">
+        <div class="navbar-left">
+            <div class="breadcumb-blk">
+                <ul class="breadcrumb top-mspace">
+                    <li>
+                        <a href="/">{{'Home' | translate}}</a>
+                    </li>
+                    <li>
+                        <a href="/Revenue-Report">{{'Revenue Reports' | translate}}</a>
+                    </li>
+                    <li class="active">
+                        <a href="">{{model.revenue_detail.MonthWord}} {{model.revenue_detail.Month}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="chart-bar">
+        <h3 class="text-uppercase">{{'revenue report' | translate}}</h3>
+        <div class="frm-block clearfix">
+            <div class="row">
+                <!--High chart for total earnings,promotion,earnings Courses template-->
+                <div class="col-sm-4 revenue-section" ng-if="model.EarningReport_show">
+                  <!--  <div class="report-chart">-->
+                        <custom-high-chart title="Your Total Earnings" type="pie" series-data={{model.Total_EarningspieData}}></custom-high-chart>
+                   <!-- </div>-->
+                </div>
+
+                <div class="col-sm-4 revenue-section" ng-if="model.EarningReport_show && model.promotion_activity_show == true">
+                    <!--<div class="report-chart">-->
+                        <custom-high-chart title="Your Promotion Activity" type="pie" series-data={{model.Total_promotion_pieData}}></custom-high-chart>
+                    <!--</div>-->
+                </div>
+                <div class="col-sm-4" ng-if="model.EarningReport_show">
+                    <!--<div class="report-chart">-->
+                        <custom-high-chart title="Your Earnings by Course" type="pie" series-data={{model.Earning_Course_pieData}}></custom-high-chart>
+                   <!-- </div>-->
+                </div>
+                <!--Export csv revenue report template-->
+                <div class="col-xs-12">
+                    <div class="csv-blk clearfix">
+                        <input type="button" ng-click=" model.Show_exportform = ! model.Show_exportform" class="btn btn-primary btn-course float-right" id="submit" value="Export CSV">
+                    </div>
+                    <div class="frm-csv">
+                        <form ng-if="model.Show_exportform" method="post" class="form-horizontal clearfix" name="ExportForm" ng-submit="model.ExportCSV(ExportForm.$valid, user)" novalidate>
+                            <div class="form-group">
+                                <h4 class="text-uppercase">{{'Statement Exporter' | translate}}</h4>
+                            </div>
+                            <div class="form-group has-feedback" ng-class="{ 'has-error' : ((ExportForm.$submitted || ExportForm.email.$touched) && (ExportForm.email.$invalid))}">
+                                <label class="col-md-2 col-sm-3 control-label" for="success_page_conversion_label">{{'Email'|translate}}</label>
+                                <i class="mdi-18px mdi mdi-information-outline text-info" data-trigger="hover" tooltip-placement="top" uib-tooltip="Please enter the email where you'd like the statement to be sent. We will send the statement when it gets ready."></i>
+                                <div class="col-md-9 col-sm-8">
+                                    <input class="form-control input" type="email" name="email" ng-model="model.export.email" placeholder="Enter a email" ng-required="true">
+                                    <span class="ion-key form-control-feedback"></span>
+                                    <div ng-show="(ExportForm.$submitted || ExportForm.email.$touched) && (ExportForm.email.$pristine || ExportForm.email.$invalid)">
+                                        <span class="error" ng-show="(ExportForm.email.$error.required)">{{'Required' | translate }}</span> <span class="error" ng-show="(ExportForm.email.$error.email || ExportForm.email.$error.pattern)">{{ 'Enter valid email' | translate }}</span>                                        </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-3 col-md-offset-2">
+                                    <label class="sr-only" for="submit">{{'Send'|translate}}</label>
+                                    <button type="submit" class="btn btn-primary" ng-disabled="email_disableButton" id="submit">{{'Send'|translate}} <span ng-show="email_disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!--revenue break down directive triggering -->
+                <div class="col-xs-12">
+                    <section id="learning-courses" class="course-tab">
+                        <div class="container">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="" ng-class="{'active' : model.currentSlide === 'Purchases'}">
+                                    <a href="" ng-click="model.slideChange('Purchases')" title="{{'Purchases'|translate}}" aria-controls="Purchases" role="tab">{{'Purchases'|translate}}</a></li>
+                                <li class="" ng-class="{'active' : model.currentSlide === 'Redemptions'}"><a href="" ng-click="model.slideChange('Redemptions')" title="{{'Redemptions'|translate}}" aria-controls="Redemptions" role="tab">{{'Redemptions'|translate}}</a></li>
+                                <li class="" ng-class="{'active' : model.currentSlide === 'Refunds'}"><a href="" aria-controls="Refunds" role="tab" ng-click="model.slideChange('Refunds')">{{'Refunds'|translate}}</a></li>
+                            </ul>
+                        </div>
+                    </section><br>
+                    <div class="mar">
+                        <div class="">
+                            <div class="" ng-if="model.currentSlide === 'Purchases'">
+                                <revenue-break-down type='purchases'></revenue-break-down>
+                            </div>
+                            <div class="" ng-if="model.currentSlide === 'Redemptions'">
+                                <revenue-break-down type='redemptions'></revenue-break-down>
+                            </div>
+                            <div class="" ng-if="model.currentSlide === 'Refunds'">
+                                <revenue-break-down type='refunds'></revenue-break-down>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

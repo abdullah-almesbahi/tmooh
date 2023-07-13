@@ -1,0 +1,34 @@
+<div class="modal-login">
+    <div class="panel-heading clearfix">
+        <h3 class="text-center">{{'Confirm Purchase'|translate}}
+            <a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose float-right">X</a>
+        </h3>
+    </div>
+</div>
+<div class="well-lg">
+    <div class="clearfix">
+        <div class="well-sm"></div>
+        <div class="alert alert-info">
+            <span class="float-right"><i class="mdi-18px mdi mdi-information-outline fa-2x" data-trigger="hover" tooltip-placement="auto" uib-tooltip="{{'Referral Available Balance Will Apply. While Purchasing The Courses'|translate}}"></i></span>
+            <strong>{{'Referral Availabe balance:' | translate}}&nbsp;
+					<amount-display amount='{{model.user_referral_amount}}' fraction='2' is-course-price='no' ng-if="model.user_referral_amount !== null && model.user_referral_amount !== undefined"></amount-display>
+					</strong>
+        </div>
+        <div ng-if="Checking_condition.referral_pruchase === true">
+            <div class="alert alert-success">
+               {{' As you have enough amount in referral earned amount, so please click the "Confirm" button to enroll this course .' | translate}}
+            </div>
+        </div>
+        <div ng-if="Checking_condition.hundre_coupon_pruchase === true">
+            <div class="alert alert-success">
+                {{'As you have applied coupon with 100%, so please click the "Confirm" button to enroll this course.' | translate}}
+            </div>
+        </div>
+
+
+        <div class="text-success"><strong>{{'Total Amount' | translate}}:&nbsp;<amount-display amount='{{TotalAmount}}' fraction='2'  is-course-price='no' ng-if="TotalAmount"></amount-display></strong></div>
+    </div>
+    <div class="clearfix">
+        <button type="button" ng-click="courseCheckout()" ng-disabled="confirm_is_disabled" class="textb text-13 btn  btn-success float-right" title='{{"Confirm"|translate}}'>{{'Confirm'|translate}} <span ng-show="confirm_is_disabled"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+    </div>
+</div>

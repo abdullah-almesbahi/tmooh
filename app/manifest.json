@@ -1,0 +1,21 @@
+{
+  "short_name": "Tmooh",
+  "name": "Tmooh",
+  "icons": [
+    {
+      "src": "/assets/apple-touch-icon-72x72.png",
+      "type": "image/png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "/assets/apple-touch-icon-114x114.png",
+      "type": "image/png",
+      "sizes": "114x114"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#f8f9fa",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#ED4350"
+}

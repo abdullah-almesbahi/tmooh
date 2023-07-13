@@ -1,0 +1,10 @@
+<h4>{{'Categories' | translate}}</h4>
+<div ng-include src="'common/loader.tpl.html'" ng-show="model.loader"></div>
+<ul class="list-unstyled panel" ng-if="!model.loader && model.news_categories.length > 0">
+    <!--profile_active-->
+    <li class="" ng-class="{'profile_active':news_category.id ==  model.category_id}" ng-repeat="news_category in model.news_categories">
+        <a href="/category/{{news_category.id}}/news" title="All">{{news_category.sub_category_name}}</a></li>
+</ul>
+<div class="text-center" ng-if="!model.news_categories.length && !model.loader">
+    <p class="alert alert-danger text-center">{{'No Category found'|translate}}</p>
+</div>

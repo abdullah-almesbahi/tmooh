@@ -1,0 +1,55 @@
+<div class="container">
+	<div ng-if="model.themeName === 'teachr'">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="tab-content row navbar-btn">
+					<div id="teaching" class="tab-pane active" role="tabpanel">
+						<div class="navbar-btn">
+							<div class=" clearfix text-center ">
+								<ul class="list-inline clearfix">
+									<li ng-show="$root.settings['site.enabled_plugins'].indexOf('CourseCheckout') > -1">
+										<div class="well-sm">
+											<span>{{'Total Revenue'|translate}}</span>
+											<h4>
+												<amount-display amount='{{model.stats.revenue}}' fraction='2' is-course-price='no'>
+											</h4>
+										</div>
+									</li>
+									<li>
+										<div class="well-sm">
+											<span>{{'Student Ratings'|translate}}</span>
+											<h4>{{model.stats.ratings}}</h4>
+										</div>
+									</li>
+									<li>
+										<div class="well-sm">
+											<span>{{'Total Students'|translate}}</span>
+											<h4>{{model.stats.students}}</h4>
+										</div>
+									</li>
+									<li ng-show="$root.settings['site.enabled_plugins'].indexOf('CourseCheckout') > -1">
+										<div class="well-sm">
+											<span>{{'Available Credits'|translate}}</span>
+											<h4>
+												<amount-display amount='{{model.stats.available_balance}}' fraction='2' is-course-price='no'>
+											</h4>
+										</div>
+									</li>
+									<li ng-show="$root.settings['site.enabled_plugins'].indexOf('CourseCheckout') > -1 && $root.settings['site.enabled_plugins'].indexOf('CourseCheckoutRevenueWithdrawal') > -1">
+										<div class="well-sm">
+											<span>{{'Withdrawn Credits'|translate}}</span>
+											<h4>
+												<amount-display amount='{{model.stats.total_withdrawn_amount}}' fraction='2' is-course-price='no'>
+											</h4>
+										</div>
+									</li>
+								</ul>
+								<div class="clearfix"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

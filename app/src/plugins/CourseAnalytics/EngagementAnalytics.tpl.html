@@ -1,0 +1,64 @@
+<div class="panel clearfix">
+    <h4 class="text-left text-primary">{{'Recent Average ratings'|translate}}</h4>
+   <div class="row">
+    <label class="col-md-4 col-sm-4 control-label" for="designation">{{'Current course of average rating'|translate}}</label>
+    <div class="col-md-5 col-sm-9">
+        <rating-stars average-rating='{{model.recent_average_ratings.current_course.average_rating}}' ng-if=" $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1"></rating-stars>
+    </div></div>
+    <!--other course average ratings-->
+    <div class="row">
+    <label class="col-md-4 col-sm-4 control-label" for="designation">{{'Other course of average rating'|translate}}</label>
+    <div class="col-md-5 col-sm-9">
+        <rating-stars average-rating='{{model.recent_average_ratings.other_course.average_rating}}' ng-if=" $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1"></rating-stars>
+    </div></div>
+    <hr>
+    <!--Content consumed-->
+    <h4 class="text-left text-primary">{{'Content Consumed Ratings'|translate}}</h4>
+    <div class="row">
+    <label class="col-md-4 col-sm-4 control-label" for="designation">{{'Current Course of average rating'|translate}}</label>
+    <div class="col-md-5 col-sm-9">
+        <rating-stars average-rating='{{model.recent_average_ratings.current_course.average_rating}}' ng-if=" $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1"></rating-stars>
+    </div></div>
+    <!--other course average ratings-->
+    <div class="row">
+    <label class="col-md-4 col-sm-4 control-label" for="designation">{{'Other course of average rating'|translate}}</label>
+    <div class="col-md-5 col-sm-9">
+        <rating-stars average-rating='{{model.recent_average_ratings.other_course.average_rating}}' ng-if=" $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1"></rating-stars>
+    </div></div>
+    <hr>
+    <h4 class="text-left text-primary">{{'Lecture Engagement'|translate}}</h4>
+    <div class="row">
+    <label class="col-md-4 col-sm-4 control-label" for="designation">{{'Total number of student'|translate}}: </label>
+    <div class="col-md-5 col-sm-9">
+        <strong>{{ model.engagement_lessons.total_students}}</strong>
+    </div> </div>
+    <div class="row">
+    <label class="col-md-4 col-sm-4 control-label" for="designation">{{'Total number of completed'|translate}}: </label>
+    <div class="col-md-5 col-sm-9">
+        <strong>{{ model.engagement_lessons.total_completed}}</strong>
+    </div></div>
+    <div class="row">
+    <label class="col-md-4 col-sm-4 control-label" for="designation">{{'Total number of  viewed'|translate}}: </label>
+    <div class="col-md-5 col-sm-9">
+        <strong>{{ model.engagement_lessons.total_viewed}}</strong>
+    </div></div>
+    <div class="row">
+    <label class="col-md-4 col-sm-4 control-label" for="designation">{{'Total viewed percentage'|translate}}: </label>
+    <div class="col-sm-8">
+        <div class="progress no-mar">
+            <div class="progress-bar progress-bar-success ng-binding" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                style="width:{{model.engagement_lessons.total_viewed_percentage}}%">
+            </div>
+        </div>
+    </div></div>
+    <div class="row">
+    <label class="col-md-4 col-sm-4 control-label" for="designation">{{'Total completed percentage'|translate}}: </label>
+    <div class="col-sm-8">
+        <div class="progress">
+            <div class="progress-bar progress-bar-success ng-binding" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                style="width:{{model.engagement_lessons.total_completed_percentage}}%">
+            </div>
+        </div>
+    </div>
+    </div>
+</div>

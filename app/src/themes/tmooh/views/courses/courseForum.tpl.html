@@ -1,0 +1,90 @@
+<dashboard-navbar>
+</dashboard-navbar>
+<section class="message-section my-message-bar">
+
+  <div class="container">
+    <div class="forum-block">
+      <div class="row" id="mymessage_list" ng-if="!model.composeForm">
+        <div class="col-md-3 col-sm-4" role="navigation">
+          <div class="panel">
+            <div class="border-bottom">
+              <div class="dropdown">
+                <a data-toggle="dropdown" class="btn btn-outline-secondary">
+                  <span ng-show="!course_filter">{{'All Courses'|translate}}</span>
+                  <span ng-show="course_filter">{{course_filter.title}}</span>
+                  <i class="mdi-18px mdi mdi-chevron-down text-muted"></i> </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li><a title="All courses" ng-click="CourseFilter('-1','All')">{{'All Courses' | translate}}</a>
+                  </li>
+                  <li><a title="{{instructor.teacher_name}}" ng-click="CourseFilter($index,'current')" ng-repeat="courses in model.teachingCourses">{{courses.title}}</a>
+                  </li>
+                </ul>
+
+              </div>
+              <form class="clearfix">
+                <div class="checkbox">
+                  <label for="unread">  
+                  <input type="checkbox" id="unread" ng-model="messagesort.no_unread" ng-true-value="1" ng-false-value="0" ng-click="Sort()" >
+                  <span class="text-14">{{'Unread'|translate}}</span>
+                </label>
+                </div>
+              </form>
+            </div>
+            <h5>Sort By: </h5>
+            <div class="dropdown">
+              <a data-toggle="dropdown" class="btn btn-outline-secondary">
+                <span ng-show="!messagesort.sortby || messagesort.sortby === 'created' ">{{'Newest To oldest'|translate}}</span>
+                <span ng-show="messagesort.sortby === '-created' ">{{'Oldest To Newest'|translate}}</span>
+                <span ng-show="messagesort.sortby === 'Popularity' ">{{'Popularity'|translate}}</span> &nbsp;
+                <i class="mdi-18px mdi mdi-chevron-down text-muted"></i> </a>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li><a ng-click="Sort('created')" title="{{'Newest To oldest'|translate}}">{{'Newest To oldest'|translate}}</a></li>
+                <li><a ng-click="Sort('-created')" title="{{'Oldest To Newest'|translate}}">{{'Oldest To Newest'|translate}}</a></li>
+                <li><a ng-click="Sort('Popularity')" title="{{ 'Popularity'|translate}} ">{{'Popularity'|translate}}</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9 col-sm-8" role="navigation ">
+          <div ng-include src="'common/loader.tpl.html'" ng-show="model.loader"><br><br></div>
+          <div ng-if="model.forumCourses.length" ng-show="!model.loader" class="message-section">
+            <ul class="clearfix list-group">
+              <li class="list-group-item" ng-repeat='message in model.forumCourses' ng-class="{'light-gray-bg': (message.is_read == true), 'message-unread':(message.is_read == false)}">
+                <ul class="list-inline clearfix message-list" ng-click="model.showMessage($index, $event,'Show')">
+                  <li>{{message.other_user}}</li>
+                  <li>
+                    <a href="">
+                      <img ng-if="message.other_user_image !== '' && message.other_user_image !== null" ng-src="{{$root.site_url}}img/normal_thumb/User/{{message.other_user_image}}"
+                        alt="[Image: {{message.other_user}}]" title="{{message.other_user}}" class="img-circle" />
+                      <img ng-if="message.other_user_image === '' || message.other_user_image === null" ng-src="{{$root.site_url}}img/normal_thumb/User/0.default.jpg"
+                        alt="[Image: {{message.other_user}}]" title="{{message.other_user}}" class="img-circle" />
+                      <!-- end ngIf: message.other_user_image !== '' && message.other_user_image !== null -->
+                    </a>
+                  </li>
+                  <li class="htruncate-m1 ng-binding">{{'Subject:' | translate}} </li>
+                  <li class="htruncate-m1 ng-binding">{{message.subject}}</li>
+                  <li class="navbar-right">
+                    <span am-time-ago="message.created" class="badge"></span>
+                  </li>
+                </ul>
+                <div class="msg-list ng-scope" ng-if="message.isShowContent">
+                  <h3 class="htruncate-m1">{{'Message' | translate}}</h3>
+                  <p class="htruncate-m1 navbar-btn">{{message.message}}</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div ng-if="!model.forumCourses.length && !model.loader ">
+            <p class="alert alert-danger" ng-show="!loader ">{{'No Question Found'|translate}}</p>
+          </div>
+        </div>
+        <div class="paging clearfix text-center " ng-show="model._metadata.total_records> 0 && !model.loader && model.forumCourses.length">
+          <ul uib-pagination total-items="model._metadata.total_records" ng-model="currentPage" ng-change="paginate('#mymessage_list')"
+            max-size="model._metadata.maxSize" boundary-links="true" num-pages="model._metadata.noOfPages" items-per-page="model._metadata.limit"
+            first-text="{{'First'|translate}}" last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+        </div>
+      </div>
+      <!-- transaction messages -->
+    </div>
+  </div>
+</section>

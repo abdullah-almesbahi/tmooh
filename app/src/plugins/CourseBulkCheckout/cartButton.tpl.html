@@ -1,0 +1,193 @@
+<!--position listInline -->
+<div ng-if="model.position === 'listInline' && model.courseType === 'vedio'">
+    <div ng-if="model.type ==='enroll'">
+        <!--CourseCheckout and CourseBulkCheckout plugin enabled and no Course instructor, multiple instructor -->
+        <div ng-if="$root.settings['site.enabled_plugins'].indexOf('CourseCheckout') > -1 && $root.settings['site.enabled_plugins'].indexOf('CourseBulkCheckout') > -1 && $root.auth.id != model.userId && model.multipleInstructor.owner != true && !model.loader">
+            <!-- If logged in -->
+            <div ng-if="$root.isAuth">
+                <!-- Free courses or already paid courses -->
+                <div ng-if="(model.batchPrice === '0' || model.batchPrice === null || model.batchPrice === undefined) && model.batchPruchased === 'false'"
+                    class="">
+                    <a href="#" ng-click="model.startLearnCourse($event, paidStatus)" title="{{'Start Learning Now'|translate}}" class="btn btn-primary btn-block">{{'Start Learning Now'|translate}}</a>
+                </div>
+                <div ng-if="model.batchPruchased === 'true'" class="navbar-btn">
+                    <a href="#" title="{{'Enrolled'|translate}}" class="btn btn-primary btn-block" ng-click="model.startLearnCourse($event, paidStatus)">{{'Start Learning Now'|translate}}</a>
+                </div>
+                <!-- not paid and not purchased courses -->
+                <div ng-if="(model.batchPruchased === 'false' && (model.batchPrice !== '0' &&  model.batchPrice !== null && model.batchPrice !== undefined))"
+                    class="navbar-btn">
+                    <a analytics-on 
+                        analytics-event="EnrollClick Logged"
+                        analytics-properties="{ id: {{model.courseId}}, 'label': '{{model.courseId}}' , category: 'Enroll' }" 
+                        href="" analytics-on="click" analytics-event="AddToCart" analytics-category="Add To Cart" ng-click="model.AddCart('singlecheckout')" title="enroll now" class="btn btn-primary btn-block">{{ model.course_owner}}{{'Enroll now' | translate}}</a>
+                </div>
+            </div>
+            <div ng-if="!$root.isAuth" class="navbar-btn">
+                <div ng-if="model.batchPrice !== '0'" class="navbar-btn">
+                    <a  analytics-on 
+                        analytics-event="EnrollClick UnLoggedIn"
+                        analytics-properties="{ id: {{model.courseId}}, 'label': '{{model.courseId}}' , category: 'Enroll' }" 
+                                href="#" ng-click="model.startLearnCourse($event, '')" title="{{'Enroll now'|translate}}" class="btn btn-primary btn-block">{{'Enroll now'|translate}}</a>
+                </div>
+                <div ng-if="model.batchPrice === '0'" class="navbar-btn">
+                    <a  analytics-on 
+                        analytics-event="StartLearningClick UnLoggedIn"
+                        analytics-properties="{ id: {{model.courseId}}, 'label': '{{model.courseId}}' , category: 'Enroll' }" 
+                        href="#" ng-click="model.startLearnCourse($event, '')" title="{{'Start Learning Now'|translate}}" class="btn btn-primary btn-block">{{'Start Learning Now'|translate}}</a>
+                </div>
+            </div>
+        </div>
+        <!--Course instructor (or) Muliple instructor Having Editable rights-->
+        <div ng-if="(($root.auth.id == model.userId || $root.auth.providertype == 'admin') || (model.multipleInstructor.owner == true && model.multipleInstructor.editable == true)) && $root.settings['site.enabled_plugins'].indexOf('Instructor') > -1 && !model.loader"
+            class="navbar-btn">
+            <a href="/manage-course/edit-getting-started/{{model.courseId}}" ng-disabled="" class="btn btn-sm btn-outline-success btn-block">{{'Manage'|translate}}</a>
+        </div>
+        <!--Multiple instructor Having Viewable rights alone-->
+        <div ng-if="model.multipleInstructor.owner == true && model.multipleInstructor.editable !== true" class="navbar-btn">
+            <a href="" disabled class="btn btn-sm btn-outline-success btn-block">{{'Manage'|translate}}</a>
+            <i class="mdi-18px mdi mdi-information-outline" aria-hidden="true" tooltip-placement="top" tooltip-animation="false" uib-tooltip="{{ConstToolTipContent.MultipleInstructorEditableError}}"></i>
+        </div>
+    </div>
+</div>
+<!--position batchlist and Batch type as offline  -->
+
+<div ng-if="model.position === 'batchlist' && model.courseType === 'offline'">
+    <div ng-if="model.type ==='enroll'">
+        <!--CourseCheckout and CourseBulkCheckout plugin enabled and no Course instructor, multiple instructor -->
+        <div ng-if="$root.settings['site.enabled_plugins'].indexOf('CourseCheckout') > -1 && $root.settings['site.enabled_plugins'].indexOf('CourseBulkCheckout') > -1 && $root.auth.id != model.userId && model.multipleInstructor.owner != true && !model.loader">
+            <!-- If logged in -->
+            <div ng-if="$root.isAuth">
+                <div ng-if="model.batchPruchased === 'true'" class="navbar-btn">
+                    <a href="#" title="{{'Enrolled'|translate}}" class="btn btn-outline-success" disabled>{{'Enrolled'|translate}}</a>
+                </div>
+                <!-- not paid and not purchased courses -->
+                <div ng-if="model.batchPruchased === 'false' && model.batchPrice !== '0'" class="navbar-btn">
+                    <a href="" ng-click="model.AddCart('singlecheckout')" title="{{'enroll now' | translate}}" class="btn btn-outline-success">{{'Enroll now'|translate}}</a>
+                </div>
+            </div>
+
+            <!-- If not logged in -->
+            <div ng-if="!$root.isAuth" class="navbar-btn">
+                <div ng-if="model.batchPrice !== '0'" class="navbar-btn">
+                    <a href="#" ng-click="model.startLearnCourse($event, '')" title="{{'Enroll now'|translate}}" class="btn btn-outline-success">{{'Enroll now'|translate}}</a>
+                </div>
+            </div>
+        </div>
+        <!--Course instructor (or) Muliple instructor Having Editable rights-->
+        <div ng-if="(($root.auth.id == model.userId || $root.auth.providertype == 'admin') || (model.multipleInstructor.owner == true && model.multipleInstructor.editable == true)) && $root.settings['site.enabled_plugins'].indexOf('Instructor') > -1"
+            class="navbar-btn">
+            <a href="/manage-course/onsite-schedule/{{model.courseId}}" class="btn btn-sm btn-outline-success">{{'Manage'|translate}}</a>
+        </div>
+        <!--Multiple instructor Having Viewable rights alone-->
+        <div ng-if="model.multipleInstructor.owner == true && model.multipleInstructor.editable !== true" class="navbar-btn">
+            <a href="" disabled class="btn btn-sm btn-outline-success">{{'Manage'|translate}}</a>
+        </div>
+    </div>
+
+</div>
+
+<!--position batchlist and Batch type as webinar  -->
+
+<div ng-if="model.position === 'batchlist' && model.courseType === 'webinar'">
+    <!--CourseCheckout and CourseBulkCheckout plugin enabled and no Course instructor, multiple instructor -->
+    <div ng-if="model.type ==='enroll'">
+        <div ng-if="$root.settings['site.enabled_plugins'].indexOf('CourseCheckout') > -1 && $root.settings['site.enabled_plugins'].indexOf('CourseBulkCheckout') > -1 && $root.auth.id != model.userId && model.multipleInstructor.owner != true && !model.loader">
+            <div ng-if="$root.isAuth">
+                <div ng-if="model.batchPruchased === 'true'" class="navbar-btn">
+                    <a href="#" title="{{'Enrolled'|translate}}" class="btn btn-outline-success" disabled>{{'Enrolled'|translate}}</a>
+                </div>
+                <div ng-if="model.batchPruchased === 'false' && model.coursePrice !== '0'" class="navbar-btn">
+                    <a href="" ng-click="model.AddCart('singlecheckout')" title="{{'enroll now' | translate}}" class="btn btn-outline-success">{{'Enroll now' | translate}}</a>
+                </div>
+            </div>
+
+            <div ng-if="!$root.isAuth" class="navbar-btn">
+                <div ng-if="model.coursePrice !== '0'" class="navbar-btn">
+                    <a href="#" ng-click="model.startLearnCourse($event, '')" title="{{'Enroll now'|translate}}" class="btn btn-outline-success">{{'Enroll now'|translate}}</a>
+                </div>
+            </div>
+        </div>
+        <!--Course Instructor (or) Muliple instructor Having Editable rights-->
+        <div ng-if="(($root.auth.id == model.userId || $root.auth.providertype == 'admin') || (model.multipleInstructor.owner == true && model.multipleInstructor.editable == true)) && $root.settings['site.enabled_plugins'].indexOf('Instructor') > -1"
+            class="navbar-btn">
+            <a href="/manage-course/online-schedule/{{model.courseId}}" class="btn btn-sm btn-outline-success">{{'Manage'|translate}}</a>
+        </div>
+        <!--Multiple Instrcutor Having Viewable rights alone-->
+        <div ng-if="model.multipleInstructor.owner == true && model.multipleInstructor.editable !== true" class="navbar-btn">
+            <a href="" disabled class="btn btn-sm btn-outline-success">{{'Manage'|translate}}</a>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- HEADER CART BUTTON (Type= 'Count') && (position= 'Header') -->
+<a href="#" title="cart" class="dropdown-toggle mx-2" data-toggle="dropdown" ng-if="model.position === 'Header' && model.type === 'Count'">
+    <i class="mdi mdi-cart-outline " ng-class="{'text-dark':!$root.isHome || $root.isMobile,'text-white' : $root.isHome && !$root.isMobile}"></i>
+    <sup class="badge badge-pill badge-primary rounded-circle" style="margin-right: -14px;" ng-if="model.carts.count > 0">{{model.carts.count}}</sup>
+</a>
+<ul class="dropdown-menu dropdown-menu-right py-0 " style="min-width: 320px;">
+    <li class="scartheading bg-primary p-2 text-center mb-2">
+        <div class="text-light">{{'Shopping cart'|translate}}</div>
+    </li>
+    <li class="shopping-cart">
+        <div ng-include src="'common/loader.tpl.html'" ng-show="!model.cart_loader"></div>
+        <ul class="list-unstyled" style="max-height: 190px;overflow-x: auto;" ng-if="model.cart_loader">
+            <li class="p-2 border-bottom" ng-repeat="cart_item in  model.carts.list" ng-if="model.carts.list.length">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <img ng-if="cart_item.course_image_hash" class="rounded-circle border  img-fluid center-block" ng-src="{{$root.site_url}}img/micro_thumb/Course/{{cart_item.course_image_hash}}"
+                            alt="[Image: {{cart_item.title}}]" title="{{cart_item.title}}" style="width: 86px;height: 62px;"
+                        />
+                        <img ng-if="!cart_item.course_image_hash" class="rounded-circleborder  img-fluid center-block" ng-src="{{$root.site_url}}img/micro_thumb/Course/0.default.jpg"
+                            alt="[Image: {{cart.title}}]" title="{{cart.title}}" style="width: 86px;height: 62px;" />
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="no-mar text-truncate">{{cart_item.course_title}}</p>
+                        <p class="text-muted mb-0">{{'By'|translate}} {{cart_item.courses[0].teacher[0].displayname}}</p>
+                        <span class="float-right" ng-if="cart_item.coupon_id !== null && cart_item.coupon_code !== null">
+
+                        </span>
+                    </div>
+                    <div class="col-sm-3 shpcrtamt text-right">
+                        <p class="text-primary text-b no-mar">
+                            <span class="text-primary" ng-if="cart_item.original_price === null"><strong>
+									<amount-display amount='{{cart_item.price}}' fraction='2' is-course-price='yes' ng-if="amount_display == 'enabled'" ></amount-display></strong></span>
+                            <div ng-if="cart_item.original_price !== null && cart_item.original_price !== undefined">
+                                <strong>
+									<amount-display amount='{{cart_item.original_price}}' ng-if="cart_item.original_price !== null && amount_display == 'enabled'" fraction='2' is-course-price='no' ></amount-display></strong>
+                                <p class="strike">
+                                    <amount-display amount='{{cart_item.price}}' ng-if="cart_item.original_price !== null && amount_display == 'enabled'" fraction='2'
+                                        is-course-price='yes'></amount-display>
+                                </p>
+                            </div>
+                        </p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+    </li>
+    <li class="text-right cartttlamt p-2" ng-if="model.carts.list.length && model.cart_loader">
+        <p class="no-mar mb-0"><span>{{'Your total:'|translate}}</span>
+            <span class="text-primary">
+                <strong> <amount-display amount='{{total_amount}}' ng-if="total_amount !== null && total_amount !== undefined && amount_display == 'enabled'" fraction='2' is-course-price='no'> </amount-display></strong>
+                 </span>
+        </p>
+        <p class="strike mb-0" ng-if="model.discount_trigger">
+            <span class="text-primary">
+            <amount-display amount='{{model.original_amount}}' ng-if="model.original_amount !== 0 && amount_display == 'enabled'" fraction='2' is-course-price='no'> </amount-display>
+                 </span>
+        </p>
+    </li>
+    <li class="clearfix" ng-if="model.carts.list.length && model.cart_loader">
+        <div><a href="/cart" class="btn btn-outline-primary btn-block">{{'go to cart'|translate}}</a></div>
+    </li>
+    <li class="clearfix cart-empty p-2" ng-if="!model.carts.list.length && model.cart_loader">
+        <div class="text-center">
+            <span>{{'Your cart is empty.'|translate}}</span>
+            <a href="/courses/search" >{{'keep shopping'|translate}} <i class="mdi-18px mdi mdi-chevron-right fa-fw"></i></a>
+        </div>
+    </li>
+</ul>
+</li>

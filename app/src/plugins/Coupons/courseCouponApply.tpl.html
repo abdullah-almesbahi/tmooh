@@ -1,0 +1,20 @@
+<div class="" ng-if="$root.settings['site.enabled_plugins'].indexOf('Coupons') > -1 && !paidStatus">
+	<form class="coupon-box__coupon-input coupon_inputboxes input-group ng-pristine ng-valid" ng-submit="model.applyDiscount(inputDiscountInput.value)"
+		name="Coupon_apply">
+		<div class="row">
+			<div class="col-sm-8 col-xs-7">
+				<div class="form-group has-feedback">
+					<input name="discountCode" type="text" class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-valid-maxlength ng-touched"
+						placeholder="Apply Coupon Code" ng-model="inputDiscountInput.value" ng-required="true"><br>
+				</div>
+			</div>
+			<div class="col-sm-4 col-xs-5">
+
+				<button type="submit" class="btn btn-primary spinner-button spinner-button--coupon" ng-disabled="Coupon_apply.$invalid || coupon_disableButton"
+					id="submit">
+					<span ng-show="!coupon_disableButton">{{'Apply'|translate}}</span> 
+					<span ng-show="coupon_disableButton">{{'Validating'|translate}}<i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+			</div>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,520 @@
+<div class="row">
+    <div class="col-lg-12">
+        <ma-view-actions>
+            <ma-back-button></ma-back-button>
+        </ma-view-actions>
+        <div class="page-header">
+            <h1>Set Authorization</h1>
+        </div>
+    </div>
+</div>
+<section class="page-wrapper-body">
+    <div class="row" id="create-view">
+        <div class="clearfix well-sm with-scroll  panel animated zoomIn">
+            <div class="row" ng-controller="PermissionCtrl">
+                <div class="col-md-12 Permission-checkbox">
+                    <h4 class="text-primary"> <i class="fa fa-user" aria-hidden="true"></i> {{username}}</h4>
+                    <div class="clearfix">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>List</th>
+                                    <th>View</th>
+                                    <th>Add</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="parent">
+                                    <!--Dashboard Actions-->
+                                    <td>Dashboard</td>
+                                    <td>
+                                       <div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListStat')" ng-checked="permissions.indexOf('canListStat') > -1"><span></span></label></div>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="parent">
+                                    <td>Activities</td>
+                                    <td>
+                                        <div class="checkbox"><label><input type="checkbox" ng-checked="permissions.indexOf('canListActivitie') > -1" ng-click="saveScope('canListActivitie')"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="parent">
+                                    <td>Overview</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-checked="permissions.indexOf('canListOverview') > -1" ng-click="saveScope('canListOverview')"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <!--Revenue Report Actions-->
+                                <tr class="Child">
+                                    <td>Revenue Report</td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-checked="permissions.indexOf('canListRevenueReport') > -1" ng-click="saveScope('canListRevenueReport')"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Payment Reports</td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-checked="permissions.indexOf('canListPaymentReport') > -1" ng-click="saveScope('canListPaymentReports')"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Profit Reports</td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-checked="permissions.indexOf('canListProfitReport') > -1" ng-click="saveScope('canListProfitReport')"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Demographic Report</td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-checked="permissions.indexOf('canListDemographicReport') > -1" ng-click="saveScope('canListDemographicReport')"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <!--Course Actions-->
+                                <tr class="parent">
+                                    <td>Courses</td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListCourse')" ng-checked="permissions.indexOf('canListCourse') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewCourse')" ng-checked="permissions.indexOf('canViewCourse') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateCourse')" ng-checked="permissions.indexOf('canCreateCourse') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateCourse')" ng-checked="permissions.indexOf('canUpdateCourse') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteCourse')" ng-checked="permissions.indexOf('canDeleteCourse') > -1"><span></span></label></div></td>
+                                </tr>
+                                <!--Course Booking Actions-->
+                                <tr class="parent">
+                                    <td>Course Bookings</td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListCourseUser')" ng-checked="permissions.indexOf('canListCourseUser') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteCourseUser')" ng-checked="permissions.indexOf('canDeleteCourseUser') > -1"><span></span></label></div></td>
+                                </tr>
+                                <!--Course Traffics Actions-->
+                                <tr class="parent">
+                                    <td>Course Traffics</td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListCourseTraffic')" ng-checked="permissions.indexOf('canListCourseTraffic') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteCourseTraffic')" ng-checked="permissions.indexOf('canDeleteCourseTraffic') > -1"><span></span></label></div></td>
+                                </tr>
+                                <!--Course Feedback Questions Actions-->
+                                <tr class="parent">
+                                    <td>Course Feedback Questions</td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListCourseFeedbackQuestion')" ng-checked="permissions.indexOf('canListCourseFeedbackQuestion') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewCourseFeedbackQuestion')" ng-checked="permissions.indexOf('canViewCourseFeedbackQuestion') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateCourseFeedbackQuestion')" ng-checked="permissions.indexOf('canCreateCourseFeedbackQuestion') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateCourseFeedbackQuestion')" ng-checked="permissions.indexOf('canUpdateCourseFeedbackQuestion') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteCourseFeedbackQuestion')" ng-checked="permissions.indexOf('canDeleteCourseFeedbackQuestion') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="parent">
+                                    <td>Course Feedbacks</td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListCourseFeedback')" ng-checked="permissions.indexOf('canListCourseFeedback') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewCourseFeedback')" ng-checked="permissions.indexOf('canViewCourseFeedback') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateCourseFeedback')" ng-checked="permissions.indexOf('canCreateCourseFeedback') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateCourseFeedback')" ng-checked="permissions.indexOf('canUpdateCourseFeedback') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteCourseFeedback')" ng-checked="permissions.indexOf('canDeleteCourseFeedback') > -1"><span></span></label></div></td>
+                                </tr>
+                                <!--Course Wishlist Actions-->
+                                <tr class="parent">
+                                    <td>Course Wishlists</td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListCourseFavourite')" ng-checked="permissions.indexOf('canListCourseFavourite') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteUserCourseFavourite')" ng-checked="permissions.indexOf('canDeleteUserCourseFavourite') > -1"><span></span></label></div></td>
+                                </tr>
+                                <!--Course User Feedbacks Actions-->
+                                <tr class="parent">
+                                    <td>Course User Feedbacks</td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListCourseUserFeedback')" ng-checked="permissions.indexOf('canListCourseUserFeedback') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateCourseUserFeedback')" ng-checked="permissions.indexOf('canUpdateCourseUserFeedback') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteCourseUserFeedback')" ng-checked="permissions.indexOf('canDeleteCourseUserFeedback') > -1"><span></span></label></div></td>
+                                </tr>
+                                <!--Course Review Questions Actions-->
+                                <tr class="Child">
+                                    <td>Course Review Questions</td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListCourseReviewQuestion')" ng-checked="permissions.indexOf('canListCourseReviewQuestion') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewCourseReviewQuestion')" ng-checked="permissions.indexOf('canViewCourseReviewQuestion') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateCourseReviewQuestion')" ng-checked="permissions.indexOf('canCreateCourseReviewQuestion') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateCourseReviewQuestion')" ng-checked="permissions.indexOf('canUpdateCourseReviewQuestion') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteCourseReviewQuestion')" ng-checked="permissions.indexOf('canDeleteCourseReviewQuestion') > -1"><span></span></label></div></td>
+                                </tr>
+                                <!--Course Review Questions Actions-->
+                                <tr class="Child">
+                                    <td>Course Review Answers</td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListCourseReviewAnswer')" ng-checked="permissions.indexOf('canListCourseReviewAnswer') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+
+                                </tr>
+                                <!--coupons Actions-->
+                                <tr class="Child">
+                                    <td>coupons</td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListCoupon')" ng-checked="permissions.indexOf('canListCoupon') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewCoupon')" ng-checked="permissions.indexOf('canViewCoupon') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateCoupon')" ng-checked="permissions.indexOf('canCreateCoupon') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateCoupon')" ng-checked="permissions.indexOf('canUpdateCoupon') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteCoupon')" ng-checked="permissions.indexOf('canDeleteCoupon') > -1"><span></span></label></div></td>
+                                </tr>
+                                <!--Course Wishlist Actions-->
+                                <tr class="parent">
+                                    <td>Course Instructors</td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListCourseInstructor')" ng-checked="permissions.indexOf('canListCourseInstructor') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteCourseInstructor')" ng-checked="permissions.indexOf('canDeleteCourseInstructor') > -1"><span></span></label></div></td>
+                                </tr>
+                                <!--Course Wishlist Actions-->
+                                <tr class="parent">
+                                    <td>Course Flags</td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListCourseFlag')" ng-checked="permissions.indexOf('canListCourseFlag') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteCourseFlag')" ng-checked="permissions.indexOf('canDeleteCourseFlag') > -1"><span></span></label></div></td>
+                                </tr>
+                                <!--coupons Actions-->
+                                <tr class="Child">
+                                    <td>Users</td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListUser')" ng-checked="permissions.indexOf('canListUser') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewUser')" ng-checked="permissions.indexOf('canViewUser') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateUser')" ng-checked="permissions.indexOf('canCreateUser') > -1"><span></span></label></div></td>
+                                     <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateUser')" ng-checked="permissions.indexOf('canUpdateUser') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteUser')" ng-checked="permissions.indexOf('canDeleteUser') > -1"></td>
+                                </tr>
+                                <!-- Contact Us Actions-->
+                                <tr class="Child">
+                                    <td> Contact Us <br> H2k for corporates <br> Get Quotes</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListContact')" ng-checked="permissions.indexOf('canListContact') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewContact')" ng-checked="permissions.indexOf('canViewContact') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateContact')" ng-checked="permissions.indexOf('canUpdateContact') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteContact')" ng-checked="permissions.indexOf('canDeleteContact') > -1"><span></span></label></div></td>
+                                </tr>
+
+                                <!--User Logins Actions-->
+                                <tr class="parent">
+                                    <td>User Logins</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListUserLogin')" ng-checked="permissions.indexOf('canListUserLogin') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteUserLogin')" ng-checked="permissions.indexOf('canDeleteUserLogin') > -1"><span></span></label></div></td>
+                                </tr>
+                                <!--Sub Admins Actions-->
+                                <tr class="Child">
+                                    <td>Sub Admins</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListSubAdmin')" ng-checked="permissions.indexOf('canListSubAdmin') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewSubAdmin')" ng-checked="permissions.indexOf('canViewSubAdmin') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateSubAdmin')" ng-checked="permissions.indexOf('canCreateSubAdmin') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateSubAdmin')" ng-checked="permissions.indexOf('canUpdateSubAdmin') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteSubAdmin')" ng-checked="permissions.indexOf('canDeleteSubAdmin') > -1"><span></span></label></div></td>
+                                </tr>
+                                <!--userCashWithdrawals Actions-->
+                                <tr class="parent">
+                                    <td>user Cash Withdrawals</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListUserCashWithdrawal')" ng-checked="permissions.indexOf('canListUserCashWithdrawal') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteUserCashWithdrawal')" ng-checked="permissions.indexOf('canDeleteUserCashWithdrawal') > -1"><span></span></label></div></td>
+                                </tr>
+                                <!--SiteSettings Actions-->
+                                <tr class="parent">
+                                    <td>Setting</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListSetting')" ng-checked="permissions.indexOf('canListSetting') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewSetting')" ng-checked="permissions.indexOf('canViewSetting') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateSetting')" ng-checked="permissions.indexOf('canUpdateSetting') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="parent">
+                                    <td>Setting Categories</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListSettingCategory')" ng-checked="permissions.indexOf('canListSettingCategory') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewSettingCategory')" ng-checked="permissions.indexOf('canViewSettingCategory') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+
+                                <!--Master Actions-->
+                                <tr class="Child">
+                                    <td>Instructional Levels</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListInstructionalLevel')" ng-checked="permissions.indexOf('canListInstructionalLevel') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewInstructionalLevel')" ng-checked="permissions.indexOf('canViewInstructionalLevel') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateInstructionalLevel')" ng-checked="permissions.indexOf('canCreateInstructionalLevel') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateInstructionalLevel')" ng-checked="permissions.indexOf('canUpdateInstructionalLevel') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteInstructionalLevel')" ng-checked="permissions.indexOf('canDeleteInstructionalLevel') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Programming Languages</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListProgrammingLanguage')" ng-checked="permissions.indexOf('canListProgrammingLanguage') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewProgrammingLanguage')" ng-checked="permissions.indexOf('canViewProgrammingLanguage') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateProgrammingLanguage')" ng-checked="permissions.indexOf('canCreateProgrammingLanguage') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateProgrammingLanguage')" ng-checked="permissions.indexOf('canUpdateProgrammingLanguage') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteProgrammingLanguage')" ng-checked="permissions.indexOf('canDeleteProgrammingLanguage') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Categories</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListCategory')" ng-checked="permissions.indexOf('canListCategory') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewCategory')" ng-checked="permissions.indexOf('canViewCategory') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateCategory')" ng-checked="permissions.indexOf('canCreateCategory') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateCategory')" ng-checked="permissions.indexOf('canUpdateCategory') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteCategory')" ng-checked="permissions.indexOf('canDeleteCategory') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Cities</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListCity')" ng-checked="permissions.indexOf('canListCity') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateCity')" ng-checked="permissions.indexOf('canCreateCity') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateCity')" ng-checked="permissions.indexOf('canUpdateCity') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteCity')" ng-checked="permissions.indexOf('canDeleteCity') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>States</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListState')" ng-checked="permissions.indexOf('canListState') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateState')" ng-checked="permissions.indexOf('canCreateState') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateState')" ng-checked="permissions.indexOf('canUpdateState') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteState')" ng-checked="permissions.indexOf('canDeleteState') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Countries</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListCountry')" ng-checked="permissions.indexOf('canListCountry') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateCountry')" ng-checked="permissions.indexOf('canCreateCountry') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateCountry')" ng-checked="permissions.indexOf('canUpdateCountry') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteCountry')" ng-checked="permissions.indexOf('canDeleteCountry') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Pages</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListPage')" ng-checked="permissions.indexOf('canListPage') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewPage')" ng-checked="permissions.indexOf('canViewPage') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreatePage')" ng-checked="permissions.indexOf('canCreatePage') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdatePage')" ng-checked="permissions.indexOf('canUpdatePage') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeletePage')" ng-checked="permissions.indexOf('canDeletePage') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Languages</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListLanguage')" ng-checked="permissions.indexOf('canListLanguage') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateLanguage')" ng-checked="permissions.indexOf('canCreateLanguage') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateLanguage')" ng-checked="permissions.indexOf('canUpdateLanguage') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteLanguage')" ng-checked="permissions.indexOf('canDeleteLanguage') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td> Email Templates</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListEmailTemplate')" ng-checked="permissions.indexOf('canListEmailTemplate') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateEmailTemplate')" ng-checked="permissions.indexOf('canUpdateEmailTemplate') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td> Providers</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListProvider')" ng-checked="permissions.indexOf('canListProvider') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateProvider')" ng-checked="permissions.indexOf('canUpdateProvider') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Lightings</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListLighting')" ng-checked="permissions.indexOf('canListLighting') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewLighting')" ng-checked="permissions.indexOf('canViewLighting') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateLighting')" ng-checked="permissions.indexOf('canCreateLighting') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateLighting')" ng-checked="permissions.indexOf('canUpdateLighting') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteLighting')" ng-checked="permissions.indexOf('canDeleteLighting') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Microphones</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListMicrophone')" ng-checked="permissions.indexOf('canListMicrophone') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewMicrophone')" ng-checked="permissions.indexOf('canViewMicrophone') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateMicrophone')" ng-checked="permissions.indexOf('canCreateMicrophone') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateMicrophone')" ng-checked="permissions.indexOf('canUpdateMicrophone') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteMicrophone')" ng-checked="permissions.indexOf('canDeleteMicrophone') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Cameras</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListCamera')" ng-checked="permissions.indexOf('canListCamera') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewCamera')" ng-checked="permissions.indexOf('canViewCamera') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateCamera')" ng-checked="permissions.indexOf('canCreateCamera') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateCamera')" ng-checked="permissions.indexOf('canUpdateCamera') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteCamera')" ng-checked="permissions.indexOf('canDeleteCamera') > -1"><span></span></label></div></td>
+                                </tr>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Editing Softwares</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListEditingSoftware')" ng-checked="permissions.indexOf('canListEditingSoftware') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewEditingSoftware')" ng-checked="permissions.indexOf('canViewEditingSoftware') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateEditingSoftware')" ng-checked="permissions.indexOf('canCreateEditingSoftware') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateEditingSoftware')" ng-checked="permissions.indexOf('canUpdateEditingSoftware') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteEditingSoftware')" ng-checked="permissions.indexOf('canDeleteEditingSoftware') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Channels</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListChannel')" ng-checked="permissions.indexOf('canListChannel') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewChannel')" ng-checked="permissions.indexOf('canViewChannel') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateChannel')" ng-checked="permissions.indexOf('canCreateChannel') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateChannel')" ng-checked="permissions.indexOf('canUpdateChannel') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteChannel')" ng-checked="permissions.indexOf('canDeleteChannel') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>News Categories</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListNewsCategory')" ng-checked="permissions.indexOf('canListNewsCategory') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewNewsCategory')" ng-checked="permissions.indexOf('canViewNewsCategory') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateNewsCategory')" ng-checked="permissions.indexOf('canCreateNewsCategory') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateNewsCategory')" ng-checked="permissions.indexOf('canUpdateNewsCategory') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteNewsCategory')" ng-checked="permissions.indexOf('canDeleteNewsCategory') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>News</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListNews')" ng-checked="permissions.indexOf('canListNews') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewNews')" ng-checked="permissions.indexOf('canViewNews') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateNews')" ng-checked="permissions.indexOf('canCreateNews') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateNews')" ng-checked="permissions.indexOf('canUpdateNews') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteNews')" ng-checked="permissions.indexOf('canDeleteNews') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>FAQ Topics</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListHelpTopic')" ng-checked="permissions.indexOf('canListHelpTopic') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewHelpTopic')" ng-checked="permissions.indexOf('canViewHelpTopic') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateHelpTopic')" ng-checked="permissions.indexOf('canCreateHelpTopic') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateHelpTopic')" ng-checked="permissions.indexOf('canUpdateHelpTopic') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteHelpTopic')" ng-checked="permissions.indexOf('canDeleteHelpTopic') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>FAQ Topic Contents</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListHelpTopicContent')" ng-checked="permissions.indexOf('canListHelpTopicContent') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewHelpTopicContent')" ng-checked="permissions.indexOf('canViewHelpTopicContent') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateHelpTopicContent')" ng-checked="permissions.indexOf('canCreateHelpTopicContent') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewHelpTopicContent')" ng-checked="permissions.indexOf('canViewHelpTopicContent') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteHelpTopicContent')" ng-checked="permissions.indexOf('canDeleteHelpTopicContent') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Tiers</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListTier')" ng-checked="permissions.indexOf('canListTier') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateTier')" ng-checked="permissions.indexOf('canCreateTier') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Currencies</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListCurrency')" ng-checked="permissions.indexOf('canListCurrency') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateCurrency')" ng-checked="permissions.indexOf('canCreateCurrency') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateCurrency')" ng-checked="permissions.indexOf('canUpdateCurrency') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteCurrency')" ng-checked="permissions.indexOf('canDeleteCurrency') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Currency Tiers</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateCurrencyTier')" ng-checked="permissions.indexOf('canCreateCurrencyTier') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Campaigns</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListCampaign')" ng-checked="permissions.indexOf('canListCampaign') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewCampaign')" ng-checked="permissions.indexOf('canViewCampaign') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateCampaign')" ng-checked="permissions.indexOf('canCreateCampaign') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateCampaign')" ng-checked="permissions.indexOf('canUpdateCampaign') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteCampaign')" ng-checked="permissions.indexOf('canDeleteCampaign') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Course Flag Categories</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListCourseFlagCategory')" ng-checked="permissions.indexOf('canListCourseFlagCategory') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewCourseFlagCategory')" ng-checked="permissions.indexOf('canViewCourseFlagCategory') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateCourseFlagCategory')" ng-checked="permissions.indexOf('canCreateCourseFlagCategory') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateCourseFlagCategory')" ng-checked="permissions.indexOf('canUpdateCourseFlagCategory') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteCourseFlagCategory')" ng-checked="permissions.indexOf('canDeleteCourseFlagCategory') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Transactions</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListTransaction')" ng-checked="permissions.indexOf('canListTransaction') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteTransaction')" ng-checked="permissions.indexOf('canDeleteTransaction') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Vaults</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListVault')" ng-checked="permissions.indexOf('canListVault') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Payment Gateways</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListPaymentGateway')" ng-checked="permissions.indexOf('canListPaymentGateway') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdatePaymentGateway')" ng-checked="permissions.indexOf('canUpdatePaymentGateway') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Orders</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListOrder')" ng-checked="permissions.indexOf('canListOrder') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewOrder')" ng-checked="permissions.indexOf('canViewOrder') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Credit Offers</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListCreditOffer')" ng-checked="permissions.indexOf('canListCreditOffer') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canViewCreditOffer')" ng-checked="permissions.indexOf('canViewCreditOffer') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateCreditOffer')" ng-checked="permissions.indexOf('canCreateCreditOffer') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateCreditOffer')" ng-checked="permissions.indexOf('canUpdateCreditOffer') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteCreditOffer')" ng-checked="permissions.indexOf('canDeleteCreditOffer') > -1"><span></span></label></div></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Credit Offer Logs</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('CreditOfferLog')" ng-checked="permissions.indexOf('CreditOfferLog') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="Child">
+                                    <td>Groups</td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canListGroup')" ng-checked="permissions.indexOf('canListGroup') > -1"><span></span></label></div></td>
+                                    <td></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canCreateGroup')" ng-checked="permissions.indexOf('canCreateGroup') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canUpdateGroup')" ng-checked="permissions.indexOf('canUpdateGroup') > -1"><span></span></label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-click="saveScope('canDeleteGroup')" ng-checked="permissions.indexOf('canDeleteGroup') > -1"><span></span></label></div></td>
+                                </tr>
+                            </tbody>
+                        </table> <button ng-click="save_user_scopes()" class="btn btn-primary navbar-btn"> <i class="fa fa-check" aria-hidden="true"></i>
+ Save</button> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

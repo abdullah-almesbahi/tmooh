@@ -1,0 +1,110 @@
+<section class="container pb-3 mb-5">
+  <course-navbar></course-navbar>
+  <div class="card shadow bg-white">
+    <div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading"></div>
+    <div class="card-body" ng-if="!model.loading">
+      <h3 class="text-default">{{'Coupons'|translate}}</h3>
+      <p>{{'You can create a free coupons and share to your student to increase your ratings.'|translate}}</p>
+      <form role="form" class="form-horizontal form-addon clearfix" name="Coupon" ng-submit='model.couponSave(Coupon.$valid, Coupon)' novalidate>
+        <div class="form-group">
+          <label class="col-md-3 col-sm-4 control-label required" for="coupon_code">{{'Enter the Coupon Code '|translate}}</label>
+          <div class="col-md-5 col-sm-8" ng-class="{ 'has-error' : ((Coupon.$submitted || Coupon.coupon_code.$touched) && (Coupon.coupon_code.$pristine || Coupon.coupon_code.$invalid))}">
+            <input type="text" class="form-control" id="coupon_code" ng-pattern="" ng-minlength="3" ng-maxlength="20" name="coupon_code" placeholder="{{'Coupon code'|translate}}" ng-model="model.coupon.coupon_code" ng-required="true">
+            <div ng-show="((Coupon.$submitted || Coupon.coupon_code.$touched) && (Coupon.coupon_code.$pristine || Coupon.coupon_code.$invalid))">
+              <span class="error text-danger" ng-show="(Coupon.coupon_code.$error.required)">{{'Required' | translate}}. </span>
+              <span class="error text-danger" ng-show="(Coupon.coupon_code.$error.pattern)">{{'Invalid coupon code' | translate}}. </span>
+              <span class="error text-danger" ng-show="(Coupon.coupon_code.$error.maxlength)">{{'Coupon code should contain  maximum 20 characters' | translate}}.</span>
+              <span class="error text-danger" ng-show="(Coupon.coupon_code.$error.minlength)">{{'Coupon code should contain atleast 3 characters' | translate}}.</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 col-sm-4 control-label required" for="coupon_usage">{{'Number of times the coupon code can be redeemed '|translate}}</label>
+          <div class="col-md-5 col-sm-8" ng-class="{ 'has-error' : ((Coupon.$submitted || Coupon.coupon_usage.$touched) && (Coupon.coupon_usage.$pristine || Coupon.coupon_usage.$invalid))}">
+            <input type="number" class="form-control" id="coupon_usage" min="1" name="coupon_usage" placeholder="{{'Number of times'|translate}}" ng-model="model.coupon.max_number_of_time_can_use" ng-required="true">
+            <div ng-show="((Coupon.$submitted || Coupon.coupon_usage.$touched) && (Coupon.coupon_usage.$pristine || Coupon.coupon_usage.$invalid))">
+              <span class="error text-danger" ng-show="(Coupon.coupon_usage.$error.required)">{{'Required' | translate}}. </span>
+              <span class="error text-danger" ng-show="(Coupon.coupon_usage.$error.min)">{{'Invalid number' | translate}}. </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 col-sm-4 control-label required" for="discount_percentage">{{'Percentage of Amount to be redeemed for the coupon code '|translate}}</label>
+          <div class="col-md-5 col-sm-8" ng-class="{ 'has-error' : ((Coupon.$submitted || Coupon.discount_percentage.$touched) && (Coupon.discount_percentage.$pristine || Coupon.discount_percentage.$invalid))}">
+            <input type="number" pattern="\d*" ng-minlength="0" ng-maxlength="3" class="form-control" id="discount_percentage" min="1" max="100" name="discount_percentage" placeholder="{{'Percentage'|translate}}" ng-model="model.coupon.discount_percentage" ng-required="true">
+            <div ng-show="((Coupon.$submitted || Coupon.discount_percentage.$touched) && (Coupon.discount_percentage.$pristine || Coupon.discount_percentage.$invalid))">
+              <span class="error text-danger" ng-show="(Coupon.discount_percentage.$error.required)">{{'Required' | translate}}. </span>
+              <span class="error text-danger" ng-show="(Coupon.discount_percentage.$error.max || Coupon.discount_percentage.$error.min)">{{'Not a valid percentage' | translate}}.</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 col-sm-4 control-label required" for="discount_percentage">{{'Coupon Expire date '|translate}}</label>
+          <div class="input-group col-md-6 col-sm-8" ng-class="{ 'has-error' : ((Coupon.$submitted || Coupon.start_date.$touched) && (Coupon.start_date.$invalid))}">
+            <input type="text" id="start_date" name="start_date" class="form-control disabled" uib-datepicker-popup ng-model="model.picker1.date" is-open="popup2.opened" datepicker-options="model.picker1.datepickerOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats"
+            />
+            <div class="input-group-append">
+              <button type="button" class="input-group-text btn btn-outline-secondary" ng-click="popup2.opened = !popup1.opened"><i class="mdi mdi-calendar"></i></button>
+            </div>
+
+          </div>
+          <div class="help-block"><i>{{'Select the date from calendar.'|translate}}</i></div>
+          <div ng-show="((Coupon.$submitted || Coupon.start_date.$touched) && (Coupon.start_date.$invalid))">
+            <span class="error text-danger" ng-show="(Coupon.start_date.$error.required || Coupon.start_date.$invalid)">{{'Required' | translate}}. </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col">
+            <label class="sr-only" for="Submit">{{'Submit'|translate}}</label>
+            <button type="submit" class="btn btn-primary" id="submit" value="{{'Submit'|translate}}">{{'Submit' | translate}}</button>
+            <input type="submit" ng-model="model.NextButtonVal" class="btn btn-primary btn-course float-right" id="submit" value="{{'Submit'|translate}} {{'and'|translate}} {{'Next'|translate}}" ng-click="model.NextButtonVal = 'next'">
+          </div>
+        </div>
+      </form>
+      <div class="col-xs-12">
+        <h4>{{'Coupons'|translate}}</h4>
+        <div class="custom-table">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th class="text-center">{{'Created Date'|translate}}</th>
+                  <th class="text-center">{{'Expire Date'|translate}}</th>
+                  <th class="text-center">{{'Coupon Code' |translate}}</th>
+                  <th class="text-center">{{'Redeem Count'|translate}}</th>
+                  <th class="text-center">{{'Used Count'|translate}}</th>
+                  <th class="text-center">{{'Discount Percentage' |translate}}</th>
+                  <th class="text-center">{{'Coupon Status' |translate}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="existingCoupons in model.existingCoupons">
+                  <td class="text-center">{{existingCoupons.created}}</td>
+                  <td class="text-center">{{existingCoupons.coupon_end_date}}</td>
+                  <td class="text-center">{{existingCoupons.coupon_code}}</td>
+                  <td class="text-center">{{existingCoupons.max_number_of_time_can_use}}</td>
+                  <td class="text-center">{{existingCoupons.coupon_user_count}}</td>
+                  <td class="text-center">{{existingCoupons.discount_percentage}}%</td>
+                  <td class="text-center" ng-if="existingCoupons.is_active" ng-click="model.changeCouponStatus(0, existingCoupons.id)
+"><a href="javascript:void(0);" class="btn btn-success">{{'Active'|translate}}</a></td>
+                  <td class="text-center" ng-if="!existingCoupons.is_active" ng-click="model.changeCouponStatus(1, existingCoupons.id)
+"><a href="javascript:void(0);" class="btn btn-danger">{{'Inactive'|translate}}</a></td>
+                </tr>
+                <tr ng-if="!model.existingCoupons.length">
+                  <td colspan="7 " class="text-center text-danger ">
+                    <span class="hor-space error ">{{'No Record Found' |translate}}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- panel end -->
+    <div class="paging clearfix text-center " ng-show="model._metadata.total_records> 0">
+      <ul uib-pagination total-items="model._metadata.total_records" ng-model="model._metadata.currentPage" ng-change="paginate('#coupon')" max-size="model._metadata.maxSize" boundary-links="true" num-pages="model._metadata.noOfPages" items-per-page="model._metadata.limit"
+        first-text="{{'First'|translate}}" last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+    </div>
+  </div>
+</section>

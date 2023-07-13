@@ -1,0 +1,282 @@
+<div class="dashboard_summary">
+	<div class="row dashboard_custom_panel" ng-if="$root.oauthscopes.indexOf('canListOverview') > -1 || $root.sub_admin_id === null">
+		<div class="col-lg-3">
+			<div class="pie-chart-item-container">
+				<div class="panel panel-orange">
+					<div class="panel-body">
+						<div class="media">
+							<div class="pull-left"> <span><i class="fa fa-users fa-2x"></i> </span></div>
+							<div class="media-body">
+								<div>{{adminoverview.users}}</div>
+								<div class="description-stats">Total Customers</div>
+							</div>
+						</div>
+					</div>
+					<a class="show clearfix" ng-if="$root.oauthscopes.indexOf('canListUser') > -1 || $root.sub_admin_id === null" href='#/users/list?search={"filter":"active","isemailverified":"yes"}'>
+						<span class="pull-left">View Details</span> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3">
+			<div class="pie-chart-item-container">
+				<div class="panel panel-blue">
+					<div class="panel-body">
+						<div class="media">
+							<div class="pull-left"> <span><i class="fa fa-book fa-2x"></i> </span></div>
+							<div class="media-body">
+								<div>{{adminoverview.total_active_courses}}</div>
+								<div class="description-stats">Active Courses</div>
+							</div>
+						</div>
+					</div>
+					<a class="show clearfix" ng-if="$root.oauthscopes.indexOf('canListCourse') > -1 || $root.sub_admin_id === null" href='#/courses/list?search={"filter":"Active"}'>
+						<span class="pull-left">View Details</span> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3">
+			<div class="pie-chart-item-container">
+				<div class="panel panel-violet">
+					<div class="panel-body">
+						<div class="media">
+							<div class="pull-left"> <span><i class="fa fa-book fa-2x"></i> </span></div>
+							<div class="media-body">
+								<div>{{adminstats.course_waiting_for_approval_count}}</div>
+								<div class="description-stats">Course Waiting For Approval</div>
+							</div>
+						</div>
+					</div>
+					<a class="show clearfix" ng-if="$root.oauthscopes.indexOf('canListCourse') > -1 || $root.sub_admin_id === null" href='#/courses/list?search={"filter":"Waiting for Approval"}'>
+					<span class="pull-left">View Details</span> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3">
+			<div class="pie-chart-item-container">
+				<div class="panel panel-yellow">
+					<div class="panel-body">
+						<div class="media">
+							<div class="pull-left"> <span><i class="fa fa-shopping-cart fa-2x"></i> </span></div>
+							<div class="media-body">
+								<div>{{adminoverview.total_order}}</div>
+								<div class="description-stats">Total Orders</div>
+							</div>
+						</div>
+					</div>
+					<a class="show clearfix" ng-if="$root.oauthscopes.indexOf('canListCourseUser') > -1 || $root.sub_admin_id === null" href='#/course_users/list?search={"filter":"paid"}'>
+						<span class="pull-left">View Details</span> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3" ng-if="enabledPlugins.indexOf('CourseCheckout') > -1 || enabledPlugins.indexOf('Subscriptions') > -1">
+			<div class="pie-chart-item-container">
+				<div class="panel panel-green">
+					<div class="panel-body">
+						<div class="media">
+							<div class="pull-left"> <i class="fa fa-usd fa-2x"></i> </div>
+							<div class="media-body">
+								<div>{{adminoverview.revenue}}</div>
+								<div class="description-stats">Total Revenue</div>
+							</div>
+
+							<!--<a ng-if="$root.oauthscopes.indexOf('canListTransaction') > -1 || $root.sub_admin_id === null" href="#/transactions/list" ng-if="enabledPlugins.indexOf('CourseCheckout') > -1">
+								<div class="panel-footer"> <span class="pull-left">View Details</span> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+									<div class="clearfix"></div>
+								</div>
+							</a>-->
+						</div>
+					</div>
+					<a class="show clearfix" ng-if="$root.oauthscopes.indexOf('canListTransaction') > -1 || $root.sub_admin_id === null" href="#/transactions/list">
+						<span class="pull-left">View Details</span>
+						<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-3">
+			<div class="pie-chart-item-container">
+				<div class="panel panel-yellow">
+					<div class="panel-body">
+						<div class="media">
+							<div class="pull-left"> <span><i class="fa fa-shopping-cart fa-2x"></i> </span></div>
+							<div class="media-body">
+								<div>{{adminoverview.convert_now}}</div>
+								<div class="description-stats">Converting Now</div>
+							</div>
+						</div>
+					</div>
+					<a class="show clearfix" ng-if="$root.oauthscopes.indexOf('canListCourseUser') > -1 || $root.sub_admin_id === null" href='#/course_users/list?search={"filter":"paid"}'>
+						<span class="pull-left">View Details</span> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3">
+			<div class="pie-chart-item-container">
+				<div class="panel panel-yellow">
+					<div class="panel-body">
+						<div class="media">
+							<div class="pull-left"> <span><i class="fa fa-shopping-cart fa-2x"></i> </span></div>
+							<div class="media-body">
+								<div>{{adminoverview.convert_queue}}</div>
+								<div class="description-stats">In Queue</div>
+							</div>
+						</div>
+					</div>
+					<a class="show clearfix" ng-if="$root.oauthscopes.indexOf('canListCourseUser') > -1 || $root.sub_admin_id === null" href='#/course_users/list?search={"filter":"paid"}'>
+						<span class="pull-left">View Details</span> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3">
+			<div class="pie-chart-item-container">
+				<div class="panel panel-yellow">
+					<div class="panel-body">
+						<div class="media">
+							<div class="pull-left"> <span><i class="fa fa-shopping-cart fa-2x"></i> </span></div>
+							<div class="media-body">
+								<div>{{adminoverview.convert_failed}}</div>
+								<div class="description-stats">Convertion Failed</div>
+							</div>
+						</div>
+					</div>
+					<a class="show clearfix" ng-if="$root.oauthscopes.indexOf('canListCourseUser') > -1 || $root.sub_admin_id === null" href='#/course_users/list?search={"filter":"paid"}'>
+						<span class="pull-left">View Details</span> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3">
+			<div class="pie-chart-item-container">
+				<div class="panel panel-yellow">
+					<div class="panel-body">
+						<div class="media">
+							<div class="pull-left"> <span><i class="fa fa-shopping-cart fa-2x"></i> </span></div>
+							<div class="media-body">
+								<div>{{adminoverview.convert_total}}</div>
+								<div class="description-stats">Total Converted</div>
+							</div>
+						</div>
+					</div>
+					<a class="show clearfix" ng-if="$root.oauthscopes.indexOf('canListCourseUser') > -1 || $root.sub_admin_id === null" href='#/course_users/list?search={"filter":"paid"}'>
+						<span class="pull-left">View Details</span> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+					</a>
+				</div>
+			</div>
+		</div>		
+	</div>
+	<div class="well-sm navbar-btn list-group-item-heading"></div>
+	<div class="row" ng-if="$root.oauthscopes.indexOf('canListStat') > -1 || $root.sub_admin_id === null">
+		<div class="col-lg-8 dashboard_grid">
+			<div class="panel panel-default">
+				<div class="panel-heading clearfix">
+					<div class="col-lg-10"><i class="fa fa-line-chart"></i> Overview </div>
+					<!--<div class="col-lg-2" >
+						 {{rangeText}}
+						<div class="btn-group pull-right" uib-dropdown>
+							<a class="btn btn-sm" uib-dropdown-toggle href="">
+							  Filter
+							  <span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu" uib-dropdown-menu>
+								<li ng-repeat="range in rangeVal"><a href="#" ng-click="selectedRangeItem(range.key, range.value)">{{range.value}}</a></li>
+							</ul>
+						</div>
+					</div>-->
+				</div>
+				<div class="panel-body">
+					<ul class="list-group clearfix text-center">
+						<li class="list-group-item clearfix col-md-4 col-xs-12 col-sm-6">
+							<a ng-if="$root.oauthscopes.indexOf('canListUser') > -1 || $root.sub_admin_id === null" title="View All Users" class="pull-right" href="#/users/list"><i class="fa fa-share"></i></a>
+							<h2 class="text-primary">{{adminstats.user_register}}</h2>
+							<p>User Register</p>
+						</li>
+						<li class="list-group-item clearfix col-md-4 col-xs-12 col-sm-6">
+							<a ng-if="$root.oauthscopes.indexOf('canListUserLogin') > -1 || $root.sub_admin_id === null" title="View All Logins" class="pull-right" href="#/user_logins/list"><i class="fa fa-share"></i></a>
+							<h2 class="text-danger">{{adminstats.user_login}}</h2>
+							<p>User Login</p>
+						</li>
+						<li class="list-group-item clearfix col-md-4 col-xs-12 col-sm-6">
+							<a ng-if="$root.oauthscopes.indexOf('canListCourse') > -1 || $root.sub_admin_id === null" title="View All Courses" class="pull-right" href="#/courses/list"><i class="fa fa-share"></i></a>
+							<h2 class="text-info">{{adminstats.course_posted}}</h2>
+							<p>Course Created</p>
+						</li>
+						<li class="list-group-item clearfix col-md-4 col-xs-12 col-sm-6">
+							<a ng-if="$root.oauthscopes.indexOf('canListCourseUser') > -1 || $root.sub_admin_id === null" title="View All Bookings" class="pull-right" href='#/course_users/list?search={"filter":"paid"}'><i class="fa fa-share"></i></a>
+							<h2 class="text-warning">{{adminstats.course_bookings}}</h2>
+							<p>Course Booking</p>
+						</li>
+						<li ng-if="enabledPlugins.indexOf('CourseWishlist') > -1" class="list-group-item clearfix col-md-4 col-xs-12 col-sm-6">
+							<a ng-if="$root.oauthscopes.indexOf('canListCourseFavourite') > -1 || $root.sub_admin_id === null" title="View All Favorites" class="pull-right" href="#/course_favorites/list"><i class="fa fa-share"></i></a>
+							<h2 class="text-success">{{adminstats.course_favorites}}</h2>
+							<p>Course Favorites</p>
+
+						</li>
+						<li ng-if="enabledPlugins.indexOf('RatingAndReview') > -1" class="list-group-item clearfix col-md-4 col-xs-12 col-sm-6">
+							<a ng-if="$root.oauthscopes.indexOf('canListCourseUserFeedback') > -1 || $root.sub_admin_id === null" title="View All Feedback" class="pull-right" href="#/course_user_feedbacks/list"><i class="fa fa-share"></i></a>
+							<h2 class="text-warning">{{adminstats.course_feedbacks}}</h2>
+							<p>Course Feedbacks</p>
+						</li>
+						<li ng-if="enabledPlugins.indexOf('CourseCheckout') > -1" class="list-group-item clearfix col-md-4 col-xs-12 col-sm-6">
+							<a ng-if="$root.oauthscopes.indexOf('canListTransaction') > -1 || $root.sub_admin_id === null"  title="View All Transactions" class="pull-right" href="#/transactions/list"><i class="fa fa-share"></i></a>
+							<h2 class="text-success">{{adminstats.transactions}}</h2>
+							<p>Transactions</p>
+						</li>
+						<li ng-if="enabledPlugins.indexOf('CourseFlags') > -1" class="list-group-item clearfix col-md-4 col-xs-12 col-sm-6">
+							<a ng-if="$root.oauthscopes.indexOf('canListCourseFlag') > -1 || $root.sub_admin_id === null" title="View All Course Flags" class="pull-right" href="#/course_flags/list"><i class="fa fa-share"></i></a>
+							<h2 class="text-success">{{adminstats.course_flags}}</h2>
+							<p>Course Flags</p>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 dashboard_activities" ng-if="$root.oauthscopes.indexOf('canListActivitie') > -1  || $root.sub_admin_id === null">
+			<div class="panel panel-default">
+				<div class="panel-heading"> <i class="fa fa-clock-o"></i> Activities</div>
+				<!-- /.panel-heading -->
+				<div class="panel-body">
+					<div class="list-group">
+						<a ng-if="enabledPlugins.indexOf('Instructor') > -1 && ($root.oauthscopes.indexOf('canListCourse') > -1 || $root.sub_admin_id === null)" href='#/courses/list?search={"filter":"Waiting for Approval"}' class="list-group-item">
+						<i class="glyphicon glyphicon-education"></i> Last Course Submitted<span ng-if="adminactivities.last_course_posted != null"
+								class="pull-right text-muted small"><em>{{adminactivities.last_course_posted|timeago:timeZone}}</em></span>
+							<span class="pull-right text-muted small" ng-if="adminactivities.last_course_posted == null"> - </span>
+						</a>
+						<a ng-if="$root.oauthscopes.indexOf('canListCourseUser') > -1 || $root.sub_admin_id === null" href='#/course_users/list?search={"filter":"paid"}' class="list-group-item"> <i class="glyphicon glyphicon-usd"></i> Last Booking <span ng-if="adminactivities.last_booking != null" class="pull-right text-muted small"><em>{{adminactivities.last_booking|timeago:timeZone}}</em> </span>
+							<span class="list-group-item" ng-if="adminactivities.last_booking == null"> - </span></a>
+
+						<a ng-if="enabledPlugins.indexOf('RatingAndReview') > -1  && ($root.oauthscopes.indexOf('canListCourseUserFeedback') > -1 || $root.sub_admin_id === null)" href="#/course_user_feedbacks/list" class="list-group-item"> <i class="fa fa-comment-o"></i> New Feedback <span ng-if="adminactivities.new_feedback != null" class="pull-right text-muted small"><em>{{adminactivities.new_feedback|timeago:timeZone}}</em></span>
+							<span class="list-group-item" ng-if="adminactivities.new_feedback == null"> - </span></a>
+
+						<a ng-if="$root.oauthscopes.indexOf('canListUser') > -1 || $root.sub_admin_id === null" href='#/users/list?search={"filter":"active","isemailverified":"yes"}' class="list-group-item"> <i class="fa fa fa-user"></i> Last Register <span ng-if="adminactivities.last_register != null" class="pull-right text-muted small"><em>{{adminactivities.last_register|timeago:timeZone}}</em></span>
+							<span
+								ng-if="adminactivities.last_register == null" class="pull-right text-muted small"> - </span>
+						</a>
+
+						<a ng-if="$root.oauthscopes.indexOf('canListUserLogin') > -1 || $root.sub_admin_id === null" href="#/user_logins/list" class="list-group-item"> <i class="fa fa-user-plus"></i> Last User Login <span ng-if="adminactivities.last_user_login != null" class="pull-right text-muted small"><em>{{adminactivities.last_user_login|timeago:timeZone}}</em></span>
+							<span class="list-group-item" ng-if="adminactivities.last_user_login == null"> - </span></a>
+
+						<a ng-if="$root.oauthscopes.indexOf('canListCourseFavourite') > -1 || $root.sub_admin_id === null" ng-if="enabledPlugins.indexOf('CourseWishlist') > -1" href="#/course_favorites/list" class="list-group-item"> <i class="fa fa-heart"></i> Course Favorites<span ng-if="adminactivities.last_wishlist != null" class="pull-right text-muted small"><em>{{adminactivities.last_wishlist|timeago:timeZone}}</em></span>
+							<span
+								class="list-group-item" ng-if="adminactivities.last_wishlist == null"> - </span>
+						</a>
+					</div>
+					<!-- /.list-group -->
+					<!-- /.panel-body -->
+				</div>
+			</div>
+			<div class="navbar-btn "></div>
+
+			<div class="navbar-btn "></div>
+		</div>
+		<div class="navbar-btn "></div>
+	</div>
+</div>
+
+</div>

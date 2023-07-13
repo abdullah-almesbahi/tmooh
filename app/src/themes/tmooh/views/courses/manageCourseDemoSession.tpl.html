@@ -1,0 +1,314 @@
+<section class="clearfix schedule" ng-show="model.loading === false">
+    <div class="container pb-3">
+        <course-navbar></course-navbar>
+        <div class="tab-content col-12" ng-if="model.loading === false">
+            <div class="card shadow  bg-white" id="coupon">
+                <div class="card-body well-sm">
+                    <div class="text-center">
+                        <h3 class="text-default">{{'Demo Schedule'|translate}}</h3>
+                        <p>{{'List, Create and Edit a schedule and share to your student.'|translate}}</p>
+                    </div>
+                </div>
+                <div class="navbar-default clearfix">
+                    <div class="mb15 clearfix">
+                        <!--Demo listing actions-->
+                        <span ng-if="model.demo_action === 'list'">
+                            <div class="float-right" >
+                            <label class="sr-only" for="user_profile_save">{{'Create'|translate}}</label>
+                            <input type="button" class="btn btn-primary" id="user_profile_save" value="{{'Create'|translate}}" ng-click="model.createDemoInit();"
+                                ng-disabled="model.user_paid_agree == false">
+                        </div>
+                        <div class="float-right" >
+                            <div class="dropdown sort-option btn btn-outline-secondary hor-smspace">{{'Sort'|translate}} :
+                                <a href="" class="dropdown" data-toggle="dropdown" ng-if="model.currentSort == null">SortBy <i class="mdi-18px mdi mdi-chevron-down fa-fw"></i></a>
+                                <a href="" class="dropdown" data-toggle="dropdown" ng-if="model.currentSort == 'all'">{{'ALL'|translate}}<i class="mdi-18px mdi mdi-chevron-down fa-fw"></i></a>
+                                <a href="" class="dropdown" data-toggle="dropdown" ng-if="model.currentSort == 'online'">{{'Online'|translate}}<i class="mdi-18px mdi mdi-chevron-down fa-fw"></i></a>
+                                <a href="" class="dropdown" data-toggle="dropdown" ng-if="model.currentSort == 'onsite'">{{'Onsite'|translate}} <i class="mdi-18px mdi mdi-chevron-down fa-fw"></i></a>
+                                <ul class="dropdown-menu text-left">
+                                    <li>
+                                        <a href="" ng-click="model.sort('all')"> <span>{{'ALL'|translate}}</span>                        </a>
+                        </li>
+                        <li>
+                            <a href="" ng-click="model.sort('online')"> <span>{{'Online'|translate}}</span> </a>
+                        </li>
+                        <li>
+                            <a href="" ng-click="model.sort('onsite')"> <span>{{'Onsite'|translate}}</span> </a>
+                        </li>
+                        </ul>
+                    </div>
+                </div>
+                </span>
+
+                <div class="float-right">
+                    <a class="btn btn-primary" href="" title="Back" ng-if="model.demo_action === 'add' || model.demo_action === 'edit'" ng-click="model.demo_action = 'list';">
+                        <i class="mdi-18px mdi mdi-chevron-left"></i> {{'Back' | translate}}</a>
+                </div>
+            </div>
+            <div ng-if="model.demo_action === 'list'">
+                <div class="custom-table">
+                    <div class="table-course table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">{{'Actions'|translate}}</th>
+                                    <th class="text-center">{{'Start Date- End Date-Time'|translate}}</th>
+                                    <th class="text-center">{{'Type'|translate}}</th>
+                                    <th class="text-center">{{'URL'|translate}}</th>
+                                    <th class="text-center">{{'Address'|translate}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="demosession_list in  model.demosession_list">
+                                    <td class="text-center">
+                                        <a href="#" ng-click="EditDemoSession(demosession_list.id,$index)"><i class="mdi-18px mdi mdi-pencil" aria-hidden="true"></i></a>
+                                        <a href="#" ng-click="DeleteDemoSession(demosession_list.id)"><i class="mdi-18px mdi mdi-delete" aria-hidden="true"></i></a>
+                                    </td>
+                                    <td class="text-center">{{demosession_list.session_start_date}} - {{demosession_list.session_end_date }}
+                                    </td>
+                                    <td class="text-center">
+                                        <span ng-if="demosession_list.type === 'online'">{{'Instructor-Led Live Online Training' | translate}}
+</span>
+                                        <span ng-if="demosession_list.type === 'onsite'">{{'Instructor-Led Live Onsite Training' | translate}}
+</span>
+
+                                    </td>
+                                    <td class="text-center">
+                                        <span ng-if="demosession_list.webinar_url !== undefined && demosession_list.webinar_url !== null"><a href="" class="btn btn-success btn-xs" ng-click="OpenWebinarWindow(demosession_list.webinar_url)">{{'Launch Meeting' | translate}}</a><span>
+                                                    <span ng-if="demosession_list.webinar_url === undefined || demosession_list.webinar_url === null"></span>
+                                    </td>
+                                    <td class="text-center">{{demosession_list.address}}</td>
+                                </tr>
+                                <tr ng-if="!model.demosession_list.length">
+                                    <td colspan="4" class="text-center">
+                                        <span class="hor-space error">{{'No Record Found' |translate}}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="paging clearfix text-center" ng-show="    model._metadata.total_records > 0 && model.demosession_list.length">
+                        <ul uib-pagination total-items="model._metadata.total_records" ng-model="model.currentPage" ng-change="model.paginate('#webinarcourse_list')"
+                            max-size="model._metadata.maxSize" boundary-links="true" num-pages="model._metadata.noOfPages" items-per-page="model._metadata.limit"
+                            first-text="{{'First'|translate}}" last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}"
+                            previous-text="{{'Previous'|translate}}"></ul>
+                    </div>
+                    <!--Condition for led live,led onsite next button and plugin enabled checking -->
+                    <span class="next-button">
+                                 <a ng-if="model.course.coursetype.onsite === true && !model.course.coursetype.online && $root.settings['site.enabled_plugins'].indexOf('OfflineCourse') > -1" ui-sref="manageOfflineCourse({id: course_id})"  class="btn btn-primary btn-course float-right">&nbsp; {{'Next'|translate}}</a>
+                                  <a ng-if="((model.course.coursetype.online === true && model.course.coursetype.onsite === true) || (model.course.coursetype.online === true && !model.course.coursetype.onsite) && ($root.settings['site.enabled_plugins'].indexOf('WebinarCourses') > -1))" ui-sref="manageWebinarCourse({id: course_id})"  class="btn btn-primary btn-course float-right">&nbsp; {{'Next'|translate}}</a>
+                            </span>
+
+                </div>
+            </div>
+            <div class="create-classes" ng-if="model.demo_action === 'add'">
+                <h4>{{'Create a demo class'|translate}}</h4>
+                <form role="form" class="form-horizontal form-addon" name="AddDemoSession" ng-submit="model.addCourseDemoSession(AddDemoSession.$valid,AddDemoSession)"
+                    novalidate>
+                    <div>
+                        <span ng-if="model.showcourseType === true">
+                                    <input type="radio" name="type" value="online" ng-model="demo_session.type"> {{'Instructor-Led Live Online Training' | translate}}
+                                    <input type="radio" name="type" value="onsite" ng-model="demo_session.type"> {{'Instructor-Led Live Onsite Training' | translate}}
+                            </span>
+                        <div class="row" ng-if="demo_session.type === 'onsite'">
+                            <div class="col-md-12">
+                                <label class="control-label required">{{'Address'|translate}}</label>
+                                <div ng-class="{ 'has-error' : ((AddDemoSession.$submitted || AddDemoSession.location.$touched) && (AddDemoSession.location.$invalid))}">
+                                    <input class="form-control" type="text" name="location" ng-model="model.place" g-places-autocomplete placeholder="{{'Address'|translate}}"
+                                        required autocomplete="off" ng-required="true">
+                                </div>
+                                <div ng-show="((AddDemoSession.$submitted || AddDemoSession.location.$touched) && (AddDemoSession.location.$invalid))">
+                                    <div class="text-danger error" ng-show="(AddDemoSession.location.$error.required)">{{'Required'|translate}}.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-if="demo_session.type === 'online'">
+                            <div class="col-md-12">
+                                <label class="control-label required">{{'Webinar URL'|translate}}</label>
+                                <div ng-class="{ 'has-error' : ((AddDemoSession.$submitted || AddDemoSession.lesson_web_url.$touched) && (AddDemoSession.lesson_web_url.$invalid))}">
+                                    <input type="url" class="form-control" ng-model="demo_session.webinar_url" name="lesson_web_url" id="lesson_web_url" ng-required="true">
+                                </div>
+                                <span class="help-block"><i>{{'Enter your Webinar URL start with http:// or https://.'|translate}}</i></span>
+                                <div ng-show="((AddDemoSession.$submitted || AddDemoSession.lesson_web_url.$touched) && (AddDemoSession.lesson_web_url.$pristine || AddDemoSession.lesson_web_url.$invalid))">
+                                    <div class="text-danger error" ng-show="(AddDemoSession.lesson_web_url.$error.required)">{{'Required'|translate}}.
+                                    </div>
+                                    <div class="text-danger error" ng-show="(AddDemoSession.lesson_web_url.$error.url)">{{'URL is invalid'|translate}}.
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="control-label required">{{'Timezone'|translate}}</label>
+                                    <div ng-class="{ 'has-error' : ((AddDemoSession.$submitted || AddDemoSession.time_zones.$touched) && (AddDemoSession.time_zones.$pristine || AddDemoSession.time_zones.$invalid))}">
+                                        <select name="time_zones" id="time_zones" class="form-control" ng-model="demo_session.timezone_id" ng-options="timezone_list.id as timezone_list.name for timezone_list in  model.timezone_lists"
+                                            ng-required="true">
+									<option value="">{{'Please Select' | translate}}</option></select>
+                                    </div>
+                                    <div ng-show="((AddDemoSession.$submitted || AddDemoSession.time_zones.$touched) && (AddDemoSession.time_zones.$pristine || AddDemoSession.time_zones.$invalid))">
+                                        <span class="error text-danger" ng-show="((AddDemoSession.$submitted || AddDemoSession.time_zones.$touched) && (AddDemoSession.time_zones.$pristine || AddDemoSession.time_zones.$invalid || AddDemoSession.time_zones.$error.required))">{{'Required' | translate }}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label class="control-label required">{{'Date'|translate}}</label>
+                                    <div ng-class="{ 'has-error' : (((AddDemoSession.$submitted || AddDemoSession.session_date.$touched) && (AddDemoSession.session_date.$invalid)))}">
+                                        <div class="input-group">
+                                            <input type="text" id="session_date" name="session_date" class="form-control datepickerdisabled" uib-datepicker-popup="dd MMM yyyy"
+                                                ng-model="model.demopicker.date" is-open="startpopup2.opened" datepicker-options="model.demopicker.datepickerOptions"
+                                                ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                                            <div class="buton-addon">
+                                                <button type="button" class="btn btn-outline-secondary" ng-click="startpopup2.opened = !popup1.opened"><i class="mdi mdi-calendar"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="help-block"><i>{{'Select the date and time from calendar.'|translate}}</i></span>
+                                    <span ng-show="((AddDemoSession.$submitted || AddDemoSession.session_date.$touched) && (AddDemoSession.session_date.$pristine || AddDemoSession.session_date.$invalid))">
+													<div class="error text-danger" ng-show="((AddDemoSession.session_date.$error.required || AddDemoSession.session_date.$invalid))">{{'Required' | translate}} </div>
+												</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="control-label  required">{{'Start Time'|translate}}</label>
+                                    <div ng-class="{ 'has-error' : (AddDemoSession.$submitted || AddDemoSession.start_session_time.$touched) && (AddDemoSession.start_session_time.$invalid)}">
+                                        <input class="form-control" type="time" name="start_session_time" ng-model="model.demopicker.start_session_time" required autocomplete="off"
+                                            ng-required="true" ng-disabled="model.demopicker.date === undefined" placeholder="HH:MM">
+                                    </div>
+                                    <div ng-show="((AddDemoSession.$submitted || AddDemoSession.start_session_time.$touched) && (AddDemoSession.start_session_time.$pristine || AddDemoSession.start_session_time.$invalid))">
+                                        <span class="error text-danger" ng-show="((AddDemoSession.$submitted || AddDemoSession.start_session_time.$touched) && (AddDemoSession.start_session_time.$pristine || AddDemoSession.start_session_time.$invalid || AddDemoSession.start_session_time.$error.required))">{{'Required' | translate }}</span>                                        </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="control-label  required">{{'End Time'|translate}}</label>
+                                    <div ng-class="{ 'has-error' : (AddDemoSession.$submitted || AddDemoSession.session_time.$touched) && (AddDemoSession.session_time.$invalid)}">
+                                        <input class="form-control" type="time" name="session_time" ng-model="model.demopicker.end_session_time" required autocomplete="off"
+                                            ng-required="true" ng-disabled="model.demopicker.date === undefined" placeholder="HH:MM">
+                                    </div>
+                                    <div ng-show="((AddDemoSession.$submitted || AddDemoSession.session_time.$touched) && (AddDemoSession.session_time.$pristine || AddDemoSession.session_time.$invalid))">
+                                        <span class="error text-danger" ng-show="((AddDemoSession.$submitted || AddDemoSession.session_time.$touched) && (AddDemoSession.session_time.$pristine || AddDemoSession.session_time.$invalid || AddDemoSession.session_time.$error.required))">{{'Required' | translate }}</span>                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="mt10">
+                                    <label class="sr-only" for="submit">{{'Create'|translate}}</label>
+                                    <button type="submit" class="btn btn-primary" ng-disabled="model.demo_disableButton" id="submit">
+										<span ng-hide="model.demo_disableButton">{{'Create'|translate}}</span>
+										<span ng-show="model.demo_disableButton">{{'Creating'|translate}}</span>
+										</button>
+                                </div>
+                            </div>
+                        </div>
+                </form>
+                </div>
+            </div>
+            <div class="create-classes  clearfix" ng-if="model.demo_action === 'edit'">
+                <h4>{{'Edit a demo class'|translate}}&nbsp;&nbsp;<span class="error" ng-if="model.edit_demo_detail.demo_expired === true">({{'Schedule Expired' | translate}}) &nbsp;<i class="mdi-18px mdi mdi-help-circle" aria-hidden="true" tooltip-placement="left" tooltip-animation="false" uib-tooltip="{{ConstToolTipContent.DemoExpired}}"></i></span></h4>
+                <form role="form" class="form-horizontal form-addon" name="EditDemoSession" ng-submit="model.editCourseDemoSession(EditDemoSession.$valid,EditDemoSession)"
+                    novalidate>
+                    <div class="row" ng-if="model.edit_demo_detail.type === 'onsite'">
+                        <div class="col-md-12">
+                            <label class="control-label required">{{'Address'|translate}}</label>
+                            <div ng-class="{ 'has-error' : ((EditDemoSession.$submitted || EditDemoSession.location.$touched) && (EditDemoSession.location.$invalid))}">
+                                <input class="form-control" type="text" name="location" ng-model="model.edit_demo_detail.address" g-places-autocomplete placeholder="{{'Address'|translate}}"
+                                    required autocomplete="off" ng-required="true" ng-disabled=" model.edit_demo_detail.demo_expired === true">
+                            </div>
+                            <div ng-show="((EditDemoSession.$submitted || EditDemoSession.location.$touched) && (EditDemoSession.location.$invalid))">
+                                <div class="text-danger error" ng-show="(EditDemoSession.location.$error.required)">{{'Required'|translate}}.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="model.edit_demo_detail.type === 'online'">
+                        <div class="col-md-12">
+                            <label class="control-label required">{{'Webinar URL'|translate}}</label>
+                            <div ng-class="{ 'has-error' : ((EditDemoSession.$submitted || EditDemoSession.lesson_web_url.$touched) && (EditDemoSession.lesson_web_url.$invalid))}">
+                                <input type="url" class="form-control" ng-model="model.edit_demo_detail.webinar_url" name="lesson_web_url" id="lesson_web_url"
+                                    ng-required="true" ng-disabled=" model.edit_demo_detail.demo_expired === true">
+                            </div>
+                            <span class="help-block"><i>{{'Enter your Webinar URL start with http:// or https://.'|translate}}</i></span>
+                            <div ng-show="((EditDemoSession.$submitted || EditDemoSession.lesson_web_url.$touched) && ( EditDemoSession.lesson_web_url.$invalid))">
+                                <div class="text-danger error" ng-show="(EditDemoSession.lesson_web_url.$error.required)">{{'Required'|translate}}.
+                                </div>
+                                <div class="text-danger error" ng-show="(EditDemoSession.lesson_web_url.$error.url)">{{'URL is invalid'|translate}}.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="control-label required">{{'Timezone'|translate}}</label>
+                                <div ng-class="{ 'has-error' : ((EditDemoSession.$submitted || EditDemoSession.time_zones.$touched) && ( EditDemoSession.time_zones.$invalid))}">
+                                    <select name="time_zones" id="time_zones" class="form-control" ng-model="model.edit_demo_detail.timezone_id" ng-options="timezone_list.id as timezone_list.name for timezone_list in  model.timezone_lists"
+                                        ng-required="true" ng-disabled=" model.edit_demo_detail.demo_expired === true">
+                            <option value="">{{'Please Select' | translate}}</option></select>
+                                </div>
+                                <div ng-show="((EditDemoSession.$submitted || EditDemoSession.time_zones.$touched) && ( EditDemoSession.time_zones.$invalid))">
+                                    <span class="error text-danger" ng-show="((EditDemoSession.$submitted || EditDemoSession.time_zones.$touched) && ( EditDemoSession.time_zones.$invalid || EditDemoSession.time_zones.$error.required))">{{'Required' | translate }}</span>                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="control-label required">{{'Date'|translate}}</label>
+                                <div ng-class="{ 'has-error' : (((EditDemoSession.$submitted || EditDemoSession.session_date.$touched) && (EditDemoSession.session_date.$invalid)))}">
+                                    <div class="input-group">
+                                        <input type="text" id="session_date" name="session_date" class="form-control datepickerdisabled" uib-datepicker-popup="dd MMM yyyy"
+                                            ng-model="model.edit_demopicker.date" is-open="startpopup2.opened" datepicker-options="model.edit_demopicker.datepickerOptions"
+                                            ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                                        <div class="buton-addon">
+                                            <button type="button" class="btn btn-outline-secondary" ng-click="startpopup2.opened = !popup1.opened" ng-disabled=" model.edit_demo_detail.demo_expired === true"><i class="mdi mdi-calendar" ></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="help-block"><i>{{'Select the date and time from calendar.'|translate}}</i></span>
+                                <span ng-show="((EditDemoSession.$submitted || EditDemoSession.session_date.$touched) && ( EditDemoSession.session_date.$invalid))">
+                                            <div class="error text-danger" ng-show="((EditDemoSession.session_date.$error.required || EditDemoSession.session_date.$invalid))">{{'Required' | translate}} </div>
+                                        </span>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="control-label  required">{{'Start Time'|translate}}</label>
+                                <div ng-class="{ 'has-error' : (EditDemoSession.$submitted || EditDemoSession.session_time.$touched) && (EditDemoSession.session_time.$invalid)}">
+                                    <input class="form-control" type="time" name="session_time" ng-model="model.edit_demopicker.start_session_time" required
+                                        autocomplete="off" ng-required="true" ng-disabled="model.edit_demopicker.date === undefined ||  model.edit_demo_detail.demo_expired === true" placeholder="HH:MM">
+                                </div>
+                                <div ng-show="((EditDemoSession.$submitted || EditDemoSession.session_time.$touched) && ( EditDemoSession.session_time.$invalid))">
+                                    <span class="error text-danger" ng-show="((EditDemoSession.$submitted || EditDemoSession.session_time.$touched) && (EditDemoSession.session_time.$invalid || EditDemoSession.session_time.$error.required))">{{'Required' | translate }}</span>                                    </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="control-label  required">{{'End Time'|translate}}</label>
+                                <div ng-class="{ 'has-error' : (EditDemoSession.$submitted || EditDemoSession.session_time.$touched) && (EditDemoSession.session_time.$invalid)}">
+                                    <input class="form-control" type="time" name="end_session_time" ng-model="model.edit_demopicker.end_session_time" required
+                                        autocomplete="off" ng-required="true" ng-disabled="model.edit_demopicker.date === undefined ||  model.edit_demo_detail.demo_expired === true" placeholder="HH:MM">
+                                </div>
+                                <div ng-show="((EditDemoSession.$submitted || EditDemoSession.end_session_time.$touched) && ( EditDemoSession.end_session_time.$invalid))">
+                                    <span class="error text-danger" ng-show="((EditDemoSession.$submitted || EditDemoSession.end_session_time.$touched) && ( EditDemoSession.end_session_time.$invalid || EditDemoSession.end_session_time.$error.required))">{{'Required' | translate }}</span>                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="model.edit_demo_detail.demo_expired !== true">
+                        <div class="col-sm-9">
+                            <div class="mt10">
+                                <label class="sr-only" for="submit">{{'Update'|translate}}</label>
+                                <button type="submit" class="btn btn-primary" ng-disabled="model.edit_demo_disableButton" id="submit">
+                                <span ng-hide="model.edit_demo_disableButton">{{'Update'|translate}}</span>
+                                <span ng-show="model.edit_demo_disableButton">{{'Updating'|translate}}</span>
+                                </button>
+                                <input type="button" class="btn btn-primary" value="{{'Cancel'|translate}}" ng-click="model.demo_action  = 'list';" ng-if="model.demo_action  === 'edit'">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+</section>

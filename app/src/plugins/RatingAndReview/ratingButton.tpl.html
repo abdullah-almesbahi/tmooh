@@ -1,0 +1,9 @@
+<a ng-href="/course-rating/{{rating_id}}" ng-click="rateCourseClick($event)" title="{{model.averageRating}} stars out of 5"  ng-class="{'btn btn-lg btn-outline-secondary btn-block' : model.btnstyle == 'buttonwithstar', 'btn btn-outline-secondary' : model.btnstyle == 'buttonwithsmallstar', 'text-muted' : model.btnstyle == 'text'}" >
+<i class="mdi-18px mdi mdi-star text-muted" ng-if="model.btnstyle == 'buttonwithstar' || model.btnstyle == 'buttonwithsmallstar'" ng-class="{'text-danger':model.averageRating >= 1}">
+</i>
+<i class="mdi-18px mdi mdi-star text-muted" ng-if="model.btnstyle == 'buttonwithstar' || model.btnstyle == 'buttonwithsmallstar'" ng-class="{'text-danger':model.averageRating >= 2}"></i>
+<i class="mdi-18px mdi mdi-star text-muted" ng-if="model.btnstyle == 'buttonwithstar' || model.btnstyle == 'buttonwithsmallstar'" ng-class="{'text-danger':model.averageRating >= 3}"></i>
+<i class="mdi-18px mdi mdi-star text-muted" ng-if="model.btnstyle == 'buttonwithstar' || model.btnstyle == 'buttonwithsmallstar'" ng-class="{'text-danger':model.averageRating >= 4}"></i>
+<i class="mdi-18px mdi mdi-star text-muted" ng-if="model.btnstyle == 'buttonwithstar' || model.btnstyle == 'buttonwithsmallstar'" ng-class="{'text-danger':model.averageRating >= 5}"></i>
+<i ng-if="model.btnstyle == 'button'">&nbsp;</i>
+<span ng-class="{'text-info' : model.btnstyle == 'buttonwithstar' ||  model.btnstyle == 'buttonwithsmallstar', 'text-primary':model.btnstyle == 'text','text-white':model.btnstyle == 'text-white'}">{{model.btntext}}</span></a>

@@ -1,0 +1,153 @@
+<div class="media">
+    <a href="#" class="float-left">
+        <img src="assets/img/teaching-skills.png" alt="[Image: Teaching-skills]" title="Teaching-skills" class="img-fluid">
+    </a>
+    <div class="media-body">
+        <div class="clearfix">
+            <div class="float-left">
+                <div class="media-heading">
+                    {{'Instructor-Led live Onsite training' | translate}}
+                </div>
+                <div class="text-center" ng-if="model.offline_batch_listing.length > 0 && !model.loader">
+                    <a href="#" class="text-traning" ng-click="modalOfflineBatch($event)">{{' Click here for more details...' | translate}}</a>
+                </div>
+                <div class="text-center" ng-if="!model.offline_batch_listing.length && !model.loader">
+                    <a href="#" class="text-traning text-danger">{{'No batches available.' | translate}}</a>
+                </div>
+                <div class="text-center" ng-if="model.loader">
+                    <div ng-include src="'common/loader.tpl.html'" ng-show="model.loader"></div>
+                </div>
+
+            </div>
+            <div class="float-right" ng-if="model.demosession_data.length > 0 && $root.isAuth === true">
+                <ul class="list-inline">
+                    <li>
+                        <a href="#" ng-click="modalDemoShow($event)" title="Demo schedule" class="btn btn-success">{{'Demo' | translate}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="src/plugins/OfflineCourse/offlineBatch_model.tpl.html">
+    <div class="" ng-class="{'container': currentPageType === 'page'}">
+        <div class="center-form" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+            <div class="modal-login">
+                <div class="panel-heading clearfix">
+                    <h3 class="text-center"> {{model.title}} - {{'Instructor-Led Live Onsite Training'|translate}}
+                        <a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose float-right">X</a>
+                    </h3>
+                </div>
+            </div>
+            <div class="modal-scroll">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6" ng-repeat="(key,value) in model.offline_batch_listing">
+                            <div class="custom-batch">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading clearfix">
+                                        <div class="media">
+                                            <div class="float-left">
+                                                <ul class="list-unstyled gray-bg">
+                                                    <li>{{value.start_batch_month}}</li>
+                                                    <li class="text-20">{{value.start_batch_date}}</li>
+                                                    <li>{{value.start_batch_day}}</li>
+                                                </ul>
+                                            </div>
+                                            <div class="media-body">
+                                                <h4>Batch{{$index+1}}</h4>
+                                                <p>{{value.start_batch_month}} {{value.start_batch_date}} to {{value.end_batch_month}} {{value.end_batch_date}}</p>
+                                                <div class="price-txt text-danger"><strong>
+																				<amount-display amount='{{value.course_batche_price}}' ng-if="value.course_batche_price" fraction='2' is-course-price='yes' tier-id='{{value.course_batche_tier_id}}'>
+																				</strong></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ul class="card-body list-unstyled" ng-repeat="(month,sessions) in value.notifications">
+                                        <li>
+                                            <div class="float-left">{{month}}</div>
+                                            <ul class="list-inline">
+                                                {{sessions.days}}
+                                                <li class="text-center batch-popover" ng-repeat="day in sessions[0].days">
+                                                <a href="" popover-placement="right" uib-popover-html="'<h6><b>Start Time</b></h6>{{day.time}} ({{day.timezone}}) <span class=timezone-label>{{day.user_start_time}} {{day.user_timezone}}</span> <h6><b>End Time</b></h6>{{day.end_time}} ({{day.timezone}}) <span class=timezone-label>{{day.user_end_time}} {{day.user_timezone}}</span>  <h6> <b>Description<b></h6> <span>{{day.description}}</span>'"  popover-title="{{day.topic}}" popover-trigger="focus"><span class="date" >{{day.date}}</span><span class="show text-right">{{day.day}}</span></a>
+                                                    </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix text-center">
+                                        <cart-buttons position="batchlist" type="enroll" user-id="{{model.userId}}" batch-price='{{value.course_batche_price}}' course-batch-id='{{value.id}}' course-id='{{model.courseId}}' ng-if='value.id' slug='{{model.slug}}' course-type='offline' batch-pruchased='{{value.pruchased}}'></cart-buttons>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+    </div>
+</script>
+
+
+
+<script type="text/ng-template" id="src/plugins/OfflineCourse/offlineDemoBatch_model.tpl.html">
+    <div class="" ng-class="{'container': currentPageType === 'page'}">
+        <div class="center-form" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+            <div class="modal-login">
+                <div class="panel-heading clearfix">
+                    <h3 class="text-center"> {{model.title}} - {{'Instructor-Led Live Onsite Training Demo Schedule'|translate}}
+                        <a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose float-right">X</a>
+                    </h3>
+                </div>
+            </div>
+            <div class="modal-scroll">
+                <div class="card-body">
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6" ng-repeat="(key,value) in model.demosession_data">
+                                <div class="custom-batch">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading clearfix">
+                                            <div class="media">
+                                                <div class="float-left">
+                                                    <ul class="list-unstyled gray-bg">
+                                                        <li>{{value.start_batch_month}}</li>
+                                                        <li class="text-20">{{value.start_batch_date}}</li>
+                                                        <li>{{value.start_batch_day}}</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="media-body">
+                                                    <h4>Batch{{$index+1}}</h4>
+                                                    <p><b>Start Time:</b> {{value.session_time}}&nbsp;({{value.utc_offset}}) <span class="timezone-label timezone-label1">{{value.user_start_session_time}} {{value.user_timezone}}</span></p>
+                                                    <p><b>End Time:</b> {{value.end_session_time}} &nbsp;({{value.utc_offset}}) <span class="timezone-label timezone-label1">{{value.user_end_session_time}} {{value.user_timezone}}</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <ul class="card-body list-unstyled">
+                                            <li>
+                                                <div class="float-left"><b>Address</b>:</div><br><br>
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        {{value.address}}
+                                                </ul>
+                                                </li>
+                                                <li>
+
+                                                </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</script>

@@ -1,0 +1,136 @@
+<div class="panel custom-panel">
+  <div class="container">
+    <div class="bot-space">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/user_cash_withdrawals" class="text-primary">{{'Home'|translate}}</a></li>
+          <li class="breadcrumb-item active"> <a href="/users/purchase-history">{{'Purchase History'|translate}}</a></li>
+        </ol>
+      </nav>
+      <h3 class="no-mar">{{'Purchase History'|translate}}</h3>
+      <p class="navbar-btn">{{'List of order you have placed.'|translate}}</p>
+    </div>
+  </div>
+</div>
+
+<div class="container mb-4">
+  <div class="card shadow-sm mt-3">
+    <div class="card-body">
+      <h3>{{'Purchase History'|translate}}</h3>
+      <div class="custom-table">
+        <div class="table-responsive" id="transactions_list">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>
+                  <h5>{{'Payment Mode'|translate}}</h5>
+                </th>
+                <th>
+                  <h5>{{'Date'|translate}}</h5>
+                </th>
+                <th>
+                  <h5>{{'Order ID'|translate}}</h5>
+                </th>
+                <th>
+                  <h5>{{'Total Amount'|translate}}</h5>
+                </th>
+                <th>
+                  <h5>{{'Invoice Number'|translate}}</h5>
+                </th>
+                <th>
+                  <h5 class="space-normal">{{'Actions'|translate}}
+                      <i class="mdi-18px mdi mdi-information-outline" data-trigger="hover" tooltip-placement="auto" uib-tooltip="{{ConstToolTipContent.RefundInformation}}"></i>
+                  </h5>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="history in  purchase_histories" ng-if="purchase_histories.length > 0 && !model.loader">
+                <td class="purchase-receipt"> <span class="payment-label">{{history.payment_mode}}</span></td>
+                <td>{{history.created}}</td>
+                <td>{{history.id}}</td>
+                <td>
+                  <amount-display amount='{{history.amount}}' fraction='2' is-course-price='no' ng-if="history.amount"></amount-display>
+                </td>
+                <td>{{history.invoice_number}}</td>
+                <td>
+                  <a href="" class="btn btn-primary navbar-btn" ng-click="openReceiptModel(history)"><i class="mdi-18px mdi mdi-file-document" aria-hidden="true"></i>
+                    {{'Receipt'|translate}}
+                  </a>
+                </td>
+              </tr>
+              <td colspan="12" ng-show="model.loader">
+                <div ng-include src="'common/loader.tpl.html'"></div>
+              </td>
+              <tr ng-if="!purchase_histories.length && !model.loader">
+                <td colspan="5 " class="text-center text-danger ">
+                  <span class="hor-space error">{{'No Record Found' |translate}}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="paging clearfix text-center " ng-if="_metadata.noOfPages > 1">
+          <ul uib-pagination total-items="_metadata.total_records" ng-model="currentPage" ng-change="paginate('#purchase')" max-size="_metadata.maxSize" boundary-links="true" num-pages="_metadata.noOfPages" items-per-page="_metadata.limit" first-text="{{'First'|translate}}"
+            last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="card shadow-sm mt-3">
+    <div class="card-body">
+      <!--REFUNDED PURCHASE HISTORY-->
+      <h3 class="no-mar">{{'Refunds'|translate}}</h3>
+      <div class="custom-table">
+        <div class="table-responsive" id="refund_history_list">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>
+                  <h5>{{'Refunded Date'|translate}}</h5>
+                </th>
+                <th>
+                  <h5>{{'Purchased Date'|translate}}</h5>
+                </th>
+                <th>
+                  <h5>{{'Course Name'|translate}}</h5>
+                </th>
+                <th>
+                  <h5>{{'Course Type'|translate}}</h5>
+                </th>
+                <th>
+                  <h5>{{'Amount'|translate}} {{$root.settings['site.currency_symbol']}}</h5>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="refund_history in  refund_purchase_histories" ng-if="refund_purchase_histories.length > 0 && !model.refund_loader">
+                <td class="text-center">{{refund_history.refunded_date}}</td>
+                <td class="text-center">{{refund_history.booked_date}}</td>
+                <td class="text-center">{{refund_history.course_title}}</td>
+                <td class="text-center">{{refund_history.course_type}}</td>
+                <td class="text-center">
+                  <amount-display amount='{{refund_history.price}}' fraction='2' is-course-price='no' ng-if="refund_history.price"></amount-display>
+                </td>
+              </tr>
+              <td colspan="12" ng-show="model.refund_loader">
+                <div ng-include src="'common/loader.tpl.html'"></div>
+              </td>
+              <tr ng-if="!refund_purchase_histories.length && !model.refund_loader">
+                <td colspan="5" class="text-center text-danger">
+                  <span class="hor-space error">{{'No Record Found' |translate}}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="paging clearfix text-center" ng-show="refund_metadata.total_records > 0 && refund_purchase_histories.length">
+          <ul uib-pagination total-items="refund_metadata.total_records" ng-model="refund_currentPage" ng-change="paginate('#refund_history_list')" max-size="refund_metadata.maxSize" boundary-links="true" num-pages="refund_metadata.noOfPages" items-per-page="refund_metadata.limit"
+            first-text="{{'First'|translate}}" last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

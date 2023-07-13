@@ -1,0 +1,115 @@
+<div>
+	<div ng-if="model.style === 'listInline'">
+		<ul class="list-inline list-group-item-text float-right">
+			<!-- if both payment and cart plugin && subscription plugin disabled , now all courses will be free of access and course should not be mooc affliated -->
+			<li ng-if="$root.settings['site.enabled_plugins'].indexOf('CourseBulkCheckout') === -1 && $root.settings['site.enabled_plugins'].indexOf('CourseCheckout') === -1 && !model.btnLink && ($root.auth.id !== model.userId)">
+				<div class="navbar-btn">
+					<a href="#" ng-click="model.startLearnCourse($event, paidStatus)" title="{{'Start Learning Now'|translate}}" class="btn btn-success">{{'Start Learning Now'|translate}}</a>
+				</div>
+			</li>
+
+			<!-- coursecheckout disabled and cart plugin enabled course should not be mooc affliated-->
+
+			<li ng-if="$root.settings['site.enabled_plugins'].indexOf('CourseBulkCheckout') > -1 && $root.settings['site.enabled_plugins'].indexOf('CourseCheckout') === -1 && !model.btnLink && ($root.auth.id !== model.userId)">
+				<!-- payment cart plugin eneabled -->
+				<!-- If not logged in -->
+				<div ng-if="!$root.isAuth" class="navbar-btn">
+					<a href="#" ng-click="model.startLearnCourse($event, '')" title="{{'Start Learning Now'|translate}}" class="btn btn-success"
+						ng-if="model.coursePrice === '0'">{{'Start Learning Now'|translate}}</a>
+					<a href="#" ng-click="model.startLearnCourse($event, '')" title="{{'Take This Course'|translate}}" class="btn btn-success"
+						ng-if="model.coursePrice !== '0'">{{'Take This Course'|translate}}</a>
+				</div>
+				<!-- If logged in -->
+				<div ng-if="$root.isAuth">
+					<!-- Free courses or already paid courses -->
+					<div ng-if="model.coursePrice === '0' || paidStatus" class="navbar-btn">
+						<a href="#" ng-click="model.startLearnCourse($event, paidStatus)" title="{{'Start Learning Now'|translate}}" class="btn btn-success">{{'Start Learning Now'|translate}}</a>
+					</div>
+					<!-- not paid and not purchased courses -->
+					<div ng-if="paidStatus === false && model.coursePrice !== '0'" class="navbar-btn">
+						<cart-buttons position="listInline" type="take" user-id="{{model.userId}}" course-price='{{model.coursePrice}}' course-id='{{model.courseId}}'
+							ng-if='model.courseId'></cart-buttons>
+					</div>
+				</div>
+
+			</li>
+
+			<!-- coursecheckout enabled and cart plugin disabled course should not be mooc affliated-->
+
+			<li ng-if="$root.settings['site.enabled_plugins'].indexOf('CourseCheckout') > -1 && $root.settings['site.enabled_plugins'].indexOf('CourseBulkCheckout') === -1 && ($root.auth.id !== model.userId)">
+				<!-- If logged in -->
+				<div ng-if="$root.isAuth">
+					<!-- Free courses or already paid courses -->
+					<div ng-if="model.coursePrice === '0' || paidStatus" class="navbar-btn">
+						<a href="#" ng-click="model.startLearnCourse($event, paidStatus)" title="{{'Start Learning Now'|translate}}" class="btn btn-success">{{'Start Learning Now'|translate}}</a>
+					</div>
+					<!-- not paid and not purchased courses -->
+					<div ng-if="paidStatus === false && model.coursePrice !== '0'" class="navbar-btn">
+						<!--<cart-buttons position="list" type="take" user-id="{{model.userId}}" course-price='{{model.coursePrice}}' course-id='{{model.courseId}}'
+					ng-if='model.courseId'></cart-buttons>-->
+						<buy-button course-price='{{model.coursePrice}}' btn-link={{model.btnLink}} course-id='{{model.courseId}}' course-status='{{model.takenCourseStatus}}'
+							ng-if='model.courseId' btn-class-name=''></buy-button>
+					</div>
+				</div>
+
+				<!-- If not logged in -->
+				<div ng-if="!$root.isAuth" class="navbar-btn">
+					<a href="#" ng-click="model.startLearnCourse($event, '')" title="{{'Start Learning Now'|translate}}" class="btn btn-success"
+						ng-if="model.coursePrice === '0'">{{'Start Learning Now'|translate}}</a>
+					<a href="#" ng-click="model.startLearnCourse($event, '')" title="{{'Take This Course'|translate}}" class="btn btn-success"
+						ng-if="model.coursePrice !== '0'">{{'Take This Course'|translate}}</a>
+				</div>
+			</li>
+
+			<!-- both coursecheckout enabled and cart plugin enabled course should not be mooc affliated-->
+
+			<li ng-if="$root.settings['site.enabled_plugins'].indexOf('CourseCheckout') > -1 && $root.settings['site.enabled_plugins'].indexOf('CourseBulkCheckout') > -1 && ($root.auth.id !== model.userId)">
+				<!-- If logged in -->
+				<div ng-if="$root.isAuth">
+					<!-- Free courses or already paid courses -->
+					<div ng-if="model.coursePrice === '0' || paidStatus" class="">
+						<a href="#" ng-click="model.startLearnCourse($event, paidStatus)" title="{{'Start Learning Now'|translate}}" class="btn btn-success">{{'Start Learning Now'|translate}}</a>
+					</div>
+					<!-- not paid and not purchased courses -->
+					<div ng-if="paidStatus === false && model.coursePrice !== '0'" class="">
+						<ul class="list-inline">
+						<li>
+							<cart-buttons position="listInline" type="take" user-id="{{model.userId}}" course-price='{{model.coursePrice}}' course-id='{{model.courseId}}'
+								ng-if='model.courseId'></cart-buttons>
+						</li>
+						</ul>
+
+					</div>
+				</div>
+
+				<!-- If not logged in -->
+				<div ng-if="!$root.isAuth" class="">
+					<a href="#" ng-click="model.startLearnCourse($event, '')" title="{{'Start Learning Now'|translate}}" class="btn btn-success"
+						ng-if="model.coursePrice === '0'">{{'Start Learning Now'|translate}}</a>
+					<div ng-if="model.coursePrice !== '0'" class="">
+						<ul class="list-inline">
+							<li>
+								<a href="#" ng-click="model.startLearnCourse($event, '')" title="{{'Take This Course'|translate}}" class="btn btn-success">{{'Take This Course'|translate}}</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</li>
+
+
+			<li ng-if="$root.auth.id === model.userId && $root.settings['site.enabled_plugins'].indexOf('Instructor') > -1">
+				<div class="navbar-btn">
+					<a ng-href="/manage-course/add/{{model.courseId}}/{{model.slug|escape}}" class="btn btn-success">{{'Edit Course'|translate}}</a>
+				</div>
+			</li>
+
+			<li>
+				<div class="navbar-btn">
+					<span class="h2 list-group-item-text text-hightlight-color">
+						<strong><amount-display amount='{{model.coursePrice}}' fraction='2' is-course-price='yes'></amount-display></strong>
+					</span>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>

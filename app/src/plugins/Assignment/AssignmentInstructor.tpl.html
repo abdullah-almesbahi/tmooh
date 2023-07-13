@@ -1,0 +1,277 @@
+<dashboard-navbar></dashboard-navbar>
+<section class="message-section my-message-bar my-4">
+
+    <div class="container">
+        <div class="forum-block assignmentotrblk qamain-block">
+            <div class="row" id="mymessage_list" ng-if="!model.composeForm">
+                <div class="col-md-3 col-sm-4" role="navigation">
+                    <div class="card-body bg-white shadow-sm">
+                        <div class="border-bottom mb-3">
+                            <div class="dropdown allcourseslstng mb-3">
+                                <a href="javascript:void(0);" data-toggle="dropdown" class="btn btn-outline-secondary btn-block">
+                                    <span ng-show="!course_filter">{{'All Courses'|translate}}</span>
+                                    <span ng-show="course_filter">{{course_filter.title}}</span>
+                                    <i class="mdi-18px mdi mdi-chevron-down text-muted"></i> </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a href="javascript:void(0);" class="dropdown-item" title="All courses" ng-click="CourseFilter('-1','All')">{{'All Courses'|translate}}</a>
+
+                                    <a href="javascript:void(0);" class="dropdown-item" ng-repeat="courses in model.teachingCourses" title="{{instructor.teacher_name}}" ng-click="CourseFilter($index,'current')">{{courses.title}}</a>
+
+                                </div>
+
+                            </div>
+                            <form class="clearfix">
+                                <h5>{{'Filter by feedback type'|translate}}:</h5>
+                                <div class="filterfeedback clearfix">
+                                    <div class="radio">
+                                        <label><input type="radio" name="filters" id="filters" ng-model="messagesort.filter" value="all"
+                                            ng-click="Sort('filter','all')"><span class="text-14">{{'All'|translate}}</span></label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>  <input type="radio" name="filters" id="filters" ng-model="messagesort.filter" value="no_feedback"
+                                            ng-click="Sort('filter','no_feedback')"><span class="text-14">{{'No Feedback'|translate}}</span></label>
+                                    </div>
+                                    <div class="radio"> <label> <input type="radio" name="filters" id="filters" ng-model="messagesort.student_only" value="student_only"
+                                            ng-click="Sort('filter','student_only')">
+                                              <span class="text-14">{{'Student Only'|translate}}</span></label></div>
+                                    <div class="radio"><label><input type="radio" name="filters" id="filters" ng-model="messagesort.filter"
+                                            value="instructor_only" ng-click="Sort('filter','instructor_only')"><span class="text-14">{{'Instructor Only'|translate}}</span>
+                                            </label></div>
+                                    <div class="radio"><label><input type="radio" name="filters" id="filters" ng-model="messagesort.filter"
+                                            value="student_and_instructor" ng-click="Sort('filter','student_and_instructor')"><span class="text-14">{{'Student and Instructor'|translate}}</span></label></div>
+                                </div>
+                            </form>
+                        </div>
+                        <h5>{{'Sort By:'|translate}} </h5>
+                        <div class="dropdown">
+                            <a href="javascript:void(0);" data-toggle="dropdown" class="btn btn-outline-secondary btn-block">
+                                <span ng-show="!messagesort.sortby || messagesort.sortby === 'created' ">{{'Newest To oldest'|translate}}</span>
+                                <span ng-show="messagesort.sortby === '-created' ">{{'Oldest To Newest'|translate}}</span>
+                                <span ng-show="messagesort.sortby === 'Popularity' ">{{'Popularity'|translate}}</span> &nbsp;
+                                <i class="mdi-18px mdi mdi-chevron-down text-muted"></i> </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a href="javascript:void(0);" class="dropdown-item" ng-click="Sort('sort','created')" title="{{'Newest To oldest'|translate}}">{{'Newest To oldest'|translate}}</a>
+                                <a href="javascript:void(0);" class="dropdown-item" ng-click="Sort('sort','-created')" title="{{'Oldest To Newest'|translate}}">{{'Oldest To Newest'|translate}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9 col-sm-8" role="navigation ">
+                    <div ng-include src="'common/loader.tpl.html'" ng-show="model.loader"><br><br></div>
+                    <div class="assignmentinsright qalistinner read" ng-repeat='(assignment_key, assignment_feedback) in model.Assignment_feedbacks'>
+                        <div class="form-group">
+                            <div class="qatoplisting">
+                                <div class="qatopavatar">
+                                    <img ng-if="assignment_feedback.course_image_hash" ng-src="{{$root.site_url}}img/macro_thumb/Course/{{assignment_feedback.course_image_hash}}"
+                                        alt="[Image: {{assignment_feedback.course_title}}]" title="{assignment_feedback.course_title}}"
+                                    />
+                                    <img ng-if="!assignment_feedback.course_image_hash" ng-src="{{$root.site_url}}img/macro_thumb/Course/0.default.jpg" alt="[Image: {{assignment_feedback.course_title}}]"
+                                        title="{{assignment_feedback.course_title}}" />
+                                </div>
+                                <div class="qatoptitle">
+                                    <a ng-href="/course/{{assignment_feedback.course_id}}/{{assignment_feedback.course_slug|escape}}">{{assignment_feedback.course_title}}
+                                </a>
+                                    <p>{{'Assignment Title:'|translate}} {{assignment_feedback.name}}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="quesanslistings">
+                                <div ng-repeat="(assignment_question_key,assignment_question) in assignment_feedback.course_users_quiz_questions">
+                                    {{'Question'|translate}} {{assignment_question_key+1}}:
+                                    <div class="quesans-hd" ng-bind-html="assignment_question.question"></div>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <label>
+							<div class="flxmainblk">
+								<div class="flxmin" ng-bind-html="assignment_question.answer"></div>
+							</div>
+						</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="component-thread-head">
+                                <div class="qatopcomment">
+                                    <div class="qaactualques" ng-if="assignment_feedback.messages.length > 0">
+                                        <div class="qaavatar">
+                                            <span ng-if="assignment_feedback.messages[0].is_sender === false">
+                                         <img ng-if="assignment_feedback.messages[0].other_user_image !== '' && assignment_feedback.messages[0].other_user_image !== null" ng-src="{{$root.site_url}}img/small_thumb/User/{{assignment_feedback.messages[0].other_user_image}}" alt="[Image: {{assignment_feedback.messages[0].other_user}}]"
+                                        title="{{assignment_feedback.messages[0].other_user}}" />
+                                    <img ng-if="assignment_feedback.messages[0].other_user_image === '' || assignment_feedback.messages[0].other_user_image === null" ng-src="{{$root.site_url}}img/small_thumb/User/0.default.jpg" alt="[Image: {{assignment_feedback.messages[0].other_user}}]" title="{{assignment_feedback.messages[0].other_user}}" />
+                                    </span>
+                                            <span ng-if="assignment_feedback.messages[0].is_sender === true">
+                                         <img ng-if="assignment_feedback.messages[0].image_hash !== '' && assignment_feedback.messages[0].image_hash !== null" ng-src="{{$root.site_url}}img/small_thumb/User/{{assignment_feedback.messages[0].image_hash}}" alt="[Image: {{assignment_feedback.messages[0].user}}]"
+                                        title="{{assignment_feedback.messages[0].user}}"/>
+                                    <img ng-if="assignment_feedback.messages[0].image_hash === '' || assignment_feedback.messages[0].image_hash === null" ng-src="{{$root.site_url}}img/small_thumb/User/0.default.jpg" alt="[Image: {{assignment_feedback.messages[0].user}}]" title="{{assignment_feedback.messages[0].user}}" />
+                                    </span>
+                                        </div>
+                                        <div class="qaactdls text-15">
+                                            <div ng-if="assignment_feedback.messages[0].is_sender === false">
+                                                <a title="{{assignment_feedback.messages[0].other_user}}">{{assignment_feedback.messages[0].other_user}}</a>
+                                            </div>
+                                            <div ng-if="assignment_feedback.messages[0].is_sender === true">
+                                                <a title="{{assignment_feedback.messages[0].user}}">{{assignment_feedback.messages[0].user}}</a>
+                                            </div>
+                                            <div class="text-grey">{{'Posted On :'|translate}} <span am-time-ago="assignment_feedback.messages[0].created"></span></div>
+                                            <div ng-bind-html="assignment_feedback.messages[0].message" ng-if="!assignment_feedback.messages[0].editForm"></div>
+                                            <form role="form" class="form-horizontal qareplyareafrm clearfix" name="ParentMessageEditForm" ng-submit="model.QuestionEditFormSubmit(ParentMessageEditForm,'Parent',assignment_key);"
+                                                novalidate ng-if="assignment_feedback.messages[0].editForm">
+                                                <div class="clearfix">
+                                                    <div class="form-group" ng-class="{ 'has-error' : ((ParentMessageEditForm.$submitted || ParentMessageEditForm.message_edit{{assignment_key}}.$touched) && (ParentMessageEditForm.message_edit{{assignment_key}}.$invalid))}">
+                                                        <div class="">
+                                                            <div text-angular ng-model="assignment_feedback.messages[0].edit_message" name="message_edit{{assignment_key}}" ta-toolbar="[['p','bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol','justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent','insertImage', 'insertLink', 'wordcount']]"
+                                                                ta-toolbar-class="btn-toolbar" ta-toolbar-group-class="btn-group"
+                                                                ta-toolbar-button-active-class="active" ta-focussed-class="focussed"
+                                                                ta-text-editor-class="form-control" ta-html-editor-class="form-control"
+                                                                data-ng-required="true" required></div>
+                                                            <div ng-show="((ParentMessageEditForm.$submitted || MessageReplyForm.message_edit{{assignment_key}}.$touched) && (ParentMessageEditForm.message_edit{{assignment_key}}.$invalid))">
+                                                                <div class="error text-danger" ng-show="(ParentMessageEditForm.message_edit{{assignment_key}}.$error.required || ParentMessageEditForm.message_edit{{assignment_key}}.$invalid)">{{'Required' | translate}} </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="">
+                                                        <div class="">
+                                                            <label class="sr-only" for="submit2">{{'Save'|translate}}</label>
+                                                            <button type="submit" class="btn btn-primary" id="submit2">{{'Save'|translate}} <span ng-show="disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+                                                            <button type="button" class="btn btn-outline-secondary" ng-click="assignment_feedback.messages[0].editForm = !assignment_feedback.messages[0].editForm">{{'Cancel'|translate}}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                            </form>
+                                        </div>
+                                        <div class="dropdown action-btn  float-right" title="{{'Options'|translate}}" ng-if="assignment_feedback.messages[0].editable === true">
+                                            <a href="" class="dropdown-toggle btn btn-outline-secondary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                                role="button"><i class="mdi-18px mdi mdi-dots-vertical fa-lg"></i></a>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li>
+                                                    <a href="#" ng-click="assignment_feedback.messages[0].editForm = !assignment_feedback.messages[0].editForm;assignment_feedback.messages[0].edit_message = assignment_feedback.messages[0].message"
+                                                        title="{{'Edit'|translate}}" class="text-muted">
+                                               {{'Edit'|translate}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" ng-click="model.QuestionDeleteFormSubmit('Parent',assignment_key, null);" title="{{'Delete'|translate}}" class="text-muted">
+                                               {{'Delete'|translate}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="qaqusreplyblk" ng-if="assignment_feedback.messages[0].children.length > 0">
+                                        <div class="qasinglereply" ng-repeat="(child_key, child_message) in  assignment_feedback.messages[0].children">
+                                            <div class="qasingavator">
+                                                 <span ng-if="child_message.is_sender === false">
+                                         <img ng-if="child_message.other_user[0].image_hash !== '' && child_message.other_user[0].image_hash !== null" ng-src="{{$root.site_url}}img/small_thumb/User/{{child_message.other_user[0].image_hash}}" alt="[Image: {{child_message.other_user[0].username}}]"
+                                        title="{{child_message.other_user[0].username}}" />
+                                    <img ng-if="child_message.other_user[0].image_hash === '' || child_message.other_user[0].image_hash === null" ng-src="{{$root.site_url}}img/small_thumb/User/0.default.jpg" alt="[Image: {{child_message.other_user[0].username}}]" title="{{child_message.other_user[0].username}}" />
+                                    </span>
+                                                <span ng-if="child_message.is_sender === true">
+                                         <img ng-if="child_message.user[0].image_hash !== '' && child_message.user[0].image_hash !== null" ng-src="{{$root.site_url}}img/small_thumb/User/{{child_message.user[0].image_hash}}" alt="[Image: {{child_message.user[0].username}}]"
+                                        title="{{child_message.user[0].username}}"/>
+                                    <img ng-if="child_message.user[0].image_hash === '' || child_message.user[0].image_hash === null" ng-src="{{$root.site_url}}img/small_thumb/User/0.default.jpg" alt="[Image: {{child_message.user[0].username}}]" title="{{child_message.user[0].username}}" />
+                                    </span>
+                                            </div>
+                                            <div class="qasingdtls text-15">
+                                                <div ng-if="child_message.is_sender === false">
+                                                    <a title="{{child_message.other_user[0].username}}">{{child_message.other_user[0].username}}</a>
+                                                </div>
+                                                <div ng-if="child_message.is_sender === true">
+                                                    <a title="{{child_message.user[0].username}}">{{child_message.user[0].username}}</a>
+                                                </div>
+                                                <div class="dropdown action-btn float-right" title="{{'Options'|translate}}" ng-if="child_message.editable === true">
+                                                    <a href="" class="dropdown-toggle btn btn-outline-secondary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                                        role="button"><i class="mdi-18px mdi mdi-dots-vertical fa-lg"></i></a>
+                                                    <ul class="dropdown-menu dropdown-menu-right">
+                                                        <li>
+                                                            <a href="#" ng-click="child_message.editForm = !child_message.editForm;child_message.edit_message = child_message.message"
+                                                                title="{{'Edit'|translate}}" class="text-muted">
+                                               {{'Edit'|translate}}</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" ng-click="model.QuestionDeleteFormSubmit('child',assignment_key, child_key);" title="{{'Delete'|translate}}"
+                                                                class="text-muted">
+                                               {{'Delete'|translate}}</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="text-grey">{{'Posted On :'|translate}} <span am-time-ago="child_message.created"></span></div>
+                                                <div ng-bind-html="child_message.message" ng-if="!child_message.editForm"></div>
+                                                <form role="form" class="form-horizontal qareplyareafrm clearfix" name="MessageEditForm" ng-submit="model.QuestionEditFormSubmit(MessageEditForm,'Child' ,assignment_key, child_key);"
+                                                    novalidate ng-if="child_message.editForm">
+                                                    <div class="clearfix">
+                                                        <div class="form-group" ng-class="{ 'has-error' : ((MessageEditForm.$submitted || MessageEditForm.description{{child_key}}.$touched) && (MessageEditForm.description{{child_key}}.$invalid))}">
+                                                            <div class="">
+                                                                <div text-angular ng-model="child_message.edit_message" name="description{{child_key}}" ta-toolbar="[['p','bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol','justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent','insertImage', 'insertLink', 'wordcount']]"
+                                                                    ta-toolbar-class="btn-toolbar" ta-toolbar-group-class="btn-group"
+                                                                    ta-toolbar-button-active-class="active" ta-focussed-class="focussed"
+                                                                    ta-text-editor-class="form-control" ta-html-editor-class="form-control"
+                                                                    data-ng-required="true" required></div>
+                                                                <div ng-show="((MessageEditForm.$submitted || MessageReplyForm.description{{child_key}}.$touched) && (MessageEditForm.description{{child_key}}.$invalid))">
+                                                                    <div class="error text-danger" ng-show="(MessageEditForm.description{{child_key}}.$error.required || MessageEditForm.description{{child_key}}.$invalid)">{{'Required' | translate}} </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="">
+                                                            <div class="">
+                                                                <label class="sr-only" for="submit2">{{'Save'|translate}}</label>
+                                                                <button type="submit" class="btn btn-primary" id="submit2">{{'Save'|translate}} <span ng-show="disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+                                                                <button type="button" class="btn btn-outline-secondary" ng-click="child_message.editForm = !child_message.editForm">{{'Cancel'|translate}}</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Question and Answer adding by instructor form -->
+                                    <div class="clearfix">
+                                        <a class="btn btn-success btn-md float-right" ng-if="!assignment_feedback.showMessage" ng-click="assignment_feedback.showMessage = !assignment_feedback.showMessage"
+                                            title="{{'reply' | translate}}">{{'Add an answer' | translate}}</a>
+                                    </div>
+                                    <div class="" ng-if="assignment_feedback.showMessage">
+                                        <form role="form" class="form-horizontal qareplyareafrm clearfix" name="MessageReplyForm" ng-submit="model.QuestionReplyFormSubmit(MessageReplyForm.$valid,MessageReplyForm, assignment_key);"
+                                            novalidate>
+                                            <div class="clearfix">
+                                                <div class="form-group" ng-class="{ 'has-error' : ((MessageReplyForm.$submitted || MessageReplyForm.description{{assignment_key}}.$touched) && (MessageReplyForm.description{{assignment_key}}.$pristine || MessageReplyForm.description{{assignment_key}}.$invalid))}">
+                                                    <div class="">
+                                                        <div text-angular ng-model="assignment_feedback.reply_message" name="description{{assignment_key}}" ta-toolbar="[['p','bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol','justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent','insertImage', 'insertLink', 'wordcount']]"
+                                                            ta-toolbar-class="btn-toolbar" ta-toolbar-group-class="btn-group"
+                                                            ta-toolbar-button-active-class="active" ta-focussed-class="focussed"
+                                                            ta-text-editor-class="form-control" ta-html-editor-class="form-control"
+                                                            required data-ng-required="true"></div>
+                                                        <div ng-show="((MessageReplyForm.$submitted || MessageReplyForm.description{{assignment_key}}.$touched) && (MessageReplyForm.description{{assignment_key}}.$pristine || MessageReplyForm.description{{assignment_key}}.$invalid))">
+                                                            <div class="error text-danger" ng-show="(MessageReplyForm.description{{assignment_key}}.$error.required || MessageReplyForm.description{{assignment_key}}.$invalid)">{{'Required' | translate}} </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="">
+                                                    <div class="">
+                                                        <label class="sr-only" for="submit2">{{'Add an answer'|translate}}</label>
+                                                        <button type="submit" class="btn btn-primary" id="submit2">{{'Add an answer'|translate}} <span ng-show="disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+                                                        <button type="button" class="btn btn-outline-secondary" ng-click="message.showMessage = !message.showMessage">{{'Cancel'|translate}}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="!model.Assignment_feedbacks.length && !model.loader ">
+                        <p class="alert alert-danger" ng-show="!loader ">{{'No Question Found'|translate}}</p>
+                    </div>
+                    <div class="paging clearfix text-center " ng-show="_metadata.noOfPages > 1 && !model.loader && model.Assignment_feedbacks.length > 0">
+                        <ul uib-pagination total-items="_metadata.total_records" ng-model="model.currentPage" max-size="_metadata.maxSize" boundary-link-numbers="true"
+                            boundary-links="true" num-pages="_metadata.noOfPages" ng-change="paginate()" first-text="{{'First'|translate}}"
+                            last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+                    </div>
+                </div>
+
+            </div>
+            <!-- transaction messages -->
+        </div>
+    </div>
+</section>

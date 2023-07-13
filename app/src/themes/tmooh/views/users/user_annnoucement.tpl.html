@@ -1,0 +1,57 @@
+<div class="container">
+	<div class="text-center">
+		<h3>{{'My Annoucement'|translate}}</h3>
+	</div>
+	<div class="well-sm"></div>
+	<div class="col-xs-12" id="mymessage_list" ng-if="!model.composeForm">
+		<div class="col-sm-10 col-xs-12 col-md-10 float-left" role="navigation">
+			<div class="row panel">
+				<!--<ul class="list-unstyled navbar-btn course-list" ng-if="annoucements.length >0">
+					<li ng-repeat="annoucement in  annoucements" id="purchase">
+						{{annoucement.content}}
+						<input type="checkbox" ng-click="markAsRead(annoucement.id)" ng-model="annoucement.is_read" ng-true-value="1" ng-false-value="0">
+					</li>
+				</ul>-->
+					<ul class="list-unstyled navbar-btn course-list" ng-if="annoucements.length">
+									<ul class="clearfix list-unstyled navbar-btn col-xs-12">
+										<li class="clearfix" ng-repeat='message in  annoucements'>
+											<div class="col-xs-12 navbar-btn">
+												<div class="col-xs-12" ng-class="{'btn-outline-secondary': message.is_read == true, 'btn-success':message.is_read == false}">
+													<div class="clearfix well-sm"><strong><span>{{'From'|translate}}: </span> {{message.other_user}}</strong>&nbsp;&nbsp;
+														<span am-time-ago="message.created"></span><br><br>
+														<strong><span>{{'Subject'|translate}}: </span> {{message.subject}}</strong>
+														<a ng-click="showDetails = ! showDetails;model.messageMarkRead ($index,'read');" title="view" class="btn text-info float-right"><span><i class="fa fa-lg fa-caret-square-o-down"></i></span></a>
+														<!--<a href="" class="btn  text-info float-right" ng-click="model.deleteMessage(message.id)"><span class="" ><i class="mdi-18px mdi mdi-delete"></i></span></a>-->
+													</div>
+													<div class="navbar-btn clearfix panel text-primary well-sm " ng-show="showDetails">
+														<div class="clearfix">
+															{{'From'|translate}} : {{message.other_user}} <br><br><br> {{'To'|translate}} : {{message.user}} <br><br><br>															{{'Time'|translate}}: {{message.created | amDateFormat: 'MM.DD.YYYY HH:mm a'}} <br><br><br> {{'Subject'|translate}}
+															:
+															<p ng-bind-html="message.subject" class="well navbar-btn ng-binding"></p>
+															<br><br>
+															<br> {{'Message'|translate}} :
+															<p ng-bind-html="message.message" class="well navbar-btn ng-binding"></p>
+															<br>
+														</div>
+
+													</div>
+												</div>
+										</li>
+									</ul>
+								</ul>
+				<div class="alert alert-danger" ng-if="!annoucements.length">
+					<p class="text-center" ng-show="!loader">{{'No Annoucement is Found'|translate}}</p>
+				</div>
+			</div>
+		</div>
+		<div class="paging clearfix text-center" ng-show="_metadata.total_records > 0">
+			<ul uib-pagination total-items="_metadata.total_records" ng-model="currentPage" ng-change="paginate('#purchase')" max-size="_metadata.maxSize"
+				boundary-links="true" num-pages="_metadata.noOfPages" items-per-page="_metadata.limit" first-text="{{'First'|translate}}"
+				last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+		</div>
+	</div>
+	<!-- transaction messages -->
+	<span class="ng-hide" translate>{{'You bought course' | translate}} - {{COURSE}}</span>
+	<span class="ng-hide" translate>{{BUYER}} {{'bought course' | translate}} - {{COURSE}}</span>
+	<span class="ng-hide" translate>{{BUYER}} {{'bought your course' | translate}} - {{COURSE}}</span>
+</div>

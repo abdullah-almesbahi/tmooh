@@ -1,0 +1,103 @@
+<section class="container pb-3 mb-5">
+  <course-navbar></course-navbar>
+  <div class="card shadow bg-white">
+    <div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading"></div>
+    <div class="card-body" ng-if="!model.loading">
+      <h3 class="text-default">{{'Course Goals'|translate}}</h3>
+      <p>{{'Set your audience, what students will learn, and what they need in order to be successful.'|translate}}</p>
+      <form role="form" class="form-horizontal clearfix navbar-btn" name="manage_course_goals">
+          <div class="form-group">
+              <div class=""><label class="required"><strong class="text-primary">{{'Instructional Level'|translate}}</strong></label>
+              </div>
+              <div class="">
+                  <div class="radio-blk">
+                      <div class="radio radio-inline rad" ng-repeat="InstructionLevels in model.InstructionLevels" ng-click='model.courseGoals.instructional_level_id = InstructionLevels.id'>
+                          <label for="{{InstructionLevels.name}}">
+<input type="radio" value="{{InstructionLevels.id}}" id="Beginner_Level_{{InstructionLevels.id}}" name="course_Level1" ng-model="model.courseGoals.instructional_level_id">
+<span></span>
+{{InstructionLevels.name}}</label>
+                          <input type="hidden" name="course_Level" ng-model="model.courseGoals.instructional_level_id" ng-required="true" required>
+                      </div>
+                  </div>
+                  <div class="text-danger" ng-if="(manage_course_goals.$submitted || manage_course_goals.course_Level.$touched) && (manage_course_goals.course_Level.$invalid)"
+                      ng-messages="manage_course_goals.course_Level.$error">
+                      <div ng-message="required">{{'Required'|translate}}.</div>
+                  </div>
+              </div>
+          </div>
+          <div class="form-group">
+              <div class=""><label class="control-label required"><strong class="text-primary">{{'At the end of my course, students will be able to...'|translate}}</strong></label>
+                  <p>{{'Start with a verb. Include details on specific skills students will learn and
+                      where students can apply them.'|translate}}</p>
+              </div>
+              <div class="">
+                  <textarea ng-model="model.courseGoals.students_will_be_able_to" redactor="{buttons: ['formatting', '|', 'bold', 'italic','ol', 'ul']}"
+                      cols="30" rows="10"></textarea>
+                  <input type="hidden" name="students_will_be_able_to" id="students_will_be_able_to" ng-model="model.courseGoals.students_will_be_able_to"
+                      required />
+                  <!--  <div text-angular ng-model="model.courseGoals.students_will_be_able_to" name="students_will_be_able_to" ta-toolbar="[['bold', 'italics', 'underline', 'insertLink'],  ['pre','quote','ul', 'ol','justifyLeft', 'justifyCenter', 'justifyRight']]" ta-toolbar-class="btn-toolbar"
+                      ta-toolbar-group-class="btn-group" ta-toolbar-button-class="btn btn-outline-secondary" ta-toolbar-button-active-class="active" ta-focussed-class="focussed" ta-text-editor-class="form-control" ta-html-editor-class="form-control"
+                      data-ng-required="true" required></div>-->
+              </div>
+              <div class="text-danger" ng-if="(manage_course_goals.$submitted || manage_course_goals.students_will_be_able_to.$touched) && (manage_course_goals.students_will_be_able_to.$invalid)"
+                  ng-messages="manage_course_goals.students_will_be_able_to.$error">
+                  <div ng-message="required">{{'Required'|translate}}.</div>
+              </div>
+          </div>
+          <div class="form-group">
+              <div class=""><label class="control-label required"><strong class="text-primary">{{'Who should take this course? Who should not?'|translate}}</strong></label>
+                  <p>{{'Students appreciate instructors who set the right expectations by telling them
+                      what specific student needs they are solving, who the course is best suited for,
+                      and who it is NOT for.'|translate}}</p>
+              </div>
+              <div class="">
+                    <textarea ng-model="model.courseGoals.who_should_take_this_course_and_who_should_not" redactor="{buttons: ['formatting', '|', 'bold', 'italic','ol', 'ul']}"
+                      cols="30" rows="10"></textarea>
+                  <input type="hidden" id="who_should_take_this_course_and_who_should_not" name="who_should_take_this_course_and_who_should_not" ng-model="model.courseGoals.who_should_take_this_course_and_who_should_not"
+                      required />
+
+                <!--  <div text-angular ng-model="model.courseGoals.who_should_take_this_course_and_who_should_not" name="who_should_take_this_course_and_who_should_not"
+                      ta-toolbar="[['bold', 'italics', 'underline', 'insertLink'],  ['pre','quote','ul', 'ol','justifyLeft', 'justifyCenter', 'justifyRight']]"
+                      ta-toolbar-class="btn-toolbar" ta-toolbar-group-class="btn-group" ta-toolbar-button-class="btn btn-outline-secondary"
+                      ta-toolbar-button-active-class="active" ta-focussed-class="focussed" ta-text-editor-class="form-control"
+                      ta-html-editor-class="form-control" data-ng-required="true" required></div>-->
+              </div>
+              <div class="text-danger" ng-if="(manage_course_goals.$submitted || manage_course_goals.who_should_take_this_course_and_who_should_not.$touched) && (manage_course_goals.who_should_take_this_course_and_who_should_not.$invalid)"
+                  ng-messages="manage_course_goals.who_should_take_this_course_and_who_should_not.$error">
+                  <div ng-message="required">{{'Required'|translate}}.</div>
+              </div>
+          </div>
+          <div class="form-group">
+              <div class=""><label class="control-label required"><strong class="text-primary">{{'What will students need to know or do before starting this course?'|translate}}</strong></label>
+                  <p>{{'What materials/software do the students need and what actions do they have to
+                      perform before the course begins?'|translate}}</p>
+              </div>
+              <div class="">
+                    <textarea ng-model="model.courseGoals.what_actions_students_have_to_perform_before_begin" redactor="{buttons: ['formatting', '|', 'bold', 'italic','ol', 'ul']}"
+                      cols="30" rows="10"></textarea>
+                  <input type="hidden" name="what_actions_students_have_to_perform_before_begin" id="what_actions_students_have_to_perform_before_begin" ng-model="model.courseGoals.what_actions_students_have_to_perform_before_begin"
+                      required />
+
+                 <!-- <div text-angular ng-model="model.courseGoals.what_actions_students_have_to_perform_before_begin" name="what_actions_students_have_to_perform_before_begin"
+                      ta-toolbar="[['bold', 'italics', 'underline', 'insertLink'],  ['pre','quote','ul', 'ol','justifyLeft', 'justifyCenter', 'justifyRight']]"
+                      ta-toolbar-class="btn-toolbar" ta-toolbar-group-class="btn-group" ta-toolbar-button-class="btn btn-outline-secondary"
+                      ta-toolbar-button-active-class="active" ta-focussed-class="focussed" ta-text-editor-class="form-control"
+                      ta-html-editor-class="form-control" data-ng-required="true" required></div>-->
+              </div>
+              <div class="text-danger" ng-if="(manage_course_goals.$submitted || manage_course_goals.what_actions_students_have_to_perform_before_begin.$touched) && (manage_course_goals.what_actions_students_have_to_perform_before_begin.$invalid)"
+                  ng-messages="manage_course_goals.what_actions_students_have_to_perform_before_begin.$error">
+                  <div ng-message="required">{{'Required'|translate}}.</div>
+              </div>
+
+          </div>
+          <!--save -->
+          <label class="sr-only" for="submit">{{'Save'|translate}}</label>
+          <input type="submit" class="btn btn-primary btn-course" id="submit" value="{{'Save'|translate}}" ng-click="manage_course_goals.$valid && model.goalsSave(manage_course_goals.$valid,'now')">
+          <!--Save & next-->
+          <label class="sr-only" for="submit">{{'Save'|translate}} & {{'Next'|translate}}</label>
+          <input type="submit" class="btn btn-primary btn-course float-right" id="submit" value="{{'Save'|translate}} & {{'Next'|translate}}"
+              ng-click="manage_course_goals.$valid && model.goalsSave(manage_course_goals.$valid,'next')">
+      </form>
+    </div>
+  </div>
+</section>

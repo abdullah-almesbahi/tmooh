@@ -1,0 +1,205 @@
+<div class=" text-white p-2 text-center mb-0" style="background-color: #ef6b76" ng-if="$root.settings['site_promotions']['id'] > 0 ">
+	{{$root.settings['site_promotions']['description']}} <br />
+	<strong>{{'Offer expire'|translate}} {{expireIn}}</strong>
+</div>
+<div class="alert alert-danger mb-0" ng-if="isAuth && !$root.auth.isemailverified && !$root.isHome">
+	{{'Account has not been activated. Please find activation link in your email.'|translate}}
+</div>
+<header class=" fadeInDown clearfix" ng-if="!isMobile" id="header" ng-hide="$root.success_state_name == 'LearnCourse' || $state.success_state_name == 'LearnCourseEmpty'" ng-class="{'transparent-header': !$root.isHome, 'homepage-header' :  $root.isHome , 'homepage-header-promotion': $root.settings['site_promotions']['id'] > 0 && $root.isHome}" itemscope="itemscope" itemtype="https://schema.org/WPHeader">
+
+	<!-- Home Page navbar -->
+	<!-- <nav class="navbar navbar-dark navbar-expand-md justify-content-between" ng-show="$root.isHome">
+		<a href="/" title="{{$root.settings['site.name']}}" class="navbar-brand"><img src="assets/img/logo-white.png" width="142" height="58" data-retina="true" alt="[Image: {{$root.settings['site.name']}}]" title="{{$root.settings['site.name']}}" class="img-fluid center-block"/></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav ml-md-auto">
+				<li class="nav-item "><a href="/users/login" class="login nav-link text-white" title="{{'Become an Instructor'|translate}}">{{'Become an Instructor'| translate}}</a></li>
+				<li class="nav-item "><a ng-href="/users/login" class="nav-link text-white" ng-click="modalLogin($event)" title="{{'Login'| translate}}">{{'Login'| translate}}</a></li>
+				<li class="nav-item hidden_tablet"><a ng-href="/users/signup" ng-click="modalSignup($event)" class="btn btn-outline-light" title="{{'Signup'| translate}}">{{'Signup'| translate}}</a></li>
+			</ul>
+		</div>
+	</nav> -->
+
+	<!-- Default navbar -->
+	<nav class="navbar navbar-expand-md  justify-content-between" ng-class="{'navbar-light bg-white shadow-sm':!$root.isHome,'navbar-dark' : $root.isHome}" aria-label="Main navigation" role="navigation">
+		<a href="/" title="{{$root.settings['site.name']}}" class="navbar-brand">
+			<img ng-src="assets/img/logo{{$root.isHome?'-white':''}}.png" width="110" alt="[Image: {{$root.settings['site.name']}}]" title="{{$root.settings['site.name']}}" class="img-fluid center-block"/>
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="drawer" data-target="#dw-p1"  aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="mainMenu">
+
+			<ul class="navbar-nav " itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement">
+				<li class="nav-item  dropdown">
+					<a href="javascript:void(0);" class="nav-link dropdown-toggle " ng-class="{'text-secondary':!$root.isHome,'text-white' : $root.isHome}" data-toggle="dropdown" id="browseCategory" role="button" aria-haspopup="true" aria-expanded="false"><i class="mdi-18px mdi mdi-apps" aria-hidden="true"></i>&nbsp; {{'Browse Courses'| translate}}</a>
+					<ul class="dropdown-menu dropdown-menu-category" aria-labelledby="browseCategory">
+						<li ng-repeat="parentCategory in model.common.parentCategories.data">
+							<a itemprop="url" ui-sref="browseCourse({ category_id: {{parentCategory.id}} , slug: slugify(parentCategory.sub_category_name) , page:1 })" data-toggle="collapse" data-target="#mainMenu" title="{{parentCategory.sub_category_name}}" class="dropdown-item">
+
+								<i class="mdi-18px mdi mdi-code-tags dropdown-menu-category-icon" ng-if="parentCategory.id == 201"></i>
+								<i class="mdi-18px mdi mdi-finance dropdown-menu-category-icon" ng-if="parentCategory.id == 207"></i>
+								<i class="mdi-18px mdi mdi-television dropdown-menu-category-icon" ng-if="parentCategory.id == 213"></i>
+								<i class="mdi-18px mdi mdi-checkbox-multiple-marked-outline dropdown-menu-category-icon" ng-if="parentCategory.id == 219"></i>
+								<i class="mdi-18px mdi mdi-book-open-page-variant dropdown-menu-category-icon" ng-if="parentCategory.id == 225"></i>
+								<i class="mdi-18px mdi mdi-grease-pencil dropdown-menu-category-icon" ng-if="parentCategory.id == 230"></i>
+								<i class="mdi-18px mdi mdi-bullseye-arrow dropdown-menu-category-icon" ng-if="parentCategory.id == 231"></i>
+								<i class="mdi-18px mdi mdi-camera dropdown-menu-category-icon" ng-if="parentCategory.id == 233"></i>
+								<i class="mdi-18px mdi mdi-food-apple dropdown-menu-category-icon" ng-if="parentCategory.id == 235"></i>
+								<i class="mdi-18px mdi mdi-react dropdown-menu-category-icon" ng-if="parentCategory.id == 237"></i>
+								{{parentCategory.sub_category_name}} <small>({{parentCategory.available_courses}})</small>
+							</a>
+							<div class="dropdown-menu-category-section shadow">
+								<ul class="dropdown-menu-category-list">
+									<li ng-repeat="subCategory in parentCategory.sub_category">
+										<a ng-if="subCategory.is_active && subCategory.available_courses > 0" itemprop="url" ui-sref="browseCourse({ category_id: {{subCategory.category_id}}, slug: slugify(subCategory.sub_category_name), page: 1  })" title="{{subCategory.sub_category_name}}" data-toggle="collapse" data-target="#mainMenu">{{subCategory.sub_category_name}} <small>({{subCategory.available_courses}})</small></a>
+									</li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</li>
+			</ul>
+
+			<div class="mx-auto" ng-if="$root.isHome"></div>
+			<form class="form-inline navbar-main-search mx-auto w-50" role="search" ng-if="!$root.isHome" _lpchecked="1" method="post">
+				<div class="form-group w-100"> 
+					<input type="search" aria-label="Search" placeholder="{{'Search Courses'|translate}}" value="{{csearchVal}}" class="form-control w-75 rounded pb-2 pt-2" ng-model="csearchVal" ng-keyup="$event.keyCode == 13 ? CoursequerySearch(csearchVal) : null">
+					<span class="input-group-append d-none d-sm-block">
+						<a ng-click="CoursequerySearch(csearchVal)" class="btn btn-outline-secondary border-0" type="button" ><i class="mdi-18px mdi mdi-magnify"></i></a>
+					</span>
+				</div>
+			</form>
+			<!-- logged -->
+			<ul class="nav navbar-nav float-right disable-float-xs" ng-show="isAuth" ng-if="isAuth">
+				<li class="nav-item" ng-if="$root.auth.providertype === 'admin'">
+					<a href="javascript:void(0);" title="{{'Admin Dashboard'|translate}}" class="nav-link" ng-class="{'text-secondary':!$root.isHome,'text-white' : $root.isHome}" ng-click="admin_url()">{{'Admin Dashboard'|translate}}</a>
+				</li>
+				<li class="nav-item" ng-if="model.userDetails.is_teacher === 1 && $root.settings['site.enabled_plugins'].indexOf('Instructor') > -1 && $root.auth.providertype !== 'admin'" class="nav-link ">
+					<a href="/my-courses/teaching" title="{{'Instructor Dashboard'|translate}}" class="nav-link" data-toggle="collapse" data-target="#mainMenu">{{'Instructor Dashboard'|translate}}</a>
+				</li>
+				<li class="nav-item" ng-if="model.userDetails.is_teacher !== 1 && $root.settings['site.enabled_plugins'].indexOf('Instructor') > -1 && $root.auth.providertype !== 'admin'" class="nav-link ">
+					<a href="/courses/add" rel="nofollow" title="{{'Become an Instructor'|translate}}" class="nav-link" data-toggle="collapse" data-target="#mainMenu">{{'Become an Instructor'|translate}}</a>
+				</li>
+				<li class="nav-item" ng-if="$root.auth.providertype !== 'admin'">
+					<a href="/my-courses/learning" title="{{'My Courses'|translate}}" class="nav-link " data-toggle="collapse" data-target="#mainMenu">{{'My Courses'|translate}}</a>
+				</li>
+				<li class="dropdown notifications cart pt-1" ng-if="$root.settings['site.enabled_plugins'].indexOf('CourseBulkCheckout') > -1">
+					<cart-buttons position="Header" type="Count"></cart-buttons>
+				</li>
+				<li class="dropdown notifications pt-1">
+					<message-notification></message-notification>
+				</li>
+			</ul>
+
+			<!-- logged -->
+			<ul class="navbar-nav user-menu" ng-show="isAuth" ng-if="isAuth">
+				<li class="nav-item  dropdown">
+					<a id="userMenu" ng-if="$root.auth.user_image_hash != '' && $root.auth.user_image_hash != null" href="" class="btn-sm dropdown-toggle nav-link user-img" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<img  ng-src="/img/small_thumb/User/{{$root.auth.user_image_hash}}" width="45" alt="[Image: {{$root.auth.displayname}}]" title="{{$root.auth.displayname}}" class="rounded-circle"/>
+						<span class="caret"></span>
+					</a>
+					<a id="userMenu" ng-if="$root.auth.user_image_hash == '' || $root.auth.user_image_hash == null" href="" class="btn-sm dropdown-toggle nav-link user-img" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<img  ng-src="/assets/img/default-user.png" width="45" alt="[Image: {{$root.auth.displayname}}]" title="{{$root.auth.displayname}}" class="rounded-circle" />
+						<span class="caret"></span>
+					</a>
+					<div class="dropdown-menu dropdown-menu-right mt-0" aria-labelledby="userMenu">
+						<a href="/users/edit-profile" title="{{'My Profile'|translate}}" class="text-muted dropdown-item" data-toggle="collapse" data-target="#mainMenu">{{'My Profile'|translate}}</a>
+						<a href="/message/inbox" title="{{'My Messages'|translate}}" class="text-muted dropdown-item" data-toggle="collapse" data-target="#mainMenu" ng-if="$root.settings['site.enabled_plugins'].indexOf('Message') > -1">{{'My Messages'|translate}}</a>
+						<div class="dropdown-divider"></div>
+						<a href="/users/purchase-history" ng-if="$root.settings['site.enabled_plugins'].indexOf('CourseCheckout') > -1" title="Purchase History"
+						 class="text-muted dropdown-item" data-toggle="collapse" data-target="#mainMenu">{{'Purchase History'|translate}}</a>
+						<a href="/transactions" class="text-muted dropdown-item" data-toggle="collapse" data-target="#mainMenu" title="{{'My Transactions'| translate}}">{{'My Transactions'| translate}}</a>
+						<a href="/user_cash_withdrawals" class="text-muted dropdown-item" data-toggle="collapse" data-target="#mainMenu" title="{{'Withdraw Fund Requests'| translate}}" ng-if="$root.settings['site.enabled_plugins'].indexOf('CourseCheckoutRevenueWithdrawal') > -1">{{'Withdraw Fund Requests'| translate}}</a>
+						<div class="dropdown-divider"></div>
+						<a ng-if='!contentInIframe' href="/users/logout" title="{{'Logout'|translate}}" class="text-muted dropdown-item" data-toggle="collapse" data-target="#mainMenu">{{'Logout'|translate}}</a>
+					</div>
+				</li>
+			</ul>
+
+			<!-- not logged -->
+			<ul class="navbar-nav ml-md-auto" ng-show="!isAuth" ng-if="!isAuth" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement" >
+				<li class="nav-item "><a href="/users/login" itemprop="url" class="login nav-link" data-toggle="collapse" data-target="#mainMenu" title="{{'Become an Instructor'|translate}}">{{'Become an Instructor'| translate}}</a></li>
+				<li class="nav-item "><a ng-href="/users/login" itemprop="url" class="nav-link" data-toggle="collapse" data-target="#mainMenu" ng-click="modalLogin($event)" title="{{'Login'| translate}}">{{'Login'| translate}}</a></li>
+				<li class="nav-item hidden_tablet"><a ng-href="/users/signup" itemprop="url" data-toggle="collapse" data-target="#mainMenu" ng-click="modalSignup($event)" class="nav-link btn btn-outline-secondary" title="{{'Signup'| translate}}">{{'Signup'| translate}}</a></li>
+			</ul>
+
+
+
+		</div>
+	</nav>
+</header>
+
+
+<header class="clearfix" ng-if="isMobile" id="header" ng-hide="$root.success_state_name == 'LearnCourse' || $state.success_state_name == 'LearnCourseEmpty'" ng-class="{'transparent-header': !$root.isHome, 'homepage-header-promotion': $root.settings['site_promotions']['id'] > 0 && $root.isHome}" itemscope="itemscope" itemtype="https://schema.org/WPHeader">
+
+	<!-- Default navbar -->
+	<nav class="navbar navbar-expand-md flex-nowrap justify-content-between align-items-center navbar-light bg-white shadow-sm"  aria-label="Main navigation" role="navigation" id="mainMenuMobile" ng-show="!activeSearch">
+		<div class="col-4  pt-2">
+            <a class="text-dark" href="javascript:void(0);"  data-toggle="drawer" data-target="#mainMenu"  aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
+				<i class="mdi mdi-menu"></i>
+			</a>
+        </div>
+        <div class="col-4 text-center">
+        	<a href="/" title="{{$root.settings['site.name']}}" class="navbar-brand p-0">
+				<img ng-src="assets/apple-touch-icon.png" width="32" alt="[Image: {{$root.settings['site.name']}}]" title="{{$root.settings['site.name']}}" class="img-fluid center-block"/>
+			</a>
+        </div>
+        <div class="col-4">
+        	<!-- logged -->
+			<ul class="nav  float-right" ng-show="isAuth" ng-if="isAuth">
+
+				<li class="dropdown notifications cart pt-1" ng-if="$root.settings['site.enabled_plugins'].indexOf('CourseBulkCheckout') > -1">
+					<cart-buttons position="Header" type="Count"></cart-buttons>
+				</li>					
+				<li class="pt-1">
+					<a href="javascript:void(0);" ng-click="setActiveSearch(1)" class=" ng-scope">
+					    <i class="mdi mdi-magnify text-dark"></i>
+					</a>
+				</li>				
+<!-- 				<li class=" pt-1" ng-if="$root.currentState == 'CourseSearch'">
+		            <button class="bg-white border-0 mt-1" type="button" data-toggle="drawer" data-target="#subMenu"  aria-controls="subMenu" aria-expanded="false" aria-label="Toggle navigation">
+						<i class="mdi mdi-filter-outline text-dark"></i>
+					</button>
+				</li> -->
+
+			</ul>        	
+
+			<!-- unlogged -->
+			<ul class="nav  float-right" ng-show="!isAuth" ng-if="!isAuth">
+				
+				<li class="pt-1">
+					<a href="javascript:void(0);" ng-click="setActiveSearch(1)" class=" ng-scope">
+					    <i class="mdi mdi-magnify text-dark"></i>
+					</a>
+				</li>				
+
+			</ul>
+
+        </div>
+	</nav>	
+
+	<!-- Search navbar -->
+	<nav class="navbar navbar-expand-md flex-nowrap justify-content-between align-items-center navbar-light bg-white shadow-sm px-0"  aria-label="Search navigation" role="navigation" ng-show="activeSearch">
+		<div class="col-2 text-center pt-2">
+            <a href="javascript:void(0);" ng-click="setActiveSearch(0)" class="bg-white border-0 p-0 text-dark">
+				<i class="mdi-24px mdi mdi-chevron-{{isRtl?'right':'left'}}"></i>
+			</a>
+        </div>
+        <div class="col-8">
+        	<form class="form-inline navbar-main-search w-100" role="search" _lpchecked="1" method="post">
+				<input type="search" style="height: 32px;" aria-label="Search" placeholder="{{'Search Courses'|translate}}" value="{{csearchVal}}" class="form-control w-100 bg-white border-0" ng-model="csearchVal" ng-keyup="$event.keyCode == 13 ? CoursequerySearch(csearchVal) : null">
+			</form>
+        </div>
+        <div class="col-2 pt-2">
+        	<a href="javascript:void(0);" class="bg-white border-0 p-0 mt-1 text-dark" ng-click="resetSearch()" ng-if="csearchVal">
+				<i class="mdi-24px mdi mdi-close"></i>
+			</a>
+
+        </div>
+	</nav>
+
+</header>

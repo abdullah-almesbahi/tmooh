@@ -1,0 +1,168 @@
+<section id="wishlist-courses" class="course-tab bg-white mb-3">
+  <div class="container card-body pb-0">
+    <h3>{{'My Courses'|translate}}</h3>
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item ">
+        <a class="nav-link" href="/my-courses/learning" title="{{'Learning'|translate}}" aria-controls="learning" role="tab">{{'Learning'|translate}}</a>
+      </li>
+      <li class="nav-item " ng-if="$root.settings['site.enabled_plugins'].indexOf('CourseWishlist') > -1">
+        <a class="nav-link" href="/my-courses/wishlist" title="{{'Wishlist'|translate}}" aria-controls="wishlist" role="tab">{{'Wishlist'|translate}}</a>
+      </li>
+      <li class="nav-item " ng-if="$root.settings['site.enabled_plugins'].indexOf('Group') > -1">
+        <a class="nav-link active" href="/my-courses/groups" title="{{'Groups'|translate}}" aria-controls="wishlist" role="tab">{{'Groups'|translate}}</a>
+      </li>
+    </ul>
+  </div>
+</section>
+<section class="course-group-block">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="tab-content">
+          <div id="wishlist" class="tab-pane active" role="tabpanel">
+            <div ng-include src="'common/loader.tpl.html'" ng-show="model.loader"></div>
+            <div class="groups-page" ng-repeat="(key,group) in model.groups" ng-show="!model.loader">
+              <div class="card mb-4">
+                <div class="card-body" id="group_list">
+                  <h3 class="no-mar">{{group.name}}
+                      <a class="float-right mx-2" href="" ng-click="model.GroupDelete(key,group.id)">
+                          <i class="mdi mdi-delete fa-fw"></i>
+                      </a>
+                      <a class="float-right mx-2" href="" ng-click="Groupedit(group.id)">
+                          <i class="mdi mdi-pencil fa-fw"></i>
+                      </a>
+                  </h3>
+                  <p class="text-medium-grey descripion-text ml10 ellipsis mb-0">{{group.description}}</p>
+                </div>
+              </div>
+              <div class="">
+
+                <div class="row course-listing">
+                  <div class="col-md-3 col-sm-4 col-xs-12 mb-4" ng-repeat="(course_group_key,course_group) in group.courses_groups" ng-if="group.courses_groups.length">
+                    <div class="card shadow-sm dashboardPanelHeight">
+                      <!--Vedio Course Section for image-->
+                      <span ng-if="course_group.vedio_course">
+												<!-- course image when is_from_mooc_affiliate false -->
+												<a  title="{{course_group.title}}" ui-sref="LearnCourseview({course_user_id: course_group.course_users[0].id,type:'overview'})">
+														<span class="course_thumb_img" ng-if="course_group.image_hash">
+														<img class="card-img-top grid-height" ng-src="{{$root.site_url}}img/medium_thumb/Course/{{course_group.image_hash}}" alt="[Image: {{course_group.title}}]" title="{{course_group.title}}" />
+													</span>
+                      <span ng-if="!course_group.image_hash">
+														<img class="card-img-top grid-height" ng-src="{{$root.site_url}}img/medium_thumb/Course/0.default.jpg" alt="[Image: {{course_group.title}}]" title="{{course_group.title}}" />
+													</span>
+                      </a>
+
+                      </span>
+                      <!--Webinar course Section for image -->
+                      <span ng-if="course_group.webinar_course">
+												<!-- course image when is_from_mooc_affiliate false -->
+												<a class="course_thumb" href="" ng-click="model.openWebinarCourseModal(course_group.course_users)"
+								title="{{course_group.title}}">
+													<span class="course_thumb_img" ng-if="course_group.image_hash">
+														<img class="card-img-top grid-height" ng-src="{{$root.site_url}}img/medium_thumb/Course/{{course_group.image_hash}}" alt="[Image: {{course_group.title}}]" title="{{course_group.title}}" />
+													</span>
+                      <span ng-if="!course_group.image_hash">
+														<img class="card-img-top grid-height" ng-src="{{$root.site_url}}img/medium_thumb/Course/0.default.jpg" alt="[Image: {{course_group.title}}]" title="{{course_group.title}}" />
+													</span>
+                      </a>
+                      </span>
+                      <!--Offline course image section -->
+                      <span ng-if="course_group.offline_course">
+												<a  class="course_thumb" href="" ng-click="model.openOfflineCourseModal(course_group.course_users)"
+								title="{{course_group.title}}">
+													<span class="course_thumb_img" ng-if="course_group.image_hash">
+														<img class="card-img-top grid-height" ng-src="{{$root.site_url}}img/medium_thumb/Course/{{course_group.image_hash}}" alt="[Image: {{course_group.title}}]" title="{{course_group.title}}" />
+													</span>
+                      <span ng-if="!course_group.image_hash">
+														<img class="card-img-top grid-height" ng-src="{{$root.site_url}}img/medium_thumb/Course/0.default.jpg" alt="[Image: {{course_group.title}}]" title="{{course_group.title}}" />
+													</span>
+                      </a>
+                      </span>
+
+                      <div class="card-body">
+                        <div class="float-right dropdown action-btn" title="{{'Options'|translate}}">
+                          <a href="javascript:void(0);" class="btn btn-link btn-sm" data-toggle="dropdown">
+                              <i class="mdi-18px mdi mdi-dots-vertical fa-lg"></i>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right float-right">
+
+                            <a href="javascript:void(0);" title="{{'Remove from Group'|translate}}" ng-click="model.DeleteCourseGroup(key,course_group_key,course_group.courses_groups_id)" class="text-muted dropdown-item">
+                                  <i class="mdi-18px mdi mdi-close fa-fw"></i>{{'Remove from Group'|translate}}
+                              </a>
+
+                          </div>
+                        </div>
+
+                        <h5 class="card-title text-truncate">
+    											<a  ng-if="course_group.vedio_course" ui-sref="LearnCourseview({course_user_id: course_group.course_users[0].id,type:'overview'})" title="{{course_group.title}}" class="text-muted">
+    												<i class="mdi mdi-video mdi-18px"></i> {{course_group.title}}
+    											</a>
+    											<!--offline course section showing-->
+    											<a class="text-muted" ng-if="course_group.offline_course" href="" title="{{course_group.title}}" ng-click=" model.openOfflineCourseModal(course_group.course_users)">
+    												<i class="mdi mdi-laptop mdi-18px"></i> {{course_group.title}}
+    											</a>
+    											<!--Webinar_course section showing-->
+    											<a ng-if="course_group.webinar_course"  href="" title="{{course_group.title}}" class="text-muted clearfix" ng-click="model.openWebinarCourseModal(course_group.course_users)">
+    												<i class="mdi mdi-teach mdi-18px"></i> {{course_group.title}}
+    											</a>
+    									</h5>
+
+                        <p ng-if="$root.settings['site.enabled_plugins'].indexOf('Instructor') > -1">
+                          <profile-name instructor='true' user-profile-id='course_group.course_users[0].teacher_user_id' ng-if='course_group.course_users[0]' user-display-name='course_group.course_users[0].teacher_name' user-name-class='text-muted text-truncate'></profile-name>
+                        </p>
+                        <div ng-if="course_group.vedio_course" class="progress progress-striped active" data-toggle="tooltip" tooltp-placement="bottom" tooltp="{{(100*(course_group.course_users[0].completed_lesson_count/course_group.course_users[0].active_online_course_lesson_count)) | number: 0}}{{'% Complete'|translate}}">
+                          <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{(100*(course_group.course_users[0].completed_lesson_count/course_group.course_users[0].active_online_course_lesson_count)) | number: 2}}%">
+                            <span class="sr-only">{{(100*(course_group.course_users[0].completed_lesson_count/course_group.course_users[0].active_online_course_lesson_count)) | number: 0}}{{'% Complete'|translate}}</span>
+                          </div>
+                        </div>
+                        <div ng-if="course_group.webinar_course || course_group.offline_course" class="progress progress-striped active" data-toggle="tooltip" tooltp-placement="bottom" tooltp="{{course_group.progess_percentage}}{{'% Complete'|translate}}">
+                          <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{course_group.progess_percentage}}%">
+                            <span class="sr-only">{{course_group.course_users[0].progess_percentage}}{{'% Complete'|translate}}</span>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-6 float-left">
+                            <span class="show text-muted" ng-if="course_group.vedio_course">{{(100*(course_group.course_users[0].completed_lesson_count/course_group.course_users[0].active_online_course_lesson_count)) | number: 0}}{{'% Complete'|translate}}</span>
+                            <span class="show text-muted" ng-if="course_group.webinar_course || course_group.offline_course">{{course_group.progess_percentage}}{{'% Complete'|translate}}</span>
+                            <div ng-if="course_group.course_users[0].course_user_status === 'Completed'">
+                              <course-certificate-button class="course-certficate" course-user-id='{{course_group.course_users[0].id}}' type='model' position='my_course'></course-certificate-button>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 float-right text-right">
+                            <rating-stars average-rating='{{course_group.course_users[0].rating}}' ng-if="course_group.course_users[0] && $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1"></rating-stars>
+                            <div class="text-right">
+                              <rating-button class="rating-btn" courseuserid='{{course_group.course_users[0].id}}' btnstyle="text" btntext="{{'Rate It'|translate}}" user-id='{{course_group.course_users[0].user_id}}' course-id='{{course_group.course_users[0].course_id}}' ng-if="course_group.course_users[0]"></rating-button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center" ng-if="!group.courses_groups.length">
+                <p class="alert alert-danger">{{'No records found in this Group'|translate}}</p>
+                <p>{{'Organize and access your courses faster!' | translate}}</p>
+                <a href="/my-courses/learning">
+									{{'Go to the All Learning tab to add a course to the group.' | translate}}
+								</a>
+              </div>
+            </div>
+          </div>
+          <div class="text-center ver-mspace" ng-show="!model.groups.length && !model.loader">
+            <p class="alert alert-danger">{{'No records found'|translate}}</p>
+            <p>{{'Organize and access your courses faster!' | translate}}</p>
+            <a href="/my-courses/learning">
+							{{'Go to the All Learning tab to create a Group.' | translate}}
+						</a>
+          </div>
+          <div class="well-lg"></div>
+          <div class="paging clearfix text-center" ng-show="model._metadata.total_records > 0 && model.groups.length">
+            <ul uib-pagination total-items="model._metadata.total_records" ng-model="model.currentPage" ng-change="model.paginate('#group_list')" max-size="model._metadata.maxSize" boundary-links="true" num-pages=" model._metadata.noOfPages" items-per-page="model._metadata.limit"
+              first-text="{{'First'|translate}}" last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

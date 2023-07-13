@@ -1,0 +1,50 @@
+<div class="clearfix recommend-courses my-3" ng-if="model.related_courses_by_user_length > 0">
+	<h3 class="bluec float-none">{{'More from Recommend Courses'|translate}}</h3>
+	<div class="recommend-bg">
+		<div class="row">
+			<div class="col-md-3 col-xs-12 mb-3" ng-repeat="relatedCoursesByUser in model.relatedCoursesByUser.data">
+				<div class="shadow-sm card">
+					<a href="#" title="web-design">
+						<!-- course image when is_from_mooc_affiliate false -->
+						<a ng-if="relatedCoursesByUser.image_hash && relatedCoursesByUser.is_from_mooc_affiliate !== 1" ng-href="/course/{{relatedCoursesByUser.id}}/{{relatedCoursesByUser.slug|escape}}" title="{{relatedCoursesByUser.title}}"><span class="course_thumb_img more_from_user"> <img class="card-img-top grid-height"  ng-src="{{$root.site_url}}img/normal_thumb/Course/{{relatedCoursesByUser.image_hash}}" alt="[Image: {{relatedCoursesByUser.title}}]" title="{{relatedCoursesByUser.title}}" class="center-block img-fluid" /></span></a>
+						<a ng-if="!relatedCoursesByUser.image_hash && relatedCoursesByUser.is_from_mooc_affiliate !== 1" ng-href="/course/{{relatedCoursesByUser.id}}/{{relatedCoursesByUser.slug|escape}}" title="{{relatedCoursesByUser.title}}"><span class="course_thumb_img more_from_user"> <img class="card-img-top grid-height" ng-src="{{$root.site_url}}img/normal_thumb/Course/0.default.jpg" alt="[Image: {{relatedCoursesByUser.title}}]" title="{{relatedCoursesByUser.title}}" class="center-block img-fluid" /></span></a>
+						<!-- course image when is_from_mooc_affiliate true -->
+						<a ng-if="relatedCoursesByUser.course_image && relatedCoursesByUser.is_from_mooc_affiliate === 1" ng-href="/course/{{relatedCoursesByUser.id}}/{{relatedCoursesByUser.slug|escape}}" title="{{relatedCoursesByUser.title}}"> <span class="course_thumb_img more_from_user"><img class="card-img-top grid-height" ng-src="{{relatedCoursesByUser.course_image}}" alt="[Image: {{relatedCoursesByUser.title}}]" title="{{relatedCoursesByUser.title}}" class="center-block img-fluid" /></span></a>
+						<a ng-if="!relatedCoursesByUser.course_image && relatedCoursesByUser.is_from_mooc_affiliate === 1" ng-href="/course/{{relatedCoursesByUser.id}}/{{relatedCoursesByUser.slug|escape}}" title="{{relatedCoursesByUser.title}}"><span class="course_thumb_img more_from_user"> <img class="card-img-top grid-height" ng-src="{{$root.site_url}}img/normal_thumb/Course/0.default.jpg" alt="[Image: {{relatedCoursesByUser.title}}]" title="{{relatedCoursesByUser.title}}" class="center-block img-fluid" /></span></a>
+					</a>
+					<div class="card-body">
+						<h5 class="card-title text-truncate">
+							<a ng-href="/course/{{relatedCoursesByUser.id}}/{{relatedCoursesByUser.slug|escape}}" title="{{relatedCoursesByUser.title}}" class="txt-fundmetals ">{{relatedCoursesByUser.title}}</a>
+						</h5>
+						<p class="text-12">
+							{{'by'|translate}} &nbsp;
+							<profile-name instructor='true' user-profile-id='relatedCoursesByUser.user_id' user-display-name='relatedCoursesByUser.displayname' ng-if='relatedCoursesByUser.user_id'></profile-name>
+						</p>
+						<div class="enroll-txt">
+							<span ng-if="relatedCoursesByUser.course_user_feedback_count !== null && relatedCoursesByUser.course_user_feedback_count !== undefined">
+							<a href="" title="{{relatedCoursesByUser.course_user_feedback_count}} Reviews" class="blackc">{{relatedCoursesByUser.course_user_feedback_count}} {{'Reviews'|translate}}</a>
+						</span>
+							<span ng-if="relatedCoursesByUser.course_user_feedback_count === null || relatedCoursesByUser.course_user_feedback_count === undefined">
+							<a href="" title="0 Reviews" class="blackc">0 {{'Reviews'|translate}}</a>
+						</span>
+
+						</div>
+						<div class="clearfix">
+							<div class="float-left" ng-if="$root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1">
+								<div class="ratings-blk">
+									<rating-stars average-rating='{{relatedCoursesByUser.average_rating}}' ng-if='model.relatedCoursesByUser'></rating-stars>
+								</div>
+							</div>
+							<div class="float-right">
+								<div class="txt-dollar text-danger">
+									<amount-display amount='{{relatedCoursesByUser.price}}' fraction='0' is-course-price='yes' tier-id='{{relatedCoursesByUser.tier_id}}'></amount-display>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>

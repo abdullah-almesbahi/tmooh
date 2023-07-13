@@ -1,0 +1,106 @@
+<div class="container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="" class="text-primary">{{'Home'|translate}}</a></li>
+      <li class="breadcrumb-item active"><span class="text-muted">{{'Transactions'|translate}}</span></li>
+    </ol>
+  </nav>
+
+	<div class="card shadow-sm mt-5">
+		<div class="card-body">
+			<div ng-if="model.user_available_balance">
+				<div class="float-right alert alert-success">
+					{{'Available Balance: '|translate}}<strong><amount-display amount='{{model.user_available_balance}}' fraction='2' is-course-price='no'></amount-display></strong>
+				</div>
+			</div>
+			<h1 class="card-title text-truncate">{{'Transactions'|translate}}</h1>
+			<div  id="transactions_list">
+				<table class="table table-striped">
+
+            <thead>
+                <tr>
+                    <th>
+                        <h5>{{'Date'|translate}}</h5>
+                    </th>
+                    <th>
+                        <h5>{{'Description'|translate}}</h5>
+                    </th>
+                    <th>
+                        <h5>{{'Course Type'|translate}}</h5>
+                    </th>
+                    <th ng-if="$root.is_teacher === 1">
+                        {{'Site Commission'|translate}}
+                    </th>
+                    <th>
+                        <h5>{{'Credit' | translate}}</h5>
+                    </th>
+                    <th>
+                        <h5>{{'Debit' | translate}}</h5>
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="transactionsList in model.transactionsList" ng-if="model.transactionsList.length &&!model.loader">
+                    <td>{{transactionsList.created}}</td>
+
+                    <td>
+                        <span ng-if="currentuserId == transactionsList.user_id && transactionsList.classname === 'course_users' && $root.auth.providertype !== 'admin'"
+                            translate="{{transactionsList.buyer_message}}" translate-values="{ BUYER: '{{transactionsList.displayname}}', COURSE: '{{transactionsList.course_title}}'}"></span>
+                        <span ng-if="(currentuserId == transactionsList.teacher_user_id || $root.auth.providertype === 'admin') && transactionsList.classname !== 'user_cash_withdrawals'"
+                            translate="{{transactionsList.teacher_message}}" translate-values="{ BUYER: transactionsList.displayname, COURSE: transactionsList.course_title }"></span>
+                    </td>
+                    <td>
+                        {{transactionsList.course_type}}
+                    </td>
+                    <!--Site comission amount-->
+                    <td ng-if="$root.is_teacher === 1 && currentuserId == transactionsList.teacher_user_id">
+                        <amount-display amount='{{transactionsList.site_commission_amount}}' fraction='2' is-course-price='no'>
+                    </td>
+                    <td>
+                        <!--Credit amount-->
+                        <!--purchase Amount Showing for Instructor-->
+                        <amount-display amount='{{transactionsList.revenue_amount}}' fraction='2' is-course-price='no' ng-if="transactionsList.transaction_type_id == '1' && currentuserId == transactionsList.teacher_user_id"></amount-display>
+                        <!--Refund Amount Showing for leaner-->
+                        <amount-display amount='{{transactionsList.amount}}' fraction='2' is-course-price='no' ng-if="transactionsList.transaction_type_id == '2' && currentuserId == transactionsList.user_id"></amount-display>
+                        <br>
+                        <!--Payout amount Amount Showing for Instructor-->
+                        <span ng-if="transactionsList.description !== null && transactionsList.description !== undefined && currentuserId == transactionsList.teacher_user_id && transactionsList.classname !== 'user_cash_withdrawals'">
+                             <small>({{transactionsList.description}})</small>  </span>
+                    </td>
+                    <td>
+                        <!--debit amount-->
+                        <!--purchase Amount Showing for learner-->
+                        <amount-display amount='{{transactionsList.amount}}' fraction='2' is-course-price='no' ng-if="transactionsList.transaction_type_id == '1' && currentuserId != transactionsList.teacher_user_id"></amount-display>
+                        <!--Refund Amount Showing for Instructor-->
+                        <amount-display amount='{{transactionsList.revenue_amount}}' fraction='2' is-course-price='no' ng-if="transactionsList.transaction_type_id == '2' && currentuserId == transactionsList.teacher_user_id && transactionsList.classname === 'course_users'"></amount-display>
+                        <!--Payout amount Amount Showing for Instructor-->
+                        <amount-display amount='{{transactionsList.amount}}' fraction='2' is-course-price='no' ng-if="transactionsList.transaction_type_id == '3' && currentuserId == transactionsList.teacher_user_id && transactionsList.classname == 'user_cash_withdrawals'"></amount-display>
+                    </td>
+                </tr>
+                <tr ng-show="model.loader">
+                    <td colspan="4" class="text-center">
+                        <div ng-include src="'common/loader.tpl.html'"></div>
+                    </td>
+                </tr>
+                <tr ng-if="!model.transactionsList.length  && !model.loader">
+                    <td colspan="7" class="text-center">
+                        <span class="hor-space error">{{'No Record Found' |translate}}</span>
+                    </td>
+                </tr>
+            </tbody>
+				</table>
+				<div class="paging clearfix text-center" ng-show="_metadata.total_records > 0">
+          <ul uib-pagination total-items="_metadata.total_records" ng-model="currentPage" ng-change="paginate('#transactions_list')" max-size="_metadata.maxSize"
+              boundary-links="true" num-pages="_metadata.noOfPages" items-per-page="_metadata.limit" first-text="{{'First'|translate}}"
+              last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- transaction messages -->
+   <span class="ng-hide" translate>You bought course - {{COURSE}}</span>
+   <span class="ng-hide" translate>{{BUYER}} bought course - {{COURSE}}</span>
+   <span class="ng-hide" translate>{{BUYER}} bought your course - {{COURSE}}</span>
+</div>

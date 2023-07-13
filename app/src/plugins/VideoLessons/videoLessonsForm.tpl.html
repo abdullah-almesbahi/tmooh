@@ -1,0 +1,113 @@
+<!--Video Lesson button Section-->
+<a class="video-link" title="{{'Add Video'|translate}}" ng-class="{'active' :showForm}" ng-click="uploadConfigure()" ng-if="action === 'add'">
+    <i class="mdi-36px mdi mdi-play-circle-outline "></i>
+    <span class="inner-video-lesson">{{'Video' | translate}}</span>
+</a>
+<!--Video Lesson add Section-->
+<div ng-if="action === 'add' && showForm" class="col-xs-12">
+
+    <div class="course-tab vedio-dashboard mb-3" ng-if="$root.settings['site.enabled_plugins'].indexOf('BulkUploader') > -1">
+        <div class="panel clearfix">
+            <div class="float-left">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" ><a class="nav-link" ng-class="{active: tab_active == 'upload_video'}" href="" ng-click="model.tabActivate('upload_video')" title="{{'Upload Video'|translate}}" aria-controls="Upload Video">{{'Upload Video'|translate}}</a></li>
+                    <li class="nav-item" ><a class="nav-link" ng-class="{active: tab_active == 'add_library'}" ng-click="model.tabActivate('add_library')" href="" title="{{'Add from library'|translate}}" aria-controls="Add from library">{{'Add from library'|translate}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div ng-if="tab_active == 'upload_video' ||  $root.settings['site.enabled_plugins'].indexOf('BulkUploader') === -1">
+        <form class="col-lg-12 form-horizontal" name="add_video" ng-submit="model.CheckUnpublishedLessons($event);add_video.$setPristine()">
+            <div class="">
+                <div id="row-title" class="form-group has-feedback" ng-class="add_video.attachment.$dirty ? (add_video.attachment.$valid ? 'has-success' : 'has-error') : ''">
+                    <div class="ng-admin-type-text space">
+                        <div class="alert alert-warning">
+                            <p><i class="mdi-18px mdi mdi-information" aria-hidden="true"></i> {{'Should be 720p minimum with
+                                clear lighting, composition, and a steady camera exported in 16:9 format.'|translate}}</p>
+                            <p ng-if="$root.settings['video.max_size_to_allow_video_file'] !== '' && $root.settings['video.max_size_to_allow_video_file'] !== undefined && $root.settings['video.max_size_to_allow_video_file'] !== null"><i class="mdi-18px mdi mdi-information" aria-hidden="true"></i> {{'File size should be lesser than'|translate}}
+                                {{$root.settings['video.max_size_to_allow_video_file'] | bytes}}</p>
+                        </div>
+                        <!--Amazon S3 plugin enabled-->
+                        <amazon-upload form-name='add_video' type='Upload' m-type='singleVideo' m-id='{{lessonID}}'  data-method="model.amazonS3Upload" ng-if="$root.settings['site.enabled_plugins'].indexOf('AmazonS3andRTMP') > -1">
+                        </amazon-upload>
+                        <!--Amazon S3 plugin disabled-->
+                        <span ng-if="$root.settings['site.enabled_plugins'].indexOf('AmazonS3andRTMP') === -1">
+					<input type="file" id="inputTaskAttachments" name="attachment" onchange="angular.element(this).scope().uploadVideo(this.files)"
+                            required="" ng-model="model.onlineVideoLesson.filename" />
+                        <div class="help-block">
+                            <p ng-if="$root.settings['video.extensions']">{{'Allowed extensions:'|translate}} {{$root.settings['video.extensions']}}</p>
+                        </div>
+                        <span ng-show="add_video.attachment.$dirty" class="glyphicon form-control-feedback" ng-class="add_video.attachment.$valid ? 'mdi mdi-check' : 'mdi mdi-close'"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="pl5 pr5">
+                        <button ng-hide="disableSave" type="submit" ng-disabled="disableButton" class="btn btn-primary">{{'Submit'|translate}}</button>
+                        <button ng-hide="!disableSave" ng-disabled="true" type="submit" class="btn btn-primary"><span class="glyphicon mdi mdi-check"></span> {{'Validating'|translate}} <span><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>                        &nbsp;{{'or'|translate}} &nbsp;
+                        <a href="#" ng-click="hideForm($event)" class="btn btn-outline-secondary">{{'Cancel'|translate}}</a>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div ng-if="tab_active == 'add_library'" class="addlibtable">
+        <bulk-uploader course='{{model.course}}' lesson-type-id='3' lesson-id='{{lessonID}}' action='list' video-action='add' updateparent="model.updateparent()"
+            publishparent="model.unpublishedLessonDetails()"></bulk-uploader>
+    </div>
+
+</div>
+<!--Video Lesson Edit Section-->
+<div ng-if=" action==='edit' && editForm" class="col-xs-12">
+    <div class="course-tab vedio-dashboard" ng-if="$root.settings['site.enabled_plugins'].indexOf('BulkUploader') > -1">
+        <div class="panel clearfix">
+            <div class="float-left">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="" ng-class="{active: tab_active == 'upload_video'}"><a href="" ng-click="model.tabActivate('upload_video')" title="{{'Upload Video'|translate}}" aria-controls="Upload Video">{{'Upload Video'|translate}}</a></li>
+                    <li ng-class="{active: tab_active == 'add_library'}"><a ng-click="model.tabActivate('add_library')" href="" title="{{'Add from library'|translate}}" aria-controls="Add from library">{{'Add from library'|translate}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div ng-if="tab_active == 'upload_video' || $root.settings['site.enabled_plugins'].indexOf('BulkUploader') === -1">
+        <form class="col-lg-12 form-horizontal" name="edit_video" ng-submit="editVideodetails($event);edit_video.$setPristine()">
+            <div class="row">
+                <div id="row-title" class="form-group has-feedback" ng-class="edit_video.attachment.$dirty ? (edit_video.attachment.$valid ? 'has-success' : 'has-error') : ''">
+                    <div class="ng-admin-type-text space">
+                        <div class="alert alert-warning">
+                            <p><i class="mdi-18px mdi mdi-information" aria-hidden="true"></i> {{'Should be 720p minimum with
+                                clear lighting, composition, and a steady camera exported in 16:9 format.'|translate}}</p>
+                            <p ng-if="$root.settings[ 'video.max_size_to_allow_video_file'] !=='' && $root.settings[ 'video.max_size_to_allow_video_file'] !==undefined && $root.settings[ 'video.max_size_to_allow_video_file'] !==null"><i class="mdi-18px mdi mdi-information
+           " aria-hidden="true"></i> {{'File size should be lesser than'|translate}} {{$root.settings['video.max_size_to_allow_video_file']
+                                | bytes}}</p>
+                        </div>
+                        <!--Amazon S3 plugin enabled-->
+                        <amazon-upload form-name='edit_video' type='Upload' m-type='singleVideo' m-id='{{lessonID}}'  data-method="model.amazonS3Upload" ng-if="$root.settings[ 'site.enabled_plugins'].indexOf( 'AmazonS3andRTMP')> -1">
+                        </amazon-upload>
+                        <!--Amazon S3 plugin disabled-->
+                        <span ng-if="$root.settings['site.enabled_plugins'].indexOf('AmazonS3andRTMP') === -1">
+					<input type="file" id="inputTaskAttachments" name="attachment" onchange="angular.element(this).scope().uploadVideo(this.files)"
+						ng-model="model.editOnlineVideoLesson.filename" accept="{{$root.settings['video.extensions']}}"/>
+					<div class="help-block">
+						<p ng-if="$root.settings['video.extensions']">{{'Allowed extensions:'|translate}} {{$root.settings['video.extensions']}}</p>
+					</div>
+					<span ng-show="edit_video.attachment.$dirty" class="glyphicon form-control-feedback" ng-class="edit_video.attachment.$valid ? 'mdi mdi-check' : 'mdi mdi-close'"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="pl5 pr5">
+                        <button ng-hide="disableSave" ng-disabled="disableButton" type="submit" class="btn btn-primary"><span class="glyphicon mdi mdi-check"></span> {{'Submit'|translate}}</button>
+                        <button ng-hide="!disableSave" ng-disabled="true" type="submit" class="btn btn-primary"><span class="glyphicon mdi mdi-check"></span> {{'Validating'|translate}} <span><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div ng-if="tab_active == 'add_library'" class="addlibtable">
+        <bulk-uploader course='{{model.course}}' lesson-type-id='3' lesson-id='{{lessonID}}' action='list' video-action='edit' updateparent="model.updateparent()"
+            publishparent="model.unpublishedLessonDetails()"></bulk-uploader>
+    </div>
+</div>

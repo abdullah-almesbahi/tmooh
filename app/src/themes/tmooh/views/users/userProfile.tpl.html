@@ -1,0 +1,203 @@
+<div banner position="topBanner" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1"></div>
+<section class="clearfix" ng-if="model.loading === false">
+	<div class="bg-dark col-xs-12">
+		<div class="container">
+			<div class="biography-txt">
+				<h1 class="no-mar">{{model.user.displayname}}</h1><br>
+				<h5 class="no-mar" ng-if="model.user.headline" ng-bind-html="model.user.headline | nl2br"></h5>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="card-body bg-white clearfix pb-0" ng-show="model.loading === false">
+	<div class="container">
+		<div class="row mt-3">
+			<div class="modal-user">
+				<div class="media">
+					<div class="col-4 text-center">
+						<div ng-if="model.user.image_hash !== '' && model.user.image_hash !== null" title="{{model.user.displayname}}">
+							<img ng-src="{{$root.site_url}}img/big_thumb/User/{{model.user.image_hash}}"
+								alt="[Image: {{model.user.displayname}}]" title="{{model.user.displayname}}" class="img-fluid center-block" />
+						</div>
+						<div ng-if="model.user.image_hash === '' || model.user.image_hash === null" title="{{model.user.displayname}}">
+							<img ng-src="{{$root.site_url}}img/big_thumb/User/0.default.jpg"
+								alt="[Image: {{model.user.displayname}}]" title="{{model.user.displayname}}" class="img-fluid center-block" />
+						</div>
+						<div class="text-center">
+							<h3>
+								{{model.user.displayname}}
+							</h3>
+							<ul class="list-inline navbar-btn">
+								<li class="list-inline-item" ng-show="model.user.twitter_profile_link">
+									<a rel="nofollow" href="{{model.user.twitter_profile_link}}" target="_blank" title="{{'Twitter'|translate}}" class="text-muted"> <i class="mdi-18px mdi mdi-twitter fa-stack-1x fa-inverse"></i> 										</a>
+								</li>
+								<li class="list-inline-item" ng-show="model.user.google_plus_profile_link">
+									<a rel="nofollow" href="{{model.user.google_plus_profile_link}}" target="_blank" title="{{'Google plus'|translate}}" class="text-muted">
+										 <i class="mdi-18px mdi mdi-google-plus fa-stack-1x fa-inverse"></i> </a>
+								</li>
+								<li class="list-inline-item" ng-show="model.user.facebook_profile_link">
+									<a rel="nofollow" href="{{model.user.facebook_profile_link}}" target="_blank" title="{{'Facebook'|translate}}" class="text-muted"> <i class="mdi-18px mdi mdi-facebook fa-stack-1x fa-inverse"></i> </a>
+								</li>
+								<li class="list-inline-item" ng-show="model.user.youtube_profile_link">
+									<a rel="nofollow" href="{{model.user.youtube_profile_link}}" target="_blank" title="{{'Youtube'|translate}}" class="text-muted"> <i class="mdi-18px mdi mdi-youtube fa-stack-1x fa-inverse"></i> 										</a>
+								</li>
+								<li class="list-inline-item" ng-show="model.user.website"><a rel="nofollow" href="{{model.user.website}}" target="_blank" title="{{'Globe'|translate}}" class="text-muted"> <i class="mdi-18px mdi mdi-earth fa-stack-1x fa-inverse"></i>  </a></li>
+								<li class="list-inline-item" ng-show="model.user.linkedin_profile_link">
+									<a rel="nofollow" href="{{model.user.linkedin_profile_link}}" target="_blank" title="{{'LinkedIn'|translate}}" class="text-muted"> <i class="mdi-18px mdi mdi-linkedin fa-stack-1x fa-inverse"></i> 										</a>
+								</li>
+							</ul>
+						</div>
+						<div banner position="profileBanner" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1" class="max-img"></div>
+					</div>
+					<div class="media-body col-8">
+						<div class="list-group-item-text list-group-item-heading">
+							<h3>{{'Professional Title'|translate}}</h3>
+							<p ng-if="model.user.headline" ng-bind-html="model.user.headline | nl2br">
+							</p>
+						</div>
+						<div class="list-group-item-text list-group-item-heading">
+							<h3>{{'About Me'|translate}}</h3>
+							<p ng-if="model.user.biography" ng-bind-html="model.user.biography | nl2br">
+							</p>
+						</div>
+
+						<ul class="instructor__stats list-inline">
+							<li class="list-inline-item text-center">
+								<div>
+									{{'Students'|translate}}
+								</div>
+								<div class="a2 display-4">
+									{{Instructor_Status['student_count']}}
+								</div>
+							</li>
+							<li class="list-inline-item text-center">
+								<div>
+									{{'Courses'|translate}}
+								</div>
+								<div class="a2 display-4">
+									{{Instructor_Status['course_count']}}
+								</div>
+							</li>
+							<li class="list-inline-item text-center">
+								<div>
+									{{'Reviews'|translate}}
+								</div>
+								<div class="a2 display-4">
+									{{Instructor_Status['review_count']}}
+								</div>
+							</li>
+
+						</ul>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="instructor-coursetab">
+			<div class="course-tab clearfix">
+				<ul class="text-center nav nav-tabs justify-content-center" role="tablist">
+					<li class="nav-item"  ng-if="model.user.is_teacher === 1 && model.teachingCourses.length > 0"><a ng-class="{'active':  model.user.is_teacher === 1}" showtab="" title="{{'Teaching'|translate}}" class="nav-link" href="{{currentUrl}}#teaching" ng-click="tabClick($event, 'teaching')">{{'Teaching'|translate}}</a></li>
+					<li class="nav-item"
+						ng-if='model.user.course_user_count > 0 && model.learningCourses.data.length > 0'><a ng-class="{'active':  model.user.course_user_count > 0 && (!model.teachingCourses.length) }" showtab="" title="{{'Learning'|translate}}" class="nav-link" href="{{currentUrl}}#learning" ng-click="tabClick($event, 'learning')">{{'Learning'|translate}}</a></li>
+					<li class="nav-item"
+						ng-if="model.user.course_favourites_count > 0 && $root.settings['site.enabled_plugins'].indexOf('CourseWishlist') > -1"><a ng-class="{'active':  model.user.course_favourites_count > 0 && model.user.is_teacher !== 1 && model.user.course_user_count === 0}" showtab="" ng-click="tabClick($event, 'wishlist')" title="{{'Wishlist'|translate}}" class="nav-link" href="{{currentUrl}}#wishlist">{{'Wishlist'|translate}}</a></li>
+				</ul>
+			</div>
+		</div>
+</section>
+<section class="clearfix mt-4" ng-show="model.loading === false">
+	<div class="container">
+		<div class="row">
+			<div class="col-12 navbar-btn">
+				<div class="tab-content">
+					<div id="learning" class="tab-pane " role="tabpanel" ng-class="{'active':  model.user.course_user_count > 0 && ( !model.teachingCourses.length) }">
+						<ul class="clearfix list-unstyled navbar-btn row course-listing" ng-if="model.learningCourses">
+							<li class="col-3 mb-3" ng-repeat="learningCourses in model.learningCourses.data">
+								<div class="card shadow-sm">
+									<!-- course image when is_from_mooc_affiliate false -->
+									<a ng-if="learningCourses.course_image_hash && learningCourses.is_from_mooc_affiliate !== 1" ng-href="/course/{{learningCourses.course_id}}/{{learningCourses.course_slug|escape}}"
+										title="{{learningCourses.course_title}}">
+										<span class="course_thumb_img"> <img class="card-img-top grid-height" ng-src="{{$root.site_url}}img/medium_thumb/Course/{{learningCourses.course_image_hash}}" alt="[Image: {{learningCourses.course_title}}]" title="{{learningCourses.course_title}}"/></span>
+									</a>
+									<a ng-if="!learningCourses.course_image_hash && learningCourses.is_from_mooc_affiliate !== 1" ng-href="/course/{{learningCourses.course_id}}/{{learningCourses.course_slug|escape}}"
+										title="{{learningCourses.course_title}}">
+										<span class="course_thumb_img"><img class="card-img-top grid-height" ng-src="{{$root.site_url}}img/medium_thumb/Course/0.default.jpg" alt="[Image: {{learningCourses.course_title}}]" title="{{learningCourses.course_title}}" /></span>
+									</a>
+									<!-- course image when is_from_mooc_affiliate true -->
+									<a ng-if="learningCourses.course_image && learningCourses.is_from_mooc_affiliate === 1" ng-href="/course/{{learningCourses.course_id}}/{{learningCourses.course_slug|escape}}"
+										title="{{learningCourses.course_title}}">
+										<span class="course_thumb_img"><img class="card-img-top grid-height" ng-src="{{learningCourses.course_image}}" alt="[Image: {{learningCourses.course_title}}]" title="{{learningCourses.course_title}}"/></span>
+									</a>
+
+									<a ng-if="!learningCourses.course_image && learningCourses.is_from_mooc_affiliate === 1" ng-href="/course/{{learningCourses.course_id}}/{{learningCourses.course_slug|escape}}"
+										title="{{learningCourses.course_title}}">
+										<span class="course_thumb_img"><img class="card-img-top grid-height" ng-src="{{$root.site_url}}img/medium_thumb/Course/0.default.jpg" alt="[Image: {{learningCourses.course_title}}]" title="{{learningCourses.course_title}}" /></span>
+									</a>
+
+									<div class="card-body">
+										<h5 class="text-truncate ">
+											<a class="text-truncate text-primary" ng-href="/course/{{learningCourses.course_id}}/{{learningCourses.course_slug|escape}}"
+												title="{{learningCourses.course_title}}" class="text-muted">{{learningCourses.course_title}}
+											</a>
+										</h5>
+
+										<p>
+											<profile-name user-profile-id='learningCourses.teacher_user_id' ng-if='model.learningCourses' user-display-name='learningCourses.teacher_name'
+												user-name-class='true'></profile-name>
+
+										</p>
+										<p></p>
+										<div class="clearfix">
+											<rating-stars average-rating='{{learningCourses.average_rating}}' ng-if="model.learningCourses && $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1"></rating-stars>
+										</div>
+										<div>
+											<span class="text-muted initialism text-warning"><amount-display amount='{{learningCourses.course_price}}' fraction='0' is-course-price='yes'></amount-display></span>
+										</div>
+									</div>
+								</div>
+
+							</li>
+						</ul>
+						<div class="paging clearfix text-center" ng-show="_metadata.total_records > 0">
+							<ul uib-pagination total-items="_metadata.total_records" ng-model="currentPage" ng-change="paginate()" max-size="_metadata.maxSize"
+								boundary-links="true" num-pages="_metadata.noOfPages" items-per-page="_metadata.limit" first-text="{{'First'|translate}}"
+								last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+						</div>
+					</div>
+					<div id="teaching" class="tab-pane" role="tabpanel" ng-class="{'active':  model.user.is_teacher === 1 && model.teachingCourses.length > 0}">
+						<ul class="clearfix list-unstyled navbar-btn row course-listing" ng-if="model.teachingCourses">
+							<li class="col-md-3 col-sm-4 col-xs-12" ng-repeat="teachingCourses in model.teachingCourses">
+								<div class="panel">
+									<a ng-if="teachingCourses.image_hash !== '' && teachingCourses.image_hash !== null" ng-href="/course/{{teachingCourses.id}}/{{teachingCourses.slug|escape}}"
+										title="{{teachingCourses.title}}"> <span class="course_thumb_img"><img ng-src="{{$root.site_url}}img/medium_thumb/Course/{{teachingCourses.image_hash}}" alt="[Image: {{teachingCourses.title}}]" title="{{teachingCourses.title}}" /></span></a>
+
+									<a ng-if="teachingCourses.image_hash === '' || teachingCourses.image_hash === null" ng-href="/course/{{teachingCourses.id}}/{{teachingCourses.slug|escape}}"
+										title="{{teachingCourses.title}}"><span class="course_thumb_img"> <img ng-src="{{$root.site_url}}img/medium_thumb/Course/0.default.jpg" alt="[Image: {{teachingCourses.title}}]" title="{{teachingCourses.title}}" /></span></a>
+									<div class="card-body"> <a class="text-truncate text-primary" ng-href="/course/{{teachingCourses.id}}/{{teachingCourses.slug|escape}}" title="{{teachingCourses.title}}"><strong>{{teachingCourses.title}}</strong></a>
+										<div class="clearfix">
+
+										</div>
+										<div>
+											<span class="text-muted initialism text-warning"><amount-display amount='{{teachingCourses.price}}' fraction='0' is-course-price='yes'></amount-display></span>
+										</div>
+									</div>
+								</div>
+
+							</li>
+						</ul>
+						<div class="paging clearfix text-center" ng-show="model.teachingCourses._metadata.total_records > 0">
+							<ul uib-pagination total-items="model.teachingCourses._metadata.total_records" ng-model="currentTeachPage" ng-change="paginateTeaching()"
+								max-size="model.teachingCourses._metadata.maxSize" boundary-links="true" num-pages="model.teachingCourses._metadata.noOfPages"
+								items-per-page="model.teachingCourses._metadata.limit" first-text="{{'First'|translate}}" last-text="{{'Last'|translate}}"
+								next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+						</div>
+					</div>
+					<div id="wishlist" class="tab-pane" role="tabpanel" ng-class="{'active':  model.user.course_favourites_count > 0 && model.user.is_teacher !== 1 && model.user.course_user_count === 0 }">
+						<course-wishlist-data ng-if="$root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1 && model.user.id" user_id='{{user_id}}'></course-wishlist-data>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<div banner position="bottomBanner" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1"></div>

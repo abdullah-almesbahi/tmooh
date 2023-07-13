@@ -1,0 +1,257 @@
+<div class="modal-login" ng-class="{'container': currentPageType === 'page'}" ng-if="current_state !== 'UserPurchaseOrderReceipt'">
+	<div class="custom-table" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+		<div class="">
+			<div class="card">
+				<div class="card-body">
+					<a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose"><i class="mdi-18px mdi mdi-close close"></i></a>
+					<h3 class="text-center">{{'Invoice of your order'|translate}}</h3>
+					<div class="invoiceorder_topblk clearfix">
+						<div class="invoiceodrlft">
+							<div class="orderuname">{{order.username}}</div>
+							<address class="no-mar" ng-if="order.billing_address !== null">
+								<span ng-if="order.billing_address !== null">{{order.billing_address}}, </span>
+								<span ng-if="order.billing_city !== null">{{order.billing_city}}, </span>
+								<span ng-if="order.billing_state !== null">{{order.billing_state}}, </span>
+								<span ng-if="order.billing_zip_code !== null">{{order.billing_zip_code}}</span>
+							</address>
+							<div ng-if="order.buyer_phone_number !== null"><span>{{order.buyer_phone_number}}</span></div>
+
+						</div>
+						<div class="invoiceodrrgt">
+							<div class="text-right">
+								<div> {{order.created | amDateFormat: 'DD.MM.YYYY hh:mm a'}}</div>
+								<div>{{'Invoice for '|translate}} {{order.invoice_number}}</div>
+								<div>{{'Payment status'|translate}} :
+									<span ng-if="order.is_paid" class="success"><strong>{{'Completed'|translate}}</strong></span>
+									<span ng-if="!order.is_paid" class="danger"><strong>{{'Not Completed'|translate}}</strong></span>
+								</div>
+								<div>{{'Payment Mode'|translate}} : <strong>{{order.payment_mode}}</strong></div>
+								<div ng-if="order.payment_mode == 'Credit Card'">
+									<strong ng-if="order.show_credit_card === true">({{order.credit_card_type}}-{{order.masked_cc}})</strong>
+								</div>
+							</div>
+						</div>
+					</div>
+					<h3 class="invoiceheading">{{'Item Details' | translate}}</h3>
+					<div class="clearfix">
+						<div class="table-responsive clearfix">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th class="text-center">{{'Course Name'|translate}}</th>
+										<th class="text-center">{{'Course Type'|translate}}</th>
+										<th class="text-right">{{'Course Price'|translate}}</th>
+										<th class="text-center">{{'Coupon Code'|translate}}</th>
+										<th class="text-center">{{'Discount Amount'|translate}}</th>
+										<th class="text-right">{{'Paid'|translate}}</th>
+										<th class="text-right" ng-if="order.payment_mode == 'Credit Card' && order.show_credit_card === true">{{'Credit Card'|translate}}</th>
+										<th class="text-right" ng-if="order.payment_mode == 'Credit Card' && order.show_credit_card === true">{{'Card Type'|translate}}</th>
+										<th class="text-right" ng-if="((order.payment_mode == 'PayPal') || (order.payment_mode == 'Credit Card' && order.show_credit_card === false))">{{'Via'|translate}}</th>
+										<th class="text-center">
+											<h5 class="space-normal">{{'Actions'|translate}}
+												<i class="mdi-18px mdi mdi-information-outline" data-trigger="hover" tooltip-placement="left" uib-tooltip="{{ConstToolTipContent.RefundInformation}}"></i>
+											</h5>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-if="order !== null" ng-repeat="course_user in order.course_users">
+										<td>{{course_user.course_title}}</td>
+										<td>{{course_user.course_type}}</td>
+										<td class="text-right">
+											<amount-display amount='{{course_user.price}}' fraction='2' is-course-price='yes' ng-if="course_user.price" tier-id='{{course_user.tier_id}}'></amount-display>
+										</td>
+										<td>
+											<span ng-if="course_user.coupon_id !== null">{{course_user.coupon_code}}</span>
+											<span ng-if="course_user.coupon_id === null">-</span>
+										</td>
+										<td>
+											<amount-display amount='{{course_user.discount_amount}}' fraction='2' is-course-price='no'></amount-display>
+										</td>
+										<td class="text-right">
+											<amount-display amount='{{course_user.paid_amount}}' fraction='2' is-course-price='no' ng-if="course_user.paid_amount"></amount-display>
+										</td>
+										<td ng-if="order.payment_mode == 'Credit Card' && order.show_credit_card === true">{{order.masked_cc}}</td>
+										<td ng-if="order.payment_mode == 'Credit Card' && order.show_credit_card === true">{{order.credit_card_type}}</td>
+										<td ng-if="order.payment_mode == 'Credit Card' && order.show_credit_card === false">{{ConstPaymentMode.payment_type1}}</td>
+										<td ng-if="order.payment_mode == 'PayPal'">{{ConstPaymentMode.payment_type2}}</td>
+										<td class="text-right">
+											<a href="" ng-if="course_user.refund_allow" ng-click="refund_reason(course_user)" class="btn btn-primary btn-sm">{{'Claim Refund'|translate}} </a>
+											<a href="" ng-if="course_user.refund_request_Calimed" class="btn btn-warning  btn-sm" disabled>{{'Refund Requested'|translate}} </a>
+											<a href="" ng-if="course_user.refund_Accepted" class="btn btn-success  btn-sm" disabled>{{'Refunded'|translate}} </a>
+											<a href="" ng-if="course_user.refund_Rejected" class="btn btn-success  btn-sm" disabled>{{'Rejected'|translate}} </a>
+											<i ng-if="course_user.refund_Rejected" class="mdi-18px mdi mdi-information-outline" popover-placement="top" uib-popover=" Reason: {{course_user.admin_reject_reason}}"></i>
+										</td>
+									</tr>
+									<tr ng-if="order === null">
+										<td colspan="4" class="text-center">
+											<span class="hor-space">{{'No Record Found' |translate}}</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<h3 class="invoiceheading">{{'Payment Details'|translate}}</h3>
+						<div class="mb30 clearfix">
+							<table class="table table-striped">
+								<tbody>
+									<tr>
+										<td class="">{{'Subtotal Price'|translate}}</td>
+										<td class="">
+											<amount-display amount='{{sub_total_price}}' fraction='2' is-course-price='no'></amount-display>
+										</td>
+									</tr>
+									<tr>
+										<td class="">{{'Discount Price'|translate}}</td>
+										<td class="">
+											<amount-display amount='{{overall_discount_price}}' fraction='2' is-course-price='no' ng-if="overall_discount_price !== null && overall_discount_price !== undefined"></amount-display>
+										</td>
+									</tr>
+									<tr>
+										<td class=""><strong>{{'Total Price'|translate}}</strong></td>
+										<td class=""><strong><amount-display amount='{{order.amount}}' fraction='2' is-course-price='yes' ng-if="order.amount"></amount-display></strong></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="mb20">
+							<h3 class="invoiceheading">{{'Note'|translate}}</h3>
+							{{'If you have any questions, please'|translate}} <a href="/contactus">{{'contact us'|translate}}</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div banner position="bottomBanner" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1 && currentPageType === 'page'"></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="invoicemainblock" ng-if="current_state === 'UserPurchaseOrderReceipt'">
+	<div class="invoicecontainer" ng-class="{'container py-5': currentPageType === 'page' || currentPageType == ''}">
+		<div class="custom-table invoicetable" ng-class="{'card-body shadow-sm bg-white': currentPageType === 'page'}">
+			<div class="clearfix">
+				<div class="mt30 text-center"><strong>{{'Invoice of your order'|translate}}</strong></div>
+			</div>
+			<div class="">
+				<div class="">
+					<div class="invoiceorder_topblk clearfix">
+						<div class="invoiceodrlft">
+							<div class="orderuname">{{order.username}}</div>
+							<address class="no-mar" ng-if="order.billing_address !== null">
+								<span ng-if="order.billing_address !== null">{{order.billing_address}}, </span>
+								<span ng-if="order.billing_city !== null">{{order.billing_city}}, </span>
+								<span ng-if="order.billing_state !== null">{{order.billing_state}}, </span>
+								<span ng-if="order.billing_zip_code !== null">{{order.billing_zip_code}}</span>
+							</address>
+							<div ng-if="order.buyer_phone_number !== null"><span>{{order.buyer_phone_number}}</span></div>
+
+						</div>
+						<div class="invoiceodrrgt">
+							<div class="text-right">
+								<div> {{order.created | amDateFormat: 'DD.MM.YYYY hh:mm a'}}</div>
+								<div>{{'Invoice for '|translate}} {{order.invoice_number}}</div>
+								<div>{{'Payment status'|translate}} :
+									<span ng-if="order.is_paid" class="success"><strong>{{'Completed'|translate}}</strong></span>
+									<span ng-if="!order.is_paid" class="danger"><strong>{{'Not Completed'|translate}}</strong></span>
+								</div>
+								<div>{{'Payment Mode'|translate}} : <strong>{{order.payment_mode}}</strong></div>
+								<div ng-if="order.payment_mode == 'Credit Card'">
+									<strong ng-if="order.show_credit_card === true">({{order.credit_card_type}}-{{order.masked_cc}})</strong>
+								</div>
+							</div>
+						</div>
+					</div>
+					<h3 class="invoiceheading">{{'Item Details'|translate}}</h3>
+					<div class="clearfix">
+						<div class="table-responsive clearfix">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th class="text-center">{{'Course Name'|translate}}</th>
+										<th class="text-center">{{'Course Type'|translate}}</th>
+										<th class="text-right">{{'Course Price'|translate}}</th>
+										<th class="text-center">{{'Coupon Code'|translate}}</th>
+										<th class="text-center">{{'Discount Amount'|translate}}</th>
+										<th class="text-right">{{'Paid'|translate}}</th>
+										<th class="text-right" ng-if="order.payment_mode == 'Credit Card' && order.show_credit_card === true">{{'Credit Card'|translate}}</th>
+										<th class="text-right" ng-if="order.payment_mode == 'Credit Card' && order.show_credit_card === true">{{'Card Type'|translate}}</th>
+										<th class="text-right" ng-if="((order.payment_mode == 'PayPal') || (order.payment_mode == 'Credit Card' && order.show_credit_card === false))">{{'Via'|translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-if="order !== null" ng-repeat="course_user in order.course_users">
+										<td>{{course_user.course_title}}</td>
+										<td>{{course_user.course_type}}</td>
+										<td class="text-right">
+											<amount-display amount='{{course_user.price}}' fraction='2' is-course-price='yes' ng-if="course_user.price" tier-id='{{course_user.tier_id}}'></amount-display>
+										</td>
+										<td>
+											<span ng-if="course_user.coupon_id !== null">{{course_user.coupon_code}}</span>
+											<span ng-if="course_user.coupon_id === null">-</span>
+										</td>
+										<td>
+											<amount-display amount='{{course_user.discount_amount}}' fraction='2' is-course-price='no'></amount-display>
+										</td>
+										<td class="text-right">
+											<amount-display amount='{{course_user.paid_amount}}' fraction='2' is-course-price='no' ng-if="course_user.paid_amount"></amount-display>
+										</td>
+										<td ng-if="order.payment_mode == 'Credit Card' && order.show_credit_card === true">{{order.masked_cc}}</td>
+										<td ng-if="order.payment_mode == 'Credit Card' && order.show_credit_card === true">{{order.credit_card_type}}</td>
+										<td ng-if="order.payment_mode == 'Credit Card' && order.show_credit_card === false">{{ConstPaymentMode.payment_type1}}</td>
+										<td class="text-right" ng-if="order.payment_mode == 'PayPal'">{{ConstPaymentMode.payment_type2}}</td>
+									</tr>
+									<tr ng-if="order === null">
+										<td colspan="4" class="text-center">
+											<span class="hor-space">{{'No Record Found' |translate}}</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<h3 class="invoiceheading">{{'Payment Details'|translate}}</h3>
+						<div class="mb30 clearfix">
+							<table class="table table-striped">
+								<tbody>
+									<tr>
+										<td class="">{{'Subtotal Price'|translate}}</td>
+										<td class="">
+											<amount-display amount='{{sub_total_price}}' fraction='2' is-course-price='no' ng-if="sub_total_price"></amount-display>
+										</td>
+									</tr>
+									<tr>
+										<td class="">{{'Discount Price'|translate}}</td>
+										<td class="">
+											<amount-display amount='{{overall_discount_price}}' fraction='2' is-course-price='no' ng-if="overall_discount_price !== null && overall_discount_price !== undefined"></amount-display>
+										</td>
+									</tr>
+									<tr>
+										<td class=""><strong>{{'Total Price'|translate}}</strong></td>
+										<td class=""><strong><amount-display amount='{{order.amount}}' fraction='2' is-course-price='yes' ng-if="order.amount"></amount-display></strong></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="mb20">
+							<h3 class="invoiceheading">{{'Note'|translate}}</h3>
+							{{'If you have any questions, please'|translate}} <a href="/contactus">{{'contact us'|translate}}</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div banner position="bottomBanner" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1 && currentPageType === 'page'"></div>
+	</div>
+</div>

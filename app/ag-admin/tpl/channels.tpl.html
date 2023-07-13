@@ -1,0 +1,53 @@
+<div class="row">
+	<div class="col-lg-12">
+		<content-top>
+			<div class="content-top clearfix">
+				<h1 class="al-title ng-binding">Channels Update</h1>
+				<ul class="breadcrumb al-breadcrumb">
+					<li><a href="#/dashboard">Dashboard</a></li>
+					<li class="ng-binding">Channels Update</li>
+				</ul>
+			</div>
+		</content-top>
+	</div>
+</div>
+
+<div class="row" id="create-view">
+	<div class="clearfix well-sm with-scroll  panel animated zoomIn">
+		<div class="col-lg-12">
+			<div class="col-lg-12">
+				<div class="panel-body">
+					<div>
+						<div class="horizontal-scroll">
+							<table class="table table-bordered">
+								<thead>
+									<tr class="black-muted-bg">
+										<th class="text-center">Channels Name</th>
+										<th class="text-center">Video Training Share</th>
+										<th class="text-center">Online Training Share</th>
+										<th class="text-center">Onsite Training Share</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="no-top-border" ng-repeat="channel in channels">
+										<td>{{channel.name}}</td>
+										<td> <input type="text" class="form-control" ng-model="channel.online_shared_percentage
+" ng-model-onblur="UpdateChannel($index)"></td>
+										<td> <input type="text" class="form-control" ng-model="channel.webinar_shared_percentage
+" ng-model-onblur="UpdateChannel($index)"></td>
+										<td> <input type="text" class="form-control" ng-model="channel.offline_shared_percentage
+" ng-model-onblur="UpdateChannel($index)"></td>
+									</tr>
+
+								</tbody>
+							</table>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

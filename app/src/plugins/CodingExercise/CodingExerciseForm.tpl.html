@@ -1,0 +1,228 @@
+<!--Coding Exercise -->
+<div class="col" ng-if="model.action ==='add' && !$root.show_codingExercise" id="codingExerciseCreate">
+	<div class="add-lesson-btn">
+		<a class="btn  btn-outline-secondary btn-block btn-lg navbar-btn"  href="" ng-click="modalProgramming()">
+			<i class="mdi-18px mdi mdi-plus-box"></i>&nbsp; {{'Add Coding Exercise'|translate}}
+		</a>
+	</div>
+</div>
+<div class="col-xs-12  navbar-btn" ng-if="$root.show_codingExercise">
+	<div class="panel panel-default">
+		<form role="form" name="condingexercise_add" class="form-horizontal clearfix" ng-submit="model.CheckUnpublishedLessons(condingexercise_add.$valid)"
+			novalidate>
+			<div class="col-xs-12" ng-class="{ 'has-error' : (condingexercise_add.$submitted || condingexercise_add.coding_title.$touched) && (condingexercise_add.coding_title.$pristine || condingexercise_add.coding_title.$invalid)}">
+				<div class="">
+					<div class="ad-exceriseblk">
+						<h5>
+							{{'Learn to provide instant feedback to your students'|translate}}
+						</h5>
+						<p>
+							{{'You can help students identify their mistakes and get validation
+																											when they succeed by writing tests. Our documentation is a great way to get started.'|translate}}
+						</p>
+					</div>
+					<br>
+					<label class="control-label" for="coding_title">{{'Title'|translate}}</label>
+					<div class="input-group">
+						<input type="text" class="form-control" name="coding_title" id="coding_title" ng-model="model.codingExercise.title" required
+							maxlength="80" Placeholder="Simple sum">
+						<span class="input-group-addon">
+							{{80 - model.codingExercise.title.length}}
+						</span>
+					</div>
+					<div class="text-danger" ng-if="(condingexercise_add.$submitted || condingexercise_add.coding_title.$touched) && (condingexercise_add.coding_title.$pristine || condingexercise_add.coding_title.$invalid)"
+						ng-messages="condingexercise_add.coding_title.$error">
+						<div ng-message="required">{{'Required'|translate}}.</div>
+						<div ng-message="maxlength">{{'Sorry you are exceeding the limit'|translate}}.</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12" ng-class="{ 'has-error' : (condingexercise_add.$submitted || condingexercise_add.coding_description.$touched) && (condingexercise_add.coding_description.$pristine || condingexercise_add.coding_description.$invalid)}">
+				<div class="">
+					<label class="control-label" for="coding_description">
+						{{'Problem Statement'|translate}}
+					</label>
+					<p>
+						{{'This is the problem that your students will try to solve. Be as descriptive as you can. Remember your students won't necessarily
+																								be able to ask clarifying questions.'|translate}}
+					</p>
+					<textarea type="text" class="form-control" id="coding_description" name="coding_description" ng-model="model.codingExercise.description"
+						required placeholder="Implement a function that takes two integers as parameters and prints their sum."></textarea>
+					<div class="text-danger" ng-if="(condingexercise_add.$submitted || condingexercise_add.coding_description.$touched) && (condingexercise_add.coding_description.$pristine || condingexercise_add.coding_description.$invalid)"
+						ng-messages="condingexercise_add.coding_description.$error">
+						<div ng-message="required">{{'Required'|translate}}.</div>
+					</div>
+				</div>
+			</div>
+			<div class="">
+				<div class="col-xs-12">
+					<p>
+						{{'This is where you will input the code for the exercise. The evaluation code you provide will verify whether the student's
+																								solution solves the problem correctly.'|translate}}
+					</p>
+					<div class="" for="chapter_description">
+						<strong>{{'Files'|translate}}</strong>
+					</div>
+					<p>
+						{{'This is where you will input the code for the exercise. The evaluation code you provide will verify whether the student's
+																								solution solves the problem correctly'|translate}}
+					</p>
+					<div class="curiculum-course clearfix">
+						<div class="curilum-left">
+							<ul class="list-unstyled curiculum-list">
+								<label>{{'Student Files'|translate}}</label>
+								<li ng-repeat="file in model.files[0].initial_files">
+									<div class="form-group">
+
+										<div class="has-feedback">
+											<a href="" ng-click="model.onclickStudentTab($index,'change_tab')">
+												<i class="mdi-18px mdi mdi-checkbox-blank-circle-outline fa-lg" ng-class="{'text-success': file.initialShow === true && model.files[0].initial_files_Showing === true}"></i>&nbsp;{{file.filename}}
+											</a>
+											<a href="" ng-if="file.is_delete" ng-click="model.onRemoveFile($index)" title="remove" class="float-right">
+												<i class="mdi-18px mdi mdi-delete"></i>
+											</a>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="form-group">
+										<div class="">
+											<div class="has-feedback">
+												<a href="" ng-click="model.onAddFile()" class="clearfix">
+
+													<i class="mdi-18px mdi mdi-checkbox-blank-circle-outline fa-lg float-left"></i> &nbsp;{{'Add Supporting File'|translate}}
+													<i class="mdi-18px mdi mdi-plus  float-right"></i>
+
+												</a>
+											</div>
+										</div>
+									</div>
+								</li>
+								<label>{{'Solution Files'|translate}}</label>
+								<li ng-repeat="solutionfile in  model.files[0].solution_files">
+									<div class="form-group">
+										<div class="">
+											<div class="has-feedback">
+												<a href="" ng-click="model.onclickSolutionTab($index, 'change_tab')">
+													<i class="mdi-18px mdi mdi-checkbox-blank-circle-outline fa-lg" ng-class="{'text-success': solutionfile.solutionShow === true && model.files[0].solution_files_Showing === true}"></i>&nbsp;{{solutionfile.filename}}
+												</a>
+											</div>
+										</div>
+									</div>
+								</li>
+								<label>{{'Evaulation Files'|translate}}</label>
+								<li>
+									<div class="form-group">
+										<div class="">
+											<div class="has-feedback">
+												<a href="" ng-click="model.onclickEvaluationTab()">
+													<i class="mdi-18px mdi mdi-checkbox-blank-circle-outline fa-lg" ng-class="{'text-success': model.files[0].evaluation_files_Showing === true}"></i>&nbsp;{{model.files[0].evaluation_filename}}
+												</a>
+											</div>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="curilum-right">
+							<ul class="list-unstyled curiculum-content">
+								<li ng-if="model.files[0].initial_files_Showing" ng-repeat="file in  model.files[0].initial_files">
+									<div class="form-group has-feedback" ng-if="file.initialShow" ng-class="{ 'has-error' : condingexercise_add.initialfilename.$invalid && condingexercise_add.initialfilename.$dirty }">
+										<div class="">
+											<h4>{{'student file'|translate}}</h4>
+											<p>
+												{{'This is where you will input the code for the exercise. The evaluation code you provide will verify whether the student's
+																																																solution solves the problem correctly'|translate}}
+											</p>
+											<label>{{'File name'|translate}}</label>
+											<input type="text" class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-valid-maxlength ng-touched"
+												name="initialfilename" id="initialfilename" ng-model="file.filename" ng-pattern="/[^\\]*\.(\w+)$/ " required maxlength="50"
+												ng-change="model.onclickStudentTab($index,'rename')">
+												<div class="error" ng-show="(condingexercise_add.initialfilename.$error.pattern)">
+													{{'Enter valid file name with extension' | translate }}
+										   		</div>
+											<br>
+											<div class="form-group has-feedback">
+												<div ui-ace="{
+														useWrapMode : true,
+  showGutter: false,
+  onLoad: aceLoaded,
+  onChange: aceChanged}" ng-model="file.answer"></div>
+											</div>
+										</div>
+									</div>
+								</li>
+								<li ng-if="model.files[0].solution_files_Showing" ng-repeat="solutionfile in  model.files[0].solution_files">
+									<div class="form-group has-feedback" ng-if="solutionfile.solutionShow" ng-class="{ 'has-error' : condingexercise_add.solutionfilename.$invalid && condingexercise_add.solutionfilename.$dirty }">
+										<div class="">
+
+											<input type="text" class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-valid-maxlength ng-touched"
+												name="solutionfilename" id="solutionfilename" ng-model="solutionfile.filename" required="" maxlength="50" ng-change="model.onclickSolutionTab($index, 'rename')"
+												ng-pattern="/[^\\]*\.(\w+)$/ ">
+												<div class="error" ng-show="(condingexercise_add.solutionfilename.$error.pattern)">{{'Enter valid file name with extension' | translate }}</div>
+											<br>
+											<div class="form-group has-feedback">
+												<div ui-ace="{
+														useWrapMode : true,
+  showGutter: false,
+
+  onLoad: aceLoaded,
+  onChange: aceChanged}" ng-model="solutionfile.answer"></div>
+											</div>
+										</div>
+									</div>
+								</li>
+								<div class="form-group has-feedback" ng-if="model.files[0].evaluation_files_Showing">
+									<div class="">
+										<div class="form-group has-feedback">
+											<div ui-ace="{
+														useWrapMode : true,
+  showGutter: false,
+  onLoad: aceLoaded,
+  onChange: aceChanged}" ng-model="model.files[0].evaluation_answer"></div>
+										</div>
+									</div>
+								</div>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="text-center navbar-btn">
+					<button type="submit" ng-disabled="model.CodingSaveButton" class="btn btn-primary">
+						<span ng-hide="model.CodingSaveButton"><span class="glyphicon mdi mdi-check"></span> {{'Submit'|translate}}</span>
+						<span ng-show="model.CodingSaveButton"> <i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i> {{'Submitting'|translate}}</span>
+						 </button>&nbsp;{{'or'|translate}}&nbsp;
+					<a href="" class="btn btn-primary" ng-click="$root.show_codingExercise = false">{{'Cancel'|translate}}</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/ng-template" id="src/plugins/CodingExercise/CodingExerciseErrormodel.tpl.html">
+								<div class="well-lg" ng-class="{'container': currentPageType === 'page'}">
+									<div class="row">
+										<div class="center-form" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+											<div class="card-body">
+												<a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose" >
+													<i class="fa fa-lg fa-times-circle close"></i>
+												</a>
+												<h3 class="lead text-center text-primary">
+												</h3>
+		{{'Oops, your coding exercise is incomplete'|translate}}
+
+												<hr>
+											{{'Please make sure that:'|translate}}
+
+													<li>{{'You added a Problem Statement'|translate}}</li>
+													<li>{{'You added a Solution'|translate}}</li>
+													<li>{{'Your Solution passes the tests you wrote in the evaluation File'|translate}}</li>
+													<div class="row">
+														<div class=""  ng-if='!contentInIframe'></div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</script>

@@ -1,0 +1,51 @@
+<section class="news-black">
+    <div class="news-banner">
+        <div class="clearfix">
+            <div class="container">
+                <h3 class="h1">{{'Insights, ideas and stories' | translate}}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="navbar-left">
+            <div class="breadcumb-blk">
+                <ul class="breadcrumb top-mspace">
+                    <li>
+                        <a href="/">{{'Home' | translate}}</a>
+                    </li>
+                    <li class="active">
+                        <a href="">{{model.categoryDetails.name}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="news-description">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 col-sm-8">
+                    <div ng-include src="'common/loader.tpl.html'" ng-show="model.loader"></div>
+                    <div class="media" ng-repeat="news in model.news_list" ng-if="model.news_list.length > 0 && !model.loader">
+                        <div class="media-body">
+                            <a href="/news/{{news.id}}" class="show text-muted">
+                                <h5>{{news.title}}</h5>
+                                <p class="grayc">Posted on: {{news.created | amDateFormat:'MMM D ,YYYY'}}</p>
+                                <span>{{news.content|truncate:150}}</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="text-center" ng-if="model.news_list.length === 0 && !model.news_list.length && !model.loader">
+                        <p class="alert alert-danger text-center">{{'No records found'|translate}}</p>
+                    </div>
+                    <div class="paging clearfix text-center" ng-show="model._metadata.total_records > 0 && !model.loader">
+                        <ul uib-pagination total-items="model._metadata.total_records" ng-model="model.currentPage" ng-change="paginate('#category_news')" max-size="model._metadata.maxSize" boundary-links="true" num-pages="model._metadata.noOfPages" items-per-page="model._metadata.limit"
+                            first-text="{{'First'|translate}}" last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-4">
+                    <news-category-button position='listing' class="profile-page"></news-category-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

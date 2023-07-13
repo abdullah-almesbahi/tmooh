@@ -1,0 +1,758 @@
+<section class="clearfix">
+    <div class="container-fluid">
+        <course-navbar></course-navbar>
+        <div class="">
+            <div class="tab-content col-md-9  col-sm-8">
+                <div class="navbar_default tab-pane active" id="coupon">
+                    <div class="panel well-sm">
+                        <div class="text-center">
+                            <h3 class="text-default">{{'Instructor-Led Live Onsite Training'|translate}}</h3>
+                            <span>{{'List and Create a Instructor-Led Onsite Training classes and share to your student.'|translate}}</span>
+                        </div>
+                    </div>
+                    <div class="create-classes class-bar">
+                        <div class="panel clearfix well-sm">
+                            <div class="clearfix">
+                                <!--OFFLINE COURSE ADD Form TRIGGERING LISTING-->
+                                <div class="mb15 clearfix">
+
+                                    <div class="float-right" ng-if="model.offline_action === 'list'">
+                                        <label class="sr-only" for="user_profile_save">{{'Create'|translate}}</label>
+                                        <input type="button" class="btn btn-primary" id="user_profile_save" value="{{'Create'|translate}}" ng-click="model.offline_action = 'add'; model.dateInit();"
+                                            ng-disabled="model.user_paid_agree == false">
+                                    </div>
+
+                                    <div class="float-right">
+                                        <a class="btn btn-primary" href="" title="Back" ng-if="model.offline_action === 'add' || model.offline_action === 'edit'"
+                                            ng-click="model.offline_action = 'list'">
+                                            <i class="mdi-18px mdi mdi-chevron-left" aria-hidden="true"></i> {{'Back'|translate}}</a>
+                                    </div>
+
+                                    <div ng-if="model.offline_action === 'list'" class="float-right">
+                                        <div class="dropdown sort-option btn btn-outline-secondary hor-smspace">
+                                            {{'Sort'|translate}} :
+                                            <a href="" class="dropdown" data-toggle="dropdown" ng-if="model.currentSortby == null">SortBy <i class="mdi-18px mdi mdi-chevron-down fa-fw"></i></a>
+                                            <a href="" class="dropdown" data-toggle="dropdown" ng-if="model.currentSortby == 'all'">{{'All'|translate}}<i class="mdi-18px mdi mdi-chevron-down fa-fw"></i></a>
+                                            <a href="" class="dropdown" data-toggle="dropdown" ng-if="model.currentSortby == 'current'">{{'Current'|translate}}<i class="mdi-18px mdi mdi-chevron-down fa-fw"></i></a>
+                                            <a href="" class="dropdown" data-toggle="dropdown" ng-if="model.currentSortby == 'upcoming'">{{'Upcoming'|translate}} <i class="mdi-18px mdi mdi-chevron-down fa-fw"></i></a>
+                                            <a href="" class="dropdown" data-toggle="dropdown" ng-if="model.currentSortby == 'completed'">{{'Completed'|translate}} <i class="mdi-18px mdi mdi-chevron-down fa-fw"></i></a>
+                                            <ul class="dropdown-menu text-left">
+                                                <li>
+                                                    <a href="" ng-click="model.sort('current')">
+                                                        <span>{{'Current'|translate}}</span> </a>
+                                                </li>
+                                                <li>
+                                                    <a href="" ng-click="model.sort('upcoming')"> <span>{{'Upcoming'|translate}}</span> </a>
+                                                </li>
+                                                <li>
+                                                    <a href="" ng-click="model.sort('all')"> <span>{{'All'|translate}}</span> </a>
+                                                </li>
+                                                <li>
+                                                    <a href="" ng-click="model.sort('completed')"> <span>{{'Completed'|translate}}</span> </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="alert alert-info" ng-if="model.user_paid_agree == false">
+                                <div class="text-center">
+                                    <strong>{{'Before Creating the  Instructor-Led Live Onsite Training Classes. You Must Agree the  Paid Course Terms & Conditions'|translate}} <a href="/users/promotional_agreements"> {{'Here'|translate}}</a>.
+							</strong>
+                                </div>
+                            </div>
+                            <div class="" id="offlinecourse_list" ng-if="model.offline_action === 'list'">
+                                <!--OFFLINE COURSE BATCH LISTING-->
+                                <div class="custom-table">
+                                    <div class="table-course table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">{{'Actions'|translate}}</th>
+                                                    <th class="text-center">{{'Start Date - End Date'|translate}}</th>
+                                                    <th class="text-center">{{'Student Count'|translate}}</th>
+                                                    <th class="text-center">{{'Sessions Count'|translate}}</th>
+                                                    <th class="text-center">{{'Progress'|translate}}</th>
+                                                    <th class="text-center" ng-if="$root.settings['site.enabled_plugins'].indexOf('Message') > -1">{{'Message'|translate}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="offlineCourses_list in  model.offlineCoursesList">
+                                                    <td class="text-center">
+                                                        <a href="#" ng-click="EditOfflineCourse(offlineCourses_list.id,$index)"><i class="mdi-18px mdi mdi-pencil" aria-hidden="true"></i></a>
+                                                        <a href="#" ng-click="DeleteOfflineCourse(offlineCourses_list.id)"> <i class="mdi-18px mdi mdi-delete" aria-hidden="true"></i></a>
+
+                                                    </td>
+                                                    <td class="text-center">{{::offlineCourses_list.start_date}} - {{::offlineCourses_list.end_date}}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span ng-if="offlineCourses_list.course_users === null || offlineCourses_list.course_user_count == 0">0</span>
+                                                        <a href="#" ng-if="offlineCourses_list.course_user_count > 0 && offlineCourses_list.course_users.length > 0" ng-click="modalBatch($event,offlineCourses_list,'Students')">{{::offlineCourses_list.course_user_count}}</a>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span ng-if="offlineCourses_list.course_offline_sessions === null || offlineCourses_list.course_offline_sessions.length == 0">0</span>
+                                                        <a href="#" ng-if="offlineCourses_list.course_offline_sessions.length > 0" ng-click="modalBatch($event,offlineCourses_list,'Sessions')">
+                                                            <strong>{{::offlineCourses_list.course_offline_sessions.length}}</strong></a>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <uib-progressbar class="progress-striped active" max="100" value='offlineCourses_list.progess_percentage' type='{{offlineCourses_list.progress_type}}'><i>{{offlineCourses_list.progess_percentage}}% {{'Complete'|translate}}</i></uib-progressbar>
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        <span ng-if="$root.settings['site.enabled_plugins'].indexOf('Message') > -1 && offlineCourses_list.course_user_count > 0">
+																<a href="" class="btn btn-primary navbar-btn" ng-click="modalBatchMessage($event,offlineCourses_list, 'Batch')">
+															<i class="mdi-18px mdi mdi-pencil  fa-fw"></i>{{'Compose'|translate}}</a>
+														</span>
+                                                        <span ng-if="$root.settings['site.enabled_plugins'].indexOf('Message') > -1 && offlineCourses_list.course_user_count == '0'">
+														--
+													</span>
+                                                    </td>
+                                                </tr>
+                                                <tr ng-if="! model.offlineCoursesList.length">
+                                                    <td colspan="6" class="text-center">
+                                                        <span class="hor-space error">{{'No Record Found' |translate}}</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="paging clearfix text-center" ng-show="    model._metadata.total_records > 0 && model.offlineCoursesList.length">
+                                    <ul uib-pagination total-items="model._metadata.total_records" ng-model="model.currentPage" ng-change="model.paginate('#offlinecourse_list')"
+                                        max-size="model._metadata.maxSize" boundary-links="true" num-pages=" model._metadata.noOfPages"
+                                        items-per-page="model._metadata.limit" first-text="{{'First'|translate}}" last-text="{{'Last'|translate}}"
+                                        next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+                                </div>
+                                <a  ui-sref="manageCourseAutomatedMessage({id: model.course_id})"  class="btn btn-primary btn-course float-right">&nbsp; {{'Next'|translate}}</a>
+                            </div>
+                            <!--OFFLINE COURSE BATCH ADDING FORM-->
+                            <div class="col-xs-12" ng-if="model.offline_action === 'add'">
+                                <form role="form" class="form-addon" name="addOfflineSession" ng-submit="model.addCourseOfflineSession(addOfflineSession.$valid, addOfflineSession)"
+                                    novalidate>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label class="control-label required" for="language">{{'Address'|translate}}</label>
+                                                <div ng-class="{ 'has-error' : ((addOfflineSession.$submitted || addOfflineSession.place.$touched) && (addOfflineSession.place.$invalid))}">
+                                                    <input class="form-control" type="text" name="place" ng-model="model.place" g-places-autocomplete placeholder="{{'Address'|translate}}"
+                                                        required autocomplete="off" ng-change="model.start_placeInvalid=''">
+                                                </div>
+
+                                                <div ng-show="((addOfflineSession.$submitted || addOfflineSession.place.$touched) && (addOfflineSession.place.$pristine || addOfflineSession.place.$invalid))">
+                                                    <div class="error text-danger" ng-show="(addOfflineSession.place.$error.required || addOfflineSession.place.$invalid)">{{'Required' | translate}} </div>
+                                                </div>
+                                                <div class="error text-danger" ng-show="model.start_placeInvalid">{{'Enter valid location, please select from autocomplete' | translate}}</div>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="control-label required" for="parent_category">{{'ZipCode'|translate}}</label>
+                                                <div ng-class="{ 'has-error' : ((addOfflineSession.$submitted || addOfflineSession.zip_code.$touched) && (addOfflineSession.zip_code.$invalid))}">
+                                                    <input class="form-control" type="text" name="zip_code" ng-model="offline_course.zip_code" placeholder="{{'Zip code '|translate}}"
+                                                        required autocomplete="off">
+                                                    <div ng-show="((addOfflineSession.$submitted || addOfflineSession.zip_code.$touched) && (addOfflineSession.zip_code.$invalid))">
+                                                        <div class="error text-danger" ng-show="(addOfflineSession.zip_code.$error.required || addOfflineSession.zip_code.$invalid)">{{'Required' | translate}} </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label class="control-label required" for="language">{{'Batch Start Date'|translate}}</label>
+                                                <div class="input-group" ng-class="{ 'has-error' : ((addOfflineSession.$submitted || addOfflineSession.start_date.$touched) && (addOfflineSession.start_date.$invalid))}">
+                                                    <input type="text" id="start_date" name="start_date" class="form-control datepickerdisabled" uib-datepicker-popup="dd MMM yyyy" ng-model="model.picker1.date"
+                                                        is-open="popup2.opened" datepicker-options="model.picker1.datepickerOptions"
+                                                        ng-required="true" close-text="Close" alt-input-formats="altInputFormats"
+                                                    />
+                                                    <div class="buton-addon">
+                                                        <button type="button" class="btn btn-outline-secondary" ng-click="popup2.opened = !popup1.opened"><i class="mdi mdi-calendar"></i></button>
+                                                    </div>
+                                                </div>
+                                                <span class="help-block"><i>{{'Select the start date from calendar.'|translate}}</i></span>
+                                                <span ng-show="((addOfflineSession.$submitted || addOfflineSession.start_date.$touched) && (addOfflineSession.start_date.$invalid))">
+											<div class="error text-danger" ng-show="(addOfflineSession.start_date.$error.required || addOfflineSession.start_date.$invalid)">{{'Required' | translate}} </div>
+										</span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="control-label required" for="language">{{'Batch End Date'|translate}}</label>
+                                                <div class="input-group" ng-class="{ 'has-error' : ((addOfflineSession.$submitted || addOfflineSession.end_date.$touched) && (addOfflineSession.end_date.$invalid))}">
+                                                    <input type="datetime" id="end_date" name="end_date" class="form-control datepickerdisabled" uib-datepicker-popup="dd MMM yyyy" ng-model="model.picker2.date"
+                                                        is-open="popup1.opened" datepicker-options="model.picker2.datepickerOptions"
+                                                        ng-required="true" close-text="Close" alt-input-formats="altInputFormats"
+                                                    />
+                                                    <div class="buton-addon">
+                                                        <button type="button" class="btn btn-outline-secondary" ng-click="popup1.opened = !popup1.opened"><i class="mdi mdi-calendar"></i></button>
+                                                    </div>
+                                                </div>
+                                                <span class="help-block"><i>{{'Select the end date from calendar.'|translate}}</i></span>
+
+                                                <span ng-show="((addOfflineSession.$submitted || addOfflineSession.end_date.$touched) && (addOfflineSession.end_date.$invalid))">
+											<div class="error text-danger" ng-show="(addOfflineSession.end_date.$error.required || addOfflineSession.end_date.$invalid)">{{'Required' | translate}} </div>
+										</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--multipleCurreny disabled means only price field for batches-->
+                                    <div ng-if="$root.settings['site.enabled_plugins'].indexOf('MultiCurrency') === -1">
+                                        <div class="form-group">
+                                            <label class="control-label required">{{'Price'|translate}}</label>
+                                            <div class="input-group" ng-class="{ 'has-error' : ((addOfflineSession.$submitted || addOfflineSession.course_price.$touched) && (addOfflineSession.course_price.$pristine || addOfflineSession.course_price.$invalid))}">
+                                                <input type="number" class="form-control" name="course_price" id="course_price" name="course_price" placeholder="{{'Price'|translate}}"
+                                                    ng-model="offline_course.price" min=0 max="{{$root.settings['course.max_course_fee']}}"
+                                                    ng-required="true" />
+                                                <span ng-show="((addOfflineSession.$submitted || addOfflineSession.course_price.$touched) && (addOfflineSession.course_price.$pristine || addOfflineSession.course_price.$invalid))">
+											<div class="error text-danger" ng-show="(addOfflineSession.course_price.$error.required)">{{'Required' | translate}} </div>
+											<span class="error" ng-show="(addOfflineSession.course_price.$error.max)">{{'You can set price upto' | translate }}
+												<amount-display amount="{{$root.settings['course.max_course_fee']}}" fraction='0' is-course-price='no'></amount-display>
+											</span>
+                                                <span class="error" ng-show="(addOfflineSession.course_price.$error.min)">{{'You can set price above 0' | translate }}
+											</span>
+                                                <span class="error" ng-show="(!addOfflineSession.course_price.$error.min && !addOfflineSession.course_price.$error.max && !addOfflineSession.course_price.$error.required && addOfflineSession.course_price.$invalid)">{{'Price is invalid' | translate }}
+											</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--multipleCurreny enabled means only currency and price  field for batches-->
+                                    <div class="form-group" ng-if="$root.settings['site.enabled_plugins'].indexOf('MultiCurrency') > -1">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label class="control-label required" for="language">{{'Price'|translate}}</label>
+                                                <br>
+                                                <div class="btn-group" uib-dropdown is-open="status.isopen" ng-class="{ 'has-error' : ((addOfflineSession.$submitted || addOfflineSession.currency.$touched) && (addOfflineSession.currency.$pristine || addOfflineSession.currency.$invalid))}">
+                                                    <button id="single-button" type="button" class="btn btn-outline-secondary" uib-dropdown-toggle ng-disabled="disabled">
+                                                            {{ selected.code || 'Please Select' }}
+                                                                                <span class="caret"></span>
+                                                                            </button>
+
+                                                    <ul class="dropdown-menu dropdown-scroll" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                                        <li role="menuitem" ng-repeat="currency in model.currencies">
+                                                            <a href="" ng-click="selected === null" ng-if="$index === 0">{{'Please Select' | translate}}</a>
+                                                            <a href="" ng-click="model.CurrencyTireFilter($index,'offline_course')">{{ currency.code }} {{currency.symbol}}</a>
+                                                        </li>
+                                                        <li ng-if="!model.currencies.length">
+                                                            <a href="">
+                                                                <p class="error"> {{'No Currencies Found'|translate}}
+                                                                </p>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                    <input type="hidden" name="currency" id="currency" ng-model="selected" ng-required="true" required>
+                                                </div>
+                                                <div ng-show="((addOfflineSession.$submitted || addOfflineSession.currency.$touched) && (addOfflineSession.currency.$invalid))">
+                                                    <div class="error text-danger" ng-show="(addOfflineSession.currency.$error.required || addOfflineSession.currency.$invalid)">{{'Required' | translate}} </div>
+                                                </div>
+                                                <div class="btn-group" uib-dropdown is-open="status2.isopen" ng-class="{ 'has-error' : ((addOfflineSession.$submitted || addOfflineSession.currency_tier.$touched) && (addOfflineSession.currency_tier.$invalid))}">
+                                                    <button id="single-button" type="button" class="btn btn-outline-secondary" uib-dropdown-toggle ng-disabled="disabled">
+                                                    {{ tier_selected.amount || 'Please Select'  }}
+                                                    <span class="caret"></span>
+                                                </button>
+                                                    <ul class="dropdown-menu dropdown-scroll" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                                        <li role="menuitem" ng-repeat="tier in model.currencies_tiers | orderBy : 'amount'">
+                                                            <a href="" ng-click="tier_selected === null" ng-if="$index === 0">{{'Please Select' | translate}}</a>
+                                                            <a href="" ng-click="model.TireFilter(tier,'offline_course')">{{ tier.amount }}</a>
+                                                        </li>
+                                                        <li ng-if="!model.currencies_tiers.length">
+                                                            <a href="">
+                                                                <p class="error"> {{'No Price Found'|translate}}
+                                                                </p>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                    <input type="hidden" name="currency_tier" id="currency_tier" ng-model="tier_selected" ng-required="true" required>
+                                                </div>
+                                                <div ng-show="((addOfflineSession.$submitted || addOfflineSession.currency_tier.$touched) && (addOfflineSession.currency_tier.$invalid))">
+                                                    <div class="error text-danger" ng-show="(addOfflineSession.currency_tier.$error.required || addOfflineSession.currency_tier.$invalid)">{{'Required' | translate}} </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="offline-courses course-calender-time" ng-if="model.sessions.length > 0">
+                                        <div class="" ng-repeat="session in model.sessions">
+                                            <div class="form-group">
+                                                <div class="new-module-lecture quiz-header sortable-handle">
+                                                    Session/Day {{$index+1}}
+                                                    <div class="float-right">
+                                                        <a href="" class="" ng-click="model.removeCourseOfflineSession($index,'sessions')"><i class="mdi-18px mdi mdi-delete" ></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label class="control-label required">{{'On Date'|translate}}</label>
+                                                        <div class="input-group" ng-class="{ 'has-error' : (((addOfflineSession.$submitted || addOfflineSession.session_date{{$index}}.$touched) && (addOfflineSession.session_date{{$index}}.$invalid)))}">
+                                                            <input type="text" class="form-control datepickerdisabled" uib-datepicker-popup="dd MMM yyyy" ng-model="session.session_date" is-open="session.open"
+                                                                datepicker-options="session_datepickerOptions" ng-required="true"
+                                                                close-text="Close" alt-input-formats="altInputFormats" id="session_date{{$index}}"
+                                                                name="session_date{{$index}}" ng-required="true" />
+                                                            <div class="buton-addon">
+                                                                <button type="button" class="btn btn-outline-secondary" ng-click="session.open = !session.open"><i class="mdi mdi-calendar"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <span ng-show="((addOfflineSession.$submitted || addOfflineSession.session_date{{$index}}.$touched) && (addOfflineSession.session_date{{$index}}.$pristine || addOfflineSession.session_date{{$index}}.$invalid))">
+													<div class="error text-danger" ng-show="((addOfflineSession.session_date{{$index}}.$error.required || addOfflineSession.session_time{{$index}}.$invalid))">{{'Required' | translate}} </div>
+												</span>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="control-label  required">{{'Start Time'|translate}}</label>
+                                                        <div ng-class="{ 'has-error' : (addOfflineSession.$submitted || addOfflineSession.session_starttime{{$index}}.$touched) && (addOfflineSession.session_starttime{{$index}}.$invalid)}">
+                                                            <input class="form-control" type="time" name="session_starttime{{$index}}" ng-model="session.session_time" required autocomplete="off"
+                                                                ng-required="true" ng-disabled="session.session_date === undefined" placeholder="HH:MM">
+                                                        </div>
+
+                                                        <div ng-show="((addOfflineSession.$submitted || addOfflineSession.session_starttime{{$index}}.$touched) && (addOfflineSession.session_starttime{{$index}}.$pristine || addOfflineSession.session_starttime{{$index}}.$invalid))">
+                                                            <span class="error text-danger" ng-show="((addOfflineSession.$submitted || addOfflineSession.session_starttime{{$index}}.$touched) && (addOfflineSession.session_starttime{{$index}}.$pristine || addOfflineSession.session_starttime{{$index}}.$invalid || addOfflineSession.session_starttime{{$index}}.$error.required))">{{'Required' | translate }}</span>                                                            </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="control-label required">{{'End Time'|translate}}</label>
+                                                        <div ng-class="{ 'has-error' : (addOfflineSession.$submitted || addOfflineSession.session_endtime{{$index}}.$touched) && (addOfflineSession.session_endtime{{$index}}.$invalid)}">
+                                                            <input class="form-control" type="time" name="session_endtime{{$index}}" ng-model="session.session_end_date" required autocomplete="off"
+                                                                ng-required="true" ng-disabled="session.session_date === undefined" placeholder="HH:MM">
+                                                        </div>
+
+                                                        <div ng-show="((addOfflineSession.$submitted || addOfflineSession.session_endtime{{$index}}.$touched) && (addOfflineSession.session_endtime{{$index}}.$pristine || addOfflineSession.session_endtime{{$index}}.$invalid))">
+                                                            <span class="error text-danger" ng-show="((addOfflineSession.$submitted || addOfflineSession.session_endtime{{$index}}.$touched) && (addOfflineSession.session_endtime{{$index}}.$pristine || addOfflineSession.session_endtime{{$index}}.$invalid || addOfflineSession.session_endtime{{$index}}.$error.required))">{{'Required' | translate }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label class="control-label required">{{'Timezone'|translate}}</label>
+                                                        <div ng-class="{ 'has-error' : ((addOfflineSession.$submitted || addOfflineSession.time_zones{{$index}}.$touched) && (addOfflineSession.time_zones{{$index}}.$invalid))}">
+                                                            <select name="time_zones{{$index}}" id="time_zones{{$index}}" class="form-control" ng-model="session.timezone_id" ng-options="timezone_list.id as timezone_list.name for timezone_list in  model.timezone_lists"
+                                                                ng-required="true">
+											<option value="">{{'Please Select' | translate}}</option></select>
+                                                        </div>
+
+                                                        <div ng-show="((addOfflineSession.$submitted || addOfflineSession.time_zones{{$index}}.$touched) && (addOfflineSession.time_zones{{$index}}.$pristine || addOfflineSession.time_zones{{$index}}.$invalid))">
+                                                            <span class="error text-danger" ng-show="((addOfflineSession.$submitted || addOfflineSession.time_zones{{$index}}.$touched) && (addOfflineSession.time_zones{{$index}}.$pristine || addOfflineSession.time_zones{{$index}}.$invalid || addOfflineSession.time_zones{{$index}}.$error.required))">{{'Required' | translate }}</span>                                                            </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="control-label required">{{'Topics Covered'|translate}}</label>
+                                                        <div ng-class="{ 'has-error' : ((addOfflineSession.$submitted || addOfflineSession.lesson_topic{{$index}}.$touched) && (addOfflineSession.lesson_topic{{$index}}.$invalid))}">
+                                                            <input class="form-control" type="text" name="lesson_topic{{$index}}" ng-model="session.lesson_topic" placeholder="{{'Topic'|translate}}"
+                                                                required autocomplete="off" ng-required="true">
+                                                        </div>
+
+                                                        <div ng-show="((addOfflineSession.$submitted || addOfflineSession.lesson_topic{{$index}}.$touched) && (addOfflineSession.lesson_topic{{$index}}.$pristine || addOfflineSession.lesson_topic{{$index}}.$invalid))">
+                                                            <span class="error text-danger" ng-show="((addOfflineSession.$submitted || addOfflineSession.lesson_topic{{$index}}.$touched) && (addOfflineSession.lesson_topic{{$index}}.$pristine || addOfflineSession.lesson_topic{{$index}}.$invalid || addOfflineSession.lesson_topic{{$index}}.$error.required))">{{'Required' | translate }}</span>                                                            </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label class="control-label required">{{'Description'|translate}}</label>
+                                                        <div ng-class="{ 'has-error' : ((addOfflineSession.$submitted || addOfflineSession.lesson_description{{$index}}.$touched) && (addOfflineSession.lesson_description{{$index}}.$invalid))}">
+                                                            <textarea id="" class="form-control" cols="20" rows="3" ng-model="session.lesson_description" name="lesson_description{{$index}}"
+                                                                placeholder="{{'Description'|translate}}" id="lesson_description{{$index}}"
+                                                                ng-required="true">
+												</textarea>
+                                                        </div>
+
+                                                        <div ng-show="((addOfflineSession.$submitted || addOfflineSession.lesson_description{{$index}}.$touched) && (addOfflineSession.lesson_description{{$index}}.$pristine || addOfflineSession.lesson_description{{$index}}.$invalid))">
+                                                            <span class="error text-danger" ng-show="((addOfflineSession.$submitted || addOfflineSession.lesson_description{{$index}}.$touched) && (addOfflineSession.lesson_description{{$index}}.$pristine || addOfflineSession.lesson_description{{$index}}.$invalid || addOfflineSession.lesson_description{{$index}}.$error.required))">{{'Required' | translate }}</span>                                                            </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group has-feedback clearfix">
+                                        <div class="float-left">
+                                            <a href="" class="btn btn-tertiary" ng-click="model.AddingOfflineSession('Add','sessions')" title="{{'Add More Session'|translate}}"><i class="mdi-18px mdi mdi-plus" aria-hidden="true"></i>&nbsp;{{'Add Session/Days'|translate}}</a>
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <label class="sr-only" for="submit">{{'Create'|translate}}</label>
+                                                <button type="submit" class="btn btn-primary" ng-disabled="offline_disableButton || model.user_paid_agree == false" id="submit">{{'Create'|translate}} <span ng-show="offline_disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+                                                <input type="button" class="btn btn-primary" id="oauthClientAddForm_cancel" value="{{'Cancel'|translate}}" ng-click="model.offline_action = 'list';">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                            <!--OFFLINE COURSE BATCH ADDING FORM-->
+                            <div class="col-xs-12" ng-if="model.offline_action === 'edit'">
+                                <form role="form" class="form-addon" name="EditOfflineSession" ng-submit="model.editCourseOfflineSession(EditOfflineSession.$valid, EditOfflineSession)"
+                                    novalidate>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label class="control-label required" for="language">{{'Address'|translate}}</label>
+                                                <div ng-class="{ 'has-error' : ((EditOfflineSession.$submitted || EditOfflineSession.place.$touched) && (EditOfflineSession.place.$invalid))}">
+                                                    <input class="form-control" type="text" name="place" ng-model="model.edit_place" g-places-autocomplete placeholder="{{'Address'|translate}}"
+                                                        required autocomplete="off" ng-change="model.start_placeInvalid=''">
+                                                </div>
+
+                                                <div ng-show="((EditOfflineSession.$submitted || EditOfflineSession.place.$touched) && (EditOfflineSession.place.$pristine || EditOfflineSession.place.$invalid))">
+                                                    <div class="error text-danger" ng-show="(EditOfflineSession.place.$error.required || EditOfflineSession.place.$invalid)">{{'Required' | translate}} </div>
+                                                </div>
+                                                <div class="error text-danger" ng-show="model.start_placeInvalid">{{'Enter valid location, please select from autocomplete' | translate}}</div>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="control-label required" for="parent_category">{{'ZipCode'|translate}}</label>
+                                                <div ng-class="{ 'has-error' : ((EditOfflineSession.$submitted || EditOfflineSession.zip_code.$touched) && (EditOfflineSession.zip_code.$invalid))}">
+                                                    <input class="form-control" type="text" name="zip_code" ng-model="edit_offline_course.zip_code" placeholder="{{'Zip code '|translate}}"
+                                                        required autocomplete="off">
+                                                    <div ng-show="((EditOfflineSession.$submitted || EditOfflineSession.zip_code.$touched) && (EditOfflineSession.zip_code.$invalid))">
+                                                        <div class="error text-danger" ng-show="(EditOfflineSession.zip_code.$error.required || EditOfflineSession.zip_code.$invalid)">{{'Required' | translate}} </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label class="control-label required" for="language">{{'Batch Start Date'|translate}}</label>
+                                                <div class="input-group" ng-class="{ 'has-error' : ((EditOfflineSession.$submitted || EditOfflineSession.start_date.$touched) && (EditOfflineSession.start_date.$invalid))}">
+                                                    <input type="text" id="start_date" name="start_date" class="form-control datepickerdisabled" uib-datepicker-popup="dd MMM yyyy" ng-model="model.edit_picker1.date"
+                                                        is-open="popup2.opened" datepicker-options="model.edit_picker1.datepickerOptions"
+                                                        ng-required="true" close-text="Close" alt-input-formats="altInputFormats"
+                                                    />
+                                                    <div class="buton-addon">
+                                                        <button type="button" class="btn btn-outline-secondary" ng-click="popup2.opened = !popup1.opened"><i class="mdi mdi-calendar"></i></button>
+                                                    </div>
+                                                </div>
+                                                <span class="help-block"><i>{{'Select the start date from calendar.'|translate}}</i></span>
+                                                <span ng-show="((EditOfflineSession.$submitted || EditOfflineSession.start_date.$touched) && (EditOfflineSession.start_date.$invalid))">
+											<div class="error text-danger" ng-show="(EditOfflineSession.start_date.$error.required || EditOfflineSession.start_date.$invalid)">{{'Required' | translate}} </div>
+										</span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="control-label required" for="language">{{'Batch End Date'|translate}}</label>
+                                                <div class="input-group" ng-class="{ 'has-error' : ((EditOfflineSession.$submitted || EditOfflineSession.end_date.$touched) && (EditOfflineSession.end_date.$invalid))}">
+                                                    <input type="datetime" id="end_date" name="end_date" class="form-control datepickerdisabled" uib-datepicker-popup="dd MMM yyyy" ng-model="model.edit_picker2.date"
+                                                        is-open="popup1.opened" datepicker-options="model.edit_picker2.datepickerOptions"
+                                                        ng-required="true" close-text="Close" alt-input-formats="altInputFormats"
+                                                    />
+                                                    <div class="buton-addon">
+                                                        <button type="button" class="btn btn-outline-secondary" ng-click="popup1.opened = !popup1.opened"><i class="mdi mdi-calendar"></i></button>
+                                                    </div>
+                                                </div>
+                                                <span class="help-block"><i>{{'Select the end date from calendar.'|translate}}</i></span>
+
+                                                <span ng-show="((EditOfflineSession.$submitted || EditOfflineSession.end_date.$touched) && (EditOfflineSession.end_date.$invalid))">
+											<div class="error text-danger" ng-show="(EditOfflineSession.end_date.$error.required || EditOfflineSession.end_date.$invalid)">{{'Required' | translate}} </div>
+										</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--multipleCurreny disabled means only price field for batches-->
+                                    <div ng-if="$root.settings['site.enabled_plugins'].indexOf('MultiCurrency') === -1">
+                                        <div class="form-group">
+                                            <label class="control-label required">{{'Price'|translate}}</label>
+                                            <div class="input-group" ng-class="{ 'has-error' : ((EditOfflineSession.$submitted || EditOfflineSession.course_price.$touched) && (EditOfflineSession.course_price.$pristine || EditOfflineSession.course_price.$invalid))}">
+                                                <input type="number" class="form-control" name="course_price" id="course_price" name="course_price" placeholder="{{'Price'|translate}}"
+                                                    ng-model="edit_offline_course.price" min=0 max="{{$root.settings['course.max_course_fee']}}"
+                                                    ng-required="true" />
+                                                <span ng-show="((EditOfflineSession.$submitted || EditOfflineSession.course_price.$touched) && (EditOfflineSession.course_price.$pristine || EditOfflineSession.course_price.$invalid))">
+											<div class="error text-danger" ng-show="(EditOfflineSession.course_price.$error.required)">{{'Required' | translate}} </div>
+											<span class="error" ng-show="(EditOfflineSession.course_price.$error.max)">{{'You can set price upto' | translate }}
+												<amount-display amount="{{$root.settings['course.max_course_fee']}}" fraction='0' is-course-price='no'></amount-display>
+											</span>
+                                                <span class="error" ng-show="(EditOfflineSession.course_price.$error.min)">{{'You can set price above 0' | translate }}
+											</span>
+                                                <span class="error" ng-show="(!EditOfflineSession.course_price.$error.min && !EditOfflineSession.course_price.$error.max && !EditOfflineSession.course_price.$error.required && EditOfflineSession.course_price.$invalid)">{{'Price is invalid' | translate }}
+											</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--multipleCurreny enabled means only currency and price  field for batches-->
+                                    <div class="form-group" ng-if="$root.settings['site.enabled_plugins'].indexOf('MultiCurrency') > -1">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label class="control-label required" for="language">{{'Price'|translate}}</label>
+                                                <br>
+                                                <div class="btn-group" uib-dropdown is-open="status.isopen" ng-class="{ 'has-error' : ((EditOfflineSession.$submitted || EditOfflineSession.currency.$touched) && (EditOfflineSession.currency.$pristine || addOfflineSession.currency.$invalid))}">
+                                                    <button id="single-button" type="button" class="btn btn-outline-secondary" uib-dropdown-toggle ng-disabled="disabled">
+                                                            {{ selected.code || 'Please Select' }}
+                                                                                <span class="caret"></span>
+                                                                            </button>
+
+                                                    <ul class="dropdown-menu dropdown-scroll" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                                        <li role="menuitem" ng-repeat="currency in model.currencies">
+                                                            <a href="" ng-click="selected === null" ng-if="$index === 0">{{'Please Select' | translate}}</a>
+                                                            <a href="" ng-click="model.CurrencyTireFilter($index,'edit_offline_course')">{{ currency.code }} {{currency.symbol}}</a>
+                                                        </li>
+                                                        <li ng-if="!model.currencies.length">
+                                                            <a href="">
+                                                                <p class="error"> {{'No Currencies Found'|translate}}
+                                                                </p>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                    <input type="hidden" name="currency" id="currency" ng-model="selected" ng-required="true" required>
+                                                </div>
+                                                <div ng-show="((EditOfflineSession.$submitted || EditOfflineSession.currency.$touched) && (EditOfflineSession.currency.$invalid))">
+                                                    <div class="error text-danger" ng-show="(EditOfflineSession.currency.$error.required || EditOfflineSession.currency.$invalid)">{{'Required' | translate}} </div>
+                                                </div>
+                                                <div class="btn-group" uib-dropdown is-open="status2.isopen" ng-class="{ 'has-error' : ((EditOfflineSession.$submitted || EditOfflineSession.currency_tier.$touched) && (EditOfflineSession.currency_tier.$invalid))}">
+                                                    <button id="single-button" type="button" class="btn btn-outline-secondary" uib-dropdown-toggle ng-disabled="disabled">
+                                                    {{ tier_selected.amount || 'Please Select' }}
+                                                    <span class="caret"></span>
+                                                </button>
+                                                    <ul class="dropdown-menu dropdown-scroll" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                                        <li role="menuitem" ng-repeat="tier in model.currencies_tiers | orderBy : 'amount'">
+                                                            <a href="" ng-click="tier_selected === null" ng-if="$index === 0">{{'Please Select' | translate}}</a>
+                                                            <a href="" ng-click="model.TireFilter(tier,'edit_offline_course')">{{ tier.amount }}</a>
+                                                        </li>
+                                                        <li ng-if="!model.currencies_tiers.length">
+                                                            <a href="">
+                                                                <p class="error"> {{'No Price Found'|translate}}
+                                                                </p>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                    <input type="hidden" name="currency_tier" id="currency_tier" ng-model="tier_selected" ng-required="true" required>
+                                                </div>
+                                                <div ng-show="((EditOfflineSession.$submitted || EditOfflineSession.currency_tier.$touched) && (EditOfflineSession.currency_tier.$invalid))">
+                                                    <div class="error text-danger" ng-show="(EditOfflineSession.currency_tier.$error.required || EditOfflineSession.currency_tier.$invalid)">{{'Required' | translate}} </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="offline-courses course-calender-time" ng-if="model.edit_sessions.length > 0">
+                                        <div class="" ng-repeat="session in model.edit_sessions">
+                                            <div class="form-group">
+                                                <div class="new-module-lecture quiz-header sortable-handle">
+                                                    {{'Session/Day'|translate}} {{$index+1}}&nbsp;<span class="error" ng-if="session.session_expired === true">({{'Session Expired'|translate}}) &nbsp;<i class="mdi-18px mdi mdi-help-circle" aria-hidden="true" tooltip-placement="left" tooltip-animation="false" uib-tooltip="{{ConstToolTipContent.SessionExpired}}"></i></span>
+                                                    <div class="float-right">
+                                                        <a href="" class="" ng-click="model.removeCourseOfflineSession($index,'edit_sessions')"><i class="mdi-18px mdi mdi-delete" ></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label class="control-label required">{{'On Date'|translate}}</label>
+                                                        <div class="input-group" ng-class="{ 'has-error' : (((EditOfflineSession.$submitted || EditOfflineSession.session_date{{$index}}.$touched) && (EditOfflineSession.session_date{{$index}}.$invalid)))}">
+                                                            <input type="text" class="form-control datepickerdisabled" uib-datepicker-popup="dd MMM yyyy" ng-model="session.session_date" is-open="session.open"
+                                                                datepicker-options="edit_session_datepickerOptions" ng-required="true"
+                                                                close-text="Close" alt-input-formats="altInputFormats" id="session_date{{$index}}"
+                                                                name="session_date{{$index}}" ng-required="true" />
+                                                            <div class="buton-addon">
+                                                                <button type="button" class="btn btn-outline-secondary" ng-click="session.open = !session.open" ng-disabled="session.session_expired === true"><i class="mdi mdi-calendar"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <span ng-show="((EditOfflineSession.$submitted || EditOfflineSession.session_date{{$index}}.$touched) && (EditOfflineSession.session_date{{$index}}.$invalid))">
+													<div class="error text-danger" ng-show="((EditOfflineSession.session_date{{$index}}.$error.required || EditOfflineSession.session_time{{$index}}.$invalid))">{{'Required' | translate}} </div>
+												</span>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="control-label  required">{{'Start Time'|translate}}</label>
+                                                        <div ng-class="{ 'has-error' : (EditOfflineSession.$submitted || EditOfflineSession.session_starttime{{$index}}.$touched) && (EditOfflineSession.session_starttime{{$index}}.$invalid)}">
+                                                            <input class="form-control" type="time" name="session_starttime{{$index}}" ng-model="session.session_time" required autocomplete="off"
+                                                                ng-required="true" ng-disabled="session.session_date === undefined || session.session_expired === true" placeholder="HH:MM">
+                                                        </div>
+
+                                                        <div ng-show="((EditOfflineSession.$submitted || EditOfflineSession.session_starttime{{$index}}.$touched) && (EditOfflineSession.session_starttime{{$index}}.$invalid))">
+                                                            <span class="error text-danger" ng-show="((EditOfflineSession.$submitted || EditOfflineSession.session_starttime{{$index}}.$touched) && ( EditOfflineSession.session_starttime{{$index}}.$invalid || addOfflineSession.session_starttime{{$index}}.$error.required))">{{'Required' | translate }}</span>                                                            </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="control-label required">{{'End Time'|translate}}</label>
+                                                        <div ng-class="{ 'has-error' : (EditOfflineSession.$submitted || EditOfflineSession.session_endtime{{$index}}.$touched) && (EditOfflineSession.session_endtime{{$index}}.$invalid)}">
+                                                            <input class="form-control" type="time" name="session_endtime{{$index}}" ng-model="session.session_end_date" required autocomplete="off"
+                                                                ng-required="true" ng-disabled="session.session_date === undefined 
+                                                                || session.session_expired === true" placeholder="HH:MM">
+                                                        </div>
+
+                                                        <div ng-show="((EditOfflineSession.$submitted || EditOfflineSession.session_endtime{{$index}}.$touched) && ( EditOfflineSession.session_endtime{{$index}}.$invalid))">
+                                                            <span class="error text-danger" ng-show="((EditOfflineSession.$submitted || EditOfflineSession.session_endtime{{$index}}.$touched) && (EditOfflineSession.session_endtime{{$index}}.$invalid || EditOfflineSession.session_endtime{{$index}}.$error.required))">{{'Required' | translate }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label class="control-label required">{{'Timezone'|translate}}</label>
+                                                        <div ng-class="{ 'has-error' : ((EditOfflineSession.$submitted || EditOfflineSession.time_zones{{$index}}.$touched) && (EditOfflineSession.time_zones{{$index}}.$invalid))}">
+                                                            <select name="time_zones{{$index}}" id="time_zones{{$index}}" class="form-control" ng-model="session.timezone_id" ng-options="timezone_list.id as timezone_list.name for timezone_list in  model.timezone_lists"
+                                                                ng-required="true" ng-disabled="session.session_expired === true">
+											<option value="">{{'Please Select' | translate}}</option></select>
+                                                        </div>
+
+                                                        <div ng-show="((EditOfflineSession.$submitted || EditOfflineSession.time_zones{{$index}}.$touched) && (EditOfflineSession.time_zones{{$index}}.$invalid))">
+                                                            <span class="error text-danger" ng-show="((EditOfflineSession.$submitted || EditOfflineSession.time_zones{{$index}}.$touched) && (EditOfflineSession.time_zones{{$index}}.$invalid || EditOfflineSession.time_zones{{$index}}.$error.required))">{{'Required' | translate }}</span>                                                            </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="control-label required">{{'Topics Covered'|translate}}</label>
+                                                        <div ng-class="{ 'has-error' : ((EditOfflineSession.$submitted || EditOfflineSession.lesson_topic{{$index}}.$touched) && (EditOfflineSession.lesson_topic{{$index}}.$invalid))}">
+                                                            <input class="form-control" type="text" name="lesson_topic{{$index}}" ng-model="session.lesson_topic" placeholder="{{'Topic'|translate}}"
+                                                                required autocomplete="off" ng-required="true" ng-disabled="session.session_expired === true">
+                                                        </div>
+
+                                                        <div ng-show="((EditOfflineSession.$submitted || EditOfflineSession.lesson_topic{{$index}}.$touched) && (EditOfflineSession.lesson_topic{{$index}}.$invalid))">
+                                                            <span class="error text-danger" ng-show="((EditOfflineSession.$submitted || EditOfflineSession.lesson_topic{{$index}}.$touched) && ( EditOfflineSession.lesson_topic{{$index}}.$invalid || EditOfflineSession.lesson_topic{{$index}}.$error.required))">{{'Required' | translate }}</span>                                                            </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label class="control-label required">{{'Description'|translate}}</label>
+                                                        <div ng-class="{ 'has-error' : ((EditOfflineSession.$submitted || EditOfflineSession.lesson_description{{$index}}.$touched) && (EditOfflineSession.lesson_description{{$index}}.$invalid))}">
+                                                            <textarea id="" class="form-control" cols="20" rows="3" ng-model="session.lesson_description" name="lesson_description{{$index}}"
+                                                                placeholder="{{'Description'|translate}}" id="lesson_description{{$index}}"
+                                                                ng-required="true" ng-disabled="session.session_expired === true">
+												</textarea>
+                                                        </div>
+
+                                                        <div ng-show="((EditOfflineSession.$submitted || EditOfflineSession.lesson_description{{$index}}.$touched) && ( EditOfflineSession.lesson_description{{$index}}.$invalid))">
+                                                            <span class="error text-danger" ng-show="((EditOfflineSession.$submitted || EditOfflineSession.lesson_description{{$index}}.$touched) && ( EditOfflineSession.lesson_description{{$index}}.$invalid || EditOfflineSession.lesson_description{{$index}}.$error.required))">{{'Required' | translate }}</span>                                                            </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group has-feedback clearfix">
+                                        <div class="float-left">
+                                            <a href="" class="btn btn-tertiary" ng-click="model.AddingOfflineSession('Edit','edit_sessions')" title="{{'Add More Session'|translate}}"><i class="mdi-18px mdi mdi-plus" aria-hidden="true"></i>&nbsp;{{'Add Session/Days'|translate}}</a>
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <label class="sr-only" for="submit">{{'Update'|translate}}</label>
+                                                <button type="submit" class="btn btn-primary" ng-disabled="offline_disableButton || model.user_paid_agree == false" id="submit">{{'Update'|translate}} <span ng-show="offline_disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+                                                <input type="button" class="btn btn-primary" id="oauthClientAddForm_cancel" value="{{'Cancel'|translate}}" ng-click="model.offline_action = 'list';">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+<script type="text/ng-template" id="src/plugins/OfflineCourse/session_model.tpl.html">
+    <div class="modal-login" ng-class="{'container': currentPageType === 'page'}">
+        <div class="center-form" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+            <div class="panel-heading clearfix">
+                <h3 class="text-center">{{'Instructor-Led Live Onsite Training Sessions List'|translate}}
+                    <a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose float-right">X</a>
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive" ng-if='!contentInIframe'>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center">
+                                    <div class="course-number">{{'No'|translate}}</div>
+                                </th>
+                                <th class="text-center">
+                                    <div class="course-date">{{'Session Date'|translate}}</div>
+                                </th>
+                                <th class="text-center">
+                                    <div class="course-date">{{'Start Time'|translate}}</div>
+                                </th>
+                                <th class="text-center">
+                                    <div class="course-date">{{'End Time'|translate}}</div>
+                                </th>
+
+                                <th class="text-center">{{'Address'|translate}}</th>
+                                <th class="text-center">{{'Lesson Topic'|translate}}</th>
+                                <th class="text-center">{{'Lesson Description'|translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="batch_list in  batch_list.course_offline_sessions">
+                                <td class="text-center">{{$index+1}}</td>
+                                <td class="text-center">{{batch_list.format_session_date}}
+                                </td>
+                                <td class="text-center">{{batch_list.session_date | amDateFormat: ConstDateFormat.time_sec_12}}
+                                </td>
+                                 <td class="text-center">{{batch_list.session_end_date | amDateFormat: ConstDateFormat.time_sec_12}}
+                                </td>
+                                <td class="text-center">{{batch_list.address}}</td>
+                                <td class="text-center">{{batch_list.lesson_topic}}</td>
+                                <td class="text-center">{{batch_list.lesson_description}}</td>
+                            </tr>
+                            <tr ng-if="! batch_list.course_offline_sessions.length">
+                                <td colspan="4" class="text-center">
+                                    <span class="hor-space error">{{'No Record Found' |translate}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="src/plugins/OfflineCourse/enrolledstudent_model.tpl.html">
+    <div class="modal-login" ng-class="{'container': currentPageType === 'page'}">
+        <div class="center-form" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+            <div class="panel-heading clearfix">
+                <h3 class="text-center">{{batch_list.name}}
+                    <a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose float-right">X</a>
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive" ng-if='!contentInIframe'>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center">
+                                    <div class="course-number">{{'No'|translate}}</div>
+                                </th>
+                                <th class="text-center">{{'Join Date- Time'|translate}}</th>
+                                <th class="text-center">
+                                    <div class="course-date">{{'Student Name'|translate}}</div>
+                                </th>
+                                <th>Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="course_user in  batch_list.course_users">
+                                <td class="text-center">{{$index+1}}</td>
+                                <td class="text-center">{{course_user.created}}
+                                    <td class="text-center">{{::course_user.displayname}}</td>
+                                </td>
+                                <td>
+                                    <span ng-if="$root.settings['site.enabled_plugins'].indexOf('Message') > -1">
+																<a href="" class="btn btn-primary navbar-btn" ng-click="modalBatchMessage($event,course_user,'User')">
+															<i class="mdi-18px mdi mdi-pencil  fa-fw"></i>Compose</a>
+														</span>
+                                </td>
+                            </tr>
+                            <tr ng-if="! batch_list.course_users.length">
+                                <td colspan="4" class="text-center">
+                                    <span class="hor-space error">{{'No Record Found' |translate}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

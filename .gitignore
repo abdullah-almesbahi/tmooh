@@ -1,0 +1,32 @@
+
+tmp/*
+
+// dependency libraries will be installed via npm , bower and composer
+app/node_modules
+app/old_vendor
+app/vendor
+
+
+// these directories will be generated via grunt
+/build
+/compile
+/public
+/client
+
+
+// these files will be generated via grunt
+app/src/themes/tmooh/assets/tmooh-v1.0b1.css
+app/src/themes/tmooh/assets/tmooh-admin-v1.0b1.css
+app/index.html
+app/ag-admin/index.html
+app/templates-app.js
+app/templates-common.js
+*.map
+app/.sass-cache
+app/credentials.json
+
+media/*
+.DS_Store
+server/*
+sql
+

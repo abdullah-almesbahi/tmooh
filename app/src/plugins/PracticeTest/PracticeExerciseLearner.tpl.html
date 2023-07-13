@@ -1,0 +1,532 @@
+<div>
+    <!--Question length checking to display Question section -->
+    <div ng-if="model.quizQuestionlists.length>0 && (!model.Show_pratice_test || model.Show_pratice_test === false)">
+        <div class="progress-position">
+            <div class="progress-timer">
+                <span class="progress-count">
+                {{model.question_number}}/{{model.quizQuestionlists.length}}
+                </span>
+                <div class="progress progress-striped active">
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"
+                        style="width: {{model.Question_Percentage}}%">
+                        <span class="sr-only"></span>
+                    </div>
+                </div>
+                <div class="timer-countblk">
+                    <timer id="timer" interval="1000" autostart="true" end-time="model.endTime" ng-if="model.endTime">
+                        <div>
+                            <span class="timersymbol">
+								<i class="mdi-18px mdi mdi-clock-outline" aria-hidden="true"></i>
+							</span>&nbsp;{{hhours}}:{{mminutes}}:{{sseconds}}&nbsp;
+
+                            <a href="" ng-click="model.timerFinishTest()">
+                                <span>
+									<span>
+										<i class="mdi-18px mdi mdi-stop" aria-hidden="true"></i>
+									</span>
+                                </span>
+                            </a>&nbsp;
+
+                            <a href="" ng-click="stopTimer()">
+                                <span>
+									<i class="mdi-18px mdi mdi-pause" aria-hidden="true"></i>
+								</span>
+                            </a>
+                        </div>
+                    </timer>
+                </div>
+            </div>
+        </div>
+        <div ng-repeat="(key,Questions) in model.quizQuestionlists" ng-if="Questions.current_index === key">
+            {{'Question'|translate}} {{Questions.Number}}:
+
+            <div class="mb30">
+                <strong ng-bind-html="Questions.question"></strong>
+            </div>
+            <ul class="list-unstyled">
+                <li class="lessonspanel" ng-repeat="answer in Questions.answer">
+                    <label ng-if="Questions.type =='multi-choice'" class="radio">
+						<input type="radio" name="optionsRadios{{key}}" id="optionsRadios{{key}}" ng-model="Questions.student_answer" value="{{answer.id}}" ng-click="AnswerChoose(key)" required>
+							<span ng-bind-html="answer.answer"></span>
+						</label>
+                    <label ng-if="Questions.type =='multi-select'" class="checkbox">
+							<input type="checkbox"  ng-click="AnswerChoose(key)" ng-model="Questions.tmp_student_answer[answer.id]" value="answer.id"/>
+							<span ng-bind-html="answer.answer"></span>
+						</label>
+                </li>
+            </ul>
+            <!-- Display the error message  -->
+            <div class="col-xs-12">
+                <div ng-show="Incorrectoption">
+                    <span class="error">{{'Please select answer to go to next Question' | translate}}</span>
+                </div>
+            </div>
+            <div class="lessons-settings">
+                <div class="lsettinginner">
+                    <div class="mark-review">
+                        <a href="" ng-if="Questions.is_mark_review == 'false'" class="" ng-click="model.MarkAsReview(key,'mark');">
+                            <i class="mdi-18px mdi mdi-star-outline" aria-hidden="true"></i>
+                            <span class="hidden-xs">{{'Mark For Review'|translate}}</span>
+                        </a>
+                        <a href="" ng-if="Questions.is_mark_review == 'true'" class="" ng-click="model.MarkAsReview(key,'unmark');">
+                            <i class="mdi-18px mdi mdi-star" aria-hidden="true">
+									<span class="hidden-xs">{{'Mark For Review'|translate}}</span>
+								</i>
+                        </a>
+                    </div>
+                    <div class="seeallques">
+                        <a class="" ng-click="model.openQuestionTab()" ng-if="model.pratice_test_navbar === false">
+                            <i class="mdi-18px mdi mdi-format-list-checkbox" aria-hidden="true"></i>
+                            <span class="hidden-xs"> {{'See All Questions'|translate}}</span>
+                        </a>
+                        <a class="" ng-click="model.closeQuestionTab()" ng-if="model.pratice_test_navbar === true">
+                            <i class="mdi-18px mdi mdi-format-list-checkbox" aria-hidden="true"></i>
+                            <span class="hidden-xs"> {{'See All'|translate}}</span>
+                        </a>
+                    </div>
+                    <div class="lsettingsrgt">
+                        <div class="settingsrgtgrp">
+                            <a class="btndirctn" ng-if="Questions.previous_key" ng-click=" model.question_slide_change('prev',key)">
+                                <i class="mdi-18px mdi mdi-chevron-left" aria-hidden="true"></i>
+                                <span class="hidden-xs">{{'Back'|translate}}</span>
+                            </a>
+                            <a class="btnskipques" ng-if="Questions.next_key && Questions.student_answer" ng-click=" model.question_slide_change('next',key)">
+                                <span class="hidden-xs">{{'Next Questions'|translate}}</span>
+                                <i class="mdi-18px mdi mdi-chevron-right" aria-hidden="true"></i>
+                            </a>
+                            <a class="btnskipques" ng-if="Questions.next_key && !Questions.student_answer" ng-click=" model.question_slide_change('skip',key)">
+                                <span class="hidden-xs">{{'Skip Questions'|translate}}</span>
+                                <i class="mdi-18px mdi mdi-chevron-right" aria-hidden="true"></i>
+                            </a>
+                            <a class="btnskipques" ng-if="Questions.submit_key" ng-click="FinishExam(key)">
+                                <span class="hidden-xs">{{'Finish Test'|translate}}</span>
+                                <i class="mdi-18px mdi mdi-chevron-right" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <div class="dropup settingsrgtgrp pl5 pr5 hidden-xs">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="mdi-18px mdi mdi-arrow-expand" aria-hidden="true"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="#" ng-click="Fullscreen()" class="text-muted">{{'Fullscreen'|translate}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Question length checking to display no record found section -->
+    <div ng-if="!model.quizQuestionlists.length && !loader">
+        <div role="alert" class="with-icon alert alert-danger mt30" style="">
+            <span class="icon udi udi-warning"></span>
+            <p class="content" translate="">
+                <span>{{'Sorry. No question available' | translate}}</span>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="questions-right question-right-blk">
+    <div class="panel pane-default clearfix">
+            <div class="dropdown">
+                <a data-toggle="dropdown" class="btn btn-outline-secondary">
+                    <span ng-show="!Question_type || Question_type === 'all'">{{'All Questions'|translate}}</span>
+                    <span ng-show="Question_type === 'is_skipped'">{{'Skipped'|translate}}</span>
+                    <span ng-show="Question_type === 'is_mark_review'">{{'marked for review'|translate}}</span> &nbsp;
+                    <i class="mdi-18px mdi mdi-chevron-down" aria-hidden="true"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a ng-click="model.QuestionFilter('all')" title="{{'All'|translate}}">{{'All Questions'|translate}}</a>
+                    </li>
+                    <li>
+                        <a ng-click="model.QuestionFilter('is_skipped')" title="{{'Skipped'|translate}}">{{'Skipped'|translate}}</a>
+                    </li>
+                    <li>
+                        <a ng-click="model.QuestionFilter('is_mark_review')" title="{{'marked for review'|translate}}">{{'marked for review'|translate}}</a>
+                    </li>
+                </ul>
+            </div>
+        
+        <div class="question-close">
+            <a href="#" class="questions-toggle" ng-click="model.closeQuestionTab()">
+                <i class="fa mdi-18px mdi mdi-close" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+    <div class="questions-bl">
+        <ul class="list-unstyled">
+            <li ng-repeat="(key,Questions) in Questions_list | filter:search" ng-class="{'disabled1' : (Questions.question_enable === false && Questions.current_index !== key) }">
+                <a href="" ng-click="model.openQuestion(key)">
+                    <span ng-if="Questions.is_mark_review == 'true'">
+							<i class="mdi-18px mdi mdi-star" aria-hidden="true"></i>
+						</span>
+                    <span ng-if="Questions.is_mark_review == 'false'">
+							<i class="mdi-18px mdi mdi-star-outline" aria-hidden="true"></i>
+						</span> <span class="qu">{{'Question'|translate}} {{Questions.Number}}:</span>
+                    <span class="label label-default" ng-if="Questions.is_skipped == 'true'">{{'Skipped' | translate}}</span>
+                    <div class="mb5">
+                        <p ng-bind-html="Questions.question"></p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <div class="text-center" ng-if="(Questions_list | filter:search).length == 0">
+            <div class=" ">
+                {{'No questions match this filter.' | translate}}
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-if="model.pratice_test_attempts.length>0 && model.Show_pratice_test === true">
+    <div class="clearfix">
+        <h2 class="practice-text-title">{{model.praticeTestDetails.lesson_name}} - {{'Results' | translate}}</h2>
+        <div class="practice-test-status">
+            <span>{{model.praticeTestDetails.quiz_question_count}} {{'Question' | translate}}</span>
+            <span class="practice-seperator">|</span>
+            <span>{{model.praticeTestDetails.allowed_duration}} {{'Minutes' | translate}}</span>
+            <span class="practice-seperator">|</span>
+            <span>{{model.praticeTestDetails.pass_mark_percentage}}% {{'correct required to pass' | translate}}</span>
+        </div>
+        <hr class="mt30 mb10">
+    </div>
+    <div id="curriculum" class="abtcourseblk mt30">
+        <div class="clearfix" ng-if="!ReviewDetails || ReviewDetails === false">
+            <div ng-repeat="practice_attempt in model.pratice_test_attempts">
+                <div class="lessonspanel" ng-if="!practice_attempt.expand">
+                    <div class="practicersltblk">
+                        <div>
+                            <div class="lsnsvgblk">
+                                <pratice-high-chart series-data={{practice_attempt.praticetest_highchart_data}} ng-if="practice_attempt.praticetest_highchart_data"
+                                    width='100' height='100' inner-size='80' size='100'></pratice-high-chart>
+
+                            </div>
+                            <div class="lsn-status lesson-passed flxac">
+                                <span ng-if="practice_attempt.is_passed === true">{{'Passed!' | translate}}</span>
+                                <span class="lesson-failed" ng-if="practice_attempt.is_passed === false || !practice_attempt.is_passed">{{'Failed!' | translate}}</span>
+                                <span class="grayc lesdatemob lesmobvis">{{practice_attempt.start_date}}</span>
+                            </div>
+                        </div>
+                        <div class="flxac lespercentage">{{practice_attempt.correct_percentage}}%
+                            <span class="lesmobhid">{{'Correct' | translate}}</span>
+                        </div>
+                        <div class="flxac lesttaken grayc lesmobhid">{{practice_attempt.taken_time}} {{'seconds' | translate}}</div>
+                        <div class="flxac lesdate grayc lesmobhid">{{practice_attempt.start_date}}</div>
+                        <div class="lesresdown">
+                            <a href="" ng-click="practice_attempt.expand = !practice_attempt.expand">
+                                <span ng-if="!practice_attempt.expand">
+											<i class="mdi-18px mdi mdi-chevron-down" aria-hidden="true"></i>
+										</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="lessonspanel" ng-if="practice_attempt.expand">
+                    <div class="practicersltblk practicerslopen">
+                        <div>
+                            <pratice-high-chart series-data={{practice_attempt.praticetest_highchart_data}} ng-if="practice_attempt.praticetest_highchart_data"
+                                width='300' height='250' inner-size='180' size='230'></pratice-high-chart>
+                            <div class="lescolordtls text-center">
+                                <span class="lescorrect">
+											<i class="mdi-18px mdi mdi-square" aria-hidden="true"></i> {{'Correct' | translate}}
+                                
+										</span>
+                                <span class="leswrong ml15">
+											<i class="mdi-18px mdi mdi-square" aria-hidden="true"></i> {{'Wrong' | translate}}
+                                
+										</span>
+                                <span class="lesskipped ml15">
+											<i class="mdi-18px mdi mdi-square" aria-hidden="true"></i> {{'Skipped' | translate}}
+                                
+										</span>
+                            </div>
+                        </div>
+                        <div class="lesopenrgt">
+                            <h3>{{'Attempt' | translate}} {{practice_attempt.serial_no}}:
+
+                                <span>
+											<span class="lesson-passed" ng-if="practice_attempt.is_passed === true">
+                                {{'Passed' | translate}}
+                            </span>
+                                <span class="lesson-failed" ng-if="practice_attempt.is_passed === false">
+                               {{'Failed' | translate}} ({{practice_attempt.pass_mark_percentage}}% {{'required to pass' | translate}})
+                            </span>
+                                </span>
+                            </h3>
+                            <div>
+                                <span class="practice-percentage">{{practice_attempt.correct_percentage}}%</span> Correct
+
+                                <span class="text-grey">({{practice_attempt.total_correct_answer_count}}/{{practice_attempt.quiz_question_count}})</span>
+                            </div>
+                            <div>
+                                <div class="text-grey1">
+                                    <span>{{practice_attempt.taken_time}} seconds</span>
+                                </div>
+                                <div class="text-grey1">
+                                    <span>{{practice_attempt.start_date}}</span>
+                                </div>
+                            </div>
+                            <div class="mt30">
+                                <a href="" class="btn btn-outline-secondary" ng-click="reviewedQuestions(practice_attempt)">{{'Review Questions'|translate}}</a>
+                            </div>
+                        </div>
+                        <div class="lesresdown">
+                            <a href="" ng-click="practice_attempt.expand = !practice_attempt.expand">
+                                <span ng-if="practice_attempt.expand">
+											<i class="mdi-18px mdi mdi-chevron-up" aria-hidden="true"></i>
+										</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="ReviewDetails === true">
+            <div class="mb30">
+                <a href="" class="btn btn-outline-secondary" ng-click="hidereviewedQuestions()"> {{'Return to Review' | translate}}</a>
+            </div>
+            <div class="lessonspanel lessons-resultblock clearfix">
+                <div class="clearfix">
+                    <div class="les-resinner">
+                        <div class="svgwithattempt">
+                            <div class="svglft">
+                                <pratice-high-chart series-data={{Review_questions.praticetest_highchart_data}} ng-if="Review_questions.praticetest_highchart_data"
+                                    width='100' height='100' inner-size='80' size='100'></pratice-high-chart>
+                            </div>
+                            <div class="svtattempttxt">
+                                Attempt: {{Review_questions.serial_no}}
+                            </div>
+                        </div>
+                        <div class="lesres-filter">
+                            <div class="dropdown float-left">
+                                <a data-toggle="dropdown" class="btn btn-outline-secondary">
+                                    <span ng-show="!review_type || review_type === 'all' ">{{'All Questions'|translate}}</span>
+                                    <span ng-show="review_type === 'correct' ">{{'Correct'|translate}}</span>
+                                    <span ng-show="review_type === 'incorrect'">{{'Incorrect'|translate}}</span>
+                                    <span ng-show="review_type === 'skipped'">{{'Skipped'|translate}}</span>
+                                    <span ng-show="review_type === 'marked'">{{'marked for review'|translate}}</span> &nbsp;
+
+                                    <i class="mdi-18px mdi mdi-chevron-down text-muted"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li>
+                                        <a ng-click="model.RevieQuestionFilter('all')" title="{{'All'|translate}}">{{'All'|translate}}</a>
+                                    </li>
+                                    <li>
+                                        <a ng-click="model.RevieQuestionFilter('correct')" title="{{'Correct'|translate}}">{{'Correct'|translate}}</a>
+                                    </li>
+                                    <li>
+                                        <a ng-click="model.RevieQuestionFilter('incorrect')" title="{{'Incorrect'|translate}}">{{'Incorrect'|translate}}</a>
+                                    </li>
+                                    <li>
+                                        <a ng-click="model.RevieQuestionFilter('skipped')" title="{{'Skipped'|translate}}">{{'Skipped'|translate}}</a>
+                                    </li>
+                                    <li>
+                                        <a ng-click="model.RevieQuestionFilter('marked')" title="{{'marked for review'|translate}}">{{'marked for review'|translate}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="quesanslistings">
+                        <div ng-repeat="review_question in Review_questions.questions">
+                            <div class="quscont_qres">
+                                <i class="mdi-18px mdi mdi-star" aria-hidden="true" ng-if="review_question.is_marked_for_review == true"></i>                                {{'Question' | translate}} {{$index+1}}:
+
+                                <span class="label label-default" ng-if="review_question.is_skipped === true">Skipped</span>
+                                <span class="lescorrect" ng-if="review_question.is_correct === true && review_question.is_skipped === false">{{'Correct' | translate}}</span>
+                                <span class="leswrong" ng-if="review_question.is_correct === false  && review_question.is_skipped === false">{{'Incorrect' | translate}} 
+                        </span>
+                            </div>
+                            <div class="quesans-hd" ng-bind-html="review_question.question "></div>
+                            <ul class="list-unstyled">
+                                <li ng-repeat="review_answer in review_question.answer">
+                                    <!--Multi Choice Questions-->
+                                    <div ng-if="review_question.type =='multi-choice'">
+                                        <div class="radio">
+                                            <label ng-class="{'coranswer' : ((((review_answer.user_choosed_answer === true && review_answer.original_answer === true)||review_answer.original_answer === true) && review_question.is_skipped === false) ||(review_answer.original_answer ===  true && review_question.is_skipped === true)), 'wrnganswer' :(review_answer.user_choosed_answer === true && review_answer.original_answer === false && review_question.is_skipped === false)}">
+                                                         <!--Skipped Questions-->
+														<input type="radio" name="optionsRadios{{$index}}" id="optionsRadios{{$index}}"  ng-disabled="true" ng-model="review_answer.original_answer" ng-value="true" ng-if="review_question.is_skipped === true">
+                                                          <!--answered Questions-->
+                                                        <input type="radio" name="optionsRadios{{$index}}" id="optionsRadios{{$index}}"  ng-disabled="true" ng-model="review_answer.user_choosed_answer" ng-value="true"  ng-if="review_question.is_skipped === false">
+                                                        
+															<span>
+																<div class="flxmainblk">
+																	<div class="flxmin" ng-bind-html="review_answer.answer"></div>
+																	<div class="fw600">
+																		<div class="lescorrect" ng-if="((review_answer.user_choosed_answer === true && review_answer.original_answer === true)||review_answer.original_answer === true) && review_question.is_skipped === false">({{'Correct' | translate}})</div>
+																		<div  class="leswrong" ng-if="review_answer.user_choosed_answer === true && review_answer.original_answer === false && review_question.is_skipped === false">({{'InCorrect' | translate}})</div>
+																		<div class="lescorrect" ng-if="review_answer.original_answer ===  true && review_question.is_skipped === true">({{'Correct' | translate}})</div>
+																	</div>
+																</div>
+															</span>
+														</label>
+                                        </div>
+                                    </div>
+                                    <!--Multi Choice Questions-->
+                                    <div ng-if="review_question.type =='multi-select'">
+                                        <div>
+                                            <div class="checkbox">
+                                                <label ng-class="{'coranswer':(((review_answer.user_choosed_answer === true && review_answer.original_answer === true)||review_answer.original_answer === true) && review_question.is_skipped === false) || (review_answer.original_answer ===  true && review_question.is_skipped === true), 'wrnganswer':(review_answer.user_choosed_answer === true && review_answer.original_answer === false && review_question.is_skipped === false)}">
+                                                                     <!--Skipped Questions-->
+																	<input type="checkbox" ng-disabled="true"  ng-model="review_answer.original_answer" value="true" ng-if="review_question.is_skipped === true"/>
+                                                                    <!--answered Questions-->
+                                                                    <input type="checkbox" ng-disabled="true" ng-model="review_answer.user_choosed_answer" value="true" ng-if="review_question.is_skipped === false"/>
+																	<span>
+																		<div class="flxmainblk">
+																			<div class="flxmin" ng-bind-html="review_answer.answer"></div>
+																			<div class="fw600">
+																				<div class="lescorrect" ng-if="((review_answer.user_choosed_answer === true && review_answer.original_answer === true)||review_answer.original_answer === true) && review_question.is_skipped === false">({{'Correct' | translate}})</div>
+																				<div span class="leswrong" ng-if="review_answer.user_choosed_answer === true && review_answer.original_answer === false && review_question.is_skipped === false">({{'InCorrect' | translate}})</div>
+																				<div class="lescorrect" ng-if="review_answer.original_answer ===  true && review_question.is_skipped === true">({{'Correct' | translate}})</div>
+																			</div>
+																		</div>
+																	</span>
+																</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mb30" ng-if="!Review_questions.questions.length">
+                            {{'No questions match this filter.' | translate}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="lessons-settings">
+        <div class="lsettinginner">
+            <div class="mark-review"></div>
+            <div class="seeallques"></div>
+            <div class="lsettingsrgt">
+                <button type="button" class="btnskipques" ng-click="model.QuestionTryAGain()">{{'Retake test' | translate}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="src/plugins/PracticeTest/PracticeTimerFinishTest.tpl.html">
+					<div class="modal-login" ng-class="{'container': currentPageType === 'page'}">
+						<div class="center-form" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+							<div class="panel-heading clearfix">
+								<h5 class="text-center">{{'Are you sure you want to finish the test?'|translate}}
+                    
+									<a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose float-right">X</a>
+								</h5>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-xs-12">
+										<form method="post" name="groupForm">
+											<div class="form-group has-feedback">
+                                {{'You still have' | translate}} {{model.Balance_text_perc}}% {{'of the test remaining. If you don't want to submit this attempt now, you can always pause the test and return to it later. Remember that you can take this test as many times as you want.' | translate}}
+                            </div>
+											<button ng-click="modalClose($event)" class="ml5 btn btn-outline-secondary float-right">{{'Cancel'|translate}}</button>
+											<button ng-click="model.FinishTest()" class="btn btn-success float-right">{{'Finish Test'|translate}}</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</script>
+<script type="text/ng-template" id="src/plugins/PracticeTest/PracticeTimerResumeTest.tpl.html">
+					<div class="modal-login" ng-class="{'container': currentPageType === 'page'}">
+						<div class="center-form" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+							<div class="panel-heading clearfix">
+								<h5 class="text-center">{{'Your Test is Paused'|translate}}
+                    
+									<a data-dismiss="modal" ng-click="modalClose($event, 'resume')" class="modalClose float-right">X</a>
+								</h5>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-xs-12">
+										<form method="post" name="groupForm">
+											<div class="form-group has-feedback">
+                                You can leave this page and resume this test at any time. Your progress will be saved.
+                            </div>
+											<button ng-click="modalClose($event,'resume')" class="btn btn-success float-right ">{{'Resume Test'|translate}}</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</script>
+<script type="text/ng-template" id="src/plugins/PracticeTest/PraticeTestTimout.tpl.html">
+					<div class="modal-login" ng-class="{'container': currentPageType === 'page'}">
+						<div class="center-form" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+							<div class="panel-heading clearfix">
+								<h5 class="text-center">{{'Your Test Time over'|translate}}
+                </h5>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-xs-12">
+										<form method="post" name="groupForm">
+											<div class="form-group has-feedback">
+                                Click finish button to check your result.
+                            </div>
+											<button ng-click="model.FinishTest()" class="btn btn-success float-right">{{'Finish Test'|translate}}</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</script>
+<script type="text/ng-template" id="src/plugins/PracticeTest/PracticeSkipped.tpl.html">
+					<div class="modal-login" ng-class="{'container': currentPageType === 'page'}">
+						<div class="center-form" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+							<div class="panel-heading clearfix">
+								<h5 class="text-center">{{'Are you sure you want to finish'|translate}}?
+                    
+									<a data-dismiss="modal" ng-click="modalClose($event, 'resume')" class="modalClose float-right">X</a>
+								</h5>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-xs-12">
+										<form method="post" name="groupForm">
+											<div class="form-group has-feedback">
+                                You skipped {{model.skipped_count}} questions.
+                            </div>
+											<button ng-click="model.openQuestionTab($event)" class="btn btn-outline-secondary float-right">{{'Review Questions'|translate}}</button>
+											<button ng-click="model.FinishTest()" class="btn btn-success float-right mr10">{{'Finish Test'|translate}}</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</script>
+<script type="text/ng-template" id="src/plugins/PracticeTest/PracticeReview.tpl.html">
+					<div class="modal-login" ng-class="{'container': currentPageType === 'page'}">
+						<div class="center-form" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+							<div class="panel-heading clearfix">
+								<h5 class="text-center">{{'Are you sure you want to finish'|translate}}?
+                    
+									<a data-dismiss="modal" ng-click="modalClose($event, 'resume')" class="modalClose float-right">X</a>
+								</h5>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-xs-12">
+										<form method="post" name="groupForm">
+											<div class="form-group has-feedback">
+                                You may still review the answers you have entered.
+                            </div>
+											<button ng-click="model.openQuestionTab($event)" class="btn btn-outline-secondary float-right">{{'Review Questions'|translate}}</button>
+											<button ng-click="model.FinishTest()" class="btn btn-success float-right mr10">{{'Finish Test'|translate}}</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</script>

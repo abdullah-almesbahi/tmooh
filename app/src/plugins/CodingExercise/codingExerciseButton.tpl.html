@@ -1,0 +1,7 @@
+<div class="col-xs-12" ng-if="model.action ==='add'">
+	<a class="btn btn-primary btn-block btn-lg navbar-btn" href="/manage-course/edit-curriculum/{{model.course}}/add-Coding-exercise"
+		ng-if="model.action === 'add' " ng-click="uploadConfigure()"><i class="mdi-18px mdi mdi-plus-box"></i>&nbsp; {{'Add Coding Exercise'|translate}}</a>
+</div>
+<div ng-if="model.action ==='edit'">
+	<a class="btn  text-info float-right" href="/manage-course/edit-curriculum/{{model.course}}/edit-Coding-exercise/{{model.lessonId}}"><span class=""><i class="mdi-18px mdi mdi-pencil"></i></span></a>
+</div>

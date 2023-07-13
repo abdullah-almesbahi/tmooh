@@ -1,0 +1,52 @@
+<div class="modal-login" ng-class="{'container': currentPageType === 'page'}">
+    <div class="center-form" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+        <div class="panel-heading clearfix">
+            <div class="float-right">
+                <a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose"><i class="fa fa-lg fa-close"></i></a>
+            </div>
+            <h3 class="text-center"><strong>{{'Instructor-Led Live Training'|translate}} </strong></h3>
+        </div>
+        <div class="card-body">
+            <div class="form-content">
+                <h3>Session Details</h3>
+            </div>
+            <div class="custom-table session-table">
+                <div class="table-responsive" ng-if='!contentInIframe'>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center">{{'No'|translate}}</th>
+                                <th class="text-center">{{'Start Date'|translate}}</th>
+                                <th class="text-center">{{'Start Time'|translate}}</th>
+                                <th class="text-center">{{'End Time'|translate}}</th>
+                                <th class="text-center">{{'Lesson Topic'|translate}}</th>
+                                <th class="text-center">{{'Lesson Description'|translate}}</th>
+                                <th class="text-center">{{'Actions'|translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="course_webinar_session in webinar_batch_details.course_webinar_sessions">
+                                <td class="text-center">{{$index + 1}}</td>
+                                <td class="text-center">{{::course_webinar_session.format_session_date}}</td>
+                                <td class="text-center batch-popover">{{::course_webinar_session.session_date | amDateFormat: ConstDateFormat.time_sec_12}}({{::course_webinar_session.utc_offset}})
+                                    <span class=timezone-label>{{::course_webinar_session.user_session_date | amDateFormat: ConstDateFormat.time_sec_12}} {{::course_webinar_session.user_timezone}}</span>
+                                </td>
+                                <td class="text-center">{{::course_webinar_session.session_end_date | amDateFormat: ConstDateFormat.time_sec_12}} ({{::course_webinar_session.utc_offset}})
+                                    <span class=timezone-label>{{::course_webinar_session.user_session_end_date | amDateFormat: ConstDateFormat.time_sec_12}} {{::course_webinar_session.user_timezone}}</span></td>
+                                <td class="text-center">{{::course_webinar_session.lesson_topic}}</td>
+                                <td class="text-center">
+                                    <span ng-if="course_webinar_session.lesson_description == null || course_webinar_session.lesson_description == undefined"> - </span>
+                                    <span ng-if="course_webinar_session.lesson_description !== null && course_webinar_session.lesson_description !== undefined"> 	{{::course_webinar_session.lesson_description}}</span>
+                                </td>
+                                <td class="text-center">
+                                    <a href="" class="btn btn-success navbar-btn" ng-click="model.OpenWebinarWindow($index)">
+                {{'Join Meeting' | translate}}</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

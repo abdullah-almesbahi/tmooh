@@ -1,0 +1,14 @@
+<section class="clearfix" ng-show="model.loading === false">
+	<div class="container pb-3">
+		<course-navbar></course-navbar>
+		<div class="">
+		<div class="tab-content col-12" ng-if="model.loading === false">
+			<div class="card shadow  bg-white" id="course_feedback">
+				<div class="card-body well-sm">
+					<p ng-bind-html="model.courseFeedback.content"></p>
+				</div>
+			</div>
+		</div>
+	  </div>
+	</div>
+</section>

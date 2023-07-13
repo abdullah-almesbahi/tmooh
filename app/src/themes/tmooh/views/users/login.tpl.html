@@ -1,0 +1,55 @@
+<div class="" ng-class="{'container mb-5': currentPageType === 'page'}">
+  <div class="row">
+    <div class="" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2 mt-5 mx-auto': currentPageType === 'page','col-md-12': currentPageType !== 'page'}">
+      <div class="card">
+        <div class="card-body">
+          <a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose" ng-if="currentPageType === 'modal'"><i class="mdi-18px mdi mdi-close close"></i></a>
+          <div banner position="topBanner" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1 && currentPageType === 'page'"></div>
+          <h3 class="lead">{{'Login to your'|translate}} {{$root.settings['site.name']}} {{'account!'|translate}}</h3>
+          <hr>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6" ng-if="$root.settings['site.enabled_plugins'].indexOf('SocialLogins') > -1">
+              <h3 class="lead text-center text-primary">{{'Login with social accounts'|translate}}</h3>
+              <social-login page-type='{{currentPageType}}'></social-login>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6" ng-class="{'col-lg-offset-3': $root.settings['site.enabled_plugins'].indexOf('SocialLogins') == -1}" ng-if='!contentInIframe'>
+              <h3 class="lead text-center text-primary">{{'Login with your email'|translate}}</h3>
+              <form method="post" name="loginForm" novalidate>
+								<div class="form-group has-feedback" ng-class="{ 'has-error' : (loginForm.$submitted || loginForm.email.$touched) && (loginForm.email.$pristine || loginForm.email.$invalid || loginForm.email.$error.email)}">
+									<input class="form-control input-lg" type="email" name="email" ng-model="user.email" placeholder="{{'Email'|translate}}"
+										required >
+									<span class="ion-at form-control-feedback"></span>
+									<div class="" ng-show="(loginForm.$submitted || loginForm.email.$touched) && (loginForm.email.$pristine || loginForm.email.$invalid)">
+										<span class="error" ng-show="(loginForm.email.$error.required)">{{'Required' | translate }}.</span> <span class="error"
+											ng-show="(loginForm.email.$error.email || loginForm.email.$error.pattern)">{{ 'Enter valid email' | translate}}.</span>									</div>
+								</div>
+								<div class="form-group has-feedback" ng-class="{ 'has-error' : (loginForm.$submitted || loginForm.password.$touched) && (loginForm.password.$pristine || loginForm.password.$invalid)}">
+									<input class="form-control input-lg" type="password" name="password" ng-model="user.password" placeholder="{{'Password'|translate}}"
+										required ng-pattern="/^[A-Za-z0-9\d!-\/:-@\[-`{-~\]&]{6,}$/">
+									<span class="ion-key form-control-feedback"></span>
+									<div class="" ng-show="(loginForm.$submitted || loginForm.password.$touched) && (loginForm.password.$pristine || loginForm.password.$invalid)">
+										<span class="error" ng-show="(loginForm.password.$error.required)">{{'Required' | translate }}.</span> <span class="error"
+											ng-show="(loginForm.password.$error.password || loginForm.password.$error.pattern)">{{ 'Password must minimum 6 characters' | translate}}.</span>									</div>
+								</div>
+                <button ng-click="loginUser(loginForm.$valid, user)" ng-disabled="disableButton" class="btn btn-lg  btn-block btn-primary">{{'Log in'|translate}}  <span ng-show="disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin"></i></span></button>
+                <br/>
+                <p class="text-center text-muted">
+                  <small>{{'Don\'t have an account yet?'|translate}}
+  					<a ng-if="currentPageType === 'page'" href="/users/signup">&nbsp;&nbsp;{{'Sign up'|translate}}</a>
+  					<a ng-if="currentPageType === 'modal'" ng-click="goToState('Signup')" href="/users/signup">&nbsp;&nbsp;{{'Sign up'|translate}}</a>
+  					</small>
+                </p>
+                <hr>
+                <p class="text-center text-muted">
+                  <small><a ng-href="/users/forgot_password" title="{{'Forgot Password'|translate}}">{{'Forgot Password'|translate}}</a></small>
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /card -->
+    </div>
+  </div>
+  <div banner position="bottomBanner" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1 && currentPageType === 'page'"></div>
+</div>

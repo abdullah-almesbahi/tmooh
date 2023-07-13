@@ -1,0 +1,91 @@
+<div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading === true"></div>
+<div class="leaner-course-panel bg-dark" ng-if="!model.loading">
+    <div class="container">
+      <div class="row py-4">
+        <div class="col-md-4 col-12">
+          <img ng-if="model.course_users.course_image_hash" ng-src="{{$root.site_url}}img/big_medium_thumb/Course/{{model.course_users.course_image_hash}}" alt="[Image: {{model.course_users.course_title}}]"
+              title="{{model.course_users.title}}" class="img-fluid" />
+          <img ng-if="!model.course_users.course_image_hash" ng-src="{{$root.site_url}}img/big_medium_thumb/Course/0.default.jpg" alt="[Image: {{model.course_users.title}}]"
+              title="{{model.course_users.course_title}}" class="img-fluid center-block" />
+        </div>
+        <div class="col-md-8 col-12" id="top-detail">
+          <h2 class="text-white">{{model.course_users.course_title}}</h2>
+          <div class="lecturebtnblk my-3">
+              <!--No previous lesson found -->
+              <a class="btn btn-primary btn-lg" ng-href="/learn-course/{{model.course_users.course_id}}/{{model.course_users.current_online_course_lesson_id}}/{{model.course_users.course_slug|escape}}?learn={{model.course_users.id}}" ng-if="model.course_users.current_online_course_lesson_id !== null">{{'Continue to Lecture' | translate}}</a>
+              <!--previous lesson found-->
+              <a class="btn btn-primary btn-lg" ng-href="/learn-course/{{model.course_users.course_id}}/{{model.course_users.course_slug|escape}}?learn={{model.course_users.id}}" ng-if="model.course_users.current_online_course_lesson_id == null || model.course_users.current_online_course_lesson_id == undefined">{{'Continue to Lecture' | translate}}</a>
+          </div>
+          <div class="row">
+            <div class="col-md-2 col">
+              <rating-stars average-rating='{{model.course_users.rating}}' ng-if="model.course_users && $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1"></rating-stars>
+            </div>
+            <div class="col-md-10 col">
+              <rating-button class="rating-btn" courseuserid='{{model.course_users.id}}' btnstyle="text-white" btntext='{{model.course_users.rating_text}}' user-id='{{model.course_users.user_id}}' course-id='{{model.course_users.course_id}}'></rating-button>
+            </div>
+          </div>
+          <div class="row no-gutters">
+              <div class="col">
+                  <div class="progress-complete text-white">
+                      <!--Course content not start learning -->
+                      <span ng-if="model.course_users.completed_lesson_count == 0">
+                          {{'Get started'|translate}} ( <strong>{{model.course_users.completed_lesson_count}}</strong> {{'of'|translate}} <strong> {{model.course_users.active_online_course_lesson_count}}</strong> {{'items complete'|translate}})
+                      </span>
+                      <!--Course content start learning -->
+                      <span ng-if="model.course_users.completed_lesson_count > 0">
+                            <strong>{{model.course_users.completed_lesson_count}}</strong> {{'of'|translate}} <strong> {{model.course_users.active_online_course_lesson_count}}</strong> {{'items complete'|translate}}
+                      </span>
+
+                  </div>
+                  <div class="progress" data-toggle="tooltip" tooltp-placement="bottom" uib-tooltip="{{(100*(model.course_users.completed_lesson_count/model.course_users.active_online_course_lesson_count)) | number: 0}}{{'% Complete'|translate}}">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: {{(100*(model.course_users.completed_lesson_count/model.course_users.active_online_course_lesson_count)) | number: 0}}%;" aria-valuenow="{{(100*(model.course_users.completed_lesson_count/model.course_users.active_online_course_lesson_count)) | number: 0}}" aria-valuemin="0" aria-valuemax="100">
+                      {{(100*(model.course_users.completed_lesson_count/model.course_users.active_online_course_lesson_count)) | number: 0}}{{'% Complete'|translate}}
+                    </div>
+                  </div>
+              </div>
+              <!--Certificate Mapping Templated Based on the Condition -->
+              <div class="progcertificate mx-1" ng-class="{'certified' : model.course_users.course_user_status === 'Completed'}" style="width:70px">
+                  <div ng-if="model.course_users.course_user_status === 'Completed'" class="text-center">
+                      <!--Completed-->
+                      <a href="/certificate/{{model.course_users.id}}" tooltip-placement="auto" tooltip-animation="false" uib-tooltip="Click to access your certificate!">
+                          <i class="mdi-18px mdi mdi-trophy text-success" aria-hidden="true"></i>
+                      </a>
+                  </div>
+                  <!--Incomplete-->
+                  <div ng-if="model.course_users.course_user_status !== 'Completed'" class="text-center">
+                      <i class="mdi-18px mdi mdi-trophy text-white" aria-hidden="true" tooltip-placement="auto" tooltip-animation="false" uib-tooltip="You need to finish this course to get your certificate of completion!"></i>
+                  </div>
+                  <div class="progress" ng-class="{'bg-success' : model.course_users.course_user_status === 'Completed'}">
+                      <div class="progress-bar"></div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="course-tab  bg-white pt-3 mb-3">
+    <div class="course-list-tab">
+        <div class="container">
+            <ul class="nav nav-tabs">
+                <li class="nav-item" ><a href="" ng-click="goState('overview')" title="About Course" class="ng-binding nav-link" ng-class="{ 'active' : model.type==='overview'}">{{'About Course' | translate}}</a></li>
+                <li class="nav-item" ><a href="" ng-click="goState('content')" title="Curriculum" class="ng-binding nav-link" ng-class="{ 'active' : model.type==='content'}">{{'Course Content' | translate}}</a></li>
+                <li class="nav-item" >
+                    <a href="" ng-click="goState('questions')" title="QA" ng-if="$root.settings[ 'site.enabled_plugins'].indexOf( 'QA')> -1" class="ng-binding nav-link ng-scope" ng-class="{ 'active' : model.type==='questions'}">{{'Q&A'|translate}}</a>
+                </li>
+                <li class="user nav-item dropdown">
+                    <a href="" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                        <span>{{'Options' | translate}}</span>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a href="" title="{{'archieve'|translate}}" class="text-muted dropdown-item" ng-click="model.addToUnarchive();" ng-if="model.course_users.course_user_status == 'Archived'">{{'Unarchive this course'|translate}}</a>
+                        <a href="" title="{{'archieve'|translate}}" class="text-muted dropdown-item" ng-click="model.addToArchive();" ng-if="model.course_users.course_user_status !== 'Archived'">{{'Archive this course'|translate}}</a>
+                        <a href="" ng-click="model.IntructorToScroll('#Instructor')" title="{{'profile'|translate}}" class="text-muted dropdown-item">{{'Instructor profile'|translate}}</a>
+                        <!-- <a href="/support/student" title="{{'support'|translate}}" class="text-muted dropdown-item">{{'Support'|translate}}</a> -->
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

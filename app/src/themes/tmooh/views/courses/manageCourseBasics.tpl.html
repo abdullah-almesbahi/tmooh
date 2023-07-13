@@ -1,0 +1,183 @@
+<section class="container pb-3 mb-5">
+  <course-navbar></course-navbar>
+  <div class="card shadow bg-white">
+    <div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading"></div>
+    <div class="card-body" ng-if="!model.loading">
+      <h3 class="text-default">{{'Basics'|translate}}</h3>
+      <p>{{'Help students find your course.'|translate}}</p>
+      <form role="form" class="form-horizontal clearfix" name='manage_course_basics' ng-submit="model.saveCourseBasic(manage_course_basics,'now')">
+        <fieldset>
+          <legend class="form-group no-border">{{'Basic Information:' | translate}}</legend>
+          <div class="form-group" ng-show="$root.auth.providertype === 'admin'">
+            <label class="control-label required" for="course_title">{{'Lecturer'|translate}}  </label>
+            <select class="form-control" id="sub_category" ng-model="model.courseBasic.user_id" ng-options="Instructors.user_id as Instructors.displayname for Instructors in model.instructors" name="sub_category">
+            <option value="" >{{'Please Select'|translate}}</option>
+          </select>
+            <span class="help-block"><span class="text-info">{{'Leave it blank, if it is site\'s course.'|translate}}</span></span>
+          </div>
+          <div class="form-group">
+            <label class="control-label required" for="course_title">{{'Title'|translate}}</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="course_title" placeholder="{{'Title'|translate}}" maxlength="100" ng-model="model.courseBasic.title" aria-describedby="course_titlex" required>
+              <div class="input-group-append">
+                <span class="input-group-text" id="course_titlex">{{100 - model.courseBasic.title.length}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label required" for="course_subtitle">{{'Sub Title'|translate}}</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="course_sub_title" placeholder="{{'Sub Title'|translate}}" maxlength="200" ng-model="model.courseBasic.subtitle" required>
+              <div class="input-group-append">
+                <span class="input-group-text" id="course_sub_titlex">{{200 - model.courseBasic.subtitle.length}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <label class="control-label required" for="language">{{'Language'|translate}}</label>
+                <select class="form-control" id="language" name="language" ng-model="model.courseBasic.language_id" ng-options="languages.id as languages.name for languages in model.languages" required>
+                  <option value="" >{{'Please Select'|translate}}</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="control-label required" for="parent_category">{{'Category'|translate}}</label>
+                <select class="form-control" id="parent_category" name="parent_category" ng-model="model.courseBasic.parent_category_id" ng-options="parentCategory.id as parentCategory.sub_category_name for parentCategory in model.listcourse.category" data-ng-change="model.getSubCategories()"
+                  required>
+                  <option value="" >{{'Please Select'|translate}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-12">
+                <label class="control-label required" for="sub_category">{{'Sub Category'|translate}}</label>
+                <div class="">
+                  <select class="form-control" id="sub_category" ng-model="model.courseBasic.category_id" ng-options="subCategory.category_id as subCategory.sub_category_name for subCategory in model.subCategories | orderBy:'sub_category_name'" name="sub_category" required>
+                  <option value="" >{{'Please Select'|translate}}</option>
+                </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group d-none">
+            <div class="row">
+              <div class="col-md-12">
+                <label class="control-label required" for="sub_category">{{'Course Options'|translate}}</label>
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox"  id="course_option"  name="course_option" value="true" ng-model="model.coursetype['video']" ng-click="model.Showerror = ''"/>
+                      <span></span>
+                      {{'Video Based Training' | translate}}
+                    </label>
+                </div>
+                <div class="checkbox">
+                  <label>
+        <input type="checkbox"  id="course_option1"  name="course_option1"  ng-model="model.coursetype['online']" value="true" ng-click="model.Showerror = ''"/>
+        <span></span>
+         {{'Live Online Training' | translate}}</label>
+                </div>
+                <div class="checkbox">
+                  <label>
+        <input type="checkbox"  id="course_option2"  name="course_option2"  ng-model="model.coursetype['onsite']" value="true"
+        ng-click="model.Showerror = ''"/>
+        <span></span>
+
+         {{'Live Onsite Training' | translate}}</label>
+                </div>
+                <span class="error text-danger" ng-if="model.Showerror">{{'Required.' | translate }}</span>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <!--Course summary -->
+        <br>
+        <fieldset>
+          <legend class="form-group no-border">{{'Course Summary:' | translate}}</legend>
+          <div class="form-group">
+            <label class="control-label required" for="sub_category">{{'Description' | translate}}</label>
+            <textarea ng-model="model.courseBasic.description" redactor="{buttons: ['formatting', '|', 'bold', 'italic','ol', 'ul']}" cols="30" rows="10" placeholder="Insert your course description."></textarea>
+            <input type="hidden" name='description' id="description" ng-model="model.courseBasic.description" required />
+            <div class="text-danger" ng-if="(manage_course_basics.$submitted || manage_course_basics.description.$touched) && (manage_course_basics.description.$invalid)" ng-messages="manage_course_basics.description.$error">
+              <div ng-message="required">{{'Required'|translate}}.</div>
+            </div>
+          </div>
+          <!-- <div class="form-group">
+
+            <label class="control-label required" for="sub_category">Project</label>
+            <textarea ng-model="model.courseBasic.projects" redactor="{buttons: ['formatting', '|', 'bold', 'italic','ol', 'ul']}" cols="30" rows="10" placeholder="Insert your course Project."></textarea>
+            <input type="hidden" name='projects' id='projects' ng-model="model.courseBasic.projects" required />
+
+            <div class="text-danger" ng-if="(manage_course_basics.$submitted || manage_course_basics.projects.$touched) && (manage_course_basics.projects.$invalid)" ng-messages="manage_course_basics.projects.$error">
+              <div ng-message="required">{{'Required'|translate}}.</div>
+            </div>
+          </div> -->
+          <div class="form-group">
+            <label class="control-label" for="sub_category">{{'Certificate' | translate}}</label>
+            <textarea ng-model="model.courseBasic.certificate" redactor="{buttons: ['formatting', '|', 'bold', 'italic','ol', 'ul']}" cols="30" rows="10" placeholder="Insert your course certificate."></textarea>
+            <input type="hidden" ng-model="model.courseBasic.certificate" name='certificate' id='certificate' />
+            <div class="text-danger" ng-if="(manage_course_basics.$submitted || manage_course_basics.certificate.$touched) && (manage_course_basics.certificate.$invalid)" ng-messages="manage_course_basics.certificate.$error">
+              <div ng-message="required">{{'Required'|translate}}.</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label " for="sub_category">{{'Frequently Asked question' | translate}}</label>
+            <textarea ng-model="model.courseBasic.faq" redactor="{buttons: ['formatting', '|', 'bold', 'italic','ol', 'ul']}" cols="30" rows="10" placeholder="Insert your course frequently asked question."></textarea>
+            <input type="hidden" ng-model="model.courseBasic.faq" name='faq' id="faq"  />
+            <div class="text-danger" ng-if="(manage_course_basics.$submitted || manage_course_basics.faq.$touched) && (manage_course_basics.faq.$invalid)" ng-messages="manage_course_basics.faq.$error">
+              <div ng-message="required">{{'Required'|translate}}.</div>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset ng-if="$root.settings['site.enabled_plugins'].indexOf('SEO') > -1">
+          <legend class="form-group no-border">{{'SEO Information:' | translate}}</legend>
+          <div class="form-group">
+            <label class="control-label" for="meta_description">{{'Meta Description'|translate}}</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="meta_description" placeholder="{{'Description'|translate}}" maxlength="300" ng-model="model.courseBasic.meta_description">
+              <div class="input-group-append">
+                <span class="input-group-text" id="meta_descriptionx">{{300 - model.courseBasic.meta_description.length}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="meta_keywords">{{'Meta Keywords'|translate}}</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="meta_keywords" placeholder="{{'Meta Keywords'|translate}}" maxlength="160" ng-model="model.courseBasic.meta_keywords">
+              <div class="input-group-append">
+                <span class="input-group-text" id="meta_keywordsx">{{160 - model.courseBasic.meta_keywords.length}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mb-3 shadow-sm">
+            <div class="card-body" style="max-width:640px">
+              <h5 class="card-title"><i class="mdi mdi-eye"></i> {{'Snippet preview'|translate}}</h5>
+              <h3 class="mb-0">
+                <a style="color:#1e0fbe;font-family: Arial;" target="_blank" href="https://tmooh.com/course/{{model.courseBasic.id}}/{{model.courseBasic.slug}}">
+                  {{model.courseBasic.title}}  |  {{$root.settings['site.name']}}
+                </a>
+              </h3>
+              <div style="direction:ltr">
+              <a href="https://tmooh.com/course/{{model.courseBasic.id}}/{{model.courseBasic.slug}}" style="color:#006621" target="_blank" >
+                https://tmooh.com/course/{{model.courseBasic.id}}/{{model.courseBasic.slug}}
+              </a>
+              </div>
+              <p class="text-muted">{{model.courseBasic.meta_description == ''?model.courseBasic.subtitle:model.courseBasic.meta_description}}</p>
+            </div>
+          </div>
+        </fieldset>
+        <div class="form-group">
+          <!--save -->
+          <label class="sr-only" for="submit">{{'Save'|translate}}</label>
+          <input type="submit" class="btn btn-primary btn-course" id="submit" value="{{'Save'|translate}}">
+          <!--Save & next-->
+          <label class="sr-only" for="submit">{{'Save'|translate}} & {{'Next'|translate}}</label>
+          <input type="submit" ng-model="model.NextButtonVal" class="btn btn-primary btn-course float-right" id="submit" value="{{'Save'|translate}} & {{'Next'|translate}}" ng-click="model.NextButtonVal = 'next'">
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,41 @@
+<div data-reactroot="" class="" ng-if="!start_test">
+    <div>
+        <section>
+            <div class="practice-text-title">{{model.praticeTestDetails.lesson_name}}</div>
+            <div class="practice-test-status">
+                <span>{{model.praticeTestDetails.quiz_question_count}} {{'Question' | translate}}</span>
+            <span class="practice-seperator">|</span>
+            <span>{{model.praticeTestDetails.allowed_duration}} {{'Minutes' | translate}}</span>
+                <span class="practice-seperator">|</span>
+                <span>{{model.praticeTestDetails.pass_mark_percentage}} {{'% correct required to pass' | translate}}</span>
+                </div>
+        </section>
+        <hr class="mt30 mb30">
+        <div class="practice-test-lstcontent">
+            <p>
+            {{'Instructions:' | translate}}
+            </p>
+            <ul>
+                <li>{{'You can pause the test at any time and resume later.' | translate}}</li>
+                <li>{{'You can retake the test as many times as you would like.' | translate}}</li>
+                <li>{{'The progress bar at the top of the screen will show your progress as well as the time remaining in the test. If you run out of time, don’t worry; you will still be able to finish the test.' | translate}}</li>
+                <li>{{'You can skip a question to come back to at the end of the exam.' | translate}}</li>
+                <li>{{'You can also use “Mark for Review” to come back to questions you are unsure about before you submit your test.' | translate}}</li>
+                <li>{{'If you want to finish the test and see your results immediately, press the stop button.' | translate}}</li>
+            </ul>
+        </div>
+        <div class="lessons-settings">
+            <div class="lsettinginner">
+                <div class="mark-review">
+                </div>
+                <div class="seeallques">
+                </div>
+                <div class="lsettingsrgt">
+                <button type="button" class="btn btn-success ng-binding" ng-click="startPracticeTest()">{{'Begin Test' | translate}}&nbsp;<i class="mdi-18px mdi mdi-chevron-right" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<practice-exercise-learner course='{{model.praticeTestDetails.course_id}}' ng-if="$root.settings['site.enabled_plugins'].indexOf('CodingExercise') > -1 && start_test === true" lesson-id='{{model.praticeTestDetails.id}}' lesson-detail='{{model.praticeTestDetails}}'
+    updateparent="model.init()"></practice-exercise-learner>

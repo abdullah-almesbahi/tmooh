@@ -1,0 +1,150 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class=" clearfix text-center mt-4 mb-4">
+				<ul class="list-inline clearfix">
+
+					<li class="list-inline-item mx-3" ng-show="$root.settings['site.enabled_plugins'].indexOf('CourseCheckout') > -1">
+						<div class="well-sm">
+							<span>{{'Total Revenue'|translate}}</span>
+							<h4><amount-display amount='{{model.stats.revenue}}' fraction='2' is-course-price='no' ng-if="model.stats.revenue!= null && model.stats.revenue!= undefined"></h4>
+						</div>
+					</li>
+					<li class="list-inline-item mx-3">
+						<div class="well-sm">
+							<span>{{'Student Ratings'|translate}}</span>
+							<h4>{{model.stats.ratings}}</h4>
+						</div>
+					</li>
+					<li class="list-inline-item mx-3">
+						<div class="well-sm">
+							<span>{{'Total Students'|translate}}</span>
+							<h4>{{model.stats.students}}</h4>
+						</div>
+					</li>
+					<li class="list-inline-item mx-3" ng-show="$root.settings['site.enabled_plugins'].indexOf('CourseCheckout') > -1">
+						<div class="well-sm">
+							<span>{{'Available Credits'|translate}}</span>
+							<h4><amount-display amount='{{model.stats.available_balance}}' fraction='2' is-course-price='no' ng-if="model.stats.available_balance != null && model.stats.available_balance != undefined"></h4>
+						</div>
+					</li>
+					<li class="list-inline-item mx-3" ng-show="$root.settings['site.enabled_plugins'].indexOf('CourseCheckout') > -1 && $root.settings['site.enabled_plugins'].indexOf('Withdrawal') > -1">
+						<div class="well-sm">
+							<span>{{'Withdrawn Credits'|translate}}</span>
+							<h4><amount-display amount='{{model.stats.total_withdrawn_amount}}' fraction='2' is-course-price='no' ng-if="model.stats.total_withdrawn_amount != null && model.stats.total_withdrawn_amount != undefined"></h4>
+						</div>
+					</li>
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
+	<!-- /row -->
+
+
+	<div class="search-courses card no-mar row mb-4">
+		<div class="clearfix card-body">
+			<div class="search form-search float-left">
+				<form class="form-inline form_teaching" method="post">
+					<div class="input-group">
+						<input type="search" placeholder="{{'Search Courses'|translate}}" class="form-control" ng-model="csearchVal" ng-keyup="$event.keyCode == 13 ? goToState('myCoursesTeaching', {q: csearchVal}) : null">
+						<span class="input-group-btn">
+							<a ui-sref="myCoursesTeaching({q:csearchVal})" class="btn btn-success" type="button"><i class="mdi-18px mdi mdi-magnify"></i></a>
+						</span>
+					</div>
+					<div class="d-none"><a href="#" title="{{'Search'|translate}}"><i class="mdi-18px mdi mdi-magnify fa-lg text-muted"></i></a></div>
+				</form>
+			</div>
+			<div class="navbar-right float-right">
+				<div class="dropdown float-right">
+					<a data-toggle="dropdown" class="btn btn-outline-secondary">
+						<span ng-show="!type || type === 'all' ">{{'Type - All'|translate}}</span>
+						<span ng-show="type === 'online' ">{{'Type - Instructor-Led Live Online Training'|translate}}</span>
+						<span ng-show="type === 'onsite'">{{'Type - Instructor-Led Live Onsite Training'|translate}}</span>
+						<span ng-show="type === 'video'">{{'Type - Video based Training'|translate}}</span> &nbsp;
+						<i class="mdi-18px mdi mdi-chevron-down text-muted"></i>
+					</a>
+					<div class="dropdown-menu  dropdown-menu-right ">
+						<a class="dropdown-item" ui-sref="myCoursesTeaching({ type: 'all' })" title="{{'Date Created - Newest'|translate}}">{{'All'|translate}}</a>
+						<a class="dropdown-item" ui-sref="myCoursesTeaching({ type: 'online' })" title="{{'Date Created - Newest'|translate}}">{{'Instructor-Led Live Online Training'|translate}}</a>
+						<a class="dropdown-item" ui-sref="myCoursesTeaching({ type: 'onsite' })" title="{{'Date Created - Oldest'|translate}}">{{'Instructor-Led Live Onsite Training'|translate}}</a>
+						<a class="dropdown-item" ui-sref="myCoursesTeaching({ type: 'video' })" title="{{'Title A-Z'|translate}}">{{'Video based Training'|translate}}</a>
+					</div>
+				</div>
+				<div class="dropdown float-right">
+					<a data-toggle="dropdown" class="btn btn-outline-secondary">
+						<span ng-show="!ordering || ordering === 'created' ">{{'Date Created - Newest'|translate}}</span>
+						<span ng-show="ordering === '-created' ">{{'Date Created - Oldest'|translate}}</span>
+						<span ng-show="ordering === 'title'">{{'Title A-Z'|translate}}</span>
+						<span ng-show="ordering === '-title'">{{'Title Z-A'|translate}}</span>
+						<span ng-show="ordering === 'is_published'">{{'Published No-Yes'|translate}}</span>
+						<span ng-show="ordering === '-is_published'">{{'Published Yes-No'|translate}}</span> &nbsp;
+						<i class="mdi-18px mdi mdi-chevron-down text-muted"></i>
+					</a>
+					<div class="dropdown-menu dropdown-menu-right ">
+						<a class="dropdown-item" ui-sref="myCoursesTeaching({ ordering: 'created' })" title="{{'Date Created - Newest'|translate}}">{{'Date Created - Newest'|translate}}</a>
+						<a class="dropdown-item" ui-sref="myCoursesTeaching({ ordering: '-created' })" title="{{'Date Created - Oldest'|translate}}">{{'Date Created - Oldest'|translate}}</a>
+						<a class="dropdown-item" ui-sref="myCoursesTeaching({ ordering: 'title' })" title="{{'Title A-Z'|translate}}">{{'Title A-Z'|translate}}</a>
+						<a class="dropdown-item" ui-sref="myCoursesTeaching({ ordering: '-title' })" title="{{'Title Z-A'|translate}}">{{'Title Z-A'|translate}}</a>
+						<a class="dropdown-item" ui-sref="myCoursesTeaching({ ordering: 'is_published' })" title="{{'Published No-Yes'|translate}}">{{'Published No-Yes'|translate}}</a>
+						<a class="dropdown-item" ui-sref="myCoursesTeaching({ ordering: '-is_published' })" title="{{'Published Yes-No'|translate}}">{{'Published Yes-No'|translate}}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="row clearfix">
+		<div ng-include src="'common/loader.tpl.html'" ng-show="model.loader"></div>
+		<div class="col-md-3 col-sm-4 col-xs-12 mb-4 " ng-repeat="teachingCourses in model.teachingCourses.data"  ng-show="!model.loader">
+			<div class="card shadow-sm">
+				<!-- course image when is_from_mooc_affiliate false -->
+				<a ng-if="teachingCourses.image_hash && teachingCourses.is_from_mooc_affiliate !== 1" ng-href="/manage-course/add/{{teachingCourses.id}}/{{teachingCourses.slug|escape}}" title="{{teachingCourses.title}}"><img animate-visible="{{ImgLazyLoad.AnimateVisible}}" animate-speed="{{ImgLazyLoad.AnimateSpeed}}" lazy-src="{{$root.site_url}}img/medium_thumb/Course/{{teachingCourses.image_hash}}" alt="[Image: {{teachingCourses.title}}]" title="{{teachingCourses.title}}" class="card-img-top grid-height" /> </a>
+				<a ng-if="!teachingCourses.image_hash && teachingCourses.is_from_mooc_affiliate !== 1" ng-href="/manage-course/add/{{teachingCourses.id}}/{{teachingCourses.slug|escape}}" title="{{teachingCourses.title}}"><img animate-visible="{{ImgLazyLoad.AnimateVisible}}" animate-speed="{{ImgLazyLoad.AnimateSpeed}}" lazy-src="{{$root.site_url}}assets/img/261X200.jpg" alt="[Image: {{teachingCourses.title}}]" title="{{teachingCourses.title}}" class="card-img-top grid-height" /> </a>
+				<!-- course image when is_from_mooc_affiliate true -->
+				<a ng-if="teachingCourses.course_image && teachingCourses.is_from_mooc_affiliate === 1" ng-href="/manage-course/add/{{teachingCourses.id}}/{{teachingCourses.slug|escape}}" title="{{teachingCourses.title}}"><img animate-visible="{{ImgLazyLoad.AnimateVisible}}" animate-speed="{{ImgLazyLoad.AnimateSpeed}}" lazy-src="{{teachingCourses.course_image}}" alt="[Image: {{teachingCourses.title}}]" title="{{teachingCourses.title}}" class="card-img-top grid-height" /> </a>
+				<a ng-if="!teachingCourses.course_image && teachingCourses.is_from_mooc_affiliate === 1" ng-href="/manage-course/add/{{teachingCourses.id}}/{{teachingCourses.slug|escape}}" title="{{teachingCourses.title}}"><img animate-visible="{{ImgLazyLoad.AnimateVisible}}" animate-speed="{{ImgLazyLoad.AnimateSpeed}}" lazy-src="{{$root.site_url}}assets/img/261X200.jpg" alt="[Image: {{teachingCourses.title}}]" title="{{teachingCourses.title}}" class="card-img-top grid-height" /> </a>
+
+				<div class="card-body">
+					<small class="badge badge-success float-right" ng-if="teachingCourses.user_id == $root.auth.id">{{'Instructor' | translate}}</small>
+					<small class="badge badge-success float-right"  ng-if="teachingCourses.user_id != $root.auth.id">{{'Sub Instructor' | translate}}</small>
+					<h5 class="card-title text-truncate"><a ng-href="/manage-course/add/{{teachingCourses.id}}/{{teachingCourses.slug|escape}}" class="text-dark">{{teachingCourses.title}}</a></h5>
+
+					<!-- <profile-name user-display-name='teachingCourses.displayname' user-profile-id='teachingCourses.user_id' ng-if='model.teachingCourses'></profile-name> -->
+
+					<ul class="list-inline clearfix" ng-if="teachingCourses.coursetype.video === true">
+						<li class="list-inline-item"><span>{{'Published Curriculum Items'|translate}}</span></li>
+						<li class="list-inline-item"><span>{{teachingCourses.active_online_course_lesson_count}}</span></li>
+					</ul>
+					<ul class="list-inline clearfix" ng-if="teachingCourses.coursetype.onsite === true">
+						<li class="list-inline-item"><span>{{'Instructor-Led Live Onsite Training classes'|translate}}</span></li>
+						<li class="list-inline-item"><span>{{teachingCourses.offline_course_batch_count}}</span></li>
+					</ul>
+					<ul class="list-inline clearfix" ng-if="teachingCourses.coursetype.online === true">
+						<li class="list-inline-item"><span>{{'Instructor-Led Live Online Training Classes'|translate}}</span></li>
+						<li class="list-inline-item"><span>{{teachingCourses.webinar_course_batch_count}}</span></li>
+					</ul>
+					<amount-display amount='{{teachingCourses.price}}' fraction='2' is-course-price='yes' instructor-dashboard="enable" instructor-currency-code ='{{teachingCourses.currency_code}}' instructor-currency-symbol ='{{teachingCourses.currency_symbol}}' tier-id='{{teachingCourses.tier_id}}' ng-if="teachingCourses"></amount-display>
+					<br />
+					<small>{{teachingCourses.course_status_name}}</small>
+					<a ng-href="/manage-course/add/{{teachingCourses.id}}/{{teachingCourses.slug|escape}}" class="btn btn-outline-primary btn float-right">{{'Edit'|translate}}</a>
+
+				</div>
+			</div>
+			<!-- /card -->
+
+		</div>
+	</div>
+	<!-- /row -->
+
+	<div class="text-center" ng-show="model._metadata.total_records === 0 && !model.loader && !model.teachingCourses.data.length">
+		<h3 class="text-muted">{{'No records found'|translate}}</h3>
+	</div>
+	<div class="paging clearfix text-center" ng-show="model._metadata.total_records > 0 && !model.loader && model.teachingCourses.data.length">
+		<ul uib-pagination total-items="model._metadata.total_records" ng-model="model._metadata.currentPage" ng-change="paginate('#teaching')"
+			max-size="model._metadata.maxSize" boundary-links="true" num-pages="model._metadata.noOfPages" items-per-page="model._metadata.limit"
+			first-text="{{'First'|translate}}" last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+	</div>
+
+</div>

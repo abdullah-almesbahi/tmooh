@@ -1,0 +1,196 @@
+<div class="row">
+  <div class="col-md-12" ng-if="!model.loadingNavBar">
+
+    <div class="card card-horizontal mb-3 mt-3">
+      <!-- course image when is_from_mooc_affiliate false -->
+      <img ng-if="model.manageCourseOption.image_hash && model.manageCourseOption.is_from_mooc_affiliate !== 1" ng-src="{{$root.site_url}}img/thumb/Course/{{model.manageCourseOption.image_hash}}" class="card-img-left " style="max-height:160px" title="{{model.manageCourseOption.title}}"
+        alt="[Image: Course Image]">
+      <img ng-if="!model.manageCourseOption.image_hash && model.manageCourseOption.is_from_mooc_affiliate !== 1" class="card-img-left " style="max-height:160px" title="{{model.manageCourseOption.title}}" alt="[Image: {{model.manageCourseOption.title}}]" ng-src="{{$root.site_url}}assets/img/261X200.jpg">
+      <!-- course image when is_from_mooc_affiliate true -->
+      <img ng-if="model.manageCourseOption.course_image && model.manageCourseOption.is_from_mooc_affiliate === 1" class="card-img-left " style="max-height:160px" title="{{model.manageCourseOption.title}}" alt="[Image: {{model.manageCourseOption.title}}]" ng-src="{{model.manageCourseOption.course_image}}">
+      <img ng-if="!model.manageCourseOption.course_image && model.manageCourseOption.is_from_mooc_affiliate === 1" class="card-img-left " style="max-height:160px" title="{{model.manageCourseOption.title}}" alt="[Image: {{model.manageCourseOption.title}}]" ng-src="{{$root.site_url}}assets/img/261X200.jpg">
+
+
+      <div class="card-body pb-0" style="overflow:hidden;">
+        <div class="row">
+          <div class="col-md-6">
+            <h2 class="card-title text-truncate"><a  title="{{model.manageCourseOption.title}}" ng-href="/course/{{model.manageCourseOption.id}}/{{model.manageCourseOption.slug|escape}}" class="text-dark">{{model.manageCourseOption.title}}</a></h2>
+            <div ng-if="model.manageCourseOption.parent_category_name">
+              <a ui-sref="CourseSearch({ category_id: model.manageCourseOption.parent_category_id })" title="{{model.manageCourseOption.parent_category_name}}">
+                {{model.manageCourseOption.parent_category_name}}
+              </a>
+              <span ng-if="model.manageCourseOption.category_name" class="text-primary">&nbsp;/&nbsp;</span>
+              <a ui-sref="CourseSearch({ category_id: model.manageCourseOption.category_id })" title="{{model.manageCourseOption.category_name}}">{{model.manageCourseOption.category_name}} </a>
+            </div>
+            <p class="card-text mb-0" ng-if="$root.settings['site.enabled_plugins'].indexOf('Instructor') > -1">
+              <profile-name instructor="true" user-profile-id='model.manageCourseOption.user_id' user-display-name='model.manageCourseOption.displayname' ng-if='model.manageCourseOption.user_id'></profile-name>
+            </p>
+
+            <div>{{'Published Curriculum items'|translate}} : {{model.manageCourseOption.active_online_course_lesson_count}}/{{model.manageCourseOption.online_course_lesson_count}}</div>
+
+          </div>
+          <div class="col-md-6 text-center" ng-show="model.loadingNavBar === false">
+
+            <p ng-show='model.manageCourseOption.course_status_id === 4'>{{'This course is suspended.'|translate}}</p>
+            <div class="" ng-hide="model.manageCourseOption.course_status_id === 4 && $root.auth.providertype !== 'admin'">
+              <p ng-if='model.manageCourseOption.course_status_id === 1'>{{'Your course is in unpublished mode.'|translate}}</p>
+              <p ng-if='model.manageCourseOption.course_status_id === 2'>{{'Your course is under review.'|translate}}</p>
+              <p ng-if='model.manageCourseOption.course_status_id === 3'>{{'Your course is in published status.'|translate}}</p>
+              <ul class="list-inline">
+                <!--ng-disabled="model.manageCourseOption.SubmitForReview === false"-->
+                <li class="list-inline-item"><a ng-href="/course/{{model.manageCourseOption.id}}/{{model.manageCourseOption.slug|escape}}" class="btn btn-secondary">{{'Preview'|translate}}</a></li>
+                <li class="list-inline-item" ng-if="$root.auth.providertype !== 'admin' && model.manageCourseOption.course_status_id !== 2 && model.manageCourseOption.course_status_id !== 3 && ($root.settings['course.is_auto_approval_enabled'] === '0' || $root.settings['course.is_auto_approval_enabled'] === '')">
+                  <a href="javascript:void(0);" class="btn btn-primary" ng-click="model.publishCourse('waiting','1')">{{'Submit For Review'|translate}}</a>
+                </li>
+                <li class="list-inline-item" ng-if="$root.auth.providertype === 'admin' || $root.settings['course.is_auto_approval_enabled'] === '1'">
+                  <span class="navbar-btn">
+                            <!--ng-if='model.manageCourseOption.course_status_id !== 3 && model.manageCourseOption.course_status_id !== 1'-->
+                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="model.publishCourse('publish','1')" ng-if="model.manageCourseOption.course_status_id !== 3">{{'Publish This Course'|translate}}</a>
+                    <a href="javascript:void(0);" class="btn btn-primary"  ng-click="model.publishCourse('waiting','1')" ng-if='model.manageCourseOption.course_status_id === 3' >{{'Unpublish This Course'|translate}}</a>
+                  </span>
+                </li>
+                <li class="list-inline-item" ng-if="model.manageCourseOption.course_status_id === 3"><span class="navbar-btn">
+                  <button type="button" class="btn btn-secondary" disabled>{{'Approved'|translate}}</button>
+                  </span>
+                </li>
+                <li class="list-inline-item" ng-if="$root.auth.providertype === 'admin'">
+                  <p class="navbar-btn">{{'You Are Accessing as Admin.'|translate}} <a href="" ng-click="admin_url()">{{'Click here to see all courses.'|translate}}</a></p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item" ng-class="{active: activetab == 'course_roadmap'}"><a href="/manage-course/edit-getting-started/{{model.manageCourseOption.id}}" class="nav-link">&nbsp; {{'Course Roadmap'|translate}} </a></li>
+
+      <li class="nav-item" ng-class="{active: activetab == 'course_h2k_feedback'}" ng-if="model.manageCourseOption.unfixed_course_feedback_count > 0 || model.manageCourseOption.course_feedback_count > 0 || $root.auth.providertype === 'admin'">
+        <a href="/manage-course/edit-h2k-feedback/{{model.manageCourseOption.id}}" class="nav-link">
+           <span ng-if="model.manageCourseOption.course_feedback_count > 0 && model.manageCourseOption.unfixed_course_feedback_count === 0"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-marked-circle" aria-hidden="true"></i></span>
+           <span ng-if="model.manageCourseOption.course_feedback_count > 0 && model.manageCourseOption.unfixed_course_feedback_count > 0"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-blank-circle-outline" aria-hidden="true"></i></span>
+
+           &nbsp; {{'Course Feedback'|translate}} ({{model.manageCourseOption.unfixed_course_feedback_count}}) </a>
+      </li>
+      <!-- <li class="nav-item" ng-class="{active: activetab == 'course_feedback'}"><a href="/manage-course/edit-status/{{model.manageCourseOption.id}}" class="nav-link">&nbsp; {{'Course Feedback'|translate}} </a></li> -->
+
+      <li class="nav-item dropdown" ng-class="{active: activetab == 'course_goals' || activetab == 'course_curriculum' || activetab == 'course_basics' || activetab == 'course_summary' || activetab == 'course_image' || activetab == 'course_promo_video' || activetab == 'course_price'}">
+        <a class="nav-link dropdown-toggle" href="javascript:void(0);" id="courseContent" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{'ABOUT COURSE'|translate}}
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="courseContent">
+          <a ng-class="{active: activetab == 'course_basics'}" href="/manage-course/edit-basics/{{model.manageCourseOption.id}}" class="dropdown-item">
+            <span ng-if="model.manageCourseOption.Basic === true"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-marked-circle" aria-hidden="true"></i></span>
+            <span ng-if="model.manageCourseOption.Basic ===  false"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-blank-circle-outline" aria-hidden="true"></i></span>
+            &nbsp; {{'Basics'|translate}}
+          </a>
+          <a href="/manage-course/edit-goals-and-audience/{{model.manageCourseOption.id}}" class="dropdown-item" ng-class="{active: activetab == 'course_goals'}">
+            <span ng-if="model.manageCourseOption.Goals === true"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-marked-circle" aria-hidden="true"></i></span>
+            <span ng-if="model.manageCourseOption.Goals ===  false"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-blank-circle-outline" aria-hidden="true"></i></span>
+            &nbsp; {{'Course Goals'|translate}}
+          </a>
+          <a ng-class="{active: activetab == 'course_image'}" href="/manage-course/edit-image/{{model.manageCourseOption.id}}" class="dropdown-item">
+            <span ng-if="model.manageCourseOption.Image === true"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-marked-circle" aria-hidden="true"></i></span>
+            <span ng-if="model.manageCourseOption.Image ===  false"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-blank-circle-outline" aria-hidden="true"></i></span>
+            &nbsp; {{'Image'|translate}}
+          </a>
+          <!--Video based course enabled menus-->
+          <a ng-class="{active: activetab == 'course_promo_video'}" ng-if="model.manageCourseOption.coursetype['video']  === true" href="/manage-course/edit-promo-video/{{model.manageCourseOption.id}}" class="dropdown-item" ng-if="$root.settings['site.enabled_plugins'].indexOf('VideoLessons') > -1 && $root.settings['video.is_enabled_promo_video'] === '1'">
+            <span ng-if="model.manageCourseOption.promo_video === true"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-marked-circle" aria-hidden="true"></i></span>
+            <span ng-if="model.manageCourseOption.promo_video ===  false"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-blank-circle-outline" aria-hidden="true"></i></span>
+            &nbsp; {{'Promo Video'|translate}}
+          </a>
+          <a ng-class="{active: activetab == 'course_curriculum'}" href="/manage-course/edit-curriculum/{{model.manageCourseOption.id}}" class="dropdown-item" ng-if="(($root.settings['site.enabled_plugins'].indexOf('ArticleLessons') > -1  || $root.settings['site.enabled_plugins'].indexOf('DownloadableFileLessons') > -1 || $root.settings['site.enabled_plugins'].indexOf('VideoExternalEmbedLessons') > -1 || $root.settings['site.enabled_plugins'].indexOf('VideoLessons') > -1) && model.manageCourseOption.coursetype['video']  === true)">
+            <span ng-if="model.manageCourseOption.Curriculum === true"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-marked-circle" aria-hidden="true"></i></span>
+            <span ng-if="model.manageCourseOption.Curriculum ===  false"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-blank-circle-outline" aria-hidden="true"></i></span>
+            &nbsp; {{'Curriculum'|translate}}
+          </a>
+
+          <!-- <a ng-class="{active: activetab == 'course_summary'}" href="/manage-course/edit-details/{{model.manageCourseOption.id}}" class="dropdown-item">&nbsp; {{'Course Summary'|translate}} </a> -->
+
+          <a ng-class="{active: activetab == 'course_price'}" href="/manage-course/edit-price-and-promotions/{{model.manageCourseOption.id}}" class="dropdown-item" ng-if="$root.settings['site.enabled_plugins'].indexOf('CourseBulkCheckout') > -1 && model.manageCourseOption.coursetype['video']  === true">
+            <span ng-if="model.manageCourseOption.Price === true"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-marked-circle" aria-hidden="true"></i></span>
+            <span ng-if="model.manageCourseOption.Price ===  false"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-blank-circle-outline" aria-hidden="true"></i></span>
+            &nbsp; {{'Price'|translate}}
+          </a>
+
+        </div>
+      </li>
+
+      <!--Onsite or online  based course enabled menus-->
+      <li class="nav-item dropdown" ng-if="model.manageCourseOption.coursetype['onsite']  === true || model.manageCourseOption.coursetype['online']  === true" ng-class="{active: activetab == 'demo_schedule' || activetab == 'online_schedule' || activetab == 'onsite_schedule'}">
+        <a class="nav-link dropdown-toggle" href="javascript:void(0);" id="courseContent" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{'INSTRUCTOR LED'|translate}}
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="courseContent">
+          <a ng-class="{active: activetab == 'demo_schedule'}" href="/manage-course/demo-schedule/{{model.manageCourseOption.id}}" class="dropdown-item" ng-if="model.manageCourseOption.coursetype['onsite'] === true || model.manageCourseOption.coursetype['online']  === true">
+            <span ng-if="model.manageCourseOption.Demo_schedule === true"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-marked-circle" aria-hidden="true"></i></span>
+            <span ng-if="model.manageCourseOption.Demo_schedule ===  false"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-blank-circle-outline" aria-hidden="true"></i></span>
+            &nbsp; {{'Demo Schedule'|translate}}
+          </a>
+          <a ng-class="{active: activetab == 'online_schedule'}" href="/manage-course/online-schedule/{{model.manageCourseOption.id}}" class="dropdown-item" ng-if="model.manageCourseOption.coursetype['online']  === true && $root.settings['site.enabled_plugins'].indexOf('WebinarCourses') > -1">
+            <span ng-if="model.manageCourseOption.Online_schedule === true"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-marked-circle" aria-hidden="true"></i></span>
+            <span ng-if="model.manageCourseOption.Online_schedule ===  false"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-blank-circle-outline" aria-hidden="true"></i></span>
+            &nbsp; {{'Live Online Training'|translate}}
+          </a>
+          <a ng-class="{active: activetab == 'onsite_schedule'}" href="/manage-course/onsite-schedule/{{model.manageCourseOption.id}}" class="dropdown-item" ng-if="model.manageCourseOption.coursetype['onsite']  === true  && $root.settings['site.enabled_plugins'].indexOf('OfflineCourse') > -1">
+            <span ng-if="model.manageCourseOption.Onsite_schedule === true"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-marked-circle" aria-hidden="true"></i></span>
+            <span ng-if="model.manageCourseOption.Onsite_schedule ===  false"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-blank-circle-outline" aria-hidden="true"></i></span>
+            &nbsp; {{'Live Onsite Training'|translate}}
+          </a>
+        </div>
+      </li>
+
+
+      <li class="nav-item dropdown" ng-class="{active: activetab == 'automated_message' || activetab == 'coupons' || activetab == 'course_management'}">
+        <a class="nav-link dropdown-toggle" href="javascript:void(0);" id="courseContent" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{'COURSE SETTING'|translate}}
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="courseContent">
+          <a ng-class="{active: activetab == 'automated_message'}"  href="/manage-course/edit-automated-message/{{model.manageCourseOption.id}}" class="dropdown-item" ng-if="$root.settings['site.enabled_plugins'].indexOf('Message') > -1">
+            <span ng-if="model.manageCourseOption.Automated_message === true"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-marked-circle" aria-hidden="true"></i></span>
+            <span ng-if="model.manageCourseOption.Automated_message ===  false"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-blank-circle-outline" aria-hidden="true"></i></span>
+            &nbsp; {{'Automated Messages'|translate}}
+          </a>
+          <a ng-class="{active: activetab == 'coupons'}" course-id='{{model.manageCourseOption.id}}' href="/manage-course/coupon/{{model.manageCourseOption.id}}" class="dropdown-item" ng-if="model.manageCourseOption.id && $root.settings['site.enabled_plugins'].indexOf('Coupons') > -1 && (model.manageCourseOption.course_status_id == '3' || model.coupon_valid == true)">
+            <i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-marked-circle" aria-hidden="true"></i>
+            &nbsp; {{'Coupon'|translate}}
+          </a>
+          <a ng-class="{active: activetab == 'course_management'}" href="/manage-course/edit-management/{{model.manageCourseOption.id}}" class="dropdown-item">
+            <span ng-if="model.manageCourseOption.Settings === true"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-marked-circle" aria-hidden="true"></i></span>
+            <span ng-if="model.manageCourseOption.Settings ===  false"><i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-blank-circle-outline" aria-hidden="true"></i></span>
+            &nbsp; {{'Settings'|translate}}
+          </a>
+        </div>
+      </li>
+
+
+      <li class="nav-item dropdown" ng-if="model.manageCourseOption.course_status_id == '3' || model.manageCourseOption.course_user_count > 0" ng-class="{active: activetab == 'student_list' || activetab == 'course_analytics'}">
+        <a class="nav-link dropdown-toggle" href="javascript:void(0);" id="courseContent" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{'COURSE MANAGEMENET'|translate}}
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="courseContent">
+          <a ng-class="{active: activetab == 'student_list'}"  href="/manage-course/edit-Student-list/{{model.manageCourseOption.id}}" class="dropdown-item" ng-if="model.manageCourseOption.course_status_id == '3' || model.manageCourseOption.course_user_count > 0">
+            <i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-marked-circle" aria-hidden="true"></i>
+            &nbsp; {{'Students'|translate}}
+          </a>
+          <a ng-class="{active: activetab == 'course_analytics'}" course-id='{{model.manageCourseOption.id}}' href="/manage-course/edit-course-analaytics/{{model.manageCourseOption.id}}" class="dropdown-item"  ng-if="$root.settings['site.enabled_plugins'].indexOf('CourseAnalytics') > -1 && (model.manageCourseOption.course_status_id == '3' || model.manageCourseOption.course_user_count > 0)">
+            <i class="mdi-18px text-success mdi-18px mdi mdi-checkbox-marked-circle" aria-hidden="true"></i>
+            &nbsp; {{'Analytics'|translate}}
+          </a>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+
+</nav>

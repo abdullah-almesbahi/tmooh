@@ -1,0 +1,14 @@
+<div class="form-group text-center" ng-repeat="login in model.sociallogin.data">
+  <button class=" btn btn-lg border-0 btn-block btn-social {{login.button_class}} btn-arc" ng-click="authenticate('facebook')" ng-if="login.name === 'Facebook'">
+    <i class="mdi-36px mdi mdi-facebook fa-fw"></i> <span class="col-xs-12 text-center nav">{{'Sign in with'|translate}} {{login.name}}</span>
+  </button>
+  <button class=" btn btn-lg border-0 btn-block btn-social {{login.button_class}} btn-arc" ng-click="authenticate('twitter')" ng-if="login.name === 'Twitter' && contentInIframe !== true">
+    <i class="mdi-36px mdi mdi-twitter fa-fw"></i> <span class="col-xs-12 text-center nav">{{'Sign in with'|translate}} {{login.name}}</span>
+  </button>
+  <button class=" btn btn-lg border-0 btn-block btn-social {{login.button_class}} btn-arc" ng-click="authenticate('google')" ng-if="login.name === 'Google' && !contentInIframe">
+    <i class="mdi-36px mdi mdi-google-plus fa-fw"></i> <span class="col-xs-12 text-center nav">{{'Sign in with'|translate}} {{login.name}}</span>
+  </button>
+  <button class=" btn btn-lg border-0 btn-block btn-social {{login.button_class}} btn-arc" ng-click="authenticate('linkedin')" ng-if="login.name === 'LinkedIn' && !contentInIframe">
+    <i class="mdi-36px mdi mdi-linkedin fa-fw"></i> <span class="col-xs-12 text-center nav">{{'Sign in with'|translate}} {{login.name}}</span>
+  </button>
+</div>

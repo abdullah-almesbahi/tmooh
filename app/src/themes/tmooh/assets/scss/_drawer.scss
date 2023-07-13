@@ -1,0 +1,550 @@
+// Implementation specification in https://github.com/FezVrasta/bootstrap-material-design/issues/822
+
+// Drawer
+$bmd-layout-drawer-bg-color: $white;
+
+// Sizing
+$bmd-drawer-x-size: 240px !default;
+$bmd-drawer-y-size: 100px !default;
+
+// Shadows (originally from mdl http://www.getmdl.io/)
+$bmd-shadow-umbra-opacity: 0.2 !default;
+$bmd-shadow-penumbra-opacity: 0.14 !default;
+$bmd-shadow-ambient-opacity: 0.12 !default;
+
+// Declare the following for reuse with both mixins and the bootstrap variables
+$bmd-shadow-focus: 0 0 8px rgba($black, .18), 0 8px 16px rgba($black, .36);
+
+$bmd-shadow-2dp: 0 2px 2px 0 rgba($black, $bmd-shadow-penumbra-opacity),
+  0 3px 1px -2px rgba($black, $bmd-shadow-umbra-opacity),
+  0 1px 5px 0 rgba($black, $bmd-shadow-ambient-opacity);
+
+$bmd-shadow-3dp: 0 3px 4px 0 rgba($black, $bmd-shadow-penumbra-opacity),
+  0 3px 3px -2px rgba($black, $bmd-shadow-umbra-opacity),
+  0 1px 8px 0 rgba($black, $bmd-shadow-ambient-opacity);
+
+$bmd-shadow-4dp: 0 4px 5px 0 rgba($black, $bmd-shadow-penumbra-opacity),
+  0 1px 10px 0 rgba($black, $bmd-shadow-ambient-opacity),
+  0 2px 4px -1px rgba($black, $bmd-shadow-umbra-opacity);
+
+$bmd-shadow-6dp: 0 6px 10px 0 rgba($black, $bmd-shadow-penumbra-opacity),
+  0 1px 18px 0 rgba($black, $bmd-shadow-ambient-opacity),
+  0 3px 5px -1px rgba($black, $bmd-shadow-umbra-opacity);
+
+$bmd-shadow-8dp: 0 8px 10px 1px rgba($black, $bmd-shadow-penumbra-opacity),
+  0 3px 14px 2px rgba($black, $bmd-shadow-ambient-opacity),
+  0 5px 5px -3px rgba($black, $bmd-shadow-umbra-opacity);
+
+$bmd-shadow-16dp: 0 16px 24px 2px rgba($black, $bmd-shadow-penumbra-opacity),
+  0 6px 30px 5px rgba($black, $bmd-shadow-ambient-opacity),
+  0 8px 10px -5px rgba($black, $bmd-shadow-umbra-opacity);
+
+$bmd-shadow-24dp: 0 9px 46px 8px rgba($black, $bmd-shadow-penumbra-opacity),
+  0 11px 15px -7px rgba($black, $bmd-shadow-ambient-opacity),
+  0 24px 38px 3px rgba($black, $bmd-shadow-umbra-opacity);
+
+
+// Animations
+$bmd-animation-curve-fast-out-slow-in: cubic-bezier(0.4, 0, 0.2, 1) !default;
+$bmd-animation-curve-linear-out-slow-in: cubic-bezier(0, 0, 0.2, 1) !default;
+$bmd-animation-curve-fast-out-linear-in: cubic-bezier(0.4, 0, 1, 1) !default;
+$bmd-animation-curve-default: $bmd-animation-curve-fast-out-slow-in !default;
+
+// Animations (from mdl http://www.getmdl.io/)
+@mixin material-animation-fast-out-slow-in($duration:0.2s) {
+  transition-duration: $duration;
+  transition-timing-function: $bmd-animation-curve-fast-out-slow-in;
+}
+
+@mixin material-animation-linear-out-slow-in($duration:0.2s) {
+  transition-duration: $duration;
+  transition-timing-function: $bmd-animation-curve-linear-out-slow-in;
+}
+
+@mixin material-animation-fast-out-linear-in($duration:0.2s) {
+  transition-duration: $duration;
+  transition-timing-function: $bmd-animation-curve-fast-out-linear-in;
+}
+
+@mixin material-animation-default($duration:0.2s) {
+  transition-duration: $duration;
+  transition-timing-function: $bmd-animation-curve-default;
+}
+
+
+// Mixins to allow creation of additional custom drawer sizes when using the defaults at the same time
+
+@mixin bmd-drawer-x-out($size) {
+  @each $side, $abbrev in (left: l, right: r) {
+    #{if(&, "&", "*")}.bmd-drawer-f-#{$abbrev} {
+      > .bmd-layout-drawer {
+        // position
+        top: 0;
+        #{$side}: 0;
+
+        width: $size;
+        height: 100%;
+
+        @if $side == left {
+          transform: translateX(
+            -$size - 10px
+          ); // initial position of drawer (closed), way off screen
+        } @else {
+          transform: translateX(
+            $size + 10px
+          ); // initial position of drawer (closed), way off screen
+        }
+      }
+
+      > .bmd-layout-header,
+      > .bmd-layout-content {
+        margin-#{$side}: 0;
+      }
+    }
+  }
+}
+
+@mixin bmd-drawer-y-out($size) {
+  @each $side, $abbrev in (top: t, bottom: b) {
+    #{if(&, "&", "*")}.bmd-drawer-f-#{$abbrev} {
+      > .bmd-layout-drawer {
+        // position
+        #{$side}: 0;
+        left: 0;
+
+        width: 100%;
+        height: $size;
+
+        @if $side == top {
+          transform: translateY(
+            -$size - 10px
+          ); // initial position of drawer (closed), way off screen
+        } @else {
+          transform: translateY(
+            $size + 10px
+          ); // initial position of drawer (closed), way off screen
+        }
+      }
+
+      > .bmd-layout-content {
+        margin-#{$side}: 0;
+      }
+    }
+  }
+}
+
+@function bmd-drawer-breakpoint-name($breakpoint, $suffix: "") {
+  // e.g. &, &-sm, &-md, &-lg
+  $name: "&-#{$breakpoint}#{$suffix}";
+  @if $breakpoint == xs {
+    $name: "&";
+  }
+  @return $name;
+}
+
+@mixin bmd-drawer-x-in($size) {
+  @each $side, $abbrev in (left: l, right: r) {
+    &.bmd-drawer-f-#{$abbrev} {
+      // Push - drawer will push the header and content (default behavior)
+      > .bmd-layout-header {
+        width: calc(100% - #{$size});
+        margin-#{$side}: $size;
+      }
+
+      > .bmd-layout-drawer {
+        transform: translateX(0);
+      }
+
+      > .bmd-layout-content {
+        margin-#{$side}: $size;
+      }
+    }
+  }
+}
+
+@mixin bmd-drawer-y-in($size) {
+  @each $side, $abbrev in (top: t, bottom: b) {
+    &.bmd-drawer-f-#{$abbrev} {
+      // 1. Push - drawer will push the header or content
+      > .bmd-layout-header {
+        @if $side == top {
+          // only add margin-top on a header when the drawer is at the top
+          margin-#{$side}: $size;
+        }
+      }
+
+      > .bmd-layout-drawer {
+        transform: translateY(0);
+      }
+
+      > .bmd-layout-content {
+        @if $side == bottom {
+          // only add margin-bottom on content when the drawer is at the bottom
+          margin-#{$side}: $size;
+        }
+      }
+    }
+  }
+}
+
+// breakpoint based open to a particular size
+@mixin bmd-drawer-x-in-up($size, $breakpoint) {
+  // e.g. &, &-sm, &-md, &-lg
+  $name: bmd-drawer-breakpoint-name($breakpoint, "-up");
+
+  &.bmd-drawer-in {
+    #{unquote($name)} {
+      // bmd-drawer-in, bmd-drawer-in-sm, bmd-drawer-in-md, bmd-drawer-in-lg
+
+      @if $breakpoint == xs {
+        // bmd-drawer-in marker class (non-responsive)
+        @include bmd-drawer-x-in($size);
+      } @else {
+        // responsive class
+        @include media-breakpoint-up($breakpoint) {
+          // bmd-drawer-f-(left and right) styles
+          @include bmd-drawer-x-in($size);
+        }
+      }
+    }
+  }
+}
+
+// breakpoint based open to a particular size
+@mixin bmd-drawer-y-in-up($size, $breakpoint) {
+  // e.g. &, &-sm, &-md, &-lg
+  $name: bmd-drawer-breakpoint-name($breakpoint, "-up");
+
+  &.bmd-drawer-in {
+    #{unquote($name)} {
+      // bmd-drawer-in, bmd-drawer-in-sm, bmd-drawer-in-md, bmd-drawer-in-lg
+
+      @if $breakpoint == xs {
+        // bmd-drawer-in marker class (non-responsive)
+        @include bmd-drawer-y-in($size);
+      } @else {
+        // responsive class
+        @include media-breakpoint-up($breakpoint) {
+          // bmd-drawer-f-(left and right) styles
+          @include bmd-drawer-y-in($size);
+        }
+      }
+    }
+  }
+}
+
+@mixin bmd-drawer-x-overlay() {
+  @include bmd-layout-backdrop-in();
+
+  @each $side, $abbrev in (left: l, right: r) {
+    &.bmd-drawer-f-#{$abbrev} {
+      > .bmd-layout-header,
+      > .bmd-layout-content {
+        width: 100%;
+        margin-#{$side}: 0;
+      }
+    }
+  }
+}
+
+@mixin bmd-drawer-y-overlay() {
+  @include bmd-layout-backdrop-in();
+
+  @each $side, $abbrev in (top: t, bottom: b) {
+    &.bmd-drawer-f-#{$abbrev} {
+      > .bmd-layout-header {
+        @if $side == top {
+          // only add margin-top on a header when the drawer is at the top
+          margin-#{$side}: 0;
+        }
+      }
+
+      > .bmd-layout-content {
+        @if $side == bottom {
+          // only add margin-bottom on content when the drawer is at the bottom
+          margin-#{$side}: 0;
+        }
+      }
+    }
+  }
+}
+
+// Overlay - left/right responsive overlay classes and marker class
+@mixin bmd-drawer-x-overlay-down($breakpoint) {
+  // e.g. &, &-sm, &-md, &-lg
+  $name: bmd-drawer-breakpoint-name($breakpoint, "-down");
+
+  &.bmd-drawer-overlay {
+    #{unquote($name)} {
+      // bmd-drawer-overlay, bmd-drawer-overlay-sm, bmd-drawer-overlay-md, bmd-drawer-overlay-lg
+
+      // x - left/right
+
+      @if $breakpoint == xs {
+        // overlay marker class (non-responsive)
+
+        // Must double up on the .bmd-drawer-overlay class to increase specificity otherwise the
+        //  responsive bmd-drawer-in-* media queries above win (and overlay is ignored)
+        &.bmd-drawer-overlay {
+          @include bmd-drawer-x-overlay();
+        }
+      } @else {
+        @include media-breakpoint-down($breakpoint) {
+          // overlay responsive class
+          @include bmd-drawer-x-overlay();
+        }
+      }
+    }
+  }
+}
+
+// Overlay - top/bottom responsive overlay classes and marker class
+@mixin bmd-drawer-y-overlay-down($breakpoint) {
+  // e.g. &, &-sm, &-md, &-lg
+  $name: bmd-drawer-breakpoint-name($breakpoint, "-down");
+
+  &.bmd-drawer-overlay {
+    #{unquote($name)} {
+      // bmd-drawer-overlay, bmd-drawer-overlay-sm, bmd-drawer-overlay-md, bmd-drawer-overlay-lg
+      //// y - top/bottom
+
+      @if $breakpoint == xs {
+        // overlay marker class (non-responsive)
+
+        // Must double up on the .bmd-drawer-overlay class to increase specificity otherwise the
+        //  responsive bmd-drawer-in-* media queries above win (and overlay is ignored)
+        &.bmd-drawer-overlay {
+          @include bmd-drawer-y-overlay();
+        }
+      } @else {
+        @include media-breakpoint-down($breakpoint) {
+          // overlay responsive class
+          @include bmd-drawer-y-overlay();
+        }
+      }
+    }
+  }
+}
+
+// Generates the `.in` style for the generic backdrop used components such as the drawer in overlay mode
+@mixin bmd-layout-backdrop-in() {
+  > .bmd-layout-backdrop {
+    .in {
+      visibility: visible;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    @supports (pointer-events: auto) {
+      &.in {
+        pointer-events: auto;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+
+// Drawer.
+.bmd-layout-drawer {
+  position: absolute;
+  z-index: 5; // over a header and content
+  box-sizing: border-box;
+  display: flex;
+
+  flex-direction: column;
+  flex-wrap: nowrap;
+
+  max-height: 100%;
+  overflow: visible;
+  overflow-y: auto;
+  font-size: .875rem;
+  background: $bmd-layout-drawer-bg-color;
+
+  // Transform offscreen.
+  transition: transform;
+  will-change: transform;
+  transform-style: preserve-3d;
+  @include box-shadow($bmd-shadow-2dp);
+  @include material-animation-default();
+
+  > * {
+    flex-shrink: 0;
+  }
+
+  // Placement of common components within the drawer
+  //  You might say this is opinionated - feedback welcome.
+  > header {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1rem;
+
+    .navbar-brand {
+      padding-left: 1.5rem;
+      font-size: 1.25rem;
+    }
+  }
+
+  > .list-group {
+    padding-top: 1rem;
+
+    .list-group-item {
+      padding-right: 2.5rem;
+      padding-left: 2.5rem;
+      font-size: .8125rem;
+      font-weight: 500;
+    }
+  }
+}
+
+//----------------
+// Sizing and positioning below here
+
+// for left or right drawers, setup widths, heights and positions
+@include bmd-drawer-x-out($bmd-drawer-x-size);
+
+// for top or bottom drawers, setup widths, heights and positions
+@include bmd-drawer-y-out($bmd-drawer-y-size);
+
+// Marker class for both triggering the opening of the drawer (i.e. javascript #addClass('.bmd-drawer-in')), as well
+//  as responsive sizes (i.e. bmd-drawer-in-md will open once the browser is wider than 768px).
+//
+//
+// bmd-drawer-in, bmd-drawer-in-sm, bmd-drawer-in-md, bmd-drawer-in-lg
+//  We iterate over the standard grid breakpoints, but we also need styles for the simpler `bmd-drawer-in`
+//  without a size (for triggered openings).  Since the xs size is 0, instead of using `bmd-drawer-in-xs`
+//  (which is mostly meaningless), we create `bmd-drawer-in` meaning always open.
+//
+//  NOTE: bmd-drawer-in-* uses media-breakpoint-up()
+//
+// bmd-drawer-out
+//  A marker class that will _force_ the drawer closed regardless of the responsive class present. If (for some
+//  strange reason) both bmd-drawer-out and bmd-drawer-in are present, it appears that the closed option wins.
+//
+// bmd-drawer-overlay, bmd-drawer-overlay-sm, bmd-drawer-overlay-md, bmd-drawer-overlay-lg
+//  We iterate over the standard grid breakpoints, but we also need styles for the simpler `bmd-drawer-overlay`.
+//  Since the xs size is 0, instead of using `bmd-drawer-overlay-xs`, we create `bmd-drawer-overlay` meaning always overlay.
+//
+//  NOTE: bmd-drawer-overlay-* uses media-breakpoint-down() - this is because we usually want a responsive overlay to be used in small screen scenarios.
+//
+
+//
+// Drawer open positioning, and style options (push is default, overlay is optional)
+:not(.bmd-drawer-out) {
+  // first eliminate positioning or sizing rules if the drawer is already forced closed
+  @each $breakpoint in map-keys($grid-breakpoints) {
+    @include bmd-drawer-x-in-up($bmd-drawer-x-size, $breakpoint);
+    @include bmd-drawer-y-in-up($bmd-drawer-y-size, $breakpoint);
+
+    @include bmd-drawer-x-overlay-down($breakpoint);
+    @include bmd-drawer-y-overlay-down($breakpoint);
+  }
+}
+
+////----
+//// Example 1: creates a media responsive kitchen-sink-drawer that pairs with bmd-drawer-in-lg and allows for the bmd-drawer-in trigger
+//.kitchen-sink-drawer {
+//  $custom-size: 500px;
+//  @include bmd-drawer-x-out($custom-size);
+//  &:not(.bmd-drawer-out) {
+//    @each $breakpoint in map-keys($grid-breakpoints) {
+//      @include bmd-drawer-x-in-up($custom-size, $breakpoint);
+//    }
+//  }
+//}
+//
+////
+////----
+//// Example 2: creates a NON-responsive kitchen-sink-drawer and allows for the bmd-drawer-in trigger
+//.kitchen-sink-drawer-static {
+//  $custom-size: 500px;
+//  @include bmd-drawer-x-out($custom-size); // closed by default
+//  @include bmd-drawer-x-in($custom-size); // triggered with bmd-drawer-in
+//  @include bmd-drawer-x-overlay(); // overlay by default, no other classes necessary
+//}
+
+
+// This is a set of flex-based layout containers necessary for components such as the drawer.
+//  It allows for flex based positioning such as sticky header and footer inside an bmd-layout, with a
+//  bmd-layout-content that scrolls.
+
+// mobile webkit smooth scrolling: http://stackoverflow.com/a/15147497/2363935
+
+// First element
+.bmd-layout-canvas {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+// Primary layout container, belongs inside a bmd-layout-canvas.
+.bmd-layout-container {
+  //position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column; // allows for sticky header and footer
+  width: 100%;
+  height: 100%;
+  //overflow: hidden;
+}
+
+// Header layout (fixed top), belongs in a bmd-layout-container
+.bmd-layout-header {
+  z-index: 3;
+  display: flex;
+  flex-direction: column; // since this is a column, it is necessary that something like an actual navbar is a child
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  justify-content: flex-start;
+  width: 100%;
+  max-height: 1000px;
+  transform: translateZ(0); // mobile webkit smooth scrolling
+  @include material-animation-default();
+}
+
+// Content layout, belongs in a bmd-layout-container
+.bmd-layout-content {
+  //position: relative;
+  //z-index: 1; // under a header
+  display: inline-block;
+  //-ms-flex: 0 1 auto; // Fix IE10 bug.
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto; // mobile webkit smooth scrolling may need scroll, but auto seems to be working and omits the scroll border
+  -webkit-overflow-scrolling: touch; // mobile webkit smooth scrolling
+  @include material-animation-default();
+}
+
+// Pushes flex-based content to the other end (x or y)
+.bmd-layout-spacer {
+  flex-grow: 1;
+}
+
+// Backdrop - generic backdrop to be used by other components i.e. drawer in overlay mode
+.bmd-layout-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  background-color: transparent;
+  transition-property: background-color;
+  @include material-animation-default();
+
+  @supports (pointer-events: auto) {
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition-property: opacity;
+    visibility: visible;
+    pointer-events: none;
+  }
+
+  // NOTE: the &.in style is responsive, generated by @mixin bmd-layout-backdrop-in() where needed.
+}
+
+.bmd-form-group{
+  width:100%;
+}

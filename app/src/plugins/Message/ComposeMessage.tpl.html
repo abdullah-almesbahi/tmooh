@@ -1,0 +1,74 @@
+<div class="modal-login" ng-class="{'container': currentPageType === 'page'}">	
+	<div class="center-form" ng-class="{'col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2': currentPageType === 'page'}">
+		<div class="panel-heading clearfix">			
+			<h3 class="text-center">{{'Compose a Message'|translate}}
+				<a data-dismiss="modal" ng-click="modalClose($event)" class="modalClose float-right">X</a>
+			</h3>
+		</div>
+		<div class="card-body">
+			<div class="panel-content">
+				<form role="form" name="MymessageForm" ng-click="model.getMessageDetails()" ng-submit="model.sendMessage(MymessageForm.$valid)"
+					novalidate>
+					<div class="well-sm compose-message">
+						<div ng-if='!contentInIframe'>
+							<div class="row">
+								<div class="form-group has-feedback">
+									<label class="control-label">{{'To'|translate}}</label>
+									<div  class="" ng-class="{ 'has-error' : ((MymessageForm.$submitted || MymessageForm.username.$touched) && (MymessageForm.username.$pristine || MymessageForm.username.$invalid))}">
+										<tags-input ng-model="tags" placeholder="Select an user" add-from-autocomplete-only="true" ng-required="true" name="username">
+											<auto-complete source="loadTags($query)"></auto-complete>
+										</tags-input>
+										<span class="ion-at form-control-feedback"></span>
+										<div ng-show="((MymessageForm.$submitted || MymessageForm.username.$touched) && (MymessageForm.username.$pristine || MymessageForm.username.$invalid))">
+											<div class="error text-danger" ng-show="(MymessageForm.username.$error.leftoverText && !MymessageForm.username.$error.required)">{{'Select the user from autocomplete' | translate}} </div>
+											<div class="error text-danger" ng-show="(MymessageForm.username.$error.leftoverText && MymessageForm.username.$error.required)">{{'Select the user from autocomplete' | translate}} </div>
+											<div class="error text-danger" ng-show="(MymessageForm.username.$error.required && !MymessageForm.username.$error.leftoverText)">{{'Required' | translate}} </div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group has-feedback">
+									<label class="control-label">{{'Subject'|translate}}</label>
+									<div class=""  ng-class="{ 'has-error' : ((MymessageForm.$submitted || MymessageForm.subject.$touched) && (MymessageForm.subject.$pristine || MymessageForm.subject.$invalid))}">
+										<textarea class="form-control input" minlength="10" cols="30" rows="1" name="subject" ng-model="model.instructor.subject"
+											placeholder="{{'Subject'|translate}}" required></textarea>
+										<span class="ion-key form-control-feedback"></span>
+										<div ng-show="((MymessageForm.$submitted || MymessageForm.subject.$touched) && (MymessageForm.subject.$pristine || MymessageForm.subject.$invalid))">
+											<div class="error text-danger" ng-show="(MymessageForm.subject.$error.minlength)">{{'Subject must minimum 10 characters' | translate}} </div>
+											<div class="error text-danger" ng-show="(MymessageForm.subject.$error.required || MymessageForm.subject.$invalid)">{{'Required' | translate}} </div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group has-feedback">
+									<label class="control-label">{{'Message'|translate}}</label>
+									<div  ng-class="{ 'has-error' : ((MymessageForm.$submitted || MymessageForm.message.$touched) && (MymessageForm.message.$pristine || MymessageForm.message.$invalid))}">
+										 <div text-angular ng-model="model.instructor.message" name="message" ta-toolbar="[['p','bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol','justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent','insertImage', 'insertLink', 'wordcount']]"
+                                            ta-toolbar-class="btn-toolbar" ta-toolbar-group-class="btn-group" ta-toolbar-button-active-class="active" ta-focussed-class="focussed" ta-text-editor-class="form-control" ta-html-editor-class="form-control" required
+                                            ng-required="true"></div>
+									<!--	<textarea class="form-control input" minlength="20" cols="30" rows="4" name="message" ng-model="model.instructor.message"
+											placeholder="{{'Message'|translate}}" required></textarea>-->
+										<span class="ion-key form-control-feedback"></span>
+										<div ng-show="((MymessageForm.$submitted || MymessageForm.message.$touched) && (MymessageForm.message.$pristine || MymessageForm.message.$invalid))">
+											<div class="error text-danger" ng-show="(MymessageForm.message.$error.minlength)">{{'Message must contain 20 characters' | translate}} </div>
+											<div class="error text-danger" ng-show="(MymessageForm.message.$error.required || MymessageForm.message.$invalid)">{{'Required' | translate}} </div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group float-right">
+								<label class="sr-only" for="submit">{{'Send'|translate}}</label>
+								<button type="submit" class="btn btn-success" ng-disabled="message_disableButton" id="submit">{{'Send'|translate}} <span ng-show="message_disableButton"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+								<input type="button" class="btn btn-outline-secondary" id="oauthClientAddForm_cancel" value="{{'Cancel'|translate}}" ng-click="modalClose($event)">
+							</div>
+						</div>
+
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>	
+	<div banner position="bottomBanner" ng-if="$root.settings['site.enabled_plugins'].indexOf('Banner') > -1 && currentPageType === 'page'"></div>
+</div>

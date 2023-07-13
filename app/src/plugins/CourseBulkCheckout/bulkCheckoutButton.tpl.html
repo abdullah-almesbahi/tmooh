@@ -1,0 +1,8 @@
+<!--Puchase checkout template -->
+<div ng-if="model.type === 'checkout' && model.totalAmount!='0' && bulk_condition.freecheckout_modal == false && bulk_condition.referral_loader == false">
+    <button ng-click="model.takeCourseClick($event,'Cost')" class="btn btn-lg  btn-block btn-primary">{{'Checkout' | translate}}  <span ng-if="bulk_condition.ischeckout"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+</div>
+<!--Free checkout template -->
+<div ng-if="model.type === 'checkout' && bulk_condition.referral_loader == false &&  (model.totalAmount == '0'||bulk_condition.freecheckout_modal == true)">
+    <button ng-click="model.takeCourseClick($event,'Free')" class="btn btn-lg  btn-block btn-primary">{{'Checkout' | translate}}  <span ng-if="bulk_condition.ischeckout"><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+</div>

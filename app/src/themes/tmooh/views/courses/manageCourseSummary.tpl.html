@@ -1,0 +1,78 @@
+<section class="clearfix" ng-show="model.loading === false">
+	<div class="container pb-3">
+		<course-navbar></course-navbar>
+		<div class="">
+			<div class="tab-content col-12" ng-if="model.loading === false">
+				<div class="card-body well-sm">
+					<div class="text-center">
+						<h3 class="text-default">{{'Course Summary'|translate}}</h3>
+						<p>{{'Highlight what the course covers, how it is taught, benefits of course and why students should enroll.'|translate}}</p>
+					</div>
+				</div>
+				<div class="card shadow  bg-white" id="course_summary">
+					<div class="card-body well-sm">
+						<div class="well-lg panel clearfix">
+							<form role="form" class="form-horizontal clearfix" name='manage_course_summary' ng-submit="model.saveCourseSummary(manage_course_summary)">
+								<div class="form-group">
+									<div class="col-md-12 col-sm-12"><h4>{{'Description'|translate}}</h4>
+									</div>
+									<div class="col-md-12 col-sm-12">
+										<div text-angular ng-model="model.courseSummary.description" name='summary' ta-toolbar="[['p','pre','quote'], ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol'],  ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'], ['insertImage', 'insertLink', 'wordcount', 'charcount']]"
+											ta-toolbar-class="btn-toolbar" ta-toolbar-group-class="btn-group" ta-toolbar-button-class="btn btn-primary" ta-toolbar-button-active-class="active"
+											ta-focussed-class="focussed" ta-text-editor-class="form-control" ta-html-editor-class="form-control" ta-required='true'
+											required=""></div>
+										<div class="alert navbar-btn" ng-class="{'alert-info': !error, 'alert-danger': error}" role="alert" ng-if='error'>{{info}}</div>
+									</div>
+
+								</div>
+								<div class="form-group">
+									<div class="col-md-12 col-sm-12"><h4>{{'Projects'|translate}}</h4>
+									</div>
+									<div class="col-md-12 col-sm-12">
+										<div text-angular ng-model="model.courseSummary.projects" name='projects' ta-toolbar="[['p','pre','quote'], ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol'],  ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'], ['insertImage', 'insertLink', 'wordcount', 'charcount']]"
+											ta-toolbar-class="btn-toolbar" ta-toolbar-group-class="btn-group" ta-toolbar-button-class="btn btn-primary" ta-toolbar-button-active-class="active"
+											ta-focussed-class="focussed" ta-text-editor-class="form-control" ta-html-editor-class="form-control" ta-required='true'
+											required=""></div>
+										<div class="alert navbar-btn" ng-class="{'alert-info': !error, 'alert-danger': error}" role="alert" ng-if='error'>{{info}}</div>
+									</div>
+
+								</div>
+								<div class="form-group">
+									<div class="col-md-12 col-sm-12"><h4>{{'Certificate'|translate}}</h4>
+									</div>
+									<div class="col-md-12 col-sm-12">
+										<div text-angular ng-model="model.courseSummary.certificate" name='certificate' ta-toolbar="[['p','pre','quote'], ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol'],  ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'], ['insertImage', 'insertLink', 'wordcount', 'charcount']]"
+											ta-toolbar-class="btn-toolbar" ta-toolbar-group-class="btn-group" ta-toolbar-button-class="btn btn-primary" ta-toolbar-button-active-class="active"
+											ta-focussed-class="focussed" ta-text-editor-class="form-control" ta-html-editor-class="form-control" ta-required='true'
+											required=""></div>
+										<div class="alert navbar-btn" ng-class="{'alert-info': !error, 'alert-danger': error}" role="alert" ng-if='error'>{{info}}</div>
+									</div>
+
+								</div>
+								<div class="form-group">
+									<div class="col-md-12 col-sm-12"><h4>{{'Frequently Asked question'|translate}}</h4>
+									</div>
+									<div class="col-md-12 col-sm-12">
+										<div text-angular ng-model="model.courseSummary.faq" name='faq' ta-toolbar="[['p','pre','quote'], ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol'],  ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'], ['insertImage', 'insertLink', 'wordcount', 'charcount']]"
+											ta-toolbar-class="btn-toolbar" ta-toolbar-group-class="btn-group" ta-toolbar-button-class="btn btn-primary" ta-toolbar-button-active-class="active"
+											ta-focussed-class="focussed" ta-text-editor-class="form-control" ta-html-editor-class="form-control" ta-required='true'
+											required=""></div>
+										<div class="alert navbar-btn" ng-class="{'alert-info': !error, 'alert-danger': error}" role="alert" ng-if='error'>{{info}}</div>
+									</div>
+
+								</div>
+								<div class="">
+									<div class="">
+										<label class="sr-only" for="submit">{{'Save'|translate}}</label>
+										<input type="submit" class="btn btn-primary btn-course" id="submit" value="{{'Save'|translate}}">
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

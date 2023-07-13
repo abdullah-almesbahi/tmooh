@@ -1,0 +1,62 @@
+<section class="profile-page clearfix">
+	<div class="container">
+		<div class="row">
+			<userprofile-navbar>
+			</userprofile-navbar>
+			<div class="col-sm-8 col-md-9">
+				<div class="right-side-block">
+					<div class="panel">
+						<div class="text-center">
+							<h3>{{'Credits'|translate}}</h3>
+							<p>{{'Listing the credit offers.'|translate}}</p>
+						</div>
+					</div>
+					<div class="well-lg panel clearfix">
+						<div class="col-xs-12 custom-table" id="credit_logs">
+							<div class="" role="navigation">
+								<div class="row panel">
+									<div class="table-responsive">
+										<table class="table">
+											<thead>
+												<tr>
+													<th class="text-center">{{'Name'|translate}}</th>
+													<th class="text-center">{{'Total Credit'|translate}}</th>
+													<th class="text-center">{{'Expire Date'|translate}}</th>
+													<th class="text-center">{{'Credit'|translate}}</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="credit_offer in  model.credit_offer_logs" ng-if="model.credit_offer_logs.length && !model.loader">
+													<td class="text-center">{{credit_offer.name}}</td>
+													<td class="text-center">{{credit_offer.total_credits}}</td>
+													<td class="text-center">{{credit_offer.credit_expired_date}}</td>
+													<td class="text-center">{{credit_offer.credit}}</td>
+												</tr>
+												<td colspan="12" ng-show="model.loader">
+													<div ng-include src="'common/loader.tpl.html'"></div>
+												</td>
+												<tr ng-if="!model.credit_offer_logs.length && !model.loader">
+													<td colspan="4" class="text-center">
+														<span class="hor-space error">{{'No Record Found' |translate}}</span>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<div class="paging clearfix text-center" ng-show="model.metadata.total_records > 0 && !model.loader && model.credit_offer_logs.length">
+								<ul uib-pagination total-items="model.metadata.total_records" ng-model="model.currentPage" ng-change="paginate(model.currentPage)"
+									max-size="model.metadata.maxSize" boundary-links="true" num-pages="model.metadata.noOfPages" items-per-page="model.metadata.limit"
+									first-text="{{'First'|translate}}" last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<div oc-lazy-load='loadSeo'>
+	<user-profile-seo></user-profile-seo>
+</div>

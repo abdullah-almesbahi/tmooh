@@ -1,0 +1,116 @@
+<section class="reviews-block clearfix ">
+  <dashboard-navbar></dashboard-navbar>
+  <div class="container my-4">
+    <div class="row">
+      <div class="col-md-3 col-sm-4">
+        <div class="card-body bg-white shadow-sm space-20">
+          <div class="border-bottom mb-3">
+            <h4>{{'Course' | translate}}</h4>
+            <div class="dropdown">
+              <a href="javascript:void(0);" data-toggle="dropdown" class="btn btn-outline-secondary btn-block">
+                <span ng-show="!course_filter">{{'All Courses'|translate}}</span>
+                <span ng-show="course_filter">{{course_filter.title}}</span>
+                <i class="mdi-18px mdi mdi-chevron-down text-muted"></i> </a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a  href="javascript:void(0);" class="dropdown-item" title="All courses" ng-click="CourseFilter('-1','All')">{{'All Courses' | translate}}</a>
+
+                <a  href="javascript:void(0);" class="dropdown-item" title="{{instructor.teacher_name}}" ng-click="CourseFilter($index,'current')" ng-repeat="courses in model.teachingCourses">{{courses.title}}</a>
+
+              </div>
+            </div>
+          </div>
+          <div class="border-bottom" ng-if=" $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1">
+            <h4>{{'Rating' | translate}}</h4>
+            <div class="reviews-ratings">
+              <ul class="list-unstyled">
+                <li class="clearfix " ng-repeat="star in model.stars">
+                  <div class="checkbox">
+                    <label class="float-left">
+ <input type="checkbox" id="checkbox{{$index}}" ng-click="Sort()"  ng-model="starSort[star.id]"><span></span>
+                 </label>
+
+                  </div>
+                  <rating-stars average-rating='{{star.value}}' ng-if=" $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1"></rating-stars>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="mt-4">
+            <h4>{{'Sort by' | translate}}</h4>
+            <div class="dropdown">
+              <a href="javascript:void(0);" data-toggle="dropdown" class="btn btn-outline-secondary btn-block">
+                <span ng-show="!messagesort.sortby || messagesort.sortby === 'created' ">{{'Newest To oldest'|translate}}</span>
+                <span ng-show="messagesort.sortby === '-created' ">{{'Oldest To Newest'|translate}}</span> &nbsp;
+                <i class="mdi-18px mdi mdi-chevron-down text-muted"></i> </a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a  href="javascript:void(0);" class="dropdown-item" ng-click="Sort('created')" title="{{'Newest To oldest'|translate}}">{{'Newest To oldest'|translate}}</a>
+                <a  href="javascript:void(0);" class="dropdown-item" ng-click="Sort('-created')" title="{{'Oldest To Newest'|translate}}">{{'Oldest To Newest'|translate}}</a>
+              </div>
+            </div>
+          </div>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-9 col-sm-8">
+        <div class="right-side-block">
+          <div ng-include src="'common/loader.tpl.html'" ng-show="model.loader"><br><br></div>
+          <div class="panel clearfix" ng-if="model.CoursesFeedbacks.length" ng-show="!model.loader">
+            <ul class="list-unstyled course-list no-mar" id="feedback_list">
+              <li ng-repeat="feedback in  model.CoursesFeedbacks">
+                <div class="media well-sm">
+                  <div class="navbar-left">
+                    <profile-image image-type='imagecircle' user-image-hash='feedback.image_hash' user-display-name='{{feedback.displayname}}'
+                      user-profile-id='feedback.user_id' user-profile-thumb='medium_thumb' ng-if='feedback'></profile-image>
+                  </div>
+                  <div class="media-body well-sm">
+                    <profile-name instructor='false' user-display-name='feedback.displayname' user-profile-id='feedback.user_id' ng-if='feedback'></profile-name>
+                    <p>
+                      <rating-stars average-rating='{{feedback.rating}}' ng-if="model.CoursesFeedbacks && $root.settings['site.enabled_plugins'].indexOf('RatingAndReview') > -1"></rating-stars>
+                      <span>{{feedback.created|timeago}}</span>
+                    </p>
+                    <h6>{{feedback.course_title}}</h6>
+                    <p>
+                      {{feedback.feedback}}
+                    </p>
+                    <ul class="list-unstyled navbar-btn" id="news_list" ng-if="feedback.course_review_answers.length > 0">
+                      <li ng-repeat="review_answer in feedback.course_review_answers" class="course-optional">
+                        {{$index+1}}.&nbsp;{{review_answer.name}}
+                        <div class="form-group has-feedback">
+                          <label class="rad">
+                        <input type="radio" name="optionsRadios{{$index}}" id="optionsRadios{{$index}}" ng-model="review_answer.rate" value="1" disabled>{{'Yes'|translate}}
+                        <span></span>
+                        </label>
+                          <label class="rad">
+                          <input type="radio" name="optionsRadios{{$index}}" id="optionsRadios{{$index}}" ng-model="review_answer.rate" value="2" disabled>{{'No'|translate}}
+                          <span></span>
+                          </label>
+                          <label class="rad">
+                          <input type="radio" name="optionsRadios{{$index}}" id="optionsRadios{{$index}}" ng-model="review_answer.rate" value="3" disabled>{{'Not
+                          Sure'|translate}}
+                          <span></span>
+                          </label>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="text-center" ng-if="!model.CoursesFeedbacks.length && !model.loader">
+            <p class="alert alert-danger ng-binding">{{'No Reviews Found' | translate}}</p>
+          </div>
+          <div class="paging clearfix text-center" ng-show="mmodel._metadata.total_records > 0 && !model.loader && model.CoursesFeedbacks.data.length">
+            <ul uib-pagination total-items="model._metadata.total_records" ng-model="model._metadata.currentPage" ng-change="paginate('#feedback_list')"
+              max-size="model._metadata.maxSize" boundary-links="true" num-pages="model._metadata.noOfPages" items-per-page="model._metadata.limit"
+              first-text="{{'First'|translate}}" last-text="{{'Last'|translate}}" next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+<div oc-lazy-load='loadSeo'>
+  <user-profile-seo></user-profile-seo>
+</div>

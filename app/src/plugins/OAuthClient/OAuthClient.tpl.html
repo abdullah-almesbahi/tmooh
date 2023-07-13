@@ -1,0 +1,163 @@
+<section class="container pb-3 pt-4 mb-5">
+	<div class="row">
+		<userprofile-navbar></userprofile-navbar>
+		<div class="col-sm-8 col-md-9">
+			<div ng-include src="'common/course_loader.tpl.html'" ng-if="model.loading"></div>
+			<div class="card" ng-if="!model.loading">
+				<div class="card-body">
+			      <h3 class="text-default">{{'API Clients'|translate}}</h3>
+			      <p>{{'Create and list your API clients.'|translate}}</p>
+
+            <div ng-if="!model.addform" class="clearfix space">
+                <div class="float-right">
+                    <label class="sr-only" for="user_profile_save">{{'Save'|translate}}</label>
+                    <input type="button" class="btn btn-primary" id="user_profile_save" value="{{'Request API Client'|translate}}" ng-click="model.addform = true; model.oauth_client='' "
+                        ng-if="!model.addform">
+                </div>
+            </div>
+            <form id="oauthClientAddForm" name="oauthClientAddForm" class="form-horizontal space" ng-submit="addOauthClient(oauthClientAddForm.$valid)"
+                ng-if="model.addform == true" novalidate>
+                <div class="form-group" ng-class="{ 'has-error' : (oauthClientAddForm.$submitted || oauthClientAddForm.inputClientName.$touched) && (oauthClientAddForm.inputClientName.$pristine || oauthClientAddForm.inputClientName.$invalid)}">
+                    <label class="col-md-3 col-sm-3 control-label" for="inputClientName"><font><font>{{'Application Name*' | translate}}</font></font></label>
+                    <div class="col-md-5 col-sm-9">
+                        <input type="text" class="form-control" name="inputClientName" id="inputClientName" placeholder="{{'Application Name'|translate}}"
+                            ng-model="model.oauth_client.client_name" maxlength="60" required />
+                        <div><span class="help-block"><font><font>{{'Something, the user is recognized, will be trusted' | translate}}</font></font></span></div>
+                        <div class="text-danger" ng-if="(oauthClientAddForm.$submitted || oauthClientAddForm.inputClientName.$touched) && (oauthClientAddForm.inputClientName.$pristine || oauthClientAddForm.inputClientName.$invalid)"
+                            ng-messages="oauthClientAddForm.inputClientName.$error">
+                            <div ng-message="required">{{'You must enter your Application name'|translate}}.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : (oauthClientAddForm.$submitted || oauthClientAddForm.client_url.$touched) && (oauthClientAddForm.client_url.$pristine || oauthClientAddForm.client_url.$invalid || oauthClientAddForm.client_url.$error.url)}">
+                    <label class="col-md-3 col-sm-3 control-label" for="client_url"><font><font>{{'Client URL*' | translate}}</font></font></label>
+                    <div class="col-md-5 col-sm-9">
+                        <input type="url" class="form-control" name="client_url" id="client_url" placeholder="{{'Client link'|translate}}" ng-model="model.oauth_client.client_url"
+                            required>
+                        <span class="help-block">{{'Enter your Client URL start with http:// or https://'|translate}}</span>
+                        <div class="text-danger" ng-if="(oauthClientAddForm.$submitted || oauthClientAddForm.client_url.$touched) && (oauthClientAddForm.client_url.$pristine || oauthClientAddForm.client_url.$invalid)"
+                            ng-messages="oauthClientAddForm.client_url.$error">
+                            <div ng-message="url">{{'URL is invalid'|translate}}.</div>
+                            <div ng-message="required">{{'Required'|translate}}.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : (oauthClientAddForm.$submitted || oauthClientAddForm.logo_url.$touched) && (oauthClientAddForm.logo_url.$pristine || oauthClientAddForm.logo_url.$invalid || oauthClientAddForm.logo_url.$error.url)}">
+                    <label class="col-md-3 col-sm-3 control-label" for="logo_url"><font><font>{{'Logo URL*' | translate}}</font></font></label>
+                    <div class="col-md-5 col-sm-9">
+                        <input type="url" class="form-control" name="logo_url" id="logo_url" placeholder="{{'Logo link'|translate}}" ng-model="model.oauth_client.logo_url"
+                            required/>
+                        <span class="help-block">{{'Enter your Logo URL start with http:// or https://'|translate}}</span>
+                        <div class="text-danger" ng-if="(oauthClientAddForm.$submitted || oauthClientAddForm.logo_url.$touched) && (oauthClientAddForm.logo_url.$pristine || oauthClientAddForm.logo_url.$invalid)"
+                            ng-messages="oauthClientAddForm.logo_url.$error">
+                            <div ng-message="url">{{'URL is invalid'|translate}}.</div>
+                            <div ng-message="required">{{'Required'|translate}}.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : (oauthClientAddForm.$submitted || oauthClientAddForm.policy_url.$touched) && (oauthClientAddForm.policy_url.$pristine || oauthClientAddForm.policy_url.$invalid || oauthClientAddForm.policy_url.$error.url)}">
+                    <label class="col-md-3 col-sm-3 control-label" for="policy_url"><font><font>{{'Policy URL*' | translate}}</font></font></label>
+                    <div class="col-md-5 col-sm-9">
+                        <input type="url" class="form-control" name="policy_url" id="policy_url" placeholder="{{'Policy link'|translate}}" ng-model="model.oauth_client.policy_url"
+                            required/>
+                        <span class="help-block">{{'Enter your Policy URL start with http:// or https://'|translate}}</span>
+                        <div class="text-danger" ng-if="(oauthClientAddForm.$submitted || oauthClientAddForm.policy_url.$touched) && (oauthClientAddForm.policy_url.$pristine || oauthClientAddForm.policy_url.$invalid)"
+                            ng-messages="oauthClientAddForm.policy_url.$error">
+                            <div ng-message="url">{{'URL is invalid'|translate}}.</div>
+                            <div ng-message="required">{{'Required'|translate}}.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : (oauthClientAddForm.$submitted || oauthClientAddForm.redirect_uri.$touched) && (oauthClientAddForm.redirect_uri.$pristine || oauthClientAddForm.redirect_uri.$invalid || oauthClientAddForm.redirect_uri.$error.url)}">
+                    <label class="col-md-3 col-sm-3 control-label" for="redirect_uri"><font><font>{{'Redirect URL*' | translate}}</font></font></label>
+                    <div class="col-md-5 col-sm-9">
+                        <input type="url" class="form-control" name="redirect_uri" id="redirect_uri" placeholder="{{'Redirect link'|translate}}"
+                            ng-model="model.oauth_client.redirect_uri" required/>
+                        <span class="help-block">{{'Enter your Redirect URL start with http:// or https://'|translate}}</span>
+                        <div class="text-danger" ng-if="(oauthClientAddForm.$submitted || oauthClientAddForm.redirect_uri.$touched) && (oauthClientAddForm.redirect_uri.$pristine || oauthClientAddForm.redirect_uri.$invalid)"
+                            ng-messages="oauthClientAddForm.redirect_uri.$error">
+                            <div ng-message="url">{{'URL is invalid'|translate}}.</div>
+                            <div ng-message="required">{{'Required'|translate}}.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : (oauthClientAddForm.$submitted || oauthClientAddForm.tos_url.$touched) && (oauthClientAddForm.tos_url.$pristine || oauthClientAddForm.tos_url.$invalid || oauthClientAddForm.tos_url.$error.url)}">
+                    <label class="col-md-3 col-sm-3 control-label" for="inputRedirectUris"><font><font>{{'Tos URL*' | translate}}</font></font></label>
+                    <div class="col-md-5 col-sm-9">
+                        <input type="url" class="form-control" name="tos_url" id="tos_url" placeholder="{{'Tos link'|translate}}" ng-model="model.oauth_client.tos_url"
+                            required/>
+                        <span class="help-block">{{'Enter your Tos URL start with http:// or https://'|translate}}</span>
+                        <div class="text-danger" ng-if="(oauthClientAddForm.$submitted || oauthClientAddForm.tos_url.$touched) && (oauthClientAddForm.tos_url.$pristine || oauthClientAddForm.tos_url.$invalid)"
+                            ng-messages="oauthClientAddForm.tos_url.$error">
+                            <div ng-message="required">{{'Required'|translate}}.</div>
+                            <div ng-message="url">{{'URL is invalid'|translate}}.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <label class="sr-only" for="user_profile_save">{{'Save'|translate}}</label>
+                        <button type="submit" class="btn btn-primary" ng-hide="add_disableButton" id="submit">{{'Save'|translate}}</button>
+                        <button type="submit" class="btn btn-primary" ng-disabled="true" id="user_profile_save" ng-hide="!add_disableButton">{{'Saving'|translate}} <span><i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i></span></button>
+                        <input type="button" class="btn btn-primary" id="oauthClientAddForm_cancel" value="{{'Cancel'|translate}}" ng-click="model.addform = false;"
+                            ng-if="model.addform">
+                    </div>
+                </div>
+            </form>
+            <div class="custom-table space" id="oAuthClientList" ng-if="!model.addform">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="text-center">{{'Client Name'|translate}}</th>
+                                <th class="text-center">{{'Client ID'|translate}}</th>
+                                <th class="text-center">{{'Client Secret'|translate}}</th>
+                                <th class="text-center">{{'Status'|translate}}</th>
+                                <th class="text-center">{{'Actions'|translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="oAuthClientList in model.oAuthClientLists" ng-if="model.oAuthClientLists.length && !model.loader">
+                                {{oAuthClientList}}
+                                <td class="text-center">{{oAuthClientList.client_name}}</td>
+                                <td class="text-center">
+                                    <span ng-if="oAuthClientList.status_name  === 'Approved'">{{oAuthClientList.client_id}}</span>
+                                    <span ng-if="oAuthClientList.status_name  !== 'Approved'">-</span>
+                                </td>
+                                <td class="text-center">
+                                    <span ng-if="oAuthClientList.status_name  === 'Approved'">{{oAuthClientList.client_secret}}</span>
+                                    <span ng-if="oAuthClientList.status_name  !== 'Approved'">-</span></td>
+                                <td class="text-center">{{oAuthClientList.status_name}}
+                                </td>
+                                <td class="text-center">
+                                    <a href="/user/api-client/{{oAuthClientList.id}}/edit" title="{{'Edit' | translate}}"><i class="mdi-18px mdi mdi-pencil  fa-fw"></i></a>
+                                </td>
+                            </tr>
+                            <td colspan="12" ng-show="model.loader">
+                                <div ng-include src="'common/loader.tpl.html'"></div>
+                            </td>
+                            <tr ng-if="!model.oAuthClientLists.length && !model.loader">
+                                <td colspan="4" class="text-center">
+                                    <span class="hor-space error">{{'No Record Found' |translate}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="paging clearfix text-center" ng-show="model.metadata.total_records > 0 && !model.loader && model.oAuthClientLists.length">
+                    <ul uib-pagination total-items="model.metadata.total_records" ng-model="model.currentPage" ng-change="paginate(model.currentPage)"
+                        max-size="model.metadata.maxSize" boundary-links="true" num-pages="model.metadata.noOfPages"
+                        items-per-page="model.metadata.limit" first-text="{{'First'|translate}}" last-text="{{'Last'|translate}}"
+                        next-text="{{'Next'|translate}}" previous-text="{{'Previous'|translate}}"></ul>
+                </div>
+            </div>
+
+            <div oc-lazy-load='loadSeo'>
+                <user-profile-seo></user-profile-seo>
+            </div>
+
+			    </div>
+			</div>
+		</div>
+	</div>
+</section>

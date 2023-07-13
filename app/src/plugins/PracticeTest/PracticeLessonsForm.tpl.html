@@ -1,0 +1,129 @@
+<div class="col" id="QuizExerciseCreate">
+    <div class="add-lesson-btn">
+        <a class="btn btn-outline-secondary btn-block btn-lg navbar-btn" href="" ng-if="action === 'add' && !$root.PraticeForm.showForm" ng-click="uploadConfigure(); "><i class="mdi-18px mdi mdi-plus-box"></i>&nbsp; {{'Add Practice Test'|translate}}</a>
+    </div>
+</div>
+<!--Quiz Add form template-->
+<div class="col-xs-12 clearfix  navbar-btn" ng-if="$root.PraticeForm.showForm && action === 'add'">
+    <div class="panel panel-default clearfix">
+        <div class="introduction-lecture">
+            <div class="col-xs-12">
+                <div class="chapter-add-form">
+                    <form role="form" name="PraticeAddFrom" class="form-horizontal  clearfix" ng-submit="model.CheckUnpublishedLessons(PraticeAddFrom.$valid)" novalidate>
+                        <div class="form-group">
+                            <div class="clearfix">
+                            <label class="control-label required" for="chapter_name">{{'New Practice Test:'|translate}}</label>
+                            </div>
+                            <div class="chapter-add">
+                                <div>
+                                    <div>
+                                        <div class="input-group" ng-class="{ 'has-error' : (PraticeAddFrom.$submitted || PraticeAddFrom.quiz_name.$touched) && (PraticeAddFrom.quiz_name.$pristine || PraticeAddFrom.quiz_name.$invalid)}">
+                                            <input type="text" class="form-control" name="quiz_name" id="quiz_name" ng-model="model.AddOnlineQuiz.name" required maxlength="80" placeholder="Enter a Title">
+                                            <span class="input-group-addon">{{80 - model.AddOnlineQuiz.name.length}}</span>
+                                        </div>
+                                        <div class="text-danger" ng-if="(PraticeAddFrom.$submitted || PraticeAddFrom.quiz_name.$touched) && (PraticeAddFrom.quiz_name.$pristine || PraticeAddFrom.quiz_name.$invalid)" ng-messages="PraticeAddFrom.quiz_name.$error">
+                                            <div ng-message="required">{{'Required'|translate}}.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <label class="control-label required" for="quiz_description">{{'Description'|translate}}</label>
+                                        <div ng-class="{ 'has-error' : (PraticeAddFrom.$submitted || PraticeAddFrom.quiz_description.$touched) && (PraticeAddFrom.quiz_description.$pristine || PraticeAddFrom.quiz_description.$invalid)}">
+                                            <textarea type="text" class="form-control" id="quiz_description" name="quiz_description" ng-model="model.AddOnlineQuiz.description" required placeholder="Pratice Description"></textarea>
+                                        </div>
+                                        <div class="text-danger" ng-if="(PraticeAddFrom.$submitted || PraticeAddFrom.quiz_description.$touched) && (PraticeAddFrom.quiz_description.$pristine || PraticeAddFrom.quiz_description.$invalid)" ng-messages="PraticeAddFrom.quiz_description.$error">
+                                            <div ng-message="required">{{'Required'|translate}}.</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div>
+                                    <div>
+                                        <label class="control-label required" for="pratice_duration">{{'Duration (minutes)'|translate}}</label>
+                                        <div ng-class="{ 'has-error' : (PraticeAddFrom.$submitted || PraticeAddFrom.pratice_duration.$touched) && (PraticeAddFrom.pratice_duration.$pristine || PraticeAddFrom.pratice_duration.$invalid)}">
+                                            <input type="number" ng-model="model.AddOnlineQuiz.allowed_duration" name="pratice_duration" id="pratice_duration" class="form-control" required>
+                                        </div>
+                                        <div class="text-danger" ng-if="(PraticeAddFrom.$submitted || PraticeAddFrom.pratice_duration.$touched) && (PraticeAddFrom.pratice_duration.$pristine || PraticeAddFrom.pratice_duration.$invalid)" ng-messages="PraticeAddFrom.pratice_duration.$error">
+                                            <div ng-message="required">{{'Required'|translate}}.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <label class="control-label required" for="pratice_percentage">{{'Minimum score to pass (percentage)'|translate}}</label>
+                                        <div ng-class="{ 'has-error' : (PraticeAddFrom.$submitted || PraticeAddFrom.pratice_percentage.$touched) && (PraticeAddFrom.pratice_percentage.$pristine || PraticeAddFrom.pratice_percentage.$invalid)}">
+                                            <input type="number" pattern="\d*" ng-minlength="0" ng-maxlength="3" ng-model="model.AddOnlineQuiz.pass_mark_percentage" name="pratice_percentage" id="pratice_percentage" class="form-control" min="1" max="100" required>
+                                        </div>
+
+                                        <div ng-show="((PraticeAddFrom.$submitted || PraticeAddFrom.pratice_percentage.$touched) && (PraticeAddFrom.pratice_percentage.$pristine || PraticeAddFrom.pratice_percentage.$invalid))">
+                                            <span class="error text-danger" ng-show="(PraticeAddFrom.pratice_percentage.$error.required)">{{'Required' | translate}}. </span>
+                                            <span class="error text-danger" ng-show="(PraticeAddFrom.pratice_percentage.$error.max || PraticeAddFrom.pratice_percentage.$error.min)">{{'Not a valid percentage' | translate}}.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <label class="control-label" for="pratice_percentage">{{'Randomize Question and Answer Order'|translate}}</label>
+                                        <br><br>
+                                        <switch name="yesNo" ng-model="model.AddOnlineQuiz.is_randomize_question_answer_order" class="wide"></switch>
+                                    </div>
+                                </div>
+
+                                <div class="clearfix">
+                                    <div>
+                                        <div>
+                                            <button type="submit" ng-disabled="model.QuizSaveButton" class="btn btn-primary">
+									<span ng-hide="model.QuizSaveButton">{{'Submit'|translate}}</span>
+									<span ng-show="model.QuizSaveButton"> <i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i> {{'Submitting'|translate}}</span>
+									</button>
+                                            <a href="#" ng-click="hideForm($event)" class="btn btn-outline-secondary">{{'Cancel'|translate}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Quiz form edit template-->
+<div class="col-xs-12 clearfix  navbar-btn" ng-if="action === 'edit' && $root.PraticeForm.editForm">
+    <div class="panel panel-default">
+        <div class="form-curiculam">
+            <form role="form" name="quizEditFrom" class="form-horizontal clearfix" ng-submit="editQuiz(quizEditFrom.$valid)" novalidate>
+                <div class="form-group" ng-class="{ 'has-error' : (quizEditFrom.$submitted || quizEditFrom.quiz_name.$touched) && (quizEditFrom.quiz_name.$invalid)}">
+                    <label class="control-label" for="chapter_name">{{'Title'|translate}}</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="quiz_name" id="chapter_name" ng-model="model.editOnlineQuiz.name" required maxlength="50">
+                        <span class="input-group-addon">{{model.editOnlineQuiz.name.length}}</span>
+                    </div>
+                    <div class="text-danger" ng-if="(quizEditFrom.$submitted || quizEditFrom.quiz_name.$touched) && (quizEditFrom.quiz_name.$invalid)" ng-messages="quizEditFrom.quiz_name.$error">
+                        <div ng-message="required">{{'Required'|translate}}.</div>
+                        <div ng-message="maxlength">{{'Sorry you are exceeding the limit'|translate}}.</div>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : (quizEditFrom.$submitted || quizEditFrom.quiz_description.$touched) && (quizEditFrom.quiz_description.$invalid)}">
+                    <label class="control-label" for="quiz_description">{{'Enter short description about this chapter'|translate}}</label>
+                    <textarea type="text" class="form-control" id="quiz_description" name="quiz_description" ng-model="model.editOnlineQuiz.description" required></textarea>
+                    <div class="text-danger" ng-if="(quizEditFrom.$submitted || quizEditFrom.quiz_description.$touched) && ( quizEditFrom.quiz_description.$invalid)" ng-messages="quizEditFrom.quiz_description.$error">
+                        <div ng-message="required">{{'Required'|translate}}.</div>
+                    </div>
+                </div>
+                <div class="clearfix">
+                    <div class="form-group">
+                        <button type="submit" ng-disabled="model.QuizEditButton" class="btn btn-primary">
+						<span ng-hide="model.QuizEditButton"><span class="glyphicon mdi mdi-check"></span> {{'Save'|translate}}</span>
+						<span ng-show="model.QuizEditButton"> <i class="mdi-18px mdi mdi-loading mdi-spin fa-pulse fa-lg"></i> {{'Saving'|translate}}</span>
+						</button>
+                        <a href="#" ng-click="hideForm($event)" class="btn btn-primary"><i class="mdi-18px mdi mdi-close fa-fw" aria-hidden="true"></i>{{'Cancel'|translate}}</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+
+.lessonTypes  {
+  .video-lesson{
+    .video-link {
+        display: inline-block;
+        width: 70px;
+        height: 60px;
+        text-align: center;
+        background: #ececec;
+        -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.45);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.45);
+        position: relative;
+        border: 1px solid #d1d1d1;
+        overflow: hidden;
+        margin: 10px 15px 0;
+        > .mdi {
+          font-size: 28px;
+          margin-top: 5px;
+          display: block;
+          height: 100%;
+        }
+    }
+    .inner-video-lesson {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        bottom: 0;
+        font-size: 10px;
+        color: #fff;
+        background: rgba(0,0,0,.3);
+        z-index: 1;
+        line-height: 1.8;
+    }
+
+  }
+}
+
+.sortableplaceholder {
+	background-color: #e2e3e3;
+	border: 1px solid rgba(0, 0, 0, 0.55);
+  	margin: 10px;
+    width: 100%;
+    height: 52px;
+  	// .size(750px,52px);
+}
